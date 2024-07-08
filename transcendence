@@ -1,0 +1,47 @@
+Module:
+    Web:
+        Module majeur : Utiliser un framework en backend.
+        Module mineur : Utiliser un framework ou toolkit en frontend.
+        Module mineur : Utiliser une base de données en backend.
+
+    Gestion utilisateur:
+        Module majeur : Gestion utilisateur standard, authentification, utilisateurs
+                        en tournois.
+        Module majeur : Implémenter une authentification à distance.
+        Module majeur : Joueurs à distance.
+        Module majeur : Multijoueurs (plus de 2 dans la même partie).
+        Module mineur : Option de personnalisation du jeu.
+    Cybersécurité:
+        Module majeur : Mettez en place un pare-feu d’application Web (WAF) ou ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour la gestion des secrets.
+        Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs, gestion des données locales et suppression de comptes
+    Accessibilité:
+        Module mineur : Étendre la compatibilité des navigateurs web.
+        Module mineur : Support de multiple langues.
+    Devops:
+        Module majeur : Design du backend comme Microservices.
+    Orienté objet:
+        Module majeur : Remplacer le Pong de base par un Pong côté serveur et implémentation d’une API.
+
+
+
+
+
+Potentiel:
+        Gestion utilisateur:
+            Module majeur : Ajout d’un second jeu avec historique utilisateur "match-making".
+            Module majeur : Clavardage en direct (live chat)
+        IA-Algo:
+            Module majeur : Implémenter un adversaire contrôlé par IA.  ---------------------------------------------> Haut potentiel
+            Module mineur : Panneaux d’affichage (dashboards) d’utilisateurs et statis-tiques des parties
+        Cybersécurité:
+            Module majeur : Implémenter l’authentification à 2 facteurs (2FA) et JWT (JSON Web Tokens). -------------> Haut potentiel
+         Devops:
+            Module majeur : Configuration de l’infrastructure pour la gestion des jour-naux (logs)
+            Module mineur : Système de monitoring.
+        Graphiques:
+            Module majeur : Utilisation de techniques avancées 3D.---------------------------------------------------> Haut potentiel
+        Accessibilité:
+            Module mineur : Support sur tous types d’appareils. (responsive)
+            Module majeur : Activation du gameplay via ligne de commande (CLI) contre les utilisateurs Web avec intégration API.
+
+        
