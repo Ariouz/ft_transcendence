@@ -1,0 +1,81 @@
+stop:
+	@echo "Stopping all running containers..."
+	@docker stop $$(docker ps -q)
+
+remove:
+	@echo "Removing all containers..."
+	@docker rm $$(docker ps -a -q)
+
+clean: stop remove
+	@echo "All containers have been stopped and removed."
+
+build:
+	@echo "Building the Docker image..."
+	@docker compose up --build
+
+up:
+	@echo "Starting the Docker containers..."
+	@docker compose up -d
+
+down:
+	@echo "Stopping the Docker containers..."
+	@docker compose down
+
+logs:
+	@echo "Showing logs of Docker containers..."
+	@docker compose logs -f
+
+clean-images:
+	@echo "Removing all dangling images..."
+	@docker rmi $$(docker images -f "dangling=true" -q)
+
+fclean-images:
+	@echo "Removing all images..."
+	@docker rmi $$(docker images -q)
+
+clean-volumes:
+	@echo "Removing all dangling volumes..."
+	@docker volume rm $$(docker volume ls -qf dangling=true)
+
+prune:
+	@echo "Pruning all unused Docker data..."
+	@docker system prune -f
+
+restart: down up
+	@echo "Docker containers have been restarted."
+
+
+DB_NAME=postgres
+DB_USER=postgres
+CONTAINER_NAME="users-service-database"
+
+insert_test_user:
+	make insert_user username=testuser email=testuser@example.com password=testuserpassword
+
+insert_user:
+	@if [ -z "$(username)" ]; then \
+		echo "Usage: make insert_user username=<username> [email=<email>] [password=<password>]"; \
+		exit 1; \
+	fi; \
+	demail=$(email); \
+	if [ -z "$${demail}" ]; then \
+		demail="$(username)@example.com"; \
+	fi; \
+	dpassword=$(password); \
+	if [ -z "$${dpassword}" ]; then \
+		dpassword="$$(openssl rand -base64 12)"; \
+	fi; \
+	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "INSERT INTO users_service_app_user (username, email, password) VALUES ('$(username)', '$${demail}', '$${dpassword}');"; \
+	echo "User $(username) with email $${demail} and password $${dpassword} has been inserted."
+
+view_users:
+	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "SELECT * FROM users_service_app_user;"
+
+clear_users:
+	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "DELETE FROM users_service_app_user;"
+
+list_tables:
+	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "\dt"
+
+.PHONY: stop remove clean build up down logs clean-images fclean-images clean-volumes prune restart \
+		insert_user insert_test_user view_users clear_users list_tables

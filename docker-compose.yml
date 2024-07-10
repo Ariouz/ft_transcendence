@@ -1,0 +1,52 @@
+services:
+  website:
+    container_name: website
+    build: ./website
+    ports:
+      - ${WEBSITE_PORT}:${WEBSITE_PORT}
+
+  users_service:
+    build: ./users_service
+    container_name: users_service
+    restart: always
+    ports:
+      - ${USERS_SERVICE_PORT}:${USERS_SERVICE_PORT}
+    depends_on:
+      users_service_database:
+        condition: service_healthy
+    environment:
+      PROJECT_NAME: "users_service"
+      APP_PORT: ${USERS_SERVICE_PORT}
+      DATABASE_HOST: ${USERS_DB_CONTAINER_NAME}
+      DATABASE_PORT: ${USERS_DB_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+
+  users_service_database:
+    image: postgres:latest
+    container_name: ${USERS_DB_CONTAINER_NAME}
+    restart: always
+    ports:
+      - ${USERS_DB_PORT}:${USERS_DB_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: [ "postgres", "-c", "port=${USERS_DB_PORT}" ]
+    healthcheck:
+      test: "pg_isready -U $$POSTGRES_USER -p ${USERS_DB_PORT} -d $$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  # suggestion: isolate services,
+  # forcing the site frontend to contact the API Gateway only
+  services-network:
+    driver: bridge
+
