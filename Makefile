@@ -47,7 +47,7 @@ restart: down up
 
 DB_NAME=postgres
 DB_USER=postgres
-CONTAINER_NAME="users-service-database"
+CONTAINER_NAME="users_service-database"
 
 insert_test_user:
 	make insert_user username=testuser email=testuser@example.com password=testuserpassword

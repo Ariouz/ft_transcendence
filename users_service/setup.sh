@@ -4,10 +4,7 @@ PYTHON=python3
 PIP=pip3
 MANAGE="${PYTHON} ${PROJECT_NAME}/manage.py"
 
-POSTGRES_CONTAINER="spice-${PROJECT_NAME}-postgres"
-POSTGRES_DATA_PATH="${PROJECT_NAME}/database/postgres_data"
 DJANGO_APP="${PROJECT_NAME}_app"
-
 ADDRESS="0.0.0.0:${APP_PORT}"
 
 CMD_INSTALL="apk add --update --no-cache"
