@@ -4,13 +4,16 @@
 <head>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/template.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/template.css?v=1">
+    <link rel="stylesheet" href="http://localhost:8080/css/error.css?v=1">
     <meta charset="UTF-8">
     <title>Transcendence</title>
 </head>
 
 <body>
+
+    <!-- Single Page Application -->
+    <script src="/js/spa_router.js"></script>
     
     <!-- Navigation -->
     
@@ -28,12 +31,19 @@
     
     <!-- Content -->
 
-    <div id="page_content">
-        <!-- Pages content will be shown here -->
+    <div class="page_content_container">
+        <div class="page_content" id="page_content">
+            <!-- Pages content will be shown here -->
+        </div>
     </div>
-    
-    <!-- Single Page Application -->
-    <script src="js/spa_router.js"></script>
+
+    <!-- Footer -->
+
+    <footer>
+        <div>
+            <span>Made by <span style="color: var(--flashy-pink); font-size:1.2em;">♥</span> by vicalvez, gurousta & elombard</span>
+        </div>
+    </footer>
 
 
     <!-- Backend -->

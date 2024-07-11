@@ -3,8 +3,12 @@ function handleRouting() {
     
     if (path === '/pong') {
         loadContent("/pages/pong.html");
-    } else {
+    }
+    else if (path === '/') {
         loadContent("/pages/home.html");
+    }
+    else {
+        loadContent("/pages/error/404.html");
     }
 }
 
