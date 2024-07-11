@@ -3,47 +3,77 @@
 
 <head>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/template.css">
     <meta charset="UTF-8">
-    <title>Pong</title>
+    <title>Transcendence</title>
 </head>
 
 <body>
-    <h1>Pong</h1>
-    <ul id="userList"></ul>
+    
+    <!-- Navigation -->
+    
+    <nav class="main_nav">
+        <div class="nav_div">
+            <span class="nav_title">Transcendence</span>
+            <ul class="nav_links">
+                <li onclick="navigate('/')">Home</li>
+                <li onclick="navigate('/pong')">Pong</li>
+                
+                <li>Log in</li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Content -->
+
+    <div id="page_content">
+        <!-- Pages content will be shown here -->
+    </div>
+    
+    <!-- Single Page Application -->
+    <script src="js/spa_router.js"></script>
+
+
+    <!-- Backend -->
+    
+    <!-- <ul id="userList"></ul>
     <div id="noUsersMessage" style="display: none;">No users in database</div>
     <div id="errorContainer" style="display: none;"></div>
-
+    
     <script src="js/users_service/users_service.js"></script>
     <script>
         function showUsers(data) {
-            const userList = document.getElementById('userList');
-            const noUsersMessage = document.getElementById('noUsersMessage');
-
-            userList.innerHTML = '';
-            if (data.users.length === 0) {
-                noUsersMessage.style.display = 'block';
-            } else {
-                noUsersMessage.style.display = 'none';
-
-                data.users.forEach(user => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `Username: ${user.username}, Email: ${user.email}, Password: ${user.password}`;
-                    userList.appendChild(listItem);
-                });
-            }
+        const userList = document.getElementById('userList');
+        const noUsersMessage = document.getElementById('noUsersMessage');
+        
+        userList.innerHTML = '';
+        if (data.users.length === 0) {
+        noUsersMessage.style.display = 'block';
+        } else {
+        noUsersMessage.style.display = 'none';
+        
+        data.users.forEach(user => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Username: ${user.username}, Email: ${user.email}, Password: ${user.password}`;
+        userList.appendChild(listItem);
+        });
         }
-
+        }
+        
         function showErrorUsers(error) {
-            const errorContainer = document.getElementById('errorContainer');
-            errorContainer.style.display = 'block';
-
-            const errorMessage = error.message || error.error || 'An unexpected error occurred';
-            errorContainer.textContent = `Error: ${errorMessage}`;
+        const errorContainer = document.getElementById('errorContainer');
+        errorContainer.style.display = 'block';
+        
+        const errorMessage = error.message || error.error || 'An unexpected error occurred';
+        errorContainer.textContent = `Error: ${errorMessage}`;
         }
-
+        
         getUsers(showUsers, showErrorUsers);
-    </script>
+    </script> -->
+    
+    
     <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 

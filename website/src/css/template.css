@@ -1,0 +1,41 @@
+.main_nav {
+    background-color: rgb(52, 52, 52);
+}
+
+.nav_div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.nav_links {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 50px;
+}
+
+.nav_div .nav_title {
+    color: white;
+    margin: 20px;
+    font-size: 1.5em;
+}
+
+.nav_links li {
+    text-decoration: none;
+    color: white;
+    margin: 20px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.nav_links li:hover {
+    color: #ffffff80;
+    transition: 0.3s ease;
+}
+
+.nav_links li:last-child {
+    margin-right: auto;
+}
