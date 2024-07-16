@@ -1,6 +1,8 @@
 function handleRouting() {
     const path = window.location.pathname;
-    
+    const parts = path.split("/");
+    const params = new URLSearchParams(window.location.search);
+
     if (path === '/pong') {
         loadContent("/pages/pong.html");
     }

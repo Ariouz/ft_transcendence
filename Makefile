@@ -17,6 +17,10 @@ up:
 	@echo "Starting the Docker containers..."
 	@docker compose up -d
 
+buildup:
+	@echo "Starting the Docker containers..."
+	@docker compose up --build -d
+
 down:
 	@echo "Stopping the Docker containers..."
 	@docker compose down
@@ -31,7 +35,7 @@ clean-images:
 
 fclean-images:
 	@echo "Removing all images..."
-	@docker rmi $$(docker images -q)
+	@docker rmi $$(docker images -q) -f
 
 clean-volumes:
 	@echo "Removing all dangling volumes..."
