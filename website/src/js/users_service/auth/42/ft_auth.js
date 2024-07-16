@@ -17,15 +17,30 @@ async function ftGetAccess()
     getFromURL(url, redirectToAuth, showError);
 }
 
-async function retrieveFtData(code)
+// async function retrieveFtData(code)
+// {
+//     url = `${FT_AUTH_URL}` + "/access/"+code;
+//     try {
+//         data = fetchBack(url);
+//         console.log(data);
+//     } catch (error)
+//     {
+//         console.log(error);
+//     }
+// }
+
+async function ftRetrieveClientAccessToken(code)
 {
-    url = `${FT_AUTH_URL}` + "/access/"+code;
+    const url = `${FT_AUTH_URL}/access/?code=${code}`;
     try {
-        data = fetchBack(url);
-        console.log(data);
+        const data = await fetchBack(url);
+        return data;
     } catch (error)
     {
-        console.log(error);
+        return {
+            error: "Cannot fetch access token",
+            details: error.message
+        };
     }
 }
 

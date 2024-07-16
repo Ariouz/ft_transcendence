@@ -10,12 +10,7 @@
     <title>Transcendence</title>
 </head>
 
-<body>
-
-    <!-- Single Page Application -->
-    <script src="/js/spa_router.js"></script>
-
-    
+<body>    
     <!-- Navigation -->
     
     <nav class="main_nav">
@@ -47,7 +42,6 @@
     </footer>
 
 
-    <script src="js/users_service/users_service.js"></script>
     <!-- Backend -->
     
     <!-- <ul id="userList"></ul>
@@ -62,30 +56,34 @@
             userList.innerHTML = '';
             if (data.users.length === 0) {
                 noUsersMessage.style.display = 'block';
-            } else {
-                noUsersMessage.style.display = 'none';
-                
-                data.users.forEach(user => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `Username: ${user.username}, Email: ${user.email}, Password: ${user.password}`;
-                    userList.appendChild(listItem);
-                });
-            }
-        }
-        
-        function showErrorUsers(error) {
-            const errorContainer = document.getElementById('errorContainer');
-            errorContainer.style.display = 'block';
-            
-            const errorMessage = error.message || error.error || 'An unexpected error occurred';
-            errorContainer.textContent = `Error: ${errorMessage}`;
-        }
-        
-        getUsers(showUsers, showErrorUsers);
-    </script> -->
-    
-    <script src="/js/users_service/auth/42/ft_auth.js"></script>
-    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+                } else {
+                    noUsersMessage.style.display = 'none';
+                    
+                    data.users.forEach(user => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Username: ${user.username}, Email: ${user.email}, Password: ${user.password}`;
+                        userList.appendChild(listItem);
+                        });
+                        }
+                        }
+                        
+                        function showErrorUsers(error) {
+                            const errorContainer = document.getElementById('errorContainer');
+                            errorContainer.style.display = 'block';
+                            
+                            const errorMessage = error.message || error.error || 'An unexpected error occurred';
+                            errorContainer.textContent = `Error: ${errorMessage}`;
+                            }
+                            
+                            getUsers(showUsers, showErrorUsers);
+                        </script> -->
+                        
+                        <script src="/js/users_service/users_service.js"></script>
+                        <script src="/js/users_service/auth/42/ft_auth.js"></script>
+                        <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+
+                        <!-- Single Page Application -->
+                        <script src="/js/spa_router.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,14 @@ function handleRouting() {
     const parts = path.split("/");
     const params = new URLSearchParams(window.location.search);
 
-    if (path === '/pong') {
+    parts.shift();
+    console.log(parts);
+    if (parts[0] == "api")
+    {
+        if (parts[1] == "auth")
+            routeAuth(parts, params);
+    }
+    else if (path === '/pong') {
         loadContent("/pages/pong.html");
     }
     else if (path === '/') {
@@ -11,6 +18,32 @@ function handleRouting() {
     }
     else {
         loadContent("/pages/error/404.html");
+    }
+}
+
+function routeAuth(parts, params)
+{
+    if (parts.length < 4)
+    {
+        navigate("/error");
+        return ;
+    }
+
+    if (parts[2] == "42")
+    {
+        if (parts[3] == "access")
+        {
+            code = params.get("code");
+            console.log(code);
+
+            ftRetrieveClientAccessToken(code)
+            .then(data => {
+                token = JSON.stringify(data)
+                console.log("Access token: " + JSON.stringify(token));
+            }).catch(error => {
+                console.error(error);
+            });
+        }
     }
 }
 
