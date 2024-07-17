@@ -38,8 +38,10 @@ function routeAuth(parts, params)
 
             ftRetrieveClientAccessToken(code)
             .then(data => {
-                token = JSON.stringify(data)
-                console.log("Access token: " + JSON.stringify(token));
+                token_data = JSON.parse(JSON.stringify(data));
+                console.log("Access token: " + token_data.access_token);
+                setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+                navigate("/");
             }).catch(error => {
                 console.error(error);
             });
@@ -57,9 +59,24 @@ function loadContent(url) {
     })
     .then(html => {
         document.getElementById('page_content').innerHTML = html;
+        executeScripts(document.getElementById('page_content'));
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+function executeScripts(element) {
+    const scripts = element.querySelectorAll('script');
+    scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        if (script.src) {
+            newScript.src = script.src;
+        } else {
+            newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript);
+        document.body.removeChild(newScript);
     });
 }
 

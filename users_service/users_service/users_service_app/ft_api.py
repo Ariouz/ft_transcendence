@@ -16,3 +16,14 @@ def get_access_token(grantType, code=None, redirect=None, url="https://api.intra
         return JsonResponse(response.json())
     else:
         raise Exception(response.json())
+    
+def get_user_data(access_token, url):
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        'Content-Type': 'application/json'
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return JsonResponse(response.json())
+    else:
+        raise Exception(response)

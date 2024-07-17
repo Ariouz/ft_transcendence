@@ -1,4 +1,30 @@
 <div>
     <h1>This is the home page content</h1>
-    <button onclick="ftGetAccess()">Log in with 42</button>
+    <button onclick="ftGetAccess()" id="login_button">Log in with 42</button>
+    <span id="logged_in_msg">You are logged in as <span id="username"></span></span>
+    <script>
+        function checkLogin()
+        {
+            button = document.getElementById("login_button");
+            loggedInMsg = document.getElementById("logged_in_msg");
+            session_token = getCookie("session_token");
+            logged_in = session_token != null;
+
+            console.log("Cookie: " + getCookie("session_token"));
+
+            button.style.display = logged_in ? 'none' : 'block';
+            loggedInMsg.style.display = logged_in ? 'block' : 'none';
+
+            userName = document.getElementById("username");
+
+            userData = retrieveFtData(session_token)
+            .then(data => {
+                console.log(data.login);
+                userName.innerText = data.login;
+            }).catch(error => {
+                userName.innerText = error;
+            });
+        }
+        checkLogin();
+    </script>
 </div>

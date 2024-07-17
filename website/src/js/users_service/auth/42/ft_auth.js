@@ -17,17 +17,21 @@ async function ftGetAccess()
     getFromURL(url, redirectToAuth, showError);
 }
 
-// async function retrieveFtData(code)
-// {
-//     url = `${FT_AUTH_URL}` + "/access/"+code;
-//     try {
-//         data = fetchBack(url);
-//         console.log(data);
-//     } catch (error)
-//     {
-//         console.log(error);
-//     }
-// }
+async function retrieveFtData(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/${access_token}`;
+    try {
+        const data = await fetchBack(url);
+        console.log(data);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
 
 async function ftRetrieveClientAccessToken(code)
 {
