@@ -5,6 +5,19 @@ services:
     ports:
       - ${WEBSITE_PORT}:${WEBSITE_PORT}
 
+  api_gateway:
+    build: ./api_gateway
+    container_name: api_gateway
+    restart: always
+    ports:
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+    environment:
+      PROJECT_NAME: "api_gateway"
+      APP_PORT: ${API_GATEWAY_PORT}
+      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+
   users_service:
     build: ./users_service
     container_name: users_service
@@ -45,8 +58,11 @@ services:
 
 
 networks:
-  # suggestion: isolate services,
-  # forcing the site frontend to contact the API Gateway only
+  # suggestion:
+  # isolate services, forcing the site frontend to contact the API Gateway only
   services-network:
+    driver: bridge
+  # linking website with api_gateway only
+  website-network:
     driver: bridge
 
