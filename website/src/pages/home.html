@@ -15,16 +15,20 @@
             button.style.display = logged_in ? 'none' : 'block';
             loggedInMsg.style.display = logged_in ? 'block' : 'none';
 
-            userName = document.getElementById("username");
+            if (logged_in)
+            {
+                userName = document.getElementById("username");
 
-            userData = retrieveFtData(session_token)
-            .then(data => {
-                console.log(data.login);
-                userName.innerText = data.login;
-            }).catch(error => {
-                userName.innerText = error;
-            });
+                retrieveUsername(session_token)
+                .then(data => {
+                    console.log(data.username);
+                    userName.innerText = data.username;
+                }).catch(error => {
+                    userName.innerText = error;
+                });
+            }
         }
         checkLogin();
     </script>
+
 </div>

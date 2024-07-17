@@ -20,3 +20,27 @@ function getCookie(name) {
     }
     return null;
 }
+
+function isLoggedIn()
+{
+    let session_token = getCookie("session_token");
+    return session_token != null;
+}
+
+async function fetchBack(url)
+{
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (response.ok) {
+            console.debug('Data:', data);
+            return data;
+        } else {
+            console.error('Error:', data);
+            return data;
+        }
+    } catch (error) {
+        throw error;
+    }
+}

@@ -11,15 +11,65 @@ function redirectToAuth(data)
     window.location.replace(data.url);
 }
 
+async function accountExists(username)
+{
+    let url = `http://localhost:8001/api/account/exists/?username=${username}`;
+    let data = await fetchBack(url)
+    .then(data => {
+        console.log(data);
+        return data.exists;
+    }).catch(error => {
+        console.error(error);
+        return false;
+    });
+    return data;
+}
+
+async function createAccount(username, email, token)
+{
+    console.log("exist : " + await accountExists(username));
+    setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+    if (await accountExists(username)){
+        console.log("Account exists, skip creation");
+        navigate('/');
+        return ;
+    }
+    let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}`;
+    let data = fetchBack(url)
+    .then(data => {
+        console.log(data);
+        navigate('/');
+    })
+    .catch(error => {
+        console.error(error)
+    });
+}
+
 async function ftGetAccess()
 {
     url = `${FT_AUTH_URL}`;
     getFromURL(url, redirectToAuth, showError);
 }
 
+async function retrieveUsername(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/username/${access_token}`;
+    try {
+        const data = await fetchBack(url);
+        console.log(data);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
 async function retrieveFtData(access_token)
 {
-    const url = `${FT_AUTH_URL}/data/${access_token}`;
+    const url = `${FT_AUTH_URL}/data/42/${access_token}`;
     try {
         const data = await fetchBack(url);
         console.log(data);
@@ -45,23 +95,5 @@ async function ftRetrieveClientAccessToken(code)
             error: "Cannot fetch access token",
             details: error.message
         };
-    }
-}
-
-async function fetchBack(url)
-{
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (response.ok) {
-            console.debug('Data:', data);
-            return data;
-        } else {
-            console.error('Error:', data);
-            return data;
-        }
-    } catch (error) {
-        throw error;
     }
 }

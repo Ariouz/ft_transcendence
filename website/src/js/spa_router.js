@@ -13,6 +13,12 @@ function handleRouting() {
     else if (path === '/pong') {
         loadContent("/pages/pong.html");
     }
+    else if (path === '/login') {
+        loadContent("/pages/login.html");
+    }
+    else if (path === '/signup') {
+        loadContent("/pages/signup.html");
+    }
     else if (path === '/') {
         loadContent("/pages/home.html");
     }
@@ -40,8 +46,11 @@ function routeAuth(parts, params)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
                 console.log("Access token: " + token_data.access_token);
-                setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
-                navigate("/");
+                data = retrieveFtData(token_data.access_token).then(data => {
+                    createAccount(data.login, data.email, token_data.access_token);
+                }).catch(error => {
+                    userName.innerText = error;
+                });
             }).catch(error => {
                 console.error(error);
             });
