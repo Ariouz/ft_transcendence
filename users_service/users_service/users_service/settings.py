@@ -98,6 +98,11 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.11/topics/logging
 import os
 
+# usage:
+# import logging
+# logger = logging.getLogger("users_logger")
+# logger.info('test: %s', '42')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

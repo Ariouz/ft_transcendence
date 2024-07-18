@@ -3,13 +3,13 @@
 PYTHON=python3
 PIP=pip3
 MANAGE="${PYTHON} ${PROJECT_NAME}/manage.py"
+FT_HTTP_VERSION="0.1"
+FT_HTTP_WHEEL="ft_http-${FT_HTTP_VERSION}-py3-none-any.whl"
 
 DJANGO_APP="${PROJECT_NAME}_app"
 ADDRESS="0.0.0.0:${APP_PORT}"
 
 CMD_INSTALL="apk add --update --no-cache"
-
-
 
 echo "Install Python and dependencies"
 $CMD_INSTALL python3 python3-dev py3-pip postgresql-dev
@@ -25,6 +25,8 @@ source .venv/bin/activate
 
 echo "Install dependencies"
 $PIP install -r requirements.txt
+
+$PIP install ./${FT_HTTP_WHEEL}
 
 echo "Setup database"
 $MANAGE makemigrations $DJANGO_APP

@@ -1,7 +1,7 @@
 from django.http import JsonResponse
-import requests
+from ft_http.http_requests import http_get, http_post
 import os
-import logging
+import json
 
 def get_access_token(grantType, code=None, redirect=None, url="https://api.intra.42.fr/v2/oauth/token"):
     UID = os.getenv("API_42_UID")
@@ -15,19 +15,22 @@ def get_access_token(grantType, code=None, redirect=None, url="https://api.intra
         "code": code,
         "redirect_uri": redirect
     }
-    response = requests.post(url, data=payload)
-    if response.status_code == 200:
-        return JsonResponse(response.json())
+    status, response = http_post(url, body=payload)
+
+    if status == 200:
+        return JsonResponse(json.loads(response))
     else:
-        raise Exception(response.json())
+        raise Exception(json.loads(response))
     
 def get_user_data(access_token, url):
     headers = {
         "Authorization": f"Bearer {access_token}",
         'Content-Type': 'application/json'
     }
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        return JsonResponse(response.json())
+
+    status, response = http_get(url, headers=headers)
+
+    if status == 200:
+        return JsonResponse(json.loads(response))
     else:
         raise Exception(response)

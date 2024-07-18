@@ -28,3 +28,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+
+# ft_http copies
+*/ft_http
+!ft_http/

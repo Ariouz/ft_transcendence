@@ -81,5 +81,9 @@ clear_users:
 list_tables:
 	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "\dt"
 
+structure:
+	@echo "Project structure:"
+	@find . -path ./.git -prune -o -print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+
 .PHONY: stop remove clean build up down logs clean-images fclean-images clean-volumes prune restart \
-		insert_user insert_test_user view_users clear_users list_tables
+		insert_user insert_test_user view_users clear_users list_tables structure
