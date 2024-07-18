@@ -1,15 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
-
-:root {
-    --black-blue: #02010A;
-    --marine-blue: #04052E;
-    --purple-blue: #140152;
-    --light-purple-blue: #22007C;
-    --electric-blue: #0D00A4;
-    --flashy-pink: #F72585;
-    --beige: #ffffcc;
-    --light-beige: #ffffee;
-}
+@import url('variables.css');
 
 html {
     margin: 0;
@@ -62,7 +51,7 @@ body {
 .nav_links li {
     text-decoration: none;
     color: var(--beige);
-    margin: 15px;
+    margin: 0px 15px 0px 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
