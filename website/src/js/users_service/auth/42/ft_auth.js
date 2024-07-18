@@ -11,9 +11,9 @@ function redirectToAuth(data)
     window.location.replace(data.url);
 }
 
-async function accountExists(username)
+async function accountExists(username, token)
 {
-    let url = `http://localhost:8001/api/account/exists/?username=${username}`;
+    let url = `http://localhost:8001/api/account/exists/?username=${username}&token=${token}`;
     let data = await fetchBack(url)
     .then(data => {
         console.log(data);
@@ -27,10 +27,9 @@ async function accountExists(username)
 
 async function createAccount(username, email, token)
 {
-    console.log("exist : " + await accountExists(username));
-    setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
-    if (await accountExists(username)){
+    if (await accountExists(username, token)){
         console.log("Account exists, skip creation");
+        setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         navigate('/');
         return ;
     }
@@ -38,6 +37,7 @@ async function createAccount(username, email, token)
     let data = fetchBack(url)
     .then(data => {
         console.log(data);
+        setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         navigate('/');
     })
     .catch(error => {
@@ -96,4 +96,9 @@ async function ftRetrieveClientAccessToken(code)
             details: error.message
         };
     }
+}
+
+function getCookieAcccessToken()
+{
+    return getCookie("session_token");
 }

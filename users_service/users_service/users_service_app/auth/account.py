@@ -9,12 +9,19 @@ def create_account(request):
     email = request.GET.get("email")
     token = request.GET.get("token")
     if (User.objects.filter(username=username).exists()):
-        return JsonResponse({"message":"Account already created"}, status=200)
+        if (User.objects.filter(token=token).exists()):
+            return JsonResponse({"message":"Account already created"}, status=200)
+        else:
+            user = User.objects.get(username=username)
+            user.token = token
+            user.save()
+            return JsonResponse({"message":"Account token successfully updated", "user_id":user.id, "token":token}, status=200)
     user = User.objects.create(username=username, email=email, token=token)
     return JsonResponse({"message":"Account successfully created", "user_id":user.id, "token":token}, status=200)
 
 def account_exists(request):
     username = request.GET.get("username")
-    if (User.objects.filter(username=username).exists()):
+    token = request.GET.get("token")
+    if (User.objects.filter(username=username,token=token).exists()):
         return JsonResponse({"exists":True})
     return JsonResponse({"exists":False})
