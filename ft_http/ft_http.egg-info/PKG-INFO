@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: ft_http
+Version: 0.1
+Summary: An HTTP client utility library for ft_transcendence, using the http.client module of the standard Python library.
+Home-page: http://elloworld.dev
+Author: ElloWorld
+Author-email: contact@elloworld.dev

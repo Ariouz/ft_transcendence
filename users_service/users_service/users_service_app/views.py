@@ -1,8 +1,6 @@
 from users_service_app.models import User
 from django.http import JsonResponse
-from django.shortcuts import redirect
-import requests
-import os
+
 
 # /'users/'
 def users(request):

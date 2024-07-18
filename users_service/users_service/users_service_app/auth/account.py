@@ -1,8 +1,6 @@
 from users_service_app.models import User
 from django.http import JsonResponse
 from django.shortcuts import redirect
-import requests
-import os
 from .ft_api import get_access_token, get_user_data
 from uuid import uuid4
 
