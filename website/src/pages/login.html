@@ -1,6 +1,14 @@
 <div>
-    <button onclick="ftGetAccess()" id="login_button">Log in with 42</button>
-    <script>
-        if (isLoggedIn()) navigate('/')
-    </script>
+    <!-- <button onclick="ftGetAccess()" id="login_button">Log in with 42</button> -->
+    <div class="login_div">
+        <h1>Log in</h1>
+        <hr style="color:white">
+        <div class="login_button_div" onclick="ftGetAccess()">
+            <spanclass="login_button">Log in with <img class="login_42_logo" src="assets/images/42.svg" alt="42 Logo" style="color:white"></span>
+        </div>
+    </div>
 </div>
+
+<script>
+    if (isLoggedIn()) navigate('/')
+</script>

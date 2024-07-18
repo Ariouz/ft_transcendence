@@ -1,0 +1,42 @@
+@import url('variables.css');
+
+.login_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_div h1 {
+    font-size: 3em;
+}
+
+.login_div hr {
+    color: white;
+    opacity: 50%;
+    width: 5%;
+}
+
+.login_button_div {
+    margin-top: 50px;
+    width: 15%;
+    background-color: var(--black-blue);
+    padding: 10px 15px 10px 15px;
+    border: 1px solid var(--light-beige);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transform-origin: center;
+    transition: 0.3s ease;
+    vertical-align: bottom;
+}
+
+.login_button_div:hover {
+    background-color: var(--marine-blue);
+}
+
+.login_42_logo {
+    margin-left: 7px;
+    max-height: 30px;
+}
