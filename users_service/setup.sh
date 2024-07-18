@@ -26,7 +26,7 @@ source .venv/bin/activate
 echo "Install dependencies"
 $PIP install -r requirements.txt
 
-$PIP install ./ft_http/dist/${FT_HTTP_WHEEL}
+$PIP install ./${FT_HTTP_WHEEL}
 
 echo "Setup database"
 $MANAGE makemigrations $DJANGO_APP
