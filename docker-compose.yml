@@ -30,6 +30,8 @@ services:
     environment:
       PROJECT_NAME: "users_service"
       APP_PORT: ${USERS_SERVICE_PORT}
+      API_42_UID: ${API_42_UID}
+      API_42_SECRET: ${API_42_SECRET}
       DATABASE_HOST: ${USERS_DB_CONTAINER_NAME}
       DATABASE_PORT: ${USERS_DB_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
