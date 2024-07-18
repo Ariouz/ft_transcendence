@@ -6,7 +6,7 @@
         {
             loggedInMsg = document.getElementById("logged_in_msg");
             session_token = getCookieAcccessToken();
-            logged_in = session_token != null;
+            logged_in = isLoggedIn();
 
             console.log("Cookie: " + session_token);
 

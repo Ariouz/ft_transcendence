@@ -31,6 +31,7 @@ async function createAccount(username, email, token)
         console.log("Account exists, skip creation");
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         navigate('/');
+        window.location.reload();
         return ;
     }
     let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}`;
@@ -39,6 +40,7 @@ async function createAccount(username, email, token)
         console.log(data);
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         navigate('/');
+        window.location.reload();
     })
     .catch(error => {
         console.error(error)

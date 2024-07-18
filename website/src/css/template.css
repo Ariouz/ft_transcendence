@@ -48,10 +48,10 @@ body {
     font-weight: 800;
 }
 
-.nav_links li {
+.nav_links .main_nav_item{
     text-decoration: none;
-    color: var(--beige);
-    margin: 0px 15px 0px 15px;
+    color: var(--light-beige);
+    margin: 0px 10px 0px 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -62,13 +62,80 @@ body {
     border: 1px solid #00000000;
     flex-shrink: 0;
     transform-origin: center;
+    position: relative;
 }
 
-.nav_links li:hover {
-    color: var(--light-beige);
+.nav_links .main_nav_hover:hover {
+    color: white;
     border: 1px solid var(--flashy-pink);
     transform: scale(1.1);
 }
+
+/* Account button */
+.nav_links .nav_user_hover {
+    margin-left: 50px;
+    margin-right: -20px;
+    background-color: var(--light-purple-blue);
+    border-radius: 0px;
+    position: relative;
+}
+
+.nav_links .nav_user_hover:hover {
+    color: var(--light-beige);
+    transform: scale(1);
+    background-color: var(--purple-blue);
+    border: 1px solid var(--black-blue);
+}
+
+/* dropdown */
+.nav_user_dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 0px;
+    padding: 0;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid var(--black-blue);
+}
+
+.nav_user_hover:hover .nav_user_dropdown {
+    
+    background-color: var(--purple-blue);
+    max-height: 500px;
+    padding: 3px;
+}
+
+.nav_user_dropdown_item {
+    background-color: var(--light-purple-blue);
+    position: relative;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 3px 3px 0px 3px;
+    text-align: center;
+    color: white;
+    padding: 8px;
+    transition: 0.3s ease;
+    border: 1px solid var(--light-purple-blue);
+}
+
+.nav_user_dropdown_item:hover {
+    background-color: var(--purple-blue);
+    border: 1px solid var(--flashy-pink);
+}
+
+.nav_logout_button:hover {
+    background-color: var(--flashy-pink);
+ }
 
 /* CONTENT */
 

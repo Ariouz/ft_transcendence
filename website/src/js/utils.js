@@ -21,10 +21,21 @@ function getCookie(name) {
     return null;
 }
 
+function deleteCookie(name)
+{
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
 function isLoggedIn()
 {
     let session_token = getCookie("session_token");
     return session_token != null;
+}
+
+function logout(name)
+{
+    deleteCookie("session_token");
+    navigate('/');
 }
 
 async function fetchBack(url)

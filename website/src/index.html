@@ -19,11 +19,18 @@
         <div class="nav_div">
             <span class="nav_title">Transcendence</span>
             <ul class="nav_links">
-                <li onclick="navigate('/')">Home</li>
-                <li onclick="navigate('/pong')">Pong</li>
+                <li onclick="navigate('/')" class="main_nav_item main_nav_hover"><span>Home</span></li>
+                <li onclick="navigate('/pong')" class="main_nav_item main_nav_hover"><span>Pong</span></li>
                 
-                <li onclick="navigate('/login')" id="nav_login">Log in</li>
-                <li id="nav_user">Username</li>
+                <li onclick="navigate('/login')" id="nav_login" class="main_nav_item main_nav_hover"><span>Log in</span></li>
+                <li class="main_nav_item nav_user_hover" id="nav_user"> <span>Account</span>
+                    <div class="nav_user_dropdown">
+                        <span class="nav_user_dropdown_item"><span>Profile</span></span>
+                        <span class="nav_user_dropdown_item"><span>Settings</span></span>
+                        <hr style="color:white;height:1px;width: 100%;opacity: 20%;">
+                        <span onclick="logout()" class="nav_user_dropdown_item nav_logout_button"><span>Log out</span></span>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>

@@ -46,7 +46,7 @@ function routeAuth(parts, params)
                 data = retrieveFtData(token_data.access_token).then(data => {
                     createAccount(data.login, data.email, token_data.access_token);
                 }).catch(error => {
-                    userName.innerText = error;
+                    console.error(error);
                 });
             }).catch(error => {
                 console.error(error);
@@ -64,8 +64,8 @@ function loadContent(url) {
         return response.text();
     })
     .then(html => {
-        document.getElementById('page_content').innerHTML = html;
         handleNavLoginButton();
+        document.getElementById('page_content').innerHTML = html;
         executeScripts(document.getElementById('page_content'));
     })
     .catch(error => {

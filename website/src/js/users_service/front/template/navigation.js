@@ -7,16 +7,16 @@ async function handleNavLoginButton()
     navLogin.style.display = loggedIn ? 'none' : 'flex';
     navUser.style.display = loggedIn ? 'flex' : 'none';
 
-    if (loggedIn)
-    {
-        let access_token = getCookieAcccessToken();
-        let username = await retrieveUsername(access_token)
-        .then(data => {
-            return data.username;
-        })
-        .catch(error => {console.error(error); return "Error"});
-        navUser.innerText = username;
-    }
+    // if (loggedIn)
+    // {
+    //     let access_token = getCookieAcccessToken();
+    //     let username = await retrieveUsername(access_token)
+    //     .then(data => {
+    //         return data.username;
+    //     })
+    //     .catch(error => {console.error(error); return "Error"});
+    //     navUser.innerText = username;
+    // }
 }
 
 handleNavLoginButton();

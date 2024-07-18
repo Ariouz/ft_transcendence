@@ -1,3 +1,9 @@
+    #######################################################
+    #                                                     #
+    # Ne pas oublier de remove le .env lors du push final #
+    #                                                     #
+    #######################################################
+
 Module:
     Web:
         Module majeur : Utiliser un framework en backend.
@@ -7,7 +13,7 @@ Module:
     Gestion utilisateur:
         Module majeur : Gestion utilisateur standard, authentification, utilisateurs
                         en tournois.
-        Module majeur : Implémenter une authentification à distance. API 42
+        Module majeur : Implémenter une authentification à distance. API 42    ============================> OK
         Module majeur : Joueurs à distance.
         Module majeur : Multijoueurs (plus de 2 dans la même partie).
         Module mineur : Option de personnalisation du jeu.
