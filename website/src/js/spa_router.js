@@ -14,7 +14,7 @@ function handleRouting() {
         loadContent("/pages/pong.html");
     }
     else if (path === '/login') {
-        loadContent("/pages/login.html");
+        loadContent("/pages/user/auth/login.html");
     }
     else if (path === '/') {
         loadContent("/pages/home.html");
@@ -37,8 +37,9 @@ function routeAuth(parts, params)
         if (parts[3] == "access")
         {
             code = params.get("code");
+            if (code == undefined) { navigate('/error'); return; }
             console.log(code);
-
+            loadContent("/pages/user/auth/access_code.html");
             ftRetrieveClientAccessToken(code)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
