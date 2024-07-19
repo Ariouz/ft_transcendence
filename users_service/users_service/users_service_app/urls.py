@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import users
 from .auth.ft_auth_views import ft_auth, ft_auth_access, ft_auth_data_all, ft_auth_data_username
-from .auth.account import create_account, account_exists
+from .auth.account import create_account, account_exists, upload_avatar
 
 urlpatterns = [
     path('users/', users, name="users"),

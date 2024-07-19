@@ -1,4 +1,6 @@
+from django import forms
 from django.db import models
+from django.conf import settings
 
 
 class User(models.Model):
@@ -8,3 +10,11 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
+class UserSettings(models.Model):
+    user_id = models.IntegerField(unique=True)
+    default_avatar = models.URLField()
+    custom_avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user_id

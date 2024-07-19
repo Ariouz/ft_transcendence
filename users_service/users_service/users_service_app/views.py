@@ -11,4 +11,3 @@ def users(request):
     }
 
     return JsonResponse(context)
-

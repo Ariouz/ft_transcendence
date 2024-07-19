@@ -61,6 +61,7 @@
     background-color: var(--light-purple-blue);
     border-radius: 0px;
     position: relative;
+    z-index: 100;
 }
 
 .nav_links .nav_user_hover:hover {
@@ -86,11 +87,11 @@
     overflow: hidden;
     box-sizing: border-box;
     border: 1px solid var(--light-purple-blue);
+    background-color: var(--purple-blue);
 }
 
 .nav_user_hover:hover .nav_user_dropdown {
     
-    background-color: var(--purple-blue);
     max-height: 500px;
     padding: 3px;
     border: 1px solid var(--black-blue);

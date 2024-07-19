@@ -1,0 +1,9 @@
+@import url('../variables.css');
+
+.card-content-background {
+    background-color: var(--light-beige);
+}
+
+.card-link-purple {
+    color: var(--light-purple-blue);
+}

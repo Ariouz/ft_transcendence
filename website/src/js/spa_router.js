@@ -16,6 +16,9 @@ function handleRouting() {
     else if (path === '/login') {
         loadContent("/pages/user/auth/login.html");
     }
+    else if (path === '/profile') {
+        loadContent("/pages/user/profile.html");
+    }
     else if (path === '/') {
         loadContent("/pages/home.html");
     }

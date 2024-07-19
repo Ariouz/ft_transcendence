@@ -1,8 +1,10 @@
-from users_service_app.models import User
+from users_service_app.models import User, UserSettings
 from django.http import JsonResponse
+from django.core.files.base import ContentFile
 from django.shortcuts import redirect
 from .ft_api import get_access_token, get_user_data
 from uuid import uuid4
+import os
 
 def create_account(request):
     username = request.GET.get("username")
