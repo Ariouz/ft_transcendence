@@ -1,4 +1,4 @@
-from users_service_app.models import User
+from users_service_app.models import User, UserSettings
 from django.http import JsonResponse
 from .ft_api import get_access_token, get_user_data
 
@@ -32,4 +32,19 @@ def ft_auth_data_all(request, access_token):
 def ft_auth_data_username(request, access_token):
     if (User.objects.filter(token=access_token).exists()):
         return JsonResponse({"username":User.objects.filter(token=access_token).get().username})
+    return JsonResponse({"error":"User not found","details":"No user account exists with this token"})
+
+# /auth/42/data/settings/<access_token>/
+def ft_auth_data_settings(request, access_token):
+    if (User.objects.filter(token=access_token).exists()):
+        user = User.objects.filter(token=access_token).get()
+        userSetting = UserSettings.objects.filter(user_id=user.user_id).get()
+        data = {
+            "user_id": user.user_id,
+            "username": user.username,
+            "full_name": user.fullname,
+            "avatar": userSetting.avatar,
+            "display_name": userSetting.display_name,
+        }
+        return JsonResponse(data)
     return JsonResponse({"error":"User not found","details":"No user account exists with this token"})

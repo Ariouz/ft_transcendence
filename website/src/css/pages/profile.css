@@ -7,3 +7,14 @@
 .card-link-purple {
     color: var(--light-purple-blue);
 }
+
+.profile_avatar_container {
+    overflow: hidden;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}

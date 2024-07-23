@@ -48,7 +48,8 @@ function routeAuth(parts, params)
                 token_data = JSON.parse(JSON.stringify(data));
                 console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
-                    createAccount(data.login, data.email, token_data.access_token);
+                    console.log(data);
+                    createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name);
                 }).catch(error => {
                     console.error(error);
                 });

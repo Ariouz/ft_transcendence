@@ -25,7 +25,7 @@ async function accountExists(username, token)
     return data;
 }
 
-async function createAccount(username, email, token)
+async function createAccount(username, email, token, avatar, fullname)
 {
     if (await accountExists(username, token)){
         console.log("Account exists, skip creation");
@@ -34,7 +34,7 @@ async function createAccount(username, email, token)
         window.location.reload();
         return ;
     }
-    let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}`;
+    let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
     let data = fetchBack(url)
     .then(data => {
         console.log(data);
@@ -56,6 +56,22 @@ async function ftGetAccess()
 async function retrieveUsername(access_token)
 {
     const url = `${FT_AUTH_URL}/data/username/${access_token}`;
+    try {
+        const data = await fetchBack(url);
+        console.log(data);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
+async function retrieveSettings(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/settings/${access_token}`;
     try {
         const data = await fetchBack(url);
         console.log(data);
