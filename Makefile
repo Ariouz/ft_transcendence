@@ -11,15 +11,29 @@ clean: stop remove
 
 build:
 	@echo "Building the Docker image..."
-	@docker compose up --build
+	@docker compose build
 
 up:
 	@echo "Starting the Docker containers..."
-	@docker compose up -d
+	@docker compose up
 
 buildup:
 	@echo "Starting the Docker containers..."
+	@docker compose up --build
+
+build-up: buildup
+
+upd:
+	@echo "Starting the Docker containers..."
+	@docker compose up -d
+
+up-d: upd
+
+buildupd:
+	@echo "Starting the Docker containers..."
 	@docker compose up --build -d
+
+build-up-d: buildupd
 
 down:
 	@echo "Stopping the Docker containers..."

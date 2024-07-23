@@ -4,6 +4,10 @@ services:
     build: ./website
     ports:
       - ${WEBSITE_PORT}:${WEBSITE_PORT}
+    volumes:
+      - type: bind
+        source: ./website/src
+        target: /usr/share/nginx/html
 
   api_gateway:
     build: ./api_gateway
@@ -17,6 +21,10 @@ services:
       DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - type: bind
+        source: ./api_gateway
+        target: /api_gateway
 
   users_service:
     build: ./users_service
@@ -40,6 +48,10 @@ services:
       DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - type: bind
+        source: ./users_service
+        target: /users_service
 
   users_service_database:
     image: postgres:latest
@@ -57,6 +69,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 
 networks:
@@ -68,3 +82,8 @@ networks:
   website-network:
     driver: bridge
 
+volumes:
+  website:
+  api_gateway:
+  users_service:
+  pgdata:

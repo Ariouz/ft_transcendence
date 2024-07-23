@@ -10,6 +10,8 @@ ADDRESS="0.0.0.0:${APP_PORT}"
 CMD_INSTALL="apk add --update --no-cache"
 
 
+cd /${PROJECT_NAME} || exit
+
 
 echo "Install Python and dependencies"
 $CMD_INSTALL python3 python3-dev py3-pip postgresql-dev

@@ -1,10 +1,8 @@
 FROM python:3.12-alpine
 
-EXPOSE 8000/tcp
+EXPOSE 8001/tcp
 
 RUN mkdir /${PROJECT_NAME}
-COPY . /${PROJECT_NAME}
+COPY ./setup.sh /tmp
 
-WORKDIR "/${PROJECT_NAME}"
-
-CMD ["sh", "setup.sh"]
+CMD ["sh", "/tmp/setup.sh"]
