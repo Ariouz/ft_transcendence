@@ -22,11 +22,11 @@
                             <ul class="list-group list-group-flush rounded-3">
                                 <li class="list-group-item d-flex justify-content-between align-items-center p-3 card-content-background">
                                     <i class="fas fa-globe fa-lg text-body"></i>
-                                    <p class="mb-0"><a href="" class="card-link-purple">intra.42.fr</a></p>
+                                    <p class="mb-0"><a href="" class="card-link-purple" id="profile_user_intra_link">42 Intra profile</a></p>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center p-3 card-content-background">
+                                <li id="profile_user_github_container" class="list-group-item d-flex justify-content-between align-items-center p-3 card-content-background">
                                     <i class="fab fa-github fa-lg text-body"></i>
-                                    <p class="mb-0"><a href="" class="card-link-purple">github.com/username</a></p>
+                                    <p class="mb-0"><a href="" class="card-link-purple" id="profile_user_github_link">Github Profile</a></p>
                                 </li>
                             </ul>
                         </div>
@@ -58,7 +58,7 @@
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">example@example.com</p>
+                                    <p class="text-muted mb-0" id="profile_user_email">example@example.com</p>
                                 </div>
                             </div>
                             <hr>
@@ -67,7 +67,7 @@
                                     <p class="mb-0">Language</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">French</p>
+                                    <p class="text-muted mb-0" id="profile_user_lang">Language</p>
                                 </div>
                             </div>
                         </div>
@@ -106,19 +106,40 @@
 </div>
 
 <script>
-    let token = getCookie("session_token");
-    
+    token = getCookie("session_token");
 
     function loadAllProfileData()
     {
         retrieveSettings(token)
         .then(userData => {
-            console.log(userData);
-            document.getElementById("profile_username").innerText = userData.username;
-            document.getElementById("profile_user_avatar").src = userData.avatar;
-            document.getElementById("profile_user_fullname").innerText = userData.full_name;
-            document.getElementById("profile_user_displayname").innerText = userData.display_name;
+            if (userData.error)
+            {
+                logout();
+                navigate("/login");
+            }
+            else
+            {   console.log(userData);
+                document.getElementById("profile_username").innerText = userData.username;
+                document.getElementById("profile_user_avatar").src = userData.avatar;
+                document.getElementById("profile_user_fullname").innerText = userData.full_name;
+                document.getElementById("profile_user_displayname").innerText = userData.display_name;
+                document.getElementById("profile_user_email").innerText = userData.email;
+                document.getElementById("profile_user_lang").innerText = getFullLanguage(userData.lang);
+                document.getElementById("profile_user_intra_link").href = `https://profile.intra.42.fr/users/${userData.username}`;
+                
+                githubContainer = document.getElementById("profile_user_github_container");
+                githubLink = document.getElementById("profile_user_github_link");
+
+                if (userData.github == "null")
+                {
+                    githubContainer.style.display = 'none';
+                    githubContainer.classList.remove("d-flex");
+                }
+                githubLink.href = userData.github;
+            }
+
         }).catch(error => {console.error(error);});
     }
+
     loadAllProfileData();
 </script>
