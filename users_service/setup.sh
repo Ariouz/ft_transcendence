@@ -16,7 +16,7 @@ cd /${PROJECT_NAME} || exit
 
 
 echo "Install Python and dependencies"
-$CMD_INSTALL python3 python3-dev py3-pip postgresql-dev
+$CMD_INSTALL python3 python3-dev py3-pip postgresql-dev libffi-dev
 
 $PYTHON -m ensurepip
 $PIP install --no-cache --upgrade pip setuptools

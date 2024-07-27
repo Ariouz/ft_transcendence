@@ -33,6 +33,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'users_service_app',
     'corsheaders',
+    'users_service_app',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +80,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "users_service.asgi.application"
 WSGI_APPLICATION = 'users_service.wsgi.application'
 
 
