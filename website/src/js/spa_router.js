@@ -17,7 +17,8 @@ function handleRouting() {
         loadContent("/pages/user/auth/login.html");
     }
     else if (path === '/profile') {
-        loadContent("/pages/user/profile.html");
+        if (!isLoggedIn()) navigate("/login");
+        else loadContent("/pages/user/profile.html");
     }
     else if (path === '/') {
         loadContent("/pages/home.html");
@@ -69,6 +70,7 @@ function loadContent(url) {
         return response.text();
     })
     .then(html => {
+        document.getElementById('page_content').innerHTML = "";
         handleNavLoginButton();
         document.getElementById('page_content').innerHTML = html;
         executeScripts(document.getElementById('page_content'));

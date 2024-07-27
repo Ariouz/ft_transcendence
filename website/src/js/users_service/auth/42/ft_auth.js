@@ -31,11 +31,11 @@ async function createAccount(username, email, token, avatar, fullname)
         console.log("Account exists, skip creation");
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         navigate('/');
-        window.location.reload();
+        // window.location.reload();
         return ;
     }
     let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
-    let data = fetchBack(url)
+    fetchBack(url)
     .then(data => {
         console.log(data);
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
@@ -74,7 +74,6 @@ async function retrieveSettings(access_token)
     const url = `${FT_AUTH_URL}/data/settings/${access_token}`;
     try {
         const data = await fetchBack(url);
-        console.log(data);
         return data;
     } catch (error)
     {

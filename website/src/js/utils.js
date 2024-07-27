@@ -32,7 +32,7 @@ function isLoggedIn()
     return session_token != null;
 }
 
-function logout(name)
+function logout()
 {
     deleteCookie("session_token");
     navigate('/');
@@ -54,4 +54,10 @@ async function fetchBack(url)
     } catch (error) {
         throw error;
     }
+}
+
+function getFullLanguage(lang)
+{
+    let languages = {"fr": "Français", "en":"English", "es": "Español"}
+    return languages[lang];
 }
