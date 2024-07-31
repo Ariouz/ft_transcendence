@@ -90,10 +90,8 @@
                             <div class="card mb-4 mb-md-0 card-content-background">
                                 <div class="card-body card-content-background">
                                     <p class="mb-4"><span class="text-primary font-italic me-1">Friends</span></p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item card-content-background">Friend</li>
-                                        <li class="list-group-item card-content-background">Friend</li>
-                                        <li class="list-group-item card-content-background">Friend</li>
+                                    <ul id="friend-list" class="list-group list-group-flush">
+                                        Retrieving friends...
                                       </ul>
                                 </div>
                             </div>
@@ -136,6 +134,8 @@
                     githubContainer.classList.remove("d-flex");
                 }
                 githubLink.href = userData.github;
+
+                displayCurrentFriendList();
             }
 
         }).catch(error => {console.error(error);});

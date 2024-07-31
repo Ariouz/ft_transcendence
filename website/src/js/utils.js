@@ -34,6 +34,7 @@ function isLoggedIn()
 
 function logout()
 {
+    g_friendListWebSocket.close();
     deleteCookie("session_token");
     navigate('/');
 }

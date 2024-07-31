@@ -1,4 +1,4 @@
-const FT_AUTH_URL = "http://localhost:8001/api/auth/42";
+const FT_AUTH_URL = `${USERS_SERVICE_URL}/auth/42`;
 
 function showError(error)
 {
@@ -30,6 +30,7 @@ async function createAccount(username, email, token, avatar, fullname)
     if (await accountExists(username, token)){
         console.log("Account exists, skip creation");
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+        createWebSocketFriendList();
         navigate('/');
         // window.location.reload();
         return ;
@@ -39,6 +40,7 @@ async function createAccount(username, email, token, avatar, fullname)
     .then(data => {
         console.log(data);
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+        createWebSocketFriendList();
         navigate('/');
         window.location.reload();
     })

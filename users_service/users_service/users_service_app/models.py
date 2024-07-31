@@ -1,6 +1,4 @@
-from django import forms
 from django.db import models
-from django.conf import settings
 
 
 class User(models.Model):
@@ -13,6 +11,7 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+
 class UserSettings(models.Model):
     user_id = models.IntegerField(unique=True)
     avatar = models.CharField(max_length=255)
@@ -22,3 +21,20 @@ class UserSettings(models.Model):
 
     def __str__(self):
         return str(self.user_id)
+
+
+class Friend(models.Model):
+    user = models.ForeignKey(
+        User, related_name="user_friends", on_delete=models.CASCADE
+    )
+    friend = models.ForeignKey(
+        User, related_name="friends_of", on_delete=models.CASCADE
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "friend"], name="unique_friendship")
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} is friends with {self.friend.username}"

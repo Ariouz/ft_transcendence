@@ -97,7 +97,14 @@ list_tables:
 
 structure:
 	@echo "Project structure:"
-	@find . -path ./.git -prune -o -print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+	@find . -path ./.git -prune -o \
+				-name venv -prune -o \
+				-name .venv -prune -o \
+				-name __pycache__ -prune -o \
+				-name __init__.py -prune -o \
+				-name migrations -prune -o \
+				-name .idea -prune -o \
+		-print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 .PHONY: stop remove clean build up down logs clean-images fclean-images clean-volumes prune restart \
 		insert_user insert_test_user view_users clear_users list_tables structure

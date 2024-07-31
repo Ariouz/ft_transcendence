@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users_service_app.models import User, UserSettings
+from users_service_app.models import *
 
 # Register your models here.
 
@@ -13,6 +13,13 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
     fields = ('user_id', 'avatar', 'display_name', 'lang', 'github')
+    list_display = fields
+    search_fields = fields
+    list_filter = fields
+
+@admin.register(Friend)
+class FriendAdmin(admin.ModelAdmin):
+    fields = ('user', 'friend')
     list_display = fields
     search_fields = fields
     list_filter = fields
