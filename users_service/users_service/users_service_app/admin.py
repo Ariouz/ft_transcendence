@@ -5,7 +5,8 @@ from users_service_app.models import *
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ('username', 'email', 'token', 'fullname')
+    readonly_fields = ('user_id',)
+    fields = ('user_id', 'username', 'email', 'token', 'fullname')
     list_display = fields
     search_fields = fields
     list_filter = fields
