@@ -47,7 +47,8 @@ def ft_auth_data_settings(request, access_token):
             "avatar": userSetting.avatar,
             "display_name": userSetting.display_name,
             "lang": userSetting.lang,
-            "github": userSetting.github
+            "github": userSetting.github,
+            "status_message": userSetting.status_message
         }
         return JsonResponse(data)
     return JsonResponse({"error":"User not found","details":"No user account exists with this token"})

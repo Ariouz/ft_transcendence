@@ -1,0 +1,98 @@
+<div class="main_settings_container">
+    <!-- Sidebar -->
+    <div class="settings_sidebar">
+        <div class="settings_sidebar_title">
+            <span>Settings</span>
+        </div>
+        <hr>
+        <div class="settings_sidebar_section">
+            <ul class="settings_sidebar_section_list">
+                <li class="settings_sidebar_section_list_item">Profile</li>
+                <li class="settings_sidebar_section_list_item">Friends</li>
+                <li class="settings_sidebar_section_list_item">Confidentiality</li>
+                <li class="settings_sidebar_section_list_item">Account</li>
+            </ul>
+        </div>
+        <span onclick="navigate('/profile')" class="settings_sidebar_back">Back to profile</span>
+    </div>
+    <!-- Settings panel -->
+    <div class="settings_panel">
+        <!-- Back button -->
+        <div class="settings_panel_top_section">
+            <div class="settings_panel_section_title">
+                <span>Profile Settings</span>
+            </div>
+            <div onclick="navigate('/profile')" class="settings_panel_back_button">
+                <span><i class="fa-solid fa-xmark"></i></span>
+            </div>
+        </div>
+        <hr>
+        <!-- Profile -->
+        <section class="settings_panel_section">
+            <form class="settings_panel_form">
+
+                <div class="settings_panel_form_content">
+
+                    <div class="settings_panel_form_section">
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_displayname" class="form-label">Display Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <input type="text" id="settings_user_displayname" class="form-control" placeholder="Display name" aria-label="Display name" aria-describedby="basic-addon1">
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">This will be the name shown while playing.</div>
+                        </div>
+        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_lang" class="form-label">Change language</label>
+                            <select class="form-select" aria-label="Default select example" id="settings_user_lang">
+                                <option value="fr">🇫🇷 Français</option>
+                                <option value="en">🇬🇧 English</option>
+                                <option value="es">🇪🇸 Español</option>
+                            </select>
+                        </div>                
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_github" class="form-label">Your Github URL</label>
+                            <div class="input-group">
+                              <span class="input-group-text" id="settings_user_github_l">https://github.com/</span>
+                              <input type="text" class="form-control" id="settings_user_github" aria-describedby="basic-addon3 basic-addon4">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_status" class="form-label">Status message</label>
+                            <input type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
+                        </div>
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_avatar" class="form-label">Profile picture</label>
+                            <input class="form-control" type="file" id="settings_user_avatar">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file</div>
+
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-success settings_panel_save">Save</button>
+            </form>
+        </section>
+        <!-- Friends -->
+        <section>
+
+        </section>
+        <!-- Confidentiality -->
+        <section>
+
+        </section>
+        <!-- Account -->
+        <section>
+
+        </section>
+    </div>
+</div>

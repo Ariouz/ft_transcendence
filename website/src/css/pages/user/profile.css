@@ -1,4 +1,4 @@
-@import url('../variables.css');
+@import url('../../variables.css');
 
 .card-content-background {
     background-color: var(--light-beige);

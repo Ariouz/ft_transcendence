@@ -13,7 +13,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
-    fields = ('user_id', 'avatar', 'display_name', 'lang', 'github')
+    fields = ('user_id', 'avatar', 'display_name', 'lang', 'github', 'status_message')
     list_display = fields
     search_fields = fields
     list_filter = fields

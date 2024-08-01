@@ -20,6 +20,10 @@ function handleRouting() {
         if (!isLoggedIn()) navigate("/login");
         else loadContent("/pages/user/profile.html");
     }
+    else if (path === '/settings') {
+        if (!isLoggedIn()) navigate("/login");
+        else loadContent("/pages/user/settings.html");
+    }
     else if (path === '/') {
         loadContent("/pages/home.html");
     }

@@ -1,0 +1,136 @@
+@import url('../../variables.css');
+
+.main_settings_container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: var(--marine-blue);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    border-radius: 10px;
+    border: 1px solid var(--black-blue);
+}
+
+.settings_sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--marine-blue);
+    padding: 10px;
+    padding-right: 50px;
+    margin: 10px;
+    border-right: 1px solid var(--light-beige);
+}
+
+.settings_sidebar_title {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.settings_sidebar_section_list {
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+}
+
+.settings_sidebar_back {
+    margin-top: 30px;
+    text-align: center;
+    transition: 0.3s ease;
+    color: var(--light-beige);
+    cursor: pointer;
+}
+
+.settings_sidebar_back:hover {
+    color: var(--flashy-pink);
+}
+
+.settings_sidebar_section_list_item {
+    width: 100%;
+    padding: 10px;
+    margin: 1px;
+    background-color: var(--purple-blue);
+    color: var(--light-beige);
+    text-align: center;
+    border: 1px solid var(--marine-blue);
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+
+.settings_sidebar_section_list_item:hover {
+    background-color: var(--marine-blue);
+    border: 1px solid var(--light-beige);
+}
+
+.settings_panel {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+}
+
+.settings_panel_top_section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings_panel_section_title span {
+    color: var(--light-beige);
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.settings_panel_back_button span {
+    color: var(--light-beige);
+    font-size: 1.2em;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.settings_panel_back_button span:hover {
+    color: var(--flashy-pink);
+}
+
+.settings_panel_section
+{
+    background-color: var(--purple-blue);
+    display: flex;
+    flex-direction: column;
+}
+
+.settings_panel_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings_panel_form_content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+    color: var(--light-beige);
+}
+
+.settings_panel_form_section {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 20px;
+}
+
+.settings_panel_form_item {
+    margin: 10px 20px;
+}
+
+.settings_panel_save {
+    margin: 20px 0px;
+}

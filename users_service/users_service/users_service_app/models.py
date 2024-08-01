@@ -18,6 +18,7 @@ class UserSettings(models.Model):
     display_name = models.CharField(max_length=32)
     lang = models.CharField(max_length=2, default="en")
     github = models.CharField(max_length=255, default="null")
+    status_message = models.CharField(max_length=128, default="Hello World")
 
     def __str__(self):
         return str(self.user_id)
