@@ -65,6 +65,11 @@
     border: 1px solid var(--light-beige);
 }
 
+.settings_nav_highlighted {
+    background-color: var(--marine-blue);
+    border: 1px solid var(--light-beige);
+}
+
 .settings_panel {
     top: 0;
     width: 100%;
@@ -102,7 +107,7 @@
 .settings_panel_section
 {
     background-color: var(--purple-blue);
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -115,7 +120,7 @@
 
 .settings_panel_form_content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-start;
     margin-top: 20px;
     color: var(--light-beige);
@@ -123,7 +128,7 @@
 
 .settings_panel_form_section {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 0px 20px;
 }
 

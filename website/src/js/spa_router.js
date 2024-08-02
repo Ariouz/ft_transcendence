@@ -20,7 +20,7 @@ function handleRouting() {
         if (!isLoggedIn()) navigate("/login");
         else loadContent("/pages/user/profile.html");
     }
-    else if (path === '/settings') {
+    else if (parts[0] === 'settings') {
         if (!isLoggedIn()) navigate("/login");
         else loadContent("/pages/user/settings.html");
     }

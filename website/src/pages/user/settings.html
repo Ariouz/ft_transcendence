@@ -7,10 +7,10 @@
         <hr>
         <div class="settings_sidebar_section">
             <ul class="settings_sidebar_section_list">
-                <li class="settings_sidebar_section_list_item">Profile</li>
-                <li class="settings_sidebar_section_list_item">Friends</li>
-                <li class="settings_sidebar_section_list_item">Confidentiality</li>
-                <li class="settings_sidebar_section_list_item">Account</li>
+                <li onclick="showProfileSection()" class="settings_sidebar_section_list_item" id="settings_nav_profile">Profile</li>
+                <li onclick="showFriendsSection()" class="settings_sidebar_section_list_item" id="settings_nav_friends">Friends</li>
+                <li onclick="showConfidentialitySection()" class="settings_sidebar_section_list_item" id="settings_nav_confidentiality">Confidentiality</li>
+                <li onclick="showAccountSection()" class="settings_sidebar_section_list_item" id="settings_nav_account">Account</li>
             </ul>
         </div>
         <span onclick="navigate('/profile')" class="settings_sidebar_back">Back to profile</span>
@@ -20,7 +20,7 @@
         <!-- Back button -->
         <div class="settings_panel_top_section">
             <div class="settings_panel_section_title">
-                <span>Profile Settings</span>
+                <span id="settings_section_title"></span>
             </div>
             <div onclick="navigate('/profile')" class="settings_panel_back_button">
                 <span><i class="fa-solid fa-xmark"></i></span>
@@ -28,7 +28,7 @@
         </div>
         <hr>
         <!-- Profile -->
-        <section class="settings_panel_section">
+        <section class="settings_panel_section" id="settings_profile_section">
             <form class="settings_panel_form">
 
                 <div class="settings_panel_form_content">
@@ -43,18 +43,7 @@
                             </div>
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">This will be the name shown while playing.</div>
                         </div>
-        
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_lang" class="form-label">Change language</label>
-                            <select class="form-select" aria-label="Default select example" id="settings_user_lang">
-                                <option value="fr">🇫🇷 Français</option>
-                                <option value="en">🇬🇧 English</option>
-                                <option value="es">🇪🇸 Español</option>
-                            </select>
-                        </div>                
-                    </div>
 
-                    <div class="settings_panel_form_section">
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_github" class="form-label">Your Github URL</label>
                             <div class="input-group">
@@ -62,37 +51,52 @@
                               <input type="text" class="form-control" id="settings_user_github" aria-describedby="basic-addon3 basic-addon4">
                             </div>
                         </div>
-                        
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_status" class="form-label">Status message</label>
-                            <input type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
-                        </div>
-                    </div>
 
-                    <div class="settings_panel_form_section">
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_avatar" class="form-label">Profile picture</label>
                             <input class="form-control" type="file" id="settings_user_avatar">
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file</div>
 
                         </div>
+                              
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_status" class="form-label">Status message</label>
+                            <input type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> What's up today ?</div>
+                            
+                        </div>
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_lang" class="form-label">Change language</label>
+                            <select class="form-select" aria-label="Default select example" id="settings_user_lang">
+                                <option value="fr">🇫🇷 Français</option>
+                                <option value="en">🇬🇧 English</option>
+                                <option value="es">🇪🇸 Español</option>
+                            </select>
+                        </div>          
+                        
                     </div>
                 </div>
-                
                 <button type="submit" class="btn btn-success settings_panel_save">Save</button>
             </form>
         </section>
         <!-- Friends -->
-        <section>
-
+        <section class="settings_panel_section" id="settings_friends_section">
+            <span>Friends section</span>
         </section>
         <!-- Confidentiality -->
-        <section>
-
+        <section class="settings_panel_section" id="settings_confidentiality_section">
+            <span>Confidentiality section</span>
         </section>
         <!-- Account -->
-        <section>
-
+        <section class="settings_panel_section" id="settings_account_section">
+            <span>Account section</span>
         </section>
     </div>
 </div>
+
+<script src="../../js/users_service/user_settings.js"></script>
