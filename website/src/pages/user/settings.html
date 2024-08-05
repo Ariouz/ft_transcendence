@@ -1,4 +1,35 @@
+<div class="loading_wheel" id="settings_loading_wheel">
+    <div class="spinner-border wheel" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<style>
+    .loading_wheel {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 50%;
+        z-index: 150;
+        display: none;
+        transition: opacity 0.5s ease;
+    }
+
+    .wheel {
+        z-index: 151;
+        margin: auto;
+        margin-left: 50%;
+        margin-top: 15%;
+        width: 50px;
+        height: 50px;
+        color: var(--light-beige);
+    }
+</style>
+
 <div class="main_settings_container">
+  
+
     <!-- Sidebar -->
     <div class="settings_sidebar">
         <div class="settings_sidebar_title">
@@ -17,6 +48,9 @@
     </div>
     <!-- Settings panel -->
     <div class="settings_panel">
+
+       
+
         <!-- Back button -->
         <div class="settings_panel_top_section">
             <div class="settings_panel_section_title">
@@ -26,20 +60,29 @@
                 <span><i class="fa-solid fa-xmark"></i></span>
             </div>
         </div>
+
         <hr>
+        <div class="alert alert-danger" role="alert" id="settings_error_div">
+            <h5 id="settings_error_title"></h5>
+            <span id="settings_error_content"></span>
+        </div>
+        <div class="alert alert-success" role="alert" id="settings_success_div">
+            <h5 id="settings_success_title"></h5>
+            <span id="settings_success_content"></span>
+        </div>
         <!-- Profile -->
         <section class="settings_panel_section" id="settings_profile_section">
-            <form class="settings_panel_form">
+
+            <form class="settings_panel_form" id="settings_panel_form_profile" method="POST" action="" enctype="multipart/form-data">
 
                 <div class="settings_panel_form_content">
 
                     <div class="settings_panel_form_section">
-
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_displayname" class="form-label">Display Name</label>
                             <div class="input-group">
                                 <span class="input-group-text">@</span>
-                                <input type="text" id="settings_user_displayname" class="form-control" placeholder="Display name" aria-label="Display name" aria-describedby="basic-addon1">
+                                <input name="display_name" type="text" id="settings_user_displayname" class="form-control" placeholder="Display name" aria-label="Display name" aria-describedby="basic-addon1">
                             </div>
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">This will be the name shown while playing.</div>
                         </div>
@@ -48,13 +91,13 @@
                             <label for="settings_user_github" class="form-label">Your Github URL</label>
                             <div class="input-group">
                               <span class="input-group-text" id="settings_user_github_l">https://github.com/</span>
-                              <input type="text" class="form-control" id="settings_user_github" aria-describedby="basic-addon3 basic-addon4">
+                              <input name="github_url" type="text" class="form-control" id="settings_user_github" aria-describedby="basic-addon3 basic-addon4">
                             </div>
                         </div>
 
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_avatar" class="form-label">Profile picture</label>
-                            <input class="form-control" type="file" id="settings_user_avatar">
+                            <input name="avatar" class="form-control" type="file" id="settings_user_avatar">
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file</div>
 
                         </div>
@@ -65,14 +108,14 @@
                         
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_status" class="form-label">Status message</label>
-                            <input type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
+                            <input name="status_message" type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> What's up today ?</div>
                             
                         </div>
                         
                         <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_lang" class="form-label">Change language</label>
-                            <select class="form-select" aria-label="Default select example" id="settings_user_lang">
+                            <label for="settings_user_lang" class="form-label">Language</label>
+                            <select name="lang" class="form-select" aria-label="Default select example" id="settings_user_lang">
                                 <option value="fr">🇫🇷 Français</option>
                                 <option value="en">🇬🇧 English</option>
                                 <option value="es">🇪🇸 Español</option>

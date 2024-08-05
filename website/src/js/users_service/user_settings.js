@@ -25,6 +25,32 @@ function showSection(section, title, nav_item) {
 
 function showProfileSection() {
     showSection("settings_profile_section", "Profile Settings", "settings_nav_profile");
+
+    form = document.getElementById("settings_panel_form_profile")
+    form.action = "http://localhost:8001/api/account/settings/profile/"+getCookie("session_token");
+
+    form.addEventListener('submit', function(event) {
+        showLoadingWheel();
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingWheel();
+            if (data.error)
+                showError(data.error, data.details);
+            else
+                showSuccess("Success", "Your profile data has been saved!")
+        })
+        .catch(error => {
+            showError(error.error, error.details);
+            hideLoadingWheel();
+        })
+    });
 }
 
 function showFriendsSection() {
@@ -39,4 +65,60 @@ function showAccountSection() {
     showSection("settings_account_section", "Account Settings", "settings_nav_account");
 }
 
+function hideError()
+{
+    errorDiv = document.getElementById("settings_error_div");
+    errorDiv.style.display = 'none';
+}
+
+function showError(title, message)
+{
+    hideSuccess();
+    errorDiv = document.getElementById("settings_error_div");
+    errorDiv.style.display = 'block';
+
+    errorTitle = document.getElementById("settings_error_title");
+    errorContent = document.getElementById("settings_error_content");
+
+    errorTitle.innerText = title;
+    errorContent.innerText = message;
+}
+
+function hideSuccess()
+{
+    successDiv = document.getElementById("settings_success_div");
+    successDiv.style.display = 'none';
+}
+
+function showSuccess(title, message)
+{
+    hideError();
+    successDiv = document.getElementById("settings_success_div");
+    successDiv.style.display = 'block';
+
+    successTitle = document.getElementById("settings_success_title");
+    successContent = document.getElementById("settings_success_content");
+
+    successTitle.innerText = title;
+    successContent.innerText = message;
+}
+
+function showLoadingWheel()
+{
+    wheel = document.getElementById("settings_loading_wheel");
+    wheel.style.display = "block";
+    wheel.style.opacity = "50%";
+}
+
+function hideLoadingWheel()
+{
+    wheel = document.getElementById("settings_loading_wheel");
+    wheel.style.opacity = "0%";
+    setTimeout(() => {
+        wheel.style.display = 'none';
+    }, 500);
+}
+
 showProfileSection();
+hideError();
+hideSuccess();

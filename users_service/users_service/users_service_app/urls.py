@@ -3,6 +3,7 @@ from django.urls import path
 from .views import users
 from .auth.ft_auth_views import ft_auth, ft_auth_access, ft_auth_data_all, ft_auth_data_username, ft_auth_data_settings
 from .auth.account import create_account, account_exists
+from .auth.account_settings import update_profile_settings
 from .friends.friends_views import authenticate_user, list_friends, add_friend, remove_friend
 
 urlpatterns = [
@@ -14,6 +15,8 @@ urlpatterns = [
     path('auth/42/data/settings/<str:access_token>/', ft_auth_data_settings, name="ft_auth_data_settings"),
     path('account/create/', create_account, name="create_account"),
     path('account/exists/', account_exists, name="account_exists"),
+
+    path('account/settings/profile/<str:access_token>', update_profile_settings, name="update_profile_settings"),
     
     # Test Friends
     path('user/authenticate/<str:token>/', authenticate_user, name='authenticate_user'),
@@ -21,3 +24,5 @@ urlpatterns = [
     path('user/friends/<int:user_id>/add/<int:friend_id>/', add_friend, name='add_friend'),
     path('user/friends/<int:user_id>/remove/<int:friend_id>/', remove_friend, name='remove_friend'),
 ]
+
+

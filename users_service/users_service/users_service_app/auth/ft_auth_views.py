@@ -44,7 +44,7 @@ def ft_auth_data_settings(request, access_token):
             "username": user.username,
             "full_name": user.fullname,
             "email": user.email,
-            "avatar": userSetting.avatar,
+            "avatar": f"http://localhost:8001{userSetting.avatar.url}",
             "display_name": userSetting.display_name,
             "lang": userSetting.lang,
             "github": userSetting.github,

@@ -1,5 +1,7 @@
 from django.db import models
 
+def user_directory_path(instance, filename):
+    return 'avatars/{0}'.format(filename)
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True, unique=True)
@@ -14,7 +16,7 @@ class User(models.Model):
 
 class UserSettings(models.Model):
     user_id = models.IntegerField(unique=True)
-    avatar = models.CharField(max_length=255)
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     display_name = models.CharField(max_length=32)
     lang = models.CharField(max_length=2, default="en")
     github = models.CharField(max_length=255, default="null")
