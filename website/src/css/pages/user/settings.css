@@ -3,6 +3,7 @@
 .main_settings_container {
     width: 80%;
     margin: auto;
+    margin-bottom: 100px;
     padding: 20px;
     background-color: var(--marine-blue);
     display: flex;
