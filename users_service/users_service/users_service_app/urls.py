@@ -3,7 +3,7 @@ from django.urls import path
 from .views import users
 from .auth.ft_auth_views import *
 from .auth.account import create_account, account_exists
-from .auth.account_settings import update_profile_settings, update_confidentiality_settings
+from .auth.account_settings import update_profile_settings, update_confidentiality_settings, delete_account
 from .friends.friends_views import authenticate_user, list_friends, add_friend, remove_friend
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
 
     path('account/settings/profile/<str:access_token>', update_profile_settings, name="update_profile_settings"),
     path('account/settings/confidentiality/<str:access_token>', update_confidentiality_settings, name="update_confidentiality_settings"),
-    
+    path('account/settings/delete/<str:access_token>', delete_account, name="delete_account"),
     # Test Friends
     path('user/authenticate/<str:token>/', authenticate_user, name='authenticate_user'),
     path('user/friends/<int:user_id>/', list_friends, name='list_friends'),

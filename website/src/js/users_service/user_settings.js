@@ -72,9 +72,6 @@ function showConfidentialitySection() {
         showLoadingWheel();
         event.preventDefault();
         const formData = new FormData(this);
-        console.log(formData);
-
-        
 
         fetch(this.action, {
             method: 'POST',
@@ -100,6 +97,32 @@ function showConfidentialitySection() {
 
 function showAccountSection() {
     showSection("settings_account_section", "Account Settings", "settings_nav_account");
+
+    form = document.getElementById("settings_panel_form_account")
+    form.action = "http://localhost:8001/api/account/settings/delete/"+getCookie("session_token");
+
+    form.addEventListener('submit', function(event) {
+        showLoadingWheel();
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingWheel();
+            if (data.error)
+                showError(data.error, data.details);
+            else
+                logout();
+        })
+        .catch(error => {
+            showError(error.error, error.details);
+            hideLoadingWheel();
+        })
+    });
 }
 
 function hideElement(elementId) {

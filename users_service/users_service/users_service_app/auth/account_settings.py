@@ -93,3 +93,20 @@ def update_confidentiality_settings(request, access_token):
     userConfidentiality.save()
 
     return JsonResponse({ "success": "Confidentiality settings saved!" })
+
+@csrf_exempt
+def delete_account(request, access_token):
+    if request.method != "POST":
+        return JsonResponse({"error":"Invalid method", "details":"This request must be POST"})
+
+    user = User.objects.get(token=access_token)
+    if not user:
+        return JsonResponse({"error":"User not found", "details":"Cannot find user with this token"})
+    
+    userSettings = UserSettings.objects.get(user_id=user.user_id)
+    userConfidentialitySettings = UserConfidentialitySettings.objects.get(user_id=user.user_id)
+
+    userSettings.delete()
+    userConfidentialitySettings.delete()
+    user.delete()
+    return JsonResponse({"success": "Account successfully deleted!"})
