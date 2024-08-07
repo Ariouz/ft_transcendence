@@ -98,7 +98,7 @@
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_avatar" class="form-label">Profile picture</label>
                             <input name="avatar" class="form-control" type="file" id="settings_user_avatar">
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file</div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file.</div>
 
                         </div>
                               
@@ -133,7 +133,59 @@
         </section>
         <!-- Confidentiality -->
         <section class="settings_panel_section" id="settings_confidentiality_section">
-            <span>Confidentiality section</span>
+            <form class="settings_panel_form" id="settings_panel_form_confidentiality" method="POST" action="" enctype="multipart/form-data">
+
+                <div class="settings_panel_form_content">
+
+                    <div class="settings_panel_form_section">
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="profile_visibility_public" class="form-label">Profile visibility</label>
+                            <div>
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_public" autocomplete="off" value="public">
+                                <label class="btn btn-outline-success" for="profile_visibility_public">Public</label>
+                                
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_private" autocomplete="off" value="private">
+                                <label class="btn btn-outline-danger" for="profile_visibility_private">Private</label>
+                                
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_friends_only" autocomplete="off" value="friends_only">
+                                <label class="btn btn-outline-primary" for="profile_visibility_friends_only">Friends Only</label>
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">Choose whether or not your profile data is displayed.</div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <div class="form-check form-switch">
+                                <label for="profile_show_fullname" class="form-label">Show full name</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_fullname" name="profile_show_fullname">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <div class="form-check form-switch">
+                                <label for="profile_show_email" class="form-label">Show email</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_email" name="profile_show_email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label class="form-label" for="cookies_revoke">Cookies preferences</label>
+                            <div class="form-check form-switch">
+                                <label for="cookies_revoke" class="form-label">Revoke cookies</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="cookies_revoke" name="revoke_cookies">
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Revoking cookies will log you out.</div>
+                        </div>
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success settings_panel_save">Save</button>
+            </form>
         </section>
         <!-- Account -->
         <section class="settings_panel_section" id="settings_account_section">

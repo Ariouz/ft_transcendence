@@ -39,6 +39,11 @@ function logout()
     navigate('/');
 }
 
+function revokeAllCookies()
+{
+    logout();
+}
+
 async function fetchBack(url)
 {
     try {

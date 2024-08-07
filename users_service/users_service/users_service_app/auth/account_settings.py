@@ -1,4 +1,4 @@
-from users_service_app.models import User, UserSettings
+from users_service_app.models import *
 from django.core.files.storage import default_storage
 from django.http import JsonResponse
 from django.conf import settings
@@ -61,3 +61,35 @@ def update_profile_settings(request, access_token):
 
     userSettings.save()
     return JsonResponse({"success":"Profile settings saved !"})
+
+@csrf_exempt
+def update_confidentiality_settings(request, access_token):
+    if request.method != "POST":
+        return JsonResponse({"error":"Invalid method", "details":"This request must be POST"})
+
+    user = User.objects.get(token=access_token)
+    if not user:
+        return JsonResponse({"error":"User not found", "details":"Cannot find user with this token"})
+    
+    userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
+    
+    profile_visibility = request.POST.get("profile_visibility")
+    if profile_visibility:
+        userConfidentiality.profile_visibility = profile_visibility
+    
+    show_fullname = request.POST.get("profile_show_fullname")
+    if show_fullname:
+        userConfidentiality.show_fullname = True if show_fullname == "on" else False
+    else:
+        userConfidentiality.show_fullname = False
+
+
+    show_email = request.POST.get("profile_show_email")
+    if show_email:
+        userConfidentiality.show_email = True if show_email == "on" else False
+    else:
+        userConfidentiality.show_email = False
+
+    userConfidentiality.save()
+
+    return JsonResponse({ "success": "Confidentiality settings saved!" })

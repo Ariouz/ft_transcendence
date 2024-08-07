@@ -1,4 +1,4 @@
-from users_service_app.models import User, UserSettings
+from users_service_app.models import *
 from django.http import JsonResponse
 from .ft_api import get_access_token, get_user_data
 
@@ -49,6 +49,19 @@ def ft_auth_data_settings(request, access_token):
             "lang": userSetting.lang,
             "github": userSetting.github,
             "status_message": userSetting.status_message
+        }
+        return JsonResponse(data)
+    return JsonResponse({"error":"User not found","details":"No user account exists with this token"})
+
+
+def ft_auth_data_confidentiality_settings(request, access_token):
+    if (User.objects.filter(token=access_token).exists()):
+        user = User.objects.filter(token=access_token).get()
+        userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
+        data = {
+            "profile_visibility": userConfidentiality.profile_visibility,
+            "show_fullname": userConfidentiality.show_fullname,
+            "show_email": userConfidentiality.show_email
         }
         return JsonResponse(data)
     return JsonResponse({"error":"User not found","details":"No user account exists with this token"})

@@ -86,6 +86,21 @@ async function retrieveSettings(access_token)
     }
 }
 
+async function retrieveConfidentialitySettings(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/settings/confidentiality/${access_token}`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
 async function retrieveFtData(access_token)
 {
     const url = `${FT_AUTH_URL}/data/42/${access_token}`;

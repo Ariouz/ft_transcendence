@@ -18,6 +18,14 @@ class UserSettingsAdmin(admin.ModelAdmin):
     search_fields = fields
     list_filter = fields
 
+
+@admin.register(UserConfidentialitySettings)
+class UserConfidentialitySettingsAdmin(admin.ModelAdmin):
+    fields = ('user_id', 'profile_visibility', 'show_fullname', 'show_email')
+    list_display = fields
+    search_fields = fields
+    list_filter = fields
+
 @admin.register(Friend)
 class FriendAdmin(admin.ModelAdmin):
     fields = ('user', 'friend')

@@ -1,4 +1,4 @@
-from users_service_app.models import User, UserSettings
+from users_service_app.models import *
 from django.http import JsonResponse
 from django.core.files.base import ContentFile
 from django.shortcuts import redirect
@@ -24,6 +24,7 @@ def create_account(request):
     
     user = User.objects.create(username=username, email=email, token=token, fullname=fullname)
     userSettings = UserSettings.objects.create(user_id=user.user_id, display_name=username)
+    UserConfidentialitySettings.objects.create(user_id=user.user_id)
 
     avatar = request.GET.get("avatar")
     try:

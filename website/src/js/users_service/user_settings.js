@@ -14,6 +14,9 @@ function showSection(section, title, nav_item) {
     const sections = ["settings_profile_section", "settings_friends_section", "settings_confidentiality_section", "settings_account_section"];
     const nav_items = ["settings_nav_profile", "settings_nav_friends", "settings_nav_confidentiality", "settings_nav_account"];
 
+    hideError();
+    hideSuccess();
+
     sections.forEach(sec => {
         document.getElementById(sec).style.display = 'none';
     });
@@ -46,7 +49,7 @@ function showProfileSection() {
             if (data.error)
                 showError(data.error, data.details);
             else
-                showSuccess("Success", "Your profile data has been saved!")
+                showSuccess("Success", data.success)
         })
         .catch(error => {
             showError(error.error, error.details);
@@ -61,6 +64,38 @@ function showFriendsSection() {
 
 function showConfidentialitySection() {
     showSection("settings_confidentiality_section", "Confidentiality Settings", "settings_nav_confidentiality");
+
+    form = document.getElementById("settings_panel_form_confidentiality")
+    form.action = "http://localhost:8001/api/account/settings/confidentiality/"+getCookie("session_token");
+
+    form.addEventListener('submit', function(event) {
+        showLoadingWheel();
+        event.preventDefault();
+        const formData = new FormData(this);
+        console.log(formData);
+
+        
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingWheel();
+            if (data.error)
+                showError(data.error, data.details);
+            else
+                showSuccess("Success", data.success);
+
+            if (formData.has("revoke_cookies"))
+                revokeAllCookies();
+        })
+        .catch(error => {
+            showError(error.error, error.details);
+            hideLoadingWheel();
+        })
+    });
 }
 
 function showAccountSection() {
@@ -133,7 +168,13 @@ function setInputValue(inputId, value)
     input.value = value;
 }
 
-function setDefaultProfileSettingsValues()
+function setChecked(inputId, value)
+{
+    input = document.getElementById(inputId);
+    input.checked = value;
+}
+
+function setDefaultSettingsValues()
 {
     token = getCookie("session_token");
     retrieveSettings(token)
@@ -146,14 +187,22 @@ function setDefaultProfileSettingsValues()
             else
             {   
                 setInputValue("settings_user_displayname", userData.display_name);
-                setInputValue("settings_user_github", userData.github);
+                setInputValue("settings_user_github", userData.github == "null" ? "" : userData.github);
                 setInputValue("settings_user_status", userData.status_message);
-                selectDefaultLanguage(userData.lang);    
+                selectDefaultLanguage(userData.lang);
+
+
+                retrieveConfidentialitySettings(token)
+                .then(userConfidentiality => {
+                    setChecked("profile_visibility_"+userConfidentiality.profile_visibility, true);
+
+                    setChecked("profile_show_fullname", userConfidentiality.show_fullname);
+                    setChecked("profile_show_email", userConfidentiality.show_email);
+                })
+                .catch(error => { console.error(error); });
             }
-        }).catch(error => {console.error(error);});
+        }).catch(error => { console.error(error); });
 }
 
 showProfileSection();
-hideError();
-hideSuccess();
-setDefaultProfileSettingsValues();
+setDefaultSettingsValues();

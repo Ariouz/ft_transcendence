@@ -26,6 +26,18 @@ class UserSettings(models.Model):
         return str(self.user_id)
 
 
+class UserConfidentialitySettings(models.Model):
+    visibility_choices = [("public", "Public"), ("private", "Private"), ("friends_only", "Friends Only")]
+
+    user_id = models.IntegerField(unique=True)
+    profile_visibility = models.CharField(max_length=32, choices=visibility_choices, default="public")
+    show_fullname = models.BooleanField(default=True)
+    show_email = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.user_id)
+
+
 class Friend(models.Model):
     user = models.ForeignKey(
         User, related_name="user_friends", on_delete=models.CASCADE
