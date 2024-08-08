@@ -116,7 +116,10 @@ function showAccountSection() {
             if (data.error)
                 showError(data.error, data.details);
             else
+            {
                 logout();
+                window.location.reload();
+            }
         })
         .catch(error => {
             showError(error.error, error.details);

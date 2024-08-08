@@ -10,6 +10,10 @@ function handleRouting() {
         if (parts[1] == "auth")
             routeAuth(parts, params);
     }
+    else if (parts[0] == "users")
+    {
+        routeUser(parts, params);
+    }
     else if (path === '/pong') {
         loadContent("/pages/pong.html");
     }
@@ -63,6 +67,28 @@ function routeAuth(parts, params)
             });
         }
     }
+}
+
+function routeUser(parts, params)
+{
+    if (parts.length == 1)
+    {
+        if (!isLoggedIn())
+            navigate("/login");
+        else loadContent("/pages/users/list_users.html");
+        return ;
+    }
+
+    if (parts.length != 3)
+    {
+        navigate("/error");
+        return ;
+    }
+
+    if (parts[1] == "profile")
+        if (!isLoggedIn())
+            navigate("/login");
+        else loadContent("/pages/users/public_profile.html");
 }
 
 function loadContent(url) {
