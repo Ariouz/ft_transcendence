@@ -55,6 +55,12 @@ function routeAuth(parts, params)
             ftRetrieveClientAccessToken(code)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
+                console.log(token_data);
+                if (token_data.error) {
+                    alert("An error occured, please try again.");
+                    navigate("/login");
+                    return ;
+                }
                 console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
                     console.log(data);
