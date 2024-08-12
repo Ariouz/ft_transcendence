@@ -1,0 +1,69 @@
+@import url("../variables.css");
+
+.users_list_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.users_list_title {
+    text-align: center;
+}
+
+.users_list_searchbar {
+    width: 30%;
+    margin-top: 3vh;
+}
+
+.users_list_container {
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.users_list_floor {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+    justify-content: center;
+}
+
+.user_list_item {
+    margin: 15px 15px 0px 0px;
+    padding: 20px 50px;
+    background-color: var(--light-beige);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 5px var(--flashy-pink);
+    transition: 0.3s ease;
+}
+
+.user_list_card_top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user_list_card_top_avatar_container {
+    overflow: hidden;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: 3px inset var(--flashy-pink);
+}
+
+.user_list_card_top span {
+    margin-top: 15px;
+}
+
+.user_list_card_bottom {
+    margin-top: 10px;
+}
