@@ -1,7 +1,0 @@
-setup.py
-ft_http/__init__.py
-ft_http/http_requests.py
-ft_http.egg-info/PKG-INFO
-ft_http.egg-info/SOURCES.txt
-ft_http.egg-info/dependency_links.txt
-ft_http.egg-info/top_level.txt

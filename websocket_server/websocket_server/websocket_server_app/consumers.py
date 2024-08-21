@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
-from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+# from ft_http.fthttp import fthttp
 import requests
 import traceback
 from threading import Thread

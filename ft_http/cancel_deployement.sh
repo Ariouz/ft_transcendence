@@ -10,19 +10,14 @@ rm -rf "dist"
 rm -rf "${LIB_NAME:?}/ft_http.egg-info"
 rm -rf "ft_http.egg-info"
 
-echo "Building the wheel for the library..."
-python3 setup.py bdist_wheel
-
 for TARGET_DIR in "${TARGET_DIRS[@]}"; do
     if [ -d "${TARGET_DIR}" ]; then
         echo "Removing old ${LIB_NAME} wheel file in ${TARGET_DIR}..."
         rm -rf "${TARGET_DIR:?}/${LIB_FILENAME}"
-        echo "Copying ${LIB_NAME} wheel file to ${TARGET_DIR}..."
-        cp "${LIB_FILE_PATH}" "${TARGET_DIR}"
     else
         echo "Error: Target directory ${TARGET_DIR} does not exist."
         exit 1
     fi
 done
 
-echo "Deployment of ${LIB_NAME} completed successfully."
+echo "Removal of ${LIB_NAME} completed successfully."

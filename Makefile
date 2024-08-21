@@ -96,8 +96,13 @@ list_tables:
 	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "\dt"
 
 structure:
-	@echo "Project structure:"
-	@find . -path ./.git -prune -o \
+	@if [ -z "$(path)" ]; then \
+		to_find_path="."; \
+	else \
+		to_find_path="$(path)"; \
+	fi; \
+	echo "Project structure for path: $${to_find_path}"; \
+	find $${to_find_path} -path $${to_find_path}/.git -prune -o \
 				-name venv -prune -o \
 				-name .venv -prune -o \
 				-name __pycache__ -prune -o \
@@ -105,6 +110,7 @@ structure:
 				-name migrations -prune -o \
 				-name .idea -prune -o \
 		-print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+
 
 .PHONY: stop remove clean build up down logs clean-images fclean-images clean-volumes prune restart \
 		insert_user insert_test_user view_users clear_users list_tables structure

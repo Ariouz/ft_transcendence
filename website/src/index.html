@@ -19,14 +19,14 @@
 <body>
 
     <!-- Navigation -->
-    
+
     <nav class="main_nav">
         <div class="nav_div">
             <span class="nav_title">Transcendence</span>
             <ul class="nav_links">
                 <li onclick="navigate('/')" class="main_nav_item main_nav_hover"><span>Home</span></li>
                 <li onclick="navigate('/pong')" class="main_nav_item main_nav_hover"><span>Pong</span></li>
-                
+
                 <li onclick="navigate('/login')" id="nav_login" class="main_nav_item main_nav_hover"><span>Log in</span></li>
                 <li class="main_nav_item nav_user_hover" id="nav_user"> <span>Account</span>
                     <div class="nav_user_dropdown">
@@ -37,9 +37,14 @@
                     </div>
                 </li>
             </ul>
+            <ul>
+                <li onclick="navigate('/')"><span>Français</span></li>
+                <li onclick="navigate('/')"><span>English</span></li>
+                <li onclick="navigate('/')"><span>Italiano</span></li>
+            </ul>
         </div>
     </nav>
-    
+
     <!-- Content -->
 
     <div class="page_content_container">
@@ -64,7 +69,7 @@
     <script src="/js/users_service/auth/42/ft_auth.js"></script>
 
     <script src="/js/users_service/front/template/navigation.js"></script>
-    
+
     <!-- Single Page Application -->
     <script src="/js/spa_router.js"></script>
 

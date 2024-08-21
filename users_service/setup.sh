@@ -30,7 +30,8 @@ source .venv/bin/activate
 echo "Install dependencies"
 $PIP install -r requirements.txt
 
-$PIP install ./${FT_HTTP_WHEEL}
+$PIP install requests
+$PIP install --force-reinstall ./${FT_HTTP_WHEEL}
 
 echo "Setup database"
 $MANAGE makemigrations $DJANGO_APP

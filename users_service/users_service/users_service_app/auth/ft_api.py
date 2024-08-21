@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from ft_http.http_requests import http_get, http_post
+import requests
 import os
 import json
 
@@ -15,7 +15,7 @@ def get_access_token(grantType, code=None, redirect=None, url="https://api.intra
         "code": code,
         "redirect_uri": redirect
     }
-    status, response = http_post(url, body=payload)
+    status, response = requests.post(url, body=payload)
 
     if status == 200:
         return JsonResponse(json.loads(response))
@@ -28,7 +28,7 @@ def get_user_data(access_token, url):
         'Content-Type': 'application/json'
     }
 
-    status, response = http_get(url, headers=headers)
+    status, response = requests.get(url, headers=headers)
 
     if status == 200:
         return JsonResponse(json.loads(response))
