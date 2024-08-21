@@ -12,8 +12,7 @@
                             <h5 class="my-3" id="profile_username">Username</h5>
                             <p class="text-muted mb-4" id="profile_user_status_message">Status Message</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <button type="button" onclick="navigate('/settings')" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Settings</button>
-                                <button type="button" onclick="logout()" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger ms-1">Log out</button>
+                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-success">Add friend</button>
                             </div>
                         </div>
                     </div>
@@ -72,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0 card-content-background">
                                 <div class="card-body card-content-background">
@@ -96,7 +95,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -104,17 +103,18 @@
 </div>
 
 <script>
-    token = getCookie("session_token");
+    path = window.location.pathname;
+    parts = path.split("/");
+    parts.shift();
+
+    username = parts[2];
 
     function loadAllProfileData()
     {
-        retrieveSettings(token)
+        retrievePublicProfileDataByUsername(username)
         .then(userData => {
             if (userData.error)
-            {
-                logout();
-                navigate("/login");
-            }
+                navigate("/error");
             else
             {   
                 console.log(userData);
@@ -137,7 +137,7 @@
                 }
                 githubLink.href = "https://github.com/" + userData.github;
 
-                displayCurrentFriendList();
+                // displayCurrentFriendList();
             }
 
         }).catch(error => {console.error(error);});
@@ -148,4 +148,5 @@
     githubContainer.classList.remove("d-flex");
     
     loadAllProfileData();
+
 </script>

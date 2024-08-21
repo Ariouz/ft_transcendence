@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="http://localhost:8080/css/template.css?v=1">
     <link rel="stylesheet" href="http://localhost:8080/css/navigation.css?v=1">
     <link rel="stylesheet" href="http://localhost:8080/css/error.css?v=1">
-    <link rel="stylesheet" href="http://localhost:8080/css/pages/login.css?v=1">
-    <link rel="stylesheet" href="http://localhost:8080/css/pages/profile.css?v=1">
+    <link rel="stylesheet" href="http://localhost:8080/css/pages/user/login.css?v=1">
+    <link rel="stylesheet" href="http://localhost:8080/css/pages/user/profile.css?v=1">
+    <link rel="stylesheet" href="http://localhost:8080/css/pages/user/settings.css?v=1">
+    <link rel="stylesheet" href="http://localhost:8080/css/pages/user_list.css?v=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Transcendence</title>
@@ -26,16 +28,18 @@
             <ul class="nav_links">
                 <li onclick="navigate('/')" class="main_nav_item main_nav_hover"><span>Home</span></li>
                 <li onclick="navigate('/pong')" class="main_nav_item main_nav_hover"><span>Pong</span></li>
-
+                <li onclick="navigate('/users')" class="main_nav_item main_nav_hover"><span>Users</span></li>
+                
                 <li onclick="navigate('/login')" id="nav_login" class="main_nav_item main_nav_hover"><span>Log in</span></li>
                 <li class="main_nav_item nav_user_hover" id="nav_user"> <span>Account</span>
                     <div class="nav_user_dropdown">
                         <span onclick="navigate('/profile')" class="nav_user_dropdown_item"><span>Profile</span></span>
-                        <span class="nav_user_dropdown_item"><span>Settings</span></span>
+                        <span onclick="navigate('/settings')" class="nav_user_dropdown_item"><span>Settings</span></span>
                         <hr style="color:white;height:1px;width: 100%;opacity: 20%;">
                         <span onclick="logout()" class="nav_user_dropdown_item nav_logout_button"><span>Log out</span></span>
                     </div>
                 </li>
+                
             </ul>
             <ul>
                 <li onclick="navigate('/')"><span>Français</span></li>

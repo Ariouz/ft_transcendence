@@ -1,0 +1,225 @@
+<div class="loading_wheel" id="settings_loading_wheel">
+    <div class="spinner-border wheel" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<style>
+    .loading_wheel {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 50%;
+        z-index: 150;
+        display: none;
+        transition: opacity 0.5s ease;
+    }
+
+    .wheel {
+        z-index: 151;
+        margin: auto;
+        margin-left: 50%;
+        margin-top: 15%;
+        width: 50px;
+        height: 50px;
+        color: var(--light-beige);
+    }
+</style>
+
+<div class="main_settings_container">
+  
+
+    <!-- Sidebar -->
+    <div class="settings_sidebar">
+        <div class="settings_sidebar_title">
+            <span>Settings</span>
+        </div>
+        <hr>
+        <div class="settings_sidebar_section">
+            <ul class="settings_sidebar_section_list">
+                <li onclick="showProfileSection()" class="settings_sidebar_section_list_item" id="settings_nav_profile">Profile</li>
+                <li onclick="showFriendsSection()" class="settings_sidebar_section_list_item" id="settings_nav_friends">Friends</li>
+                <li onclick="showConfidentialitySection()" class="settings_sidebar_section_list_item" id="settings_nav_confidentiality">Confidentiality</li>
+                <li onclick="showAccountSection()" class="settings_sidebar_section_list_item" id="settings_nav_account">Account</li>
+            </ul>
+        </div>
+        <span onclick="navigate('/profile')" class="settings_sidebar_back">Back to profile</span>
+    </div>
+    <!-- Settings panel -->
+    <div class="settings_panel">
+
+       
+
+        <!-- Back button -->
+        <div class="settings_panel_top_section">
+            <div class="settings_panel_section_title">
+                <span id="settings_section_title"></span>
+            </div>
+            <div onclick="navigate('/profile')" class="settings_panel_back_button">
+                <span><i class="fa-solid fa-xmark"></i></span>
+            </div>
+        </div>
+
+        <hr>
+        <div class="alert alert-danger" role="alert" id="settings_error_div" style="display: none;">
+            <h5 id="settings_error_title"></h5>
+            <span id="settings_error_content"></span>
+        </div>
+        <div class="alert alert-success" role="alert" id="settings_success_div" style="display: none;">
+            <h5 id="settings_success_title"></h5>
+            <span id="settings_success_content"></span>
+        </div>
+        <!-- Profile -->
+        <section class="settings_panel_section" id="settings_profile_section">
+
+            <form class="settings_panel_form" id="settings_panel_form_profile" method="POST" action="" enctype="multipart/form-data">
+
+                <div class="settings_panel_form_content">
+
+                    <div class="settings_panel_form_section">
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_displayname" class="form-label">Display Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <input name="display_name" type="text" id="settings_user_displayname" class="form-control" placeholder="Display name" aria-label="Display name" aria-describedby="basic-addon1">
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">This will be the name shown while playing.</div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_github" class="form-label">Your Github URL</label>
+                            <div class="input-group">
+                              <span class="input-group-text" id="settings_user_github_l">https://github.com/</span>
+                              <input name="github_url" type="text" class="form-control" id="settings_user_github" aria-describedby="basic-addon3 basic-addon4">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_avatar" class="form-label">Profile picture</label>
+                            <input name="avatar" class="form-control" type="file" id="settings_user_avatar">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Valid extensions: '.png, .jpg', < 2Mo file.</div>
+
+                        </div>
+                              
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_status" class="form-label">Status message</label>
+                            <input name="status_message" type="text" class="form-control" id="settings_user_status" aria-describedby="Status" placeholder="Hello World">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> What's up today ?</div>
+                            
+                        </div>
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="settings_user_lang" class="form-label">Language</label>
+                            <select name="lang" class="form-select" aria-label="Default select example" id="settings_user_lang">
+                                <option value="fr">🇫🇷 Français</option>
+                                <option value="en">🇬🇧 English</option>
+                                <option value="es">🇪🇸 Español</option>
+                            </select>
+                        </div>          
+                        
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success settings_panel_save">Save</button>
+            </form>
+        </section>
+        <!-- Friends -->
+        <section class="settings_panel_section" id="settings_friends_section">
+            <span>Friends section</span>
+        </section>
+        <!-- Confidentiality -->
+        <section class="settings_panel_section" id="settings_confidentiality_section">
+            <form class="settings_panel_form" id="settings_panel_form_confidentiality" method="POST" action="" enctype="multipart/form-data">
+
+                <div class="settings_panel_form_content">
+
+                    <div class="settings_panel_form_section">
+                        <div class="mb-3 settings_panel_form_item">
+                            <label for="profile_visibility_public" class="form-label">Profile visibility</label>
+                            <div>
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_public" autocomplete="off" value="public">
+                                <label class="btn btn-outline-success" for="profile_visibility_public">Public</label>
+                                
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_private" autocomplete="off" value="private">
+                                <label class="btn btn-outline-danger" for="profile_visibility_private">Private</label>
+                                
+                                <input type="radio" class="btn-check" name="profile_visibility" id="profile_visibility_friends_only" autocomplete="off" value="friends_only">
+                                <label class="btn btn-outline-primary" for="profile_visibility_friends_only">Friends Only</label>
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">Choose whether or not your profile data is displayed.</div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <div class="form-check form-switch">
+                                <label for="profile_show_fullname" class="form-label">Show full name</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_fullname" name="profile_show_fullname">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 settings_panel_form_item">
+                            <div class="form-check form-switch">
+                                <label for="profile_show_email" class="form-label">Show email</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_email" name="profile_show_email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings_panel_form_section">
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            <label class="form-label" for="cookies_revoke">Cookies preferences</label>
+                            <div class="form-check form-switch">
+                                <label for="cookies_revoke" class="form-label">Revoke cookies</label>
+                                <input class="form-check-input" type="checkbox" role="switch" id="cookies_revoke" name="revoke_cookies">
+                            </div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"> Revoking cookies will log you out.</div>
+                        </div>
+                        
+                        <div class="mb-3 settings_panel_form_item">
+                            
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success settings_panel_save">Save</button>
+            </form>
+        </section>
+        <!-- Account -->
+        <section class="settings_panel_section" id="settings_account_section">
+            <form class="settings_panel_form" id="settings_panel_form_account" method="" action="" enctype="multipart/form-data">
+                <div class="settings_panel_form_section">
+                    
+                    <div class="mb-3 settings_panel_form_item">
+                        
+                        <h5>Account deletion</h5>
+                        <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4">Your account and all its associated data will be deleted FOREVER.</div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-danger settings_panel_save" id="delete" data-bs-toggle="modal" data-bs-target="#accountDeletionModal">Delete Account</button>
+
+                <div class="modal fade" id="accountDeletionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" style="color: var(--light-beige);">
+                      <div class="modal-content" style="background-color: var(--marine-blue); color: var(--light-beige);">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">Are you sure ?</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white"></button>
+                        </div>
+                        <div class="modal-body">
+                            Your account and all its associated data will be deleted FOREVER.
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script src="../../js/users_service/user_settings.js"></script>

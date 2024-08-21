@@ -86,6 +86,51 @@ async function retrieveSettings(access_token)
     }
 }
 
+async function retrieveConfidentialitySettings(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/settings/confidentiality/${access_token}`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
+async function retrievePublicProfileDataByUsername(username)
+{
+    const url = `${USERS_SERVICE_URL}/user/profile/data/${username}`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
+async function retrieveAllUsers()
+{
+    const url = `${USERS_SERVICE_URL}/users/all/data`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
 async function retrieveFtData(access_token)
 {
     const url = `${FT_AUTH_URL}/data/42/${access_token}`;

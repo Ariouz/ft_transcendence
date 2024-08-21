@@ -1,5 +1,7 @@
 from django.db import models
 
+def user_directory_path(instance, filename):
+    return 'avatars/{0}'.format(filename)
 
 class User(models.Model):
     user_id = models.AutoField(primary_key=True, unique=True)
@@ -14,10 +16,23 @@ class User(models.Model):
 
 class UserSettings(models.Model):
     user_id = models.IntegerField(unique=True)
-    avatar = models.CharField(max_length=255)
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     display_name = models.CharField(max_length=32)
     lang = models.CharField(max_length=2, default="en")
     github = models.CharField(max_length=255, default="null")
+    status_message = models.CharField(max_length=128, default="Hello World")
+
+    def __str__(self):
+        return str(self.user_id)
+
+
+class UserConfidentialitySettings(models.Model):
+    visibility_choices = [("public", "Public"), ("private", "Private"), ("friends_only", "Friends Only")]
+
+    user_id = models.IntegerField(unique=True)
+    profile_visibility = models.CharField(max_length=32, choices=visibility_choices, default="public")
+    show_fullname = models.BooleanField(default=True)
+    show_email = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.user_id)

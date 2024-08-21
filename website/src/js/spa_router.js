@@ -10,6 +10,10 @@ function handleRouting() {
         if (parts[1] == "auth")
             routeAuth(parts, params);
     }
+    else if (parts[0] == "users")
+    {
+        routeUser(parts, params);
+    }
     else if (path === '/pong') {
         loadContent("/pages/pong.html");
     }
@@ -19,6 +23,10 @@ function handleRouting() {
     else if (path === '/profile') {
         if (!isLoggedIn()) navigate("/login");
         else loadContent("/pages/user/profile.html");
+    }
+    else if (parts[0] === 'settings') {
+        if (!isLoggedIn()) navigate("/login");
+        else loadContent("/pages/user/settings.html");
     }
     else if (path === '/') {
         loadContent("/pages/home.html");
@@ -47,6 +55,12 @@ function routeAuth(parts, params)
             ftRetrieveClientAccessToken(code)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
+                console.log(token_data);
+                if (token_data.error) {
+                    alert("An error occured, please try again.");
+                    navigate("/login");
+                    return ;
+                }
                 console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
                     console.log(data);
@@ -59,6 +73,28 @@ function routeAuth(parts, params)
             });
         }
     }
+}
+
+function routeUser(parts, params)
+{
+    if (parts.length == 1)
+    {
+        if (!isLoggedIn())
+            navigate("/login");
+        else loadContent("/pages/users/list_users.html");
+        return ;
+    }
+
+    if (parts.length != 3)
+    {
+        navigate("/error");
+        return ;
+    }
+
+    if (parts[1] == "profile")
+        if (!isLoggedIn())
+            navigate("/login");
+        else loadContent("/pages/users/public_profile.html");
 }
 
 function loadContent(url) {
