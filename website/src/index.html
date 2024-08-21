@@ -26,26 +26,22 @@
         <div class="nav_div">
             <span class="nav_title">Transcendence</span>
             <ul class="nav_links">
-                <li onclick="navigate('/')" class="main_nav_item main_nav_hover"><span>Home</span></li>
-                <li onclick="navigate('/pong')" class="main_nav_item main_nav_hover"><span>Pong</span></li>
-                <li onclick="navigate('/users')" class="main_nav_item main_nav_hover"><span>Users</span></li>
+                <li onclick="navigate('/')" class="main_nav_item main_nav_hover"><span data-i18n="home"></span></li>
+                <li onclick="navigate('/pong')" class="main_nav_item main_nav_hover"><span data-i18n="pong"></span></li>
+                <li onclick="navigate('/users')" class="main_nav_item main_nav_hover"><span data-i18n="users"></span></li>
                 
-                <li onclick="navigate('/login')" id="nav_login" class="main_nav_item main_nav_hover"><span>Log in</span></li>
-                <li class="main_nav_item nav_user_hover" id="nav_user"> <span>Account</span>
+                <li onclick="navigate('/login')" id="nav_login" class="main_nav_item main_nav_hover"><span data-i18n="login"></span></li>
+                <li class="main_nav_item nav_user_hover" id="nav_user"> <span data-i18n="account"></span>
                     <div class="nav_user_dropdown">
-                        <span onclick="navigate('/profile')" class="nav_user_dropdown_item"><span>Profile</span></span>
-                        <span onclick="navigate('/settings')" class="nav_user_dropdown_item"><span>Settings</span></span>
+                        <span onclick="navigate('/profile')" class="nav_user_dropdown_item"><span data-i18n="profile"></span></span>
+                        <span onclick="navigate('/settings')" class="nav_user_dropdown_item"><span data-i18n="settings"></span></span>
                         <hr style="color:white;height:1px;width: 100%;opacity: 20%;">
-                        <span onclick="logout()" class="nav_user_dropdown_item nav_logout_button"><span>Log out</span></span>
+                        <span onclick="logout()" class="nav_user_dropdown_item nav_logout_button"><span data-i18n="logout"></span></span>
                     </div>
                 </li>
-                
             </ul>
-            <ul>
-                <li onclick="navigate('/')"><span>Français</span></li>
-                <li onclick="navigate('/')"><span>English</span></li>
-                <li onclick="navigate('/')"><span>Italiano</span></li>
-            </ul>
+            <div id="language-selector">
+            </div>
         </div>
     </nav>
 
@@ -61,7 +57,7 @@
 
     <footer>
         <div>
-            <span>Made with <span style="color: var(--flashy-pink); font-size:1.2em;">♥</span> by vicalvez, gurousta & elombard</span>
+            <span data-i18n="website-made-with"></span>
         </div>
     </footer>
 
@@ -73,6 +69,9 @@
     <script src="/js/users_service/auth/42/ft_auth.js"></script>
 
     <script src="/js/users_service/front/template/navigation.js"></script>
+
+    <!-- Multi-language support -->
+    <script src="/js/internationalization/internationalization.js"></script>
 
     <!-- Single Page Application -->
     <script src="/js/spa_router.js"></script>

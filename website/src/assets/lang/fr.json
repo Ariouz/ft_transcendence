@@ -1,0 +1,12 @@
+{
+  "home": "Accueil",
+  "pong": "Pong",
+  "users": "Utilisateurs",
+  "login": "Se connecter",
+  "account": "Compte",
+  "profile": "Profil",
+  "settings": "Paramètres",
+  "logout": "Se déconnecter",
+  "website-made-with": "Fait avec <span style=\"color: var(--flashy-pink); font-size:1.2em;\">♥</span> par vicalvez, gurousta & elombard"
+
+}
