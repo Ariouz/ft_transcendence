@@ -42,32 +42,29 @@ async function fetchAvailableLanguages() {
 async function createLanguageDropdown() {
     const availableLanguages = await fetchAvailableLanguages();
     const userPreferredLanguage = getLanguagePreference();
-    const selectorDiv = document.getElementById('language-selector');
-    const select = document.createElement('select');
-    select.id = 'language-dropdown';
+    const select = document.getElementById('settings_user_lang');
     select.onchange = function () {
         const selectedLang = this.value;
         changeLanguage(selectedLang);
     };
     availableLanguages.forEach(lang => {
         const option = document.createElement('option');
-        option.value = lang;
-        option.textContent = lang.toUpperCase();
-        if (lang === userPreferredLanguage) {
+        option.value = lang.code;
+        option.textContent = lang.displayName;
+        if (lang.code === userPreferredLanguage) {
             option.selected = true;
         }
         select.appendChild(option);
     });
-    selectorDiv.appendChild(select);
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
-    const userPreferredLanguage = localStorage.getItem('language') || DEFAULT_LANGUAGE;
+async function updateContentOnNewPage() {
+    const userPreferredLanguage = getLanguagePreference();
     const langData = await fetchLanguageData(userPreferredLanguage);
     const defaultLangData = userPreferredLanguage !== DEFAULT_LANGUAGE ?
         await fetchLanguageData(DEFAULT_LANGUAGE) : langData;
     updateContent(langData, defaultLangData);
-});
+}
 
 function updateContent(langData, defaultLangData) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -75,6 +72,3 @@ function updateContent(langData, defaultLangData) {
         element.innerHTML = langData[key] || defaultLangData[key] || `Missing translation for ${key}`;
     });
 }
-
-// Generate the languages dropdown menu
-createLanguageDropdown();

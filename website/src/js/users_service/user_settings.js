@@ -177,15 +177,7 @@ function hideLoadingWheel()
 
 function selectDefaultLanguage(lang)
 {
-    select = document.getElementById("settings_user_lang");
-
-    for (let i = 0; i < select.options.length; i++)
-    {
-        if (select.options[i].value == lang){
-            select.selectedIndex = i;
-            break; 
-        }
-    }
+    setLanguagePreference(lang);
 }
 
 function setInputValue(inputId, value)

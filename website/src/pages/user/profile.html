@@ -12,8 +12,8 @@
                             <h5 class="my-3" id="profile_username">Username</h5>
                             <p class="text-muted mb-4" id="profile_user_status_message">Status Message</p>
                             <div class="d-flex justify-content-center mb-2">
-                                <button type="button" onclick="navigate('/settings')" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary">Settings</button>
-                                <button type="button" onclick="logout()" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger ms-1">Log out</button>
+                                <button type="button" onclick="navigate('/settings')" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-i18n="settings">Settings</button>
+                                <button type="button" onclick="logout()" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger ms-1" data-i18n="logout">Log out</button>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Full Name</p>
+                                    <p class="mb-0" data-i18n="fullname"></p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class="text-muted mb-0" id="profile_user_fullname">User Full name</p>
@@ -46,7 +46,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Display Name</p>
+                                    <p class="mb-0" data-i18n="display_name"></p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class="text-muted mb-0" id="profile_user_displayname">User Display name</p>
@@ -55,7 +55,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Email</p>
+                                    <p class="mb-0" data-i18n="email"></p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class="text-muted mb-0" id="profile_user_email">example@example.com</p>
@@ -64,7 +64,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Language</p>
+                                    <p class="mb-0" data-i18n="language"></p>
                                 </div>
                                 <div class="col-sm-9">
                                     <p class="text-muted mb-0" id="profile_user_lang">Language</p>
@@ -76,12 +76,12 @@
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0 card-content-background">
                                 <div class="card-body card-content-background">
-                                    <p class="mb-4"><span class="text-primary font-italic me-1">Games' Statistics</span></p>
+                                    <p class="mb-4"><span class="text-primary font-italic me-1" data-i18n="games_statistics"></span></p>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center">Played Games: <span class="test-end">12</span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center">Won Games: <span>4</span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center">Lost Games: <span>8</span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center">W/L Ratio: <span>0.50</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="played_games"></span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="won_games"></span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="lost_games"></span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="win_loss_ratio"></span></li>
                                       </ul>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                         <div class="col-md-6">
                             <div class="card mb-4 mb-md-0 card-content-background">
                                 <div class="card-body card-content-background">
-                                    <p class="mb-4"><span class="text-primary font-italic me-1">Friends</span></p>
+                                    <p class="mb-4"><span class="text-primary font-italic me-1" data-i18n="friends"></span></p>
                                     <ul id="friend-list" class="list-group list-group-flush">
                                         Retrieving friends...
                                       </ul>
