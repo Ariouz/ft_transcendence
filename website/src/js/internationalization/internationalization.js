@@ -58,7 +58,7 @@ async function createLanguageDropdown() {
     });
 }
 
-async function updateContentOnNewPage() {
+async function updateI18nOnNewPage() {
     const userPreferredLanguage = getLanguagePreference();
     const langData = await fetchLanguageData(userPreferredLanguage);
     const defaultLangData = userPreferredLanguage !== DEFAULT_LANGUAGE ?
@@ -67,8 +67,21 @@ async function updateContentOnNewPage() {
 }
 
 function updateContent(langData, defaultLangData) {
+    updateTextsI18n(langData, defaultLangData);
+    updatePlaceholdersI18n(langData, defaultLangData);
+}
+
+function updateTextsI18n(langData, defaultLangData) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        element.innerHTML = langData[key] || defaultLangData[key] || `Missing translation for ${key}`;
+        element.innerHTML = langData[key] || defaultLangData[key];
+    });
+}
+
+function updatePlaceholdersI18n(langData, defaultLangData) {
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        const placeholderText = langData[key] || defaultLangData[key];
+        element.setAttribute('placeholder', placeholderText);
     });
 }

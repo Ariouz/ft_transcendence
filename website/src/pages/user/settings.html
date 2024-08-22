@@ -88,8 +88,8 @@
                             <div class="input-group">
                                 <span class="input-group-text">@</span>
                                 <input name="display_name" type="text" id="settings_user_displayname"
-                                       class="form-control" placeholder="Display name" aria-label="Display name"
-                                       aria-describedby="basic-addon1">
+                                       class="form-control" data-i18n-placeholder="display_name_placeholder"
+                                       aria-label="Display name" aria-describedby="basic-addon1">
                             </div>
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
                                  data-i18n="display_name_settings_desc"></div>
@@ -119,14 +119,14 @@
                         <div class="mb-3 settings_panel_form_item">
                             <label for="settings_user_status" class="form-label" data-i18n="status_message"></label>
                             <input name="status_message" type="text" class="form-control" id="settings_user_status"
-                                   aria-describedby="Status" placeholder="Hello World">
+                                   aria-describedby="Status" data-i18n-placeholder="status_message_placeholder">
                             <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
                                  data-i18n="status_message_desc"></div>
 
                         </div>
 
                         <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_lang" class="form-label">Language</label>
+                            <label for="settings_user_lang" class="form-label" data-i18n="language"></label>
                             <select name="lang" class="form-select" aria-label="Default select example"
                                     id="settings_user_lang">
                             </select>
@@ -139,7 +139,7 @@
         </section>
         <!-- Friends -->
         <section class="settings_panel_section" id="settings_friends_section">
-            <span>Friends section</span>
+            <span data-i18n="friends_section"></span>
         </section>
         <!-- Confidentiality -->
         <section class="settings_panel_section" id="settings_confidentiality_section">
@@ -198,7 +198,8 @@
                                 <input class="form-check-input" type="checkbox" role="switch" id="cookies_revoke"
                                        name="revoke_cookies">
                             </div>
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4" data-i18n="revoke_cookies_desc">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
+                                 data-i18n="revoke_cookies_desc">
                             </div>
                         </div>
 

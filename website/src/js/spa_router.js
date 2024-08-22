@@ -34,7 +34,7 @@ function handleRouting() {
     else {
         loadContent("/pages/error/404.html");
     }
-    updateContentOnNewPage();
+    updateI18nOnNewPage();
 }
 
 function routeAuth(parts, params)

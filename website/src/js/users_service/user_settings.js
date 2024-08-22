@@ -10,7 +10,7 @@ function removeNavHighlight(items) {
     });
 }
 
-function showSection(section, title, nav_item) {
+function showSection(section, title_i18n_ref, nav_item) {
     const sections = ["settings_profile_section", "settings_friends_section", "settings_confidentiality_section", "settings_account_section"];
     const nav_items = ["settings_nav_profile", "settings_nav_friends", "settings_nav_confidentiality", "settings_nav_account"];
 
@@ -25,11 +25,12 @@ function showSection(section, title, nav_item) {
     removeNavHighlight(nav_items);
     highlightNav(nav_item);
 
-    document.getElementById("settings_section_title").innerText = title;
+    document.getElementById("settings_section_title").setAttribute('data-i18n', title_i18n_ref);
+    updateI18nOnNewPage();
 }
 
 function showProfileSection() {
-    showSection("settings_profile_section", "Profile Settings", "settings_nav_profile");
+    showSection("settings_profile_section", "profile_settings", "settings_nav_profile");
 
     form = document.getElementById("settings_panel_form_profile")
     form.action = "http://localhost:8001/api/account/settings/profile/"+getCookie("session_token");
@@ -59,11 +60,11 @@ function showProfileSection() {
 }
 
 function showFriendsSection() {
-    showSection("settings_friends_section", "Friends Settings", "settings_nav_friends");
+    showSection("settings_friends_section", "friends_settings", "settings_nav_friends");
 }
 
 function showConfidentialitySection() {
-    showSection("settings_confidentiality_section", "Confidentiality Settings", "settings_nav_confidentiality");
+    showSection("settings_confidentiality_section", "confidentiality_settings", "settings_nav_confidentiality");
 
     form = document.getElementById("settings_panel_form_confidentiality")
     form.action = "http://localhost:8001/api/account/settings/confidentiality/"+getCookie("session_token");
@@ -96,7 +97,7 @@ function showConfidentialitySection() {
 }
 
 function showAccountSection() {
-    showSection("settings_account_section", "Account Settings", "settings_nav_account");
+    showSection("settings_account_section", "account_settings", "settings_nav_account");
 
     form = document.getElementById("settings_panel_form_account")
     form.action = "http://localhost:8001/api/account/settings/delete/"+getCookie("session_token");
