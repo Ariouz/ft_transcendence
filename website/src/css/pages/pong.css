@@ -1,0 +1,15 @@
+:root {
+    --paddle-color: var(--flashy-pink);
+    --ball-color: white;
+    --canvas-color: var(--electric-blue);
+    --canvas-stroke-color: var(--purple-blue);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --net-color: var(--light-beige);
+}
+
+#pongCanvas {
+    display: block;
+    margin: 0 auto;
+    border: 8px solid var(--purple-blue);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
