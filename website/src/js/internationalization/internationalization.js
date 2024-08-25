@@ -1,9 +1,11 @@
 const DEFAULT_LANGUAGE = 'en';
+let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
+let selectedLanguageData = {};
+let defaultLanguageData = {};
 
 // TODO remove this preference when removing user's data (GDPR)
 function setLanguagePreference(lang) {
     localStorage.setItem('language', lang);
-    location.reload();
 }
 
 function getLanguagePreference() {
@@ -21,8 +23,12 @@ async function fetchLanguageData(lang) {
 }
 
 async function changeLanguage(lang) {
+    if (lang === SELECTED_LANGUAGE)
+        return;
     try {
-        await setLanguagePreference(lang);
+        setLanguagePreference(lang);
+        await updateTranslations();
+        await updateI18nOnNewPage();
     } catch (error) {
         console.error('Error changing language:', error);
     }
@@ -43,10 +49,6 @@ async function createLanguageDropdown() {
     const availableLanguages = await fetchAvailableLanguages();
     const userPreferredLanguage = getLanguagePreference();
     const select = document.getElementById('settings_user_lang');
-    select.onchange = function () {
-        const selectedLang = this.value;
-        changeLanguage(selectedLang);
-    };
     availableLanguages.forEach(lang => {
         const option = document.createElement('option');
         option.value = lang.code;
@@ -59,16 +61,12 @@ async function createLanguageDropdown() {
 }
 
 async function updateI18nOnNewPage() {
-    const userPreferredLanguage = getLanguagePreference();
-    const langData = await fetchLanguageData(userPreferredLanguage);
-    const defaultLangData = userPreferredLanguage !== DEFAULT_LANGUAGE ?
-        await fetchLanguageData(DEFAULT_LANGUAGE) : langData;
-    updateContent(langData, defaultLangData);
+    updateContent();
 }
 
-function updateContent(langData, defaultLangData) {
-    updateTextsI18n(langData, defaultLangData);
-    updatePlaceholdersI18n(langData, defaultLangData);
+function updateContent() {
+    updateTextsI18n(selectedLanguageData, defaultLanguageData);
+    updatePlaceholdersI18n(selectedLanguageData, defaultLanguageData);
 }
 
 function updateTextsI18n(langData, defaultLangData) {
@@ -85,3 +83,25 @@ function updatePlaceholdersI18n(langData, defaultLangData) {
         element.setAttribute('placeholder', placeholderText);
     });
 }
+
+async function loadInitialTranslations() {
+    const userPreferredLanguage = localStorage.getItem('language') || DEFAULT_LANGUAGE;
+    SELECTED_LANGUAGE = userPreferredLanguage;
+    selectedLanguageData = await fetchLanguageData(userPreferredLanguage);
+    if (userPreferredLanguage !== DEFAULT_LANGUAGE) {
+        defaultLanguageData = await fetchLanguageData(DEFAULT_LANGUAGE);
+    } else {
+        defaultLanguageData = selectedLanguageData;
+    }
+    updateContent(selectedLanguageData);
+}
+
+async function updateTranslations() {
+    const userPreferredLanguage = getLanguagePreference();
+    if (userPreferredLanguage === SELECTED_LANGUAGE)
+        return;
+    SELECTED_LANGUAGE = userPreferredLanguage;
+    selectedLanguageData = await fetchLanguageData(userPreferredLanguage);
+}
+
+loadInitialTranslations();

@@ -56,6 +56,10 @@ function showProfileSection() {
             showError(error.error, error.details);
             hideLoadingWheel();
         })
+
+        const langSelect = document.getElementById("settings_user_lang");
+        const selectedLang = langSelect.value;
+        changeLanguage(selectedLang);
     });
 }
 
@@ -213,6 +217,9 @@ function setDefaultSettingsValues()
 
                 retrieveConfidentialitySettings(token)
                 .then(userConfidentiality => {
+                    if (userConfidentiality.error) {
+                        throw userConfidentiality.error;
+                    }
                     setChecked("profile_visibility_"+userConfidentiality.profile_visibility, true);
 
                     setChecked("profile_show_fullname", userConfidentiality.show_fullname);
@@ -225,3 +232,4 @@ function setDefaultSettingsValues()
 
 showProfileSection();
 setDefaultSettingsValues();
+createLanguageDropdown();

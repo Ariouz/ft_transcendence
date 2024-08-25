@@ -7,7 +7,6 @@
   "profile": "Профиль",
   "settings": "Настройки",
   "logout": "Выйти",
-  "logged_in_msg": "Вы вошли как <span id=\"username\"></span>",
   "home_page_title": "Это содержимое главной страницы",
   "search": "Поиск",
   "add_friend": "Добавить друга",

@@ -7,7 +7,6 @@
   "profile": "プロフィール",
   "settings": "設定",
   "logout": "ログアウト",
-  "logged_in_msg": "ユーザー名 <span id=\"username\"></span> としてログインしています",
   "home_page_title": "これはホームページの内容です",
   "search": "検索",
   "add_friend": "友達追加",

@@ -7,7 +7,6 @@
   "profile": "Perfil",
   "settings": "Configuración",
   "logout": "Cerrar sesión",
-  "logged_in_msg": "Has iniciado sesión como <span id=\"username\"></span>",
   "home_page_title": "Este es el contenido de la página de inicio",
   "search": "Buscar",
   "add_friend": "Agregar amigo",

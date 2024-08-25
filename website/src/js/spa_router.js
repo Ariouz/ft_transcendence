@@ -4,7 +4,6 @@ function handleRouting() {
     const params = new URLSearchParams(window.location.search);
 
     parts.shift();
-    console.log(parts);
     if (parts[0] == "api")
     {
         if (parts[1] == "auth")
@@ -34,7 +33,6 @@ function handleRouting() {
     else {
         loadContent("/pages/error/404.html");
     }
-    updateI18nOnNewPage();
 }
 
 function routeAuth(parts, params)
@@ -111,6 +109,7 @@ function loadContent(url) {
         handleNavLoginButton();
         document.getElementById('page_content').innerHTML = html;
         executeScripts(document.getElementById('page_content'));
+        updateI18nOnNewPage();
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

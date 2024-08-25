@@ -7,7 +7,6 @@
   "profile": "个人资料",
   "settings": "设置",
   "logout": "登出",
-  "logged_in_msg": "您已登录为 <span id=\"username\"></span>",
   "home_page_title": "这是主页内容",
   "search": "搜索",
   "add_friend": "添加好友",
