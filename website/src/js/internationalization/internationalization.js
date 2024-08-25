@@ -27,6 +27,7 @@ async function changeLanguage(lang) {
         return;
     try {
         setLanguagePreference(lang);
+        // TODO send to server new language preference
         await updateTranslations();
         await updateI18nOnNewPage();
     } catch (error) {
