@@ -4,6 +4,9 @@ function handleRouting() {
     const params = new URLSearchParams(window.location.search);
 
     parts.shift();
+
+    // TODO Temporary. This will normally be replaced by game management via the back end.
+    Game.stopGameLoop();
     if (parts[0] == "api")
     {
         if (parts[1] == "auth")
@@ -14,7 +17,10 @@ function handleRouting() {
         routeUser(parts, params);
     }
     else if (path === '/pong') {
-        loadContent("/pages/pong.html");
+        loadContent("/pages/pong.html", () => {
+            // TODO Temporary. This will normally be replaced by game management via the back end.
+            Game.startGameLoop();
+        });
     }
     else if (path === '/login') {
         loadContent("/pages/user/auth/login.html");
@@ -96,7 +102,7 @@ function routeUser(parts, params)
         else loadContent("/pages/users/public_profile.html");
 }
 
-function loadContent(url) {
+function loadContent(url, onPageLoaded = () => {}) {
     fetch(url)
     .then(response => {
         if (!response.ok) {
@@ -108,8 +114,11 @@ function loadContent(url) {
         document.getElementById('page_content').innerHTML = "";
         handleNavLoginButton();
         document.getElementById('page_content').innerHTML = html;
-        executeScripts(document.getElementById('page_content'));
+        return executeScripts(document.getElementById('page_content'));
+    })
+    .then(() => {
         updateI18nOnNewPage();
+        onPageLoaded();
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -118,16 +127,24 @@ function loadContent(url) {
 
 function executeScripts(element) {
     const scripts = element.querySelectorAll('script');
+    const promises = [];
+
     scripts.forEach(script => {
         const newScript = document.createElement('script');
         if (script.src) {
             newScript.src = script.src;
+            const promise = new Promise((resolve, reject) => {
+                newScript.onload = resolve;
+                newScript.onerror = reject;
+            });
+            promises.push(promise);
         } else {
             newScript.textContent = script.textContent;
         }
         document.body.appendChild(newScript);
         document.body.removeChild(newScript);
     });
+    return Promise.all(promises);
 }
 
 handleRouting();

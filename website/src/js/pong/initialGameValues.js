@@ -2,25 +2,53 @@
  * Initial game values
  */
 
-// Paddle
-const paddleHeight = 75;
-const paddleWidth = 10;
+const Game = {
+    canvas: null,
+    ctx: null,
+    isRunning: null,
 
-const leftPaddleX = 0;
-const rightPaddleX = canvas.width - paddleWidth;
+    paddle: {
+        height: 75,
+        width: 10,
+        leftX: 0,
+        rightX: 0,
+        leftY: 0,
+        rightY: 0,
+        speed: 7,
+    },
 
-let leftPaddleY = (canvas.height - paddleHeight) / 2;
-let rightPaddleY = (canvas.height - paddleHeight) / 2;
+    ball: {
+        radius: 10,
+        x: 0,
+        y: 0,
+    },
 
-const paddleSpeed = 7;
+    controls: {
+        upPressed: false,
+        downPressed: false,
+        upKey: 'W',
+        downKey: 'S',
+    },
 
-// Ball
-const ballRadius = 10;
-let ballX = canvas.width / 2;
-let ballY = canvas.height / 2;
+    init: function () {
+        this.canvas = document.getElementById('pongCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.paddle.rightX = this.canvas.width - this.paddle.width;
+        this.paddle.leftY = (this.canvas.height - this.paddle.height) / 2;
+        this.paddle.rightY = (this.canvas.height - this.paddle.height) / 2;
+        this.ball.x = this.canvas.width / 2;
+        this.ball.y = this.canvas.height / 2;
+        this.isRunning = true;
+    },
 
-// Player movement
-let upPressed = false;
-let downPressed = false;
-let upKey = 'W';
-let downKey = 'S';
+    // TODO Temporary. This will normally be replaced by game management via the back end.
+    startGameLoop: function () {
+        Game.init();
+        gameLoop();
+    },
+
+    // TODO Temporary. This will normally be replaced by game management via the back end.
+    stopGameLoop: function () {
+        this.isRunning = false;
+    }
+};

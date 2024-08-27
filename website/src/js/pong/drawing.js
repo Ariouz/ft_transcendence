@@ -8,58 +8,58 @@ function getStyle(styleName) {
 }
 
 function drawRectangle(x, y, width, height, fillColor, strokeColor = null, strokeWidth = 0) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.fillStyle = fillColor;
+    Game.ctx.beginPath();
+    Game.ctx.rect(x, y, width, height);
+    Game.ctx.fillStyle = fillColor;
     if (strokeColor !== null && strokeWidth !== 0) {
-        ctx.lineWidth = strokeWidth;
-        ctx.strokeStyle = strokeColor;
+        Game.ctx.lineWidth = strokeWidth;
+        Game.ctx.strokeStyle = strokeColor;
     }
-    ctx.fill();
-    ctx.closePath();
+    Game.ctx.fill();
+    Game.ctx.closePath();
 }
 
 function drawCircle(x, y, radius, fillColor, strokeColor = null, strokeWidth = 0) {
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = fillColor;
+    Game.ctx.beginPath();
+    Game.ctx.arc(x, y, radius, 0, Math.PI * 2);
+    Game.ctx.fillStyle = fillColor;
     if (strokeColor !== null && strokeWidth !== 0) {
-        ctx.lineWidth = strokeWidth;
-        ctx.strokeStyle = strokeColor;
+        Game.ctx.lineWidth = strokeWidth;
+        Game.ctx.strokeStyle = strokeColor;
     }
-    ctx.fill();
-    ctx.closePath();
+    Game.ctx.fill();
+    Game.ctx.closePath();
 }
 
 function drawNet() {
-    ctx.beginPath();
-    ctx.setLineDash([5, 15]);
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.strokeStyle = getStyle('--net-color');
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.closePath();
+    Game.ctx.beginPath();
+    Game.ctx.setLineDash([5, 15]);
+    Game.ctx.moveTo(Game.canvas.width / 2, 0);
+    Game.ctx.lineTo(Game.canvas.width / 2, Game.canvas.height);
+    Game.ctx.strokeStyle = getStyle('--net-color');
+    Game.ctx.lineWidth = 2;
+    Game.ctx.stroke();
+    Game.ctx.closePath();
 }
 function drawBall() {
-    drawCircle(ballX, ballY, ballRadius,
+    drawCircle(Game.ball.x, Game.ball.y, Game.ball.radius,
         getStyle('--ball-color')
     );
 }
 
 function drawPaddle(x, y) {
-    drawRectangle(x, y, paddleWidth, paddleHeight,
+    drawRectangle(x, y, Game.paddle.width, Game.paddle.height,
         getStyle('--paddle-color'),
     );
 }
 
 function drawBackground() {
-    drawRectangle(0, 0, canvas.width, canvas.height,
+    drawRectangle(0, 0, Game.canvas.width, Game.canvas.height,
         getStyle('--canvas-color'),
         getStyle('--canvas-stroke-color', 8
         ));
 }
 
 function clearCanva() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
 }

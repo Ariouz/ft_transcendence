@@ -3,11 +3,11 @@
  */
 
 function updateLeftPaddlePosition() {
-    if (upPressed) {
-        leftPaddleY = Math.max(leftPaddleY - paddleSpeed, 0);
+    if (Game.controls.upPressed) {
+        Game.paddle.leftY = Math.max(Game.paddle.leftY - Game.paddle.speed, 0);
     }
-    if (downPressed) {
-        leftPaddleY = Math.min(leftPaddleY + paddleSpeed, canvas.height - paddleHeight);
+    if (Game.controls.downPressed) {
+        Game.paddle.leftY = Math.min(Game.paddle.leftY + Game.paddle.speed, Game.canvas.height - Game.paddle.height);
     }
 }
 
@@ -15,19 +15,19 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
 function keyDownHandler(e) {
-    if (e.key === upKey.toLowerCase() || e.key === upKey) {
-        upPressed = true;
+    if (e.key === Game.controls.upKey.toLowerCase() || e.key === Game.controls.upKey) {
+        Game.controls.upPressed = true;
     }
-    if (e.key === downKey.toLowerCase() || e.key === downKey) {
-        downPressed = true;
+    if (e.key === Game.controls.downKey.toLowerCase() || e.key === Game.controls.downKey) {
+        Game.controls.downPressed = true;
     }
 }
 
 function keyUpHandler(e) {
-    if (e.key === upKey.toLowerCase() || e.key === upKey) {
-        upPressed = false;
+    if (e.key === Game.controls.upKey.toLowerCase() || e.key === Game.controls.upKey) {
+        Game.controls.upPressed = false;
     }
-    if (e.key === downKey.toLowerCase() || e.key === downKey) {
-        downPressed = false;
+    if (e.key === Game.controls.downKey.toLowerCase() || e.key === Game.controls.downKey) {
+        Game.controls.downPressed = false;
     }
 }
