@@ -143,9 +143,10 @@
             unfollowUserButton = document.getElementById("public_profile_unfollow_user");
             
             let isFollowing = await isUserFollowing(visitorId.user_id, userData.user_id);
-            console.log(visitorId.user_id);
-            followUserButton.style.display = isFollowing ? 'none' : 'block';
-            unfollowUserButton.style.display = !isFollowing ? 'none' : 'block';
+            let isSameUser = visitorId.user_id == userData.user_id;
+
+            followUserButton.style.display = isFollowing || isSameUser ? 'none' : 'block';
+            unfollowUserButton.style.display = !isFollowing || isSameUser ? 'none' : 'block';
         }
     }
     

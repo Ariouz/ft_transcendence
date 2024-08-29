@@ -98,9 +98,7 @@ function displayMessageInFriendList(message) {
 
 function sendNewFollowerNotification(followerUsername)
 {
-    console.log("notif function");
     let key = "new_follower_notification";
     let text = selectedLanguageData[key] || defaultLanguageData[key];
-    console.log(text);
     showNotification(`${text} ${followerUsername}`, 5);
 }
