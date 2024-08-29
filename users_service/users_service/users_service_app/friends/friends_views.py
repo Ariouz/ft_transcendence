@@ -70,3 +70,8 @@ def send_friend_update(user_id):
     async_to_sync(channel_layer.group_send)(
         f"user_{user_id}", {"type": "friend_list_update", "user_id": user_id}
     )
+
+# /api/user/friends/follows/<int:user_id>/<int:friend_id>/
+# Returns whether user_id follows friend_id
+def is_following(request, user_id, friend_id):
+    return JsonResponse({"is_following": Friend.objects.filter(user_id=user_id, friend_id=friend_id).exists()})
