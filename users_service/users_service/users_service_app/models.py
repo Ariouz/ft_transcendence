@@ -27,7 +27,7 @@ class UserSettings(models.Model):
 
 
 class UserConfidentialitySettings(models.Model):
-    visibility_choices = [("public", "Public"), ("private", "Private"), ("friends_only", "Friends Only")]
+    visibility_choices = [("public", "Public"), ("private", "Private")]
 
     user_id = models.IntegerField(unique=True)
     profile_visibility = models.CharField(max_length=32, choices=visibility_choices, default="public")

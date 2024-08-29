@@ -102,12 +102,6 @@ def get_profile_data_username(request, username):
         data["status_message"] = "Hidden"
         data["github"] = "null"
     
-    if userConfidentiality.profile_visibility == "friends_only":
-        data["full_name"] = "Friends Only"
-        data["email"] = "Friends Only"
-        data["status_message"] = "Friends Only"
-        data["github"] = "null"
-    
     if userConfidentiality.show_fullname == False:
         data["full_name"] = "Hidden"
     
