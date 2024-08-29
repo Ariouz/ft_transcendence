@@ -34,6 +34,12 @@ def ft_auth_data_username(request, access_token):
         return JsonResponse({"username":User.objects.filter(token=access_token).get().username})
     return JsonResponse({"error":"User not found","details":"No user account exists with this token"})
 
+# /auth/42/data/id/<access_token>/
+def ft_auth_data_id(request, access_token):
+    if (User.objects.filter(token=access_token).exists()):
+        return JsonResponse({"user_id":User.objects.filter(token=access_token).get().user_id})
+    return JsonResponse({"error":"User not found","details":"No user account exists with this token"})
+
 
 # /auth/42/data/settings/<access_token>/
 def ft_auth_data_settings(request, access_token):
@@ -94,12 +100,6 @@ def get_profile_data_username(request, username):
         data["full_name"] = "Hidden"
         data["email"] = "Hidden"
         data["status_message"] = "Hidden"
-        data["github"] = "null"
-    
-    if userConfidentiality.profile_visibility == "friends_only":
-        data["full_name"] = "Friends Only"
-        data["email"] = "Friends Only"
-        data["status_message"] = "Friends Only"
         data["github"] = "null"
     
     if userConfidentiality.show_fullname == False:

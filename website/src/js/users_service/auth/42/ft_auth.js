@@ -60,7 +60,21 @@ async function retrieveUsername(access_token)
     const url = `${FT_AUTH_URL}/data/username/${access_token}`;
     try {
         const data = await fetchBack(url);
-        console.log(data);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
+async function retrieveId(access_token)
+{
+    const url = `${FT_AUTH_URL}/data/id/${access_token}`;
+    try {
+        const data = await fetchBack(url);
         return data;
     } catch (error)
     {

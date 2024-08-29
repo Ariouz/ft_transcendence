@@ -88,3 +88,9 @@ class FriendsConsumer(WebsocketConsumer):
                 'traceback': traceback.format_exc()
             }
             self.send(text_data=json.dumps(error_message))
+
+    def new_follower(self, event):
+        follower_username = event['follower_username']
+        self.send(text_data=json.dumps({"type":"new_follower_notification", "follower_username": follower_username}))
+
+        
