@@ -7,12 +7,12 @@ function handleRouting() {
 
     // TODO Temporary. This will normally be replaced by game management via the back end.
     Game.stopGameLoop();
-    if (parts[0] == "api")
+    if (parts[0] === "api")
     {
-        if (parts[1] == "auth")
+        if (parts[1] === "auth")
             routeAuth(parts, params);
     }
-    else if (parts[0] == "users")
+    else if (parts[0] === "users")
     {
         routeUser(parts, params);
     }
@@ -49,12 +49,12 @@ function routeAuth(parts, params)
         return ;
     }
 
-    if (parts[2] == "42")
+    if (parts[2] === "42")
     {
-        if (parts[3] == "access")
+        if (parts[3] === "access")
         {
-            code = params.get("code");
-            if (code == undefined) { navigate('/error'); return; }
+            let code = params.get("code");
+            if (code === undefined) { navigate('/error'); return; }
             console.log(code);
             loadContent("/pages/user/auth/access_code.html");
             ftRetrieveClientAccessToken(code)
@@ -85,7 +85,7 @@ function routeAuth(parts, params)
 
 function routeUser(parts, params)
 {
-    if (parts.length == 1)
+    if (parts.length === 1)
     {
         if (!isLoggedIn())
             navigate("/login");
@@ -93,13 +93,13 @@ function routeUser(parts, params)
         return ;
     }
 
-    if (parts.length != 3)
+    if (parts.length !== 3)
     {
         navigate("/error");
         return ;
     }
 
-    if (parts[1] == "profile")
+    if (parts[1] === "profile")
         if (!isLoggedIn())
             navigate("/login");
         else loadContent("/pages/users/public_profile.html");

@@ -1,7 +1,7 @@
 function addFloor(floorId)
 {
-    container = document.getElementById("users_list_container");
-    floor = document.createElement("div");
+    let container = document.getElementById("users_list_container");
+    let floor = document.createElement("div");
     floor.classList.add("users_list_floor");
     floor.id = "users_list_floor_"+floorId;
     container.appendChild(floor);
@@ -9,14 +9,14 @@ function addFloor(floorId)
 
 function addUserCard(username, avatar, floorId)
 {
-    container = document.getElementById("users_list_floor_"+floorId);
+    let container = document.getElementById("users_list_floor_"+floorId);
     if (container == null)
         {
         addFloor(floorId);
         container = document.getElementById("users_list_floor_"+floorId);
     }
-    
-    element = document.createElement("div");
+
+    let element = document.createElement("div");
     element.classList.add("user_list_item");
     
     element.innerHTML = `<div class="user_list_card_top"> \
@@ -36,13 +36,13 @@ async function loadUsers()
 {
     userList = await retrieveAllUsers()
     .then(data => {
-        users = [];
-        for (userId in data)
-            {
-            userData = data[userId];
-            username = userData.username;
-            avatar = userData.avatar;
-            
+        let users = [];
+        for (let userId in data)
+        {
+            let userData = data[userId];
+            let username = userData.username;
+            let avatar = userData.avatar;
+
             users.push({"id": userId, "username":username, "avatar":avatar});
         }
         return users;
@@ -52,7 +52,7 @@ async function loadUsers()
 
 async function displayCards(userList)
 {
-    floorId = 0;
+    let floorId = 0;
     for (user of userList)
         {
         addUserCard(user.username, user.avatar, Math.floor(floorId / 5));
@@ -68,22 +68,22 @@ async function searchByUsername(users, username)
 
 async function loadUserLists()
 {
-    users = await loadUsers();
+    let users = await loadUsers();
     displayCards(users);
-    
-    searchBar = document.getElementById("userlist_search_bar");
+
+    let searchBar = document.getElementById("userlist_search_bar");
     searchBar.addEventListener('input', function (event) {
-        searchUsername = event.target.value;
-        
-        container = document.getElementById("users_list_container");
+        let searchUsername = event.target.value;
+
+        let container = document.getElementById("users_list_container");
         container.innerHTML = "";
-        
-        newusers = searchByUsername(users, searchUsername)
+
+        searchByUsername(users, searchUsername)
         .then (newusers => {
             displayCards(newusers);
         });
     });
     
-};
+}
 
 loadUserLists();

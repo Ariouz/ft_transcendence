@@ -1,7 +1,7 @@
 async function handleNavLoginButton()
 {
-    navLogin = document.getElementById("nav_login");
-    navUser = document.getElementById("nav_user");
+    let navLogin = document.getElementById("nav_login");
+    let navUser = document.getElementById("nav_user");
 
     let loggedIn = isLoggedIn();
     navLogin.style.display = loggedIn ? 'none' : 'flex';

@@ -51,7 +51,7 @@ async function createAccount(username, email, token, avatar, fullname)
 
 async function ftGetAccess()
 {
-    url = `${FT_AUTH_URL}`;
+    let url = `${FT_AUTH_URL}`;
     getFromURL(url, redirectToAuth, showError);
 }
 

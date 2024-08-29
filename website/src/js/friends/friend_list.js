@@ -39,7 +39,7 @@ function createWebSocketFriendList() {
             }
             else if (data.type)
             {
-                if (data.type == "new_follower_notification")
+                if (data.type === "new_follower_notification")
                 {
                     sendNewFollowerNotification(data.follower_username);
                 }
@@ -56,7 +56,7 @@ function displayCurrentFriendList() {
     let friendListElement = document.getElementById('friend-list');
     if (friendListElement === null)
         return;
-    if (errorRetrievingFriends == true) {
+    if (errorRetrievingFriends === true) {
         displayErrorFriendList();
     }
     else if (g_currentFriendList.length > 0) {

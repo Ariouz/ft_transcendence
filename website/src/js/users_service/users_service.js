@@ -2,7 +2,7 @@ const USERS_SERVICE_URL = "http://localhost:8001/api";
 
 async function getUsers(onSuccess, onError)
 {
-    url = `${USERS_SERVICE_URL}/users`
+    let url = `${USERS_SERVICE_URL}/users`
     getFromURL(url, onSuccess, onError)
 }
 

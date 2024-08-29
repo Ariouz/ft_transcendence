@@ -32,7 +32,7 @@ function showSection(section, title_i18n_ref, nav_item) {
 function showProfileSection() {
     showSection("settings_profile_section", "profile_settings", "settings_nav_profile");
 
-    form = document.getElementById("settings_panel_form_profile")
+    let form = document.getElementById("settings_panel_form_profile")
     form.action = "http://localhost:8001/api/account/settings/profile/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
@@ -70,7 +70,7 @@ function showFriendsSection() {
 function showConfidentialitySection() {
     showSection("settings_confidentiality_section", "confidentiality_settings", "settings_nav_confidentiality");
 
-    form = document.getElementById("settings_panel_form_confidentiality")
+    let form = document.getElementById("settings_panel_form_confidentiality")
     form.action = "http://localhost:8001/api/account/settings/confidentiality/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
@@ -103,7 +103,7 @@ function showConfidentialitySection() {
 function showAccountSection() {
     showSection("settings_account_section", "account_settings", "settings_nav_account");
 
-    form = document.getElementById("settings_panel_form_account")
+    let form = document.getElementById("settings_panel_form_account")
     form.action = "http://localhost:8001/api/account/settings/delete/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
@@ -174,14 +174,14 @@ function showSuccess(message) {
 
 function showLoadingWheel()
 {
-    wheel = document.getElementById("settings_loading_wheel");
+    let wheel = document.getElementById("settings_loading_wheel");
     wheel.style.display = 'block';
     wheel.style.opacity = "50%";
 }
 
 function hideLoadingWheel()
 {
-    wheel = document.getElementById("settings_loading_wheel");
+    let wheel = document.getElementById("settings_loading_wheel");
     wheel.style.opacity = "0%";
     setTimeout(() => {
         wheel.style.display = 'none';
@@ -195,19 +195,19 @@ function selectDefaultLanguage(lang)
 
 function setInputValue(inputId, value)
 {
-    input = document.getElementById(inputId);
+    let input = document.getElementById(inputId);
     input.value = value;
 }
 
 function setChecked(inputId, value)
 {
-    input = document.getElementById(inputId);
+    let input = document.getElementById(inputId);
     input.checked = value;
 }
 
 function setDefaultSettingsValues()
 {
-    token = getCookie("session_token");
+    let token = getCookie("session_token");
     retrieveSettings(token)
         .then(userData => {
             if (userData.error)
@@ -218,7 +218,7 @@ function setDefaultSettingsValues()
             else
             {   
                 setInputValue("settings_user_displayname", userData.display_name);
-                setInputValue("settings_user_github", userData.github == "null" ? "" : userData.github);
+                setInputValue("settings_user_github", userData.github === "null" ? "" : userData.github);
                 setInputValue("settings_user_status", userData.status_message);
                 changeLanguage(userData.lang);
 

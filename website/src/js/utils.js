@@ -65,12 +65,6 @@ async function fetchBack(url)
     }
 }
 
-function getFullLanguage(lang)
-{
-    let languages = {"fr": "Français", "en":"English", "es": "Español"}
-    return languages[lang];
-}
-
 function showNotification(text, duration)
 {
     const animatedDiv = document.getElementById('notification_div');
