@@ -27,6 +27,7 @@ def add_friend(request, user_id, friend_id):
     Friend.objects.create(user=user, friend=friend)
     send_friend_update(user_id)
     send_friend_update(friend_id)
+    send_new_friend_notification(friend_id, user_id)
     return JsonResponse(
         {"status": "success", "message": f"{friend.username} added as a friend."}
     )
@@ -62,6 +63,11 @@ def list_friends(request, user_id):
     ]
     return JsonResponse({"friends": friend_list})
 
+# /api/user/friends/follows/<int:user_id>/<int:friend_id>/
+# Returns whether user_id follows friend_id
+@require_http_methods(["GET"])
+def is_following(request, user_id, friend_id):
+    return JsonResponse({"is_following": Friend.objects.filter(user_id=user_id, friend_id=friend_id).exists()})
 
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups
 # type: name of the method that will receive the message
@@ -71,7 +77,8 @@ def send_friend_update(user_id):
         f"user_{user_id}", {"type": "friend_list_update", "user_id": user_id}
     )
 
-# /api/user/friends/follows/<int:user_id>/<int:friend_id>/
-# Returns whether user_id follows friend_id
-def is_following(request, user_id, friend_id):
-    return JsonResponse({"is_following": Friend.objects.filter(user_id=user_id, friend_id=friend_id).exists()})
+def send_new_friend_notification(target_id, user_id):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        f"user_{target_id}", {"type": "new_follower", "follower_username": User.objects.get(user_id=user_id).username}
+    )

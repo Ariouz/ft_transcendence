@@ -37,6 +37,13 @@ function createWebSocketFriendList() {
                 g_currentFriendList = data.friends;
                 displayCurrentFriendList();
             }
+            else if (data.type)
+            {
+                if (data.type == "new_follower_notification")
+                {
+                    sendNewFollowerNotification(data.follower_username);
+                }
+            }
             else
                 errorRetrievingFriends = true;
         } catch (error) {
@@ -87,4 +94,13 @@ function displayMessageInFriendList(message) {
     errorElement.className = 'list-group-item card-content-background';
     errorElement.innerText = message;
     friendListElement.appendChild(errorElement);
+}
+
+function sendNewFollowerNotification(followerUsername)
+{
+    console.log("notif function");
+    let key = "new_follower_notification";
+    let text = selectedLanguageData[key] || defaultLanguageData[key];
+    console.log(text);
+    showNotification(`${text} ${followerUsername}`, 5);
 }
