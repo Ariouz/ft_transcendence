@@ -69,7 +69,10 @@ function routeAuth(parts, params)
                 console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
                     console.log(data);
-                    createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name);
+                    createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name)
+                        .then( r => {
+                            setUserLanguage();
+                        })
                 }).catch(error => {
                     console.error(error);
                 });

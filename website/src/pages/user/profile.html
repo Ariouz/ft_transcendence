@@ -124,7 +124,7 @@
                 document.getElementById("profile_user_fullname").innerText = userData.full_name;
                 document.getElementById("profile_user_displayname").innerText = userData.display_name;
                 document.getElementById("profile_user_email").innerText = userData.email;
-                document.getElementById("profile_user_lang").innerText = getFullLanguage(userData.lang);
+                document.getElementById("profile_user_lang").innerText = getLanguageDisplayName(userData.lang);
                 document.getElementById("profile_user_intra_link").href = `https://profile.intra.42.fr/users/${userData.username}`;
                 
                 githubContainer = document.getElementById("profile_user_github_container");

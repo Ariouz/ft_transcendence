@@ -12,11 +12,11 @@ import os
 @csrf_exempt
 def update_profile_settings(request, access_token):
     if request.method != "POST":
-        return JsonResponse({"error":"Invalid method", "details":"This request must be POST"})
+        return JsonResponse({"error":"invalid_method", "details":"this_request_must_be_post"})
 
     user = User.objects.get(token=access_token)
     if not user:
-        return JsonResponse({"error":"User not found", "details":"Cannot find user with this token"})
+        return JsonResponse({"error":"user_not_found", "details":"cannot_find_user_with_this_token"})
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
 
@@ -41,12 +41,12 @@ def update_profile_settings(request, access_token):
         max_size_mb = 2
         max_size_bytes = max_size_mb * 1024 * 1024
         if avatar.size > max_size_bytes:
-            return JsonResponse({'error': 'Invalid file size', "details":"File size exceeds 2MB."})
+            return JsonResponse({'error': 'invalid_file_size', "details":"file_size_exceeds_2mb"})
 
         allowed_extensions = ['jpg', 'jpeg', 'png']
         file_extension = avatar.name.split('.')[-1].lower()
         if file_extension not in allowed_extensions:
-            return JsonResponse({'error': 'Invalid file extension.', "details":"Only .jpg and .png are allowed."})
+            return JsonResponse({'error': 'invalid_file_extension', "details":"only_jpg_and_png_are_allowed"})
 
         new_filename = f"user_{user.user_id}.{file_extension}"
         new_file_path = os.path.join(settings.MEDIA_ROOT, f'avatars', new_filename)
@@ -60,16 +60,16 @@ def update_profile_settings(request, access_token):
         userSettings.avatar.name = path_name
 
     userSettings.save()
-    return JsonResponse({"success":"Profile settings saved !"})
+    return JsonResponse({"success":"profile_settings_saved"})
 
 @csrf_exempt
 def update_confidentiality_settings(request, access_token):
     if request.method != "POST":
-        return JsonResponse({"error":"Invalid method", "details":"This request must be POST"})
+        return JsonResponse({"error":"invalid_method", "details":"this_request_must_be_post"})
 
     user = User.objects.get(token=access_token)
     if not user:
-        return JsonResponse({"error":"User not found", "details":"Cannot find user with this token"})
+        return JsonResponse({"error":"user_not_found", "details":"cannot_find_user_with_this_token"})
     
     userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
     
@@ -92,16 +92,16 @@ def update_confidentiality_settings(request, access_token):
 
     userConfidentiality.save()
 
-    return JsonResponse({ "success": "Confidentiality settings saved!" })
+    return JsonResponse({ "success": "confidentiality_settings_saved" })
 
 @csrf_exempt
 def delete_account(request, access_token):
-    if request.method != "POST":
-        return JsonResponse({"error":"Invalid method", "details":"This request must be POST"})
+    if request.method != "DELETE":
+        return JsonResponse({"error":"invalid_method", "details":"this_request_must_be_delete"})
 
     user = User.objects.get(token=access_token)
     if not user:
-        return JsonResponse({"error":"User not found", "details":"Cannot find user with this token"})
+        return JsonResponse({"error":"user_not_found", "details":"cannot_find_user_with_this_token"})
     
     userSettings = UserSettings.objects.get(user_id=user.user_id)
     userConfidentialitySettings = UserConfidentialitySettings.objects.get(user_id=user.user_id)
@@ -109,4 +109,4 @@ def delete_account(request, access_token):
     userSettings.delete()
     userConfidentialitySettings.delete()
     user.delete()
-    return JsonResponse({"success": "Account successfully deleted!"})
+    return JsonResponse({"success": "account_successfully_deleted"})

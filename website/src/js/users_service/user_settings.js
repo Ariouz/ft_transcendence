@@ -50,7 +50,7 @@ function showProfileSection() {
             if (data.error)
                 showError(data.error, data.details);
             else
-                showSuccess("Success", data.success)
+                showSuccess(data.success)
         })
         .catch(error => {
             showError(error.error, error.details);
@@ -88,7 +88,7 @@ function showConfidentialitySection() {
             if (data.error)
                 showError(data.error, data.details);
             else
-                showSuccess("Success", data.success);
+                showSuccess(data.success);
 
             if (formData.has("revoke_cookies"))
                 revokeAllCookies();
@@ -112,7 +112,7 @@ function showAccountSection() {
         const formData = new FormData(this);
 
         fetch(this.action, {
-            method: 'POST',
+            method: 'DELETE',
             body: formData,
         })
         .then(response => response.json())
@@ -153,15 +153,23 @@ function hideError() {
 }
 
 function showError(title, message) {
-    showElement('settings_error_div', 'settings_error_title', 'settings_error_content', title, message);
+    showElement('settings_error_div',
+        'settings_error_title',
+        'settings_error_content',
+        getSentenceFromLanguageCode(title),
+        getSentenceFromLanguageCode(message));
 }
 
 function hideSuccess() {
     hideElement('settings_success_div');
 }
 
-function showSuccess(title, message) {
-    showElement('settings_success_div', 'settings_success_title', 'settings_success_content', title, message);
+function showSuccess(message) {
+    showElement('settings_success_div',
+        'settings_success_title',
+        'settings_success_content',
+        getSentenceFromLanguageCode("success"),
+        getSentenceFromLanguageCode(message));
 }
 
 function showLoadingWheel()
@@ -212,7 +220,7 @@ function setDefaultSettingsValues()
                 setInputValue("settings_user_displayname", userData.display_name);
                 setInputValue("settings_user_github", userData.github == "null" ? "" : userData.github);
                 setInputValue("settings_user_status", userData.status_message);
-                selectDefaultLanguage(userData.lang);
+                changeLanguage(userData.lang);
 
 
                 retrieveConfidentialitySettings(token)

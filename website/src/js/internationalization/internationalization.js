@@ -2,15 +2,54 @@ const DEFAULT_LANGUAGE = 'en';
 let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
 let selectedLanguageData = {};
 let defaultLanguageData = {};
+let availableLanguages = {};
 
-// TODO remove this preference when removing user's data (GDPR)
 function setLanguagePreference(lang) {
     localStorage.setItem('language', lang);
 }
 
-function getLanguagePreference() {
-    return localStorage.getItem('language') || DEFAULT_LANGUAGE;
+function getDefaultLanguage() {
+    return getPreferredLanguageFromNavigator() || DEFAULT_LANGUAGE;
 }
+
+function getLanguagePreference() {
+    return localStorage.getItem('language') || getDefaultLanguage();
+}
+
+async function removeLanguagePreference() {
+    localStorage.removeItem('language');
+    SELECTED_LANGUAGE = getDefaultLanguage();
+    try {
+        selectedLanguageData = await fetchLanguageData(SELECTED_LANGUAGE);
+        updateI18nOnNewPage();
+    } catch (error) {
+    }
+}
+
+function getSentenceFromLanguageCode(code) {
+    return selectedLanguageData[code] || defaultLanguageData[code];
+}
+
+function getLanguageDisplayName(code) {
+    let language = availableLanguages.find(lang => lang.code === code);
+    if (!language) {
+        language = availableLanguages.find(lang => lang.code === 'en');
+    }
+    return language ? language.displayName : `Failed to load language data for ${code}`;
+}
+
+function getPreferredLanguageFromNavigator() {
+    const userLanguages = navigator.languages;
+    for (const userLang of userLanguages) {
+        const langCode = userLang.includes('-') ? userLang.split('-')[0] : userLang;
+        const isLanguageSupported = availableLanguages.some(lang => lang.code === langCode);
+        if (isLanguageSupported) {
+            return langCode;
+        }
+    }
+    return DEFAULT_LANGUAGE;
+}
+
 
 async function fetchLanguageData(lang) {
     try {
@@ -35,6 +74,17 @@ async function changeLanguage(lang) {
     }
 }
 
+function setUserLanguage() {
+    let token = getCookie("session_token");
+    retrieveSettings(token)
+        .then(userData => {
+            if (!userData.error) {
+                changeLanguage(userData.lang);
+            }
+        }).catch(error => {
+    });
+}
+
 async function fetchAvailableLanguages() {
     try {
         const response = await fetch('/assets/lang/languages.json');
@@ -47,7 +97,6 @@ async function fetchAvailableLanguages() {
 }
 
 async function createLanguageDropdown() {
-    const availableLanguages = await fetchAvailableLanguages();
     const userPreferredLanguage = getLanguagePreference();
     const select = document.getElementById('settings_user_lang');
     availableLanguages.forEach(lang => {
@@ -86,7 +135,8 @@ function updatePlaceholdersI18n(langData, defaultLangData) {
 }
 
 async function loadInitialTranslations() {
-    const userPreferredLanguage = localStorage.getItem('language') || DEFAULT_LANGUAGE;
+    availableLanguages = await fetchAvailableLanguages();
+    const userPreferredLanguage = localStorage.getItem('language') || getDefaultLanguage();
     SELECTED_LANGUAGE = userPreferredLanguage;
     selectedLanguageData = await fetchLanguageData(userPreferredLanguage);
     if (userPreferredLanguage !== DEFAULT_LANGUAGE) {

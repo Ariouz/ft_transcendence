@@ -36,7 +36,10 @@ function logout()
 {
     g_friendListWebSocket.close();
     deleteCookie("session_token");
-    navigate('/');
+    removeLanguagePreference()
+        .then( _ => {
+        navigate('/');
+    });
 }
 
 function revokeAllCookies()
@@ -60,10 +63,4 @@ async function fetchBack(url)
     } catch (error) {
         throw error;
     }
-}
-
-function getFullLanguage(lang)
-{
-    let languages = {"fr": "Français", "en":"English", "es": "Español"}
-    return languages[lang];
 }
