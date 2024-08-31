@@ -1,7 +1,5 @@
 const DEFAULT_LANGUAGE = 'en';
 let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
-let selectedLanguageData = {};
-let defaultLanguageData = {};
 let availableLanguages = {};
 
 function setLanguagePreference(lang) {
@@ -20,22 +18,13 @@ async function removeLanguagePreference() {
     localStorage.removeItem('language');
     SELECTED_LANGUAGE = getDefaultLanguage();
     try {
-        selectedLanguageData = await fetchLanguageData(SELECTED_LANGUAGE);
         updateI18nOnNewPage();
     } catch (error) {
     }
 }
 
-function getSentenceFromLanguageCode(code) {
-    return selectedLanguageData[code] || defaultLanguageData[code];
-}
-
-function getLanguageDisplayName(code) {
-    let language = availableLanguages.find(lang => lang.code === code);
-    if (!language) {
-        language = availableLanguages.find(lang => lang.code === 'en');
-    }
-    return language ? language.displayName : `Failed to load language data for ${code}`;
+function getSentenceFromCode(code) {
+    return fetchTranslation(code);
 }
 
 function getPreferredLanguageFromNavigator() {
@@ -50,23 +39,11 @@ function getPreferredLanguageFromNavigator() {
     return DEFAULT_LANGUAGE;
 }
 
-
-async function fetchLanguageData(lang) {
-    try {
-        const response = await fetch(`/assets/lang/${lang}.json`);
-        return await response.json();
-    } catch (error) {
-        console.error(`Failed to load language data for ${lang}:`, error);
-        return {};
-    }
-}
-
 async function changeLanguage(lang) {
     if (lang === SELECTED_LANGUAGE)
         return;
     try {
         setLanguagePreference(lang);
-        // TODO send to server new language preference
         await updateTranslations();
         await updateI18nOnNewPage();
     } catch (error) {
@@ -87,12 +64,28 @@ function setUserLanguage() {
 
 async function fetchAvailableLanguages() {
     try {
-        const response = await fetch('/assets/lang/languages.json');
-        const data = await response.json();
-        return data.languages;
+        const url = `http://localhost:8006/languages/`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching languages: ${response.statusText}`);
+        }
+        return await response.json();
     } catch (error) {
-        console.error('Failed to load languages list:', error);
-        return [];
+        // TODO
+        return null;
+    }
+}
+
+async function getLanguageDisplayName(languageCode) {
+    try {
+        const language = languagesData.languages.find(lang => lang.code === languageCode);
+        if (!language) {
+            throw new Error(`Language with code ${languageCode} not found`);
+        }
+        return language.displayName;
+    } catch (error) {
+        // TODO
+        return null;
     }
 }
 
@@ -111,48 +104,120 @@ async function createLanguageDropdown() {
 }
 
 async function updateI18nOnNewPage() {
-    updateContent();
+    updateTextsI18n();
+    updatePlaceholdersI18n();
 }
 
-function updateContent() {
-    updateTextsI18n(selectedLanguageData, defaultLanguageData);
-    updatePlaceholdersI18n(selectedLanguageData, defaultLanguageData);
-}
-
-function updateTextsI18n(langData, defaultLangData) {
+function updateTextsI18n() {
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.getAttribute('data-i18n');
-        element.innerHTML = langData[key] || defaultLangData[key];
+        const translationPromise = fetchTranslation(key);
+        translationPromise.then((text) => {
+            element.innerHTML = text;
+        })
     });
 }
 
-function updatePlaceholdersI18n(langData, defaultLangData) {
+function updatePlaceholdersI18n() {
     document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder');
-        const placeholderText = langData[key] || defaultLangData[key];
-        element.setAttribute('placeholder', placeholderText);
+        const translationPlaceholderPromise = fetchTranslation(key);
+        translationPlaceholderPromise.then((placeholderText) => {
+            element.setAttribute('placeholder', placeholderText);
+        })
     });
 }
 
 async function loadInitialTranslations() {
-    availableLanguages = await fetchAvailableLanguages();
-    const userPreferredLanguage = localStorage.getItem('language') || getDefaultLanguage();
-    SELECTED_LANGUAGE = userPreferredLanguage;
-    selectedLanguageData = await fetchLanguageData(userPreferredLanguage);
-    if (userPreferredLanguage !== DEFAULT_LANGUAGE) {
-        defaultLanguageData = await fetchLanguageData(DEFAULT_LANGUAGE);
-    } else {
-        defaultLanguageData = selectedLanguageData;
-    }
-    updateContent(selectedLanguageData);
+    let availableLanguagesResponse = await fetchAvailableLanguages();
+    availableLanguages = availableLanguagesResponse.languages;
+    SELECTED_LANGUAGE = localStorage.getItem('language') || getDefaultLanguage();
+    await updateI18nOnNewPage();
 }
 
 async function updateTranslations() {
-    const userPreferredLanguage = getLanguagePreference();
-    if (userPreferredLanguage === SELECTED_LANGUAGE)
-        return;
-    SELECTED_LANGUAGE = userPreferredLanguage;
-    selectedLanguageData = await fetchLanguageData(userPreferredLanguage);
+    SELECTED_LANGUAGE = getLanguagePreference();
 }
+
+async function fetchTranslation(key) {
+    const translation = await fetchTranslationSelectedLanguage(key);
+    if (translation) {
+        return translation;
+    } else {
+        return await fetchTranslationDefaultLanguage(key);
+    }
+}
+
+async function fetchTranslationDefaultLanguage(key) {
+    try {
+        const url = `http://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching translation: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data[key];
+    } catch (error) {
+        // TODO
+        return null;
+    }
+}
+
+async function fetchTranslationSelectedLanguage(key) {
+    try {
+        const url = `http://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching translation: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data[key];
+    } catch (error) {
+        // TODO
+        return null;
+    }
+}
+
+async function fetchTranslationWithArgs(key, args = []) {
+    const translation = await fetchTranslationSelectedTranslationWithArgs(key, args);
+    if (translation) {
+        return translation;
+    } else {
+        return await fetchTranslationDefaultLanguageWithArgs(key, args);
+    }
+}
+
+async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
+    try {
+        const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
+        const url = `http://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/?${queryString}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching translation: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data[key];
+    } catch (error) {
+        // TODO
+        return null;
+    }
+}
+
+async function fetchTranslationDefaultLanguageWithArgs(key, args = []) {
+    try {
+        const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
+        const url = `http://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/?${queryString}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error fetching translation: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data[key];
+    } catch (error) {
+        // TODO
+        return null;
+    }
+}
+
 
 loadInitialTranslations();

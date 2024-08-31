@@ -1,4 +1,5 @@
 services:
+  ## Website services ##
   website:
     container_name: website
     build: ./website
@@ -9,6 +10,7 @@ services:
         source: ./website/src
         target: /usr/share/nginx/html
 
+  ## API Gateway services ##
   api_gateway:
     build: ./api_gateway
     container_name: api_gateway
@@ -26,6 +28,7 @@ services:
         source: ./api_gateway
         target: /api_gateway
 
+  ## Users management services ##
   users_service:
     build: ./users_service
     container_name: users-service
@@ -74,6 +77,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  ## WebSocket server services ##
   websocket_server:
     build: ./websocket_server
     container_name: websocket_server
@@ -99,6 +103,28 @@ services:
     ports:
       - "6379:6379"
 
+  ## Internationalization services ##
+  i18n_service:
+    build: ./i18n_service
+    container_name: i18n_service
+    restart: always
+    ports:
+      - ${I18N_SERVICE_PORT}:${I18N_SERVICE_PORT}
+    depends_on:
+      users_service_database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      PROJECT_NAME: "i18n_service"
+      APP_PORT: ${I18N_SERVICE_PORT}
+    volumes:
+      - type: bind
+        source: ./i18n_service
+        target: /i18n_service
+
+
+### Networks ###
 networks:
   # suggestion:
   # isolate services, forcing the site frontend to contact the API Gateway only
@@ -108,6 +134,7 @@ networks:
   website-network:
     driver: bridge
 
+### Volumes ###
 volumes:
   website:
   api_gateway:

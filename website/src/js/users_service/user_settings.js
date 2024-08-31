@@ -156,20 +156,20 @@ function showError(title, message) {
     showElement('settings_error_div',
         'settings_error_title',
         'settings_error_content',
-        getSentenceFromLanguageCode(title),
-        getSentenceFromLanguageCode(message));
+        getSentenceFromCode(title),
+        getSentenceFromCode(message));
 }
 
 function hideSuccess() {
     hideElement('settings_success_div');
 }
 
-function showSuccess(message) {
+async function showSuccess(message) {
     showElement('settings_success_div',
         'settings_success_title',
         'settings_success_content',
-        getSentenceFromLanguageCode("success"),
-        getSentenceFromLanguageCode(message));
+        await getSentenceFromCode("success"),
+        await getSentenceFromCode(message));
 }
 
 function showLoadingWheel()

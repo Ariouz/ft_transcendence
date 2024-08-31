@@ -21,17 +21,13 @@ upd:
 	@echo "Starting the Docker containers..."
 	@docker compose up -d
 
+up-d: upd
+
 buildup:
 	@echo "Starting the Docker containers..."
 	@docker compose up --build
 
 build-up: buildup
-
-upd:
-	@echo "Starting the Docker containers..."
-	@docker compose up -d
-
-up-d: upd
 
 buildupd:
 	@echo "Starting the Docker containers..."
