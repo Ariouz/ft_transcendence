@@ -78,14 +78,14 @@ async function fetchAvailableLanguages() {
 
 async function getLanguageDisplayName(languageCode) {
     try {
-        const language = languagesData.languages.find(lang => lang.code === languageCode);
+        const language = availableLanguages.find(lang => lang.code === languageCode);
         if (!language) {
             throw new Error(`Language with code ${languageCode} not found`);
         }
         return language.displayName;
     } catch (error) {
-        // TODO
-        return null;
+        // Todo
+        return "An error occured";
     }
 }
 
