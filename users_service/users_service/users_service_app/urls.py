@@ -5,6 +5,7 @@ from .auth.ft_auth_views import *
 from .auth.account import create_account, account_exists
 from .auth.account_settings import update_profile_settings, update_confidentiality_settings, delete_account
 from .friends.friends_views import authenticate_user, list_friends, add_friend, remove_friend, is_following
+from .auth.user_status import *
 
 urlpatterns = [
     path('users/', users, name="users"),
@@ -30,10 +31,15 @@ urlpatterns = [
     path('account/settings/delete/<str:access_token>', delete_account, name="delete_account"),
 
     # View other profile
-    path('user/profile/data/<str:username>', get_profile_data_username, name="get_profile_data_username"),
+    path('user/profile/data/<str:username>/', get_profile_data_username, name="get_profile_data_username"),
     path('users/all/data/', get_all_users_data, name="get_all_users_data"),
 
-    # Test Friends
+    # User status
+    path('user/online-status/get/<int:user_id>/', get_user_status, name="get_user_status"),
+    # path('user/online-status/online/<int:user_id>/', set_user_online, name="set_user_online"),
+    # path('user/online-status/offline/<int:user_id>/', set_user_offline, name="set_user_offline"),
+
+    # Friends
     path('user/authenticate/<str:token>/', authenticate_user, name='authenticate_user'),
     path('user/friends/<int:user_id>/', list_friends, name='list_friends'),
     path('user/friends/follows/<int:user_id>/<int:friend_id>/', is_following, name='is_following'),

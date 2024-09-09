@@ -61,7 +61,13 @@
 }
 
 .user_list_card_top span {
-    margin-top: 15px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .user_list_card_bottom {

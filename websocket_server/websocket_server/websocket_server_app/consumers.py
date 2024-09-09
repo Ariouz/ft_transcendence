@@ -6,6 +6,7 @@ import requests
 import traceback
 from threading import Thread
 import logging
+from .user import user_status
 
 USERS_SERVICE_URL = "http://users-service:8001/api"
 
@@ -24,6 +25,7 @@ class FriendsConsumer(WebsocketConsumer):
                 f"user_{self.user_id}",
                 self.channel_name
             )
+            user_status.set_user_online(self.user_id)
         else:
             self.close()
 
@@ -41,6 +43,7 @@ class FriendsConsumer(WebsocketConsumer):
                 f"user_{self.user_id}",
                 self.channel_name
             )
+            user_status.set_user_offline(self.user_id)
 
     def authenticate_user(self, token):
         logging.getLogger("websocket_logger").info('Attempting to authenticate user with token "%s"...', token)

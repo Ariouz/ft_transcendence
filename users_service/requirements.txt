@@ -29,3 +29,4 @@ sqlparse==0.4.2
 channels_redis
 requests
 pillow
+redis

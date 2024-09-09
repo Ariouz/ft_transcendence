@@ -7,7 +7,7 @@ function addFloor(floorId)
     container.appendChild(floor);
 }
 
-function addUserCard(username, avatar, floorId)
+function addUserCard(username, avatar, floorId, userId)
 {
     let container = document.getElementById("users_list_floor_"+floorId);
     if (container == null)
@@ -24,12 +24,18 @@ function addUserCard(username, avatar, floorId)
                                     <img src="${avatar}" alt="avatar" \
                                     class="rounded-circle" id="" style="max-width: 180px; height: auto;"> \
                                 </div> \
-                                <span>${username}</span> \
+                                <span> \
+                                    <div class="online-status-container"> \
+                                        <div class="online-status-circle" id="user_online_status_circle-${userId}"></div> \
+                                        <div class="online-status-radar" id="user_online_status_radar-${userId}"></div> \
+                                    </div> \
+                                    ${username} </span> \
                             </div> \
                             <div class="user_list_card_bottom"> \
                                 <button class="btn btn-outline-primary" onclick="navigate('/users/profile/${username}')">View profile</button> \
                             </div>`;
     container.appendChild(element);
+    setRightStatus(`user_online_status_circle-${userId}`, `user_online_status_radar-${userId}`, userId);
 }
 
 async function loadUsers()
@@ -55,7 +61,7 @@ async function displayCards(userList)
     let floorId = 0;
     for (user of userList)
         {
-        addUserCard(user.username, user.avatar, Math.floor(floorId / 5));
+        addUserCard(user.username, user.avatar, Math.floor(floorId / 5), user.id);
         floorId++;
     }
 }
