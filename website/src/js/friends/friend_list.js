@@ -74,7 +74,7 @@ function displayFriendList() {
         let friendElement = document.createElement('li');
         friendElement.id = `user-${friend.user_id}`;
         friendElement.className = 'list-group-item card-content-background';
-        friendElement.innerText = `${friend.username}`;
+        friendElement.innerHTML = `<span onclick="navigate('/users/profile/${friend.username}')" style="cursor:pointer; text-decoration: underline;">${friend.username}</span>`;
         friendListElement.appendChild(friendElement);
     })
 }
