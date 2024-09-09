@@ -79,6 +79,7 @@ def send_friend_update(user_id):
 
 def send_new_friend_notification(target_id, user_id):
     channel_layer = get_channel_layer()
+    
     async_to_sync(channel_layer.group_send)(
         f"user_{target_id}", {"type": "new_follower", "follower_username": User.objects.get(user_id=user_id).username}
     )

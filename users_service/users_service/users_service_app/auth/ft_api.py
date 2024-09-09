@@ -6,7 +6,6 @@ def get_access_token(grantType, code=None, redirect=None, url="https://api.intra
     UID = os.getenv("API_42_UID")
     SECRET = os.getenv("API_42_SECRET")
 
-
     payload = {
         "grant_type": grantType,
         "client_id": UID,
