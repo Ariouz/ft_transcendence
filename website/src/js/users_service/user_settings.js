@@ -11,8 +11,8 @@ function removeNavHighlight(items) {
 }
 
 function showSection(section, title_i18n_ref, nav_item) {
-    const sections = ["settings_profile_section", "settings_friends_section", "settings_confidentiality_section", "settings_account_section"];
-    const nav_items = ["settings_nav_profile", "settings_nav_friends", "settings_nav_confidentiality", "settings_nav_account"];
+    const sections = ["settings_profile_section", "settings_confidentiality_section", "settings_account_section"];
+    const nav_items = ["settings_nav_profile", "settings_nav_confidentiality", "settings_nav_account"];
 
     hideError();
     hideSuccess();
@@ -61,10 +61,6 @@ function showProfileSection() {
         const selectedLang = langSelect.value;
         changeLanguage(selectedLang);
     });
-}
-
-function showFriendsSection() {
-    showSection("settings_friends_section", "friends_settings", "settings_nav_friends");
 }
 
 function showConfidentialitySection() {
