@@ -16,11 +16,8 @@ function handleRouting() {
     {
         routeUser(parts, params);
     }
-    else if (path === '/pong') {
-        loadContent("/pages/pong.html", () => {
-            // TODO Temporary. This will normally be replaced by game management via the back end.
-            Game.startGameLoop();
-        });
+    else if (parts[0] == "pong") {
+        routePong(parts, params);
     }
     else if (path === '/login') {
         loadContent("/pages/user/auth/login.html");
@@ -103,6 +100,21 @@ function routeUser(parts, params)
         if (!isLoggedIn())
             navigate("/login");
         else loadContent("/pages/users/public_profile.html");
+}
+
+function routePong(parts, params)
+{
+    if (parts.length === 1)
+    {
+        loadContent("/pages/pong/pong_home.html");
+    }
+    else if (parts[1] === "game")
+    {
+        loadContent("/pages/pong/pong_game.html", () => {
+            // TODO Temporary. This will normally be replaced by game management via the back end.
+            Game.startGameLoop();
+        });
+    }
 }
 
 function loadContent(url, onPageLoaded = () => {}) {

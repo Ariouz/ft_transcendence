@@ -1,0 +1,174 @@
+@import url("../../variables.css");
+
+.pong_home_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin-top: -50px;
+    background-color: #140152;
+    background: radial-gradient(circle, transparent 20%, #140152 20%, #140152 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #140152 20%, #140152 80%, transparent 80%, transparent) 100px 100px, linear-gradient(#0D00A4 8px, transparent 8px) 0 -4px, linear-gradient(90deg, #0D00A4 8px, #140152 8px) -4px 0;
+    background-size: 200px 200px, 200px 200px, 100px 100px, 100px 100px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+    box-shadow: inset 0px 0px 150px 100px var(--marine-blue);
+}
+
+.pong_home_title span {
+    font-size: 3em;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 5px var(--flashy-pink);
+    transform-origin: center;
+    animation: pong_title 6s infinite;
+}
+
+@keyframes pong_title {
+    0%  { transform: translateY(0%)      scale(1); }
+    45% { transform: translateY(-25%)    scale(0.95); }
+    90% { transform: translateY(0%)      scale(1); }
+}
+
+.pong_home_content {
+    background: var(--marine-blue);
+    margin-top: -60px;
+    margin-bottom: -20px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pong_home_top_cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.pong_home_types_container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.pong_home_sidebar_card {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    right: 10%;
+}
+
+.pong_home_sidebar_button {
+    padding: 10px 15px;
+    width: 250px;
+    background-color: blue;
+    border-radius: 25px;
+    margin: 10px;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.pong_home_sidebar_button:hover {
+    transform: scale(1.01);
+}
+
+.pong_home_sidebar_leaderboard {
+    background-color: #5e17eb;
+    border: 3px solid #ffa500;
+}
+
+.pong_home_sidebar_leaderboard:hover {
+    background-color: #f39c12;
+    box-shadow: 0 0 5px 3px #cd840e;
+}
+
+.pong_home_sidebar_rules {
+    background-color: #0077cc;
+    border: 3px solid #0077cc;
+}
+
+.pong_home_sidebar_rules:hover {
+    background-color: #035c9c;
+}
+
+.pong_home_sidebar_settings {
+    background-color: #34495e;
+    border: 3px solid #2c3e50;
+}
+
+.pong_home_sidebar_settings:hover {
+    background-color: #283848;
+}
+
+.pong_home_type_item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: var(--purple-blue);
+    border: 3px double var(--marine-blue);
+    box-shadow: 0 0 5px var(--purple-blue);
+    border-radius: 5px;
+    padding: 25px;
+    height: 275px;
+    width: 250px;
+    margin: 0px 50px;
+    transition: 0.3s ease;
+}
+
+.pong_home_type_item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 5px var(--flashy-pink);
+}
+
+.pong_home_item_title {
+    font-size: 1.5em;
+}
+
+.pong_home_play_button {
+    cursor: pointer;
+    margin: auto;
+    padding: 10px;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    width: 75%;
+    background-color: var(--light-purple-blue);
+    border: 2px solid var(--flashy-pink);
+    transition: ease 0.3s;
+}
+
+.pong_home_play_button:hover {
+    color: var(--light-beige);
+    background-color: var(--purple-blue);
+}
+
+.pong_home_spectator {
+    cursor: pointer;
+    margin-top: 75px;
+    padding: 5px;
+    min-width: 20%;
+    background-color: var(--purple-blue);
+    border: 1px solid var(--light-purple-blue);
+    border-radius: 5px;
+    text-align: center;
+    transition: ease 0.3s;
+}
+
+.pong_home_spectator:hover {
+    background-color: var(--flashy-pink);
+    border: 1px solid var(--purple-blue);
+}
+

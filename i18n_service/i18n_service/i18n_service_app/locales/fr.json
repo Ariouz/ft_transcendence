@@ -74,5 +74,14 @@
   "invalid_file_extension": "Extension de fichier invalide",
   "only_jpg_and_png_are_allowed": "Seuls les fichiers .jpg et .png sont autorisés.",
   "whatever_sentence": "Voici votre premier mot : %s, et voici votre deuxième mot : %s.",
-  "user_logged_in_message_format_name": "Vous êtes connecté en tant que %s !"
+  "user_logged_in_message_format_name": "Vous êtes connecté en tant que %s !",
+  "pong_home_1v1_title": "1 contre 1",
+  "pong_home_tournament_title": "Tournois",
+  "play_button": "JOUER",
+  "pong_leaderboard_button": "Classement",
+  "pong_how_to_play": "Comment jouer",
+  "pong_home_settings": "Paramètres",
+  "pong_home_spectator_mode": "Mode spectateur",
+  "pong_home_1v1_desc": "Partie locale ou en ligne",
+  "pong_home_tournament_desc": "De 4 à 8 joueurs"
 }
