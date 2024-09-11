@@ -101,3 +101,22 @@ footer div {
 ::-webkit-scrollbar-button {
     display: none;
 }
+
+/* Black screen filter */
+.black_screen_filter {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+    z-index: 150;
+    animation: black_screen_filter 0.5s 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+@keyframes black_screen_filter {
+    0% { opacity: 0; }
+    100% { opacity: 0.5; }
+}
