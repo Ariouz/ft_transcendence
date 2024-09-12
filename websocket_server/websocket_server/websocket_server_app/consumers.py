@@ -1,8 +1,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
-# from ft_http.fthttp import fthttp
-import requests
+from ft_requests import ftrequests
 import traceback
 from threading import Thread
 import logging
@@ -48,22 +47,22 @@ class FriendsConsumer(WebsocketConsumer):
     def authenticate_user(self, token):
         logging.getLogger("websocket_logger").info('Attempting to authenticate user with token "%s"...', token)
         try:
-            user_resp = requests.get(f'{USERS_SERVICE_URL}/user/authenticate/{token}/')
+            user_resp = ftrequests.get(f'{USERS_SERVICE_URL}/user/authenticate/{token}/')
             user_resp.raise_for_status()
             user_data = user_resp.json()
             logging.getLogger("websocket_logger").info('Found user with id %d.', user_data['user_id'])
             return user_data['user_id']
-        except requests.RequestException:
+        except ftrequests.RequestException:
             return None
 
     def fetch_friends(self):
         logging.getLogger("websocket_logger").info('Fetching user %d\'s friends...', self.user_id)
         try:
-            friends_resp = requests.get(f'{USERS_SERVICE_URL}/user/friends/{self.user_id}/')
+            friends_resp = ftrequests.get(f'{USERS_SERVICE_URL}/user/friends/{self.user_id}/')
             friends_resp.raise_for_status()
             friends_data = friends_resp.json()
             self.send(text_data=json.dumps(friends_data))
-        except requests.RequestException as e:
+        except ftrequests.RequestException as e:
             error_message = {
                 'error': 'Failed to fetch friends',
                 'details': str(e),
@@ -80,11 +79,11 @@ class FriendsConsumer(WebsocketConsumer):
 
     def update_friend_list(self, user_id):
         try:
-            friends_resp = requests.get(f'{USERS_SERVICE_URL}/user/friends/{user_id}/')
+            friends_resp = ftrequests.get(f'{USERS_SERVICE_URL}/user/friends/{user_id}/')
             friends_resp.raise_for_status()
             friends_data = friends_resp.json()
             self.send(text_data=json.dumps(friends_data))
-        except requests.RequestException as e:
+        except ftrequests.RequestException as e:
             error_message = {
                 'error': 'Failed to update friends list',
                 'details': str(e),

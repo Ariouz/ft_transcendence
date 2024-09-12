@@ -3,8 +3,8 @@
 PYTHON=python3
 PIP=pip3
 MANAGE="${PYTHON} ${PROJECT_NAME}/manage.py"
-FT_HTTP_VERSION="0.1"
-FT_HTTP_WHEEL="ft_http-${FT_HTTP_VERSION}-py3-none-any.whl"
+FT_REQUESTS_VERSION="0.1"
+FT_REQUESTS_WHEEL="ft_requests-${FT_REQUESTS_VERSION}-py3-none-any.whl"
 
 DJANGO_APP="${PROJECT_NAME}_app"
 ADDRESS="0.0.0.0:${APP_PORT}"
@@ -31,7 +31,7 @@ echo "Install dependencies"
 $PIP install -r requirements.txt
 
 $PIP install requests
-$PIP install --force-reinstall ./${FT_HTTP_WHEEL}
+# $PIP install --force-reinstall ./${FT_REQUESTS_WHEEL}
 
 echo "Setup database"
 $MANAGE makemigrations $DJANGO_APP

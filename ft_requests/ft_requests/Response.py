@@ -3,11 +3,16 @@ import json
 from urllib.parse import urlparse
 from .exceptions import *
 
+
 class Response:
     def __init__(self, status, data):
         self.status = status
         self.data = data
         self._json = None
+
+    @property
+    def status_code(self):
+        return self.status
 
     def raise_for_status(self):
         if not (200 <= self.status < 300):
@@ -21,6 +26,12 @@ class Response:
                 raise ValueError("Invalid JSON response")
         return self._json
 
+    def __str__(self):
+        return f"Response(status_code={self.status}, data={self.data[:100]})"  # Limite les données à 100 caractères
+
+    def __repr__(self):
+        return self.__str__()
+
 
 def get_response_data(conn):
     try:
@@ -28,13 +39,11 @@ def get_response_data(conn):
         data = response.read().decode("utf-8")
         conn.close()
         return Response(response.status, data)
-    except (http.client.HTTPException) as e:
+    except http.client.HTTPException as e:
         raise RequestException(f"Connection error: {e}")
-
 
 
 def parse_url(url):
     urlParsed = urlparse(url)
     host, path = urlParsed.hostname, urlParsed.path
     return host, path
-

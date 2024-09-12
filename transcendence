@@ -6,9 +6,9 @@
 
 Module:
     Web:
-        Module majeur : Utiliser un framework en backend.
-        Module mineur : Utiliser un framework ou toolkit en frontend.
-        Module mineur : Utiliser une base de données en backend.
+        Module majeur : Utiliser un framework en backend.    ==============================================> OK
+        Module mineur : Utiliser un framework ou toolkit en frontend.    ==================================> OK
+        Module mineur : Utiliser une base de données en backend.    =======================================> OK
 
     Gestion utilisateur:
         Module majeur : Gestion utilisateur standard, authentification, utilisateurs
@@ -22,7 +22,7 @@ Module:
         Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs, gestion des données locales et suppression de comptes
     Accessibilité:
         Module mineur : Étendre la compatibilité des navigateurs web.
-        Module mineur : Support de multiple langues.
+        Module mineur : Support de multiple langues.    ===================================================> OK
     Devops:
         Module majeur : Design du backend comme Microservices.
     Orienté objet:

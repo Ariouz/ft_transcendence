@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ft_http"
+name = "ft_requests"
 version = "0.1"
 dependencies = []
 description = "An HTTP client utility library for ft_transcendence, using the http.client module of the standard Python library."

@@ -17,8 +17,8 @@ api_gateway/api_gateway/db.sqlite3
 ### JetBrains IDEs ###
 .idea/
 
-# ft_http copies
-*/ft_http
-!ft_http/
+# ft_requests copies
+*/ft_requests
+!ft_requests/
 
 users_service/users_service/media

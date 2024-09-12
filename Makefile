@@ -6,10 +6,10 @@ remove:
 	@echo "Removing all containers..."
 	@docker rm $$(docker ps -a -q)
 
-clean: stop remove
+clean: stop remove delete_libs
 	@echo "All containers have been stopped and removed."
 
-build:
+build: update_libs
 	@echo "Building the Docker image..."
 	@docker compose build
 
@@ -23,19 +23,20 @@ upd:
 
 up-d: upd
 
-buildup:
+buildup: update_libs
 	@echo "Starting the Docker containers..."
 	@docker compose up --build
 
 build-up: buildup
+up-build: buildup
 
-buildupd:
+buildupd: update_libs
 	@echo "Starting the Docker containers..."
 	@docker compose up --build -d
 
 build-up-d: buildupd
 
-down:
+down: delete_libs
 	@echo "Stopping the Docker containers..."
 	@docker compose down
 
@@ -61,6 +62,21 @@ prune:
 
 restart: down up
 	@echo "Docker containers have been restarted."
+
+
+LIBS := ft_requests
+
+update_libs:
+	@for lib in $(LIBS); do \
+		echo "Updating $$lib..."; \
+		cd $$lib && ./build_and_deploy.sh && cd -; \
+	done
+
+delete_libs:
+	@for lib in $(LIBS); do \
+		echo "Deleting $$lib..."; \
+		cd $$lib && ./remove_deployment.sh && cd -; \
+	done
 
 
 DB_NAME=postgres

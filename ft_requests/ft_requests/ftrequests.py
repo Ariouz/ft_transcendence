@@ -1,8 +1,8 @@
 import http.client
 import json
-from Response import *
+from .Response import *
 
-class fthttp:
+class ftrequests:
     @staticmethod
     def get(url, headers=None):
         host, path = parse_url(url)
@@ -16,17 +16,17 @@ class fthttp:
 
 
     @staticmethod
-    def post(url, body=None, headers=None):
+    def post(url, data=None, headers=None):
         host, path = parse_url(url)
         conn = http.client.HTTPSConnection(host)
 
         if headers is None:
             headers = {"Content-Type": "application/json"}
 
-        if body and isinstance(body, dict):
-            body = json.dumps(body)
+        if data and isinstance(data, dict):
+            data = json.dumps(data)
 
-        conn.request("POST", path, body, headers)
+        conn.request("POST", path, data, headers)
         return get_response_data(conn)
 
 
