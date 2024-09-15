@@ -64,18 +64,18 @@ restart: down up
 	@echo "Docker containers have been restarted."
 
 
-LIBS := ft_requests
+LIBS := ft_requests ft_i18n
 
 update_libs:
 	@for lib in $(LIBS); do \
 		echo "Updating $$lib..."; \
-		cd $$lib && ./build_and_deploy.sh && cd -; \
+		cd $$lib && ./scripts/build_and_deploy.sh && cd -; \
 	done
 
 delete_libs:
 	@for lib in $(LIBS); do \
 		echo "Deleting $$lib..."; \
-		cd $$lib && ./remove_deployment.sh && cd -; \
+		cd $$lib && ./scripts/remove_deployment.sh && cd -; \
 	done
 
 

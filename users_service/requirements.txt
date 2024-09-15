@@ -1,3 +1,5 @@
+./libs/ft_i18n-0.1-py3-none-any.whl
+./libs/ft_requests-0.1-py3-none-any.whl
 asgiref==3.4.1
 Django==4.0.1
 django-cors-headers==3.11.0

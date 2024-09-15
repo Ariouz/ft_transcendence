@@ -30,9 +30,6 @@ source .venv/bin/activate
 echo "Install dependencies"
 $PIP install -r requirements.txt
 
-$PIP install requests
-# $PIP install --force-reinstall ./${FT_REQUESTS_WHEEL}
-
 echo "Setup database"
 $MANAGE makemigrations $DJANGO_APP
 $MANAGE migrate

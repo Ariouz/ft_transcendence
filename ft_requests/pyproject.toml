@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "ft_requests"
 version = "0.1"
 dependencies = []
-description = "An HTTP client utility library for ft_transcendence, using the http.client module of the standard Python library."
+description = "A library that clones the 'requests' library without any dependencies, using the http.client module of the standard Python library."
 authors = [
     {name = "ElloWorld", email = "contact@elloworld.dev" }
 ]
