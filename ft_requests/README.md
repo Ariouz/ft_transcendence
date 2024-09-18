@@ -1,3 +1,11 @@
+# ft_requests
+
+A simplified 'requests' clone, built with http.client from Python's standard library, allowing easy migration by replacing requests with ft_requests.
+
+# Installation
+
+pip install <.whl file>
+
 If you encounter an error like:
 ```py
 TypeError: canonicalize_version() got an unexpected keyword argument 'strip_trailing_zero'

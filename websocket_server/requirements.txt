@@ -1,3 +1,4 @@
+./libs/ft_requests-0.1-py3-none-any.whl
 asgiref==3.4.1
 attrs==21.4.0
 autobahn==21.11.1

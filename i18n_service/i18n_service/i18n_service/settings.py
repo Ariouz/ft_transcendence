@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-wvk5#&%d_()g%b!q=mg$jpnrsfafa5%v&+!lwn^fr*ze8m#59b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # TODO change
+
+import os
+
+I18N_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE');
 
 
 # Application definition

@@ -1,6 +1,20 @@
-const DEFAULT_LANGUAGE = 'en';
+var DEFAULT_LANGUAGE = 'en';
 let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
 let availableLanguages = {};
+const I18N_SERVICE_URL = "http://localhost:8006"
+
+async function assignDefaultLanguage() {
+    const url = `${I18N_SERVICE_URL}/default-language/`;
+    try {
+        const data = await fetchBack(url);
+        return data.default_language;
+    } catch (error) {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
 
 function setLanguagePreference(lang) {
     localStorage.setItem('language', lang);
@@ -59,7 +73,7 @@ function setUserLanguage() {
                 changeLanguage(userData.lang);
             }
         }).catch(error => {
-    });
+        });
 }
 
 async function fetchAvailableLanguages() {
@@ -129,6 +143,7 @@ function updatePlaceholdersI18n() {
 }
 
 async function loadInitialTranslations() {
+    DEFAULT_LANGUAGE = (await assignDefaultLanguage()) || DEFAULT_LANGUAGE;
     let availableLanguagesResponse = await fetchAvailableLanguages();
     availableLanguages = availableLanguagesResponse.languages;
     SELECTED_LANGUAGE = localStorage.getItem('language') || getDefaultLanguage();

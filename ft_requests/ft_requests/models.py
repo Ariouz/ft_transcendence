@@ -1,3 +1,5 @@
+# https://github.com/psf/requests/blob/main/src/requests/models.py
+
 import http.client
 import json
 from urllib.parse import urlparse
@@ -27,7 +29,7 @@ class Response:
         return self._json
 
     def __str__(self):
-        return f"Response(status_code={self.status}, data={self.data[:100]})"  # Limite les données à 100 caractères
+        return f"Response(status_code={self.status}, data={self.data[:100]})"
 
     def __repr__(self):
         return self.__str__()

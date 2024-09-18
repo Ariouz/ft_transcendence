@@ -2,21 +2,44 @@ from users_service_app.models import *
 from django.core.files.storage import default_storage
 from django.http import JsonResponse
 from django.conf import settings
-from django.core.files.base import ContentFile
-from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
-from .ft_api import get_access_token, get_user_data
-from uuid import uuid4
+from django.views.decorators.http import require_http_methods
 import os
+from django.conf import settings
+import ft_i18n
+import ft_requests
+
+
+def get_preferred_language(request):
+    accept_language = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+    if not accept_language:
+        return settings.USERS_DEFAULT_LANGUAGE_CODE
+    try:
+        available_languages = ft_i18n.fetch_available_languages()
+    except ft_requests.exceptions.RequestException as e:
+        return settings.USERS_DEFAULT_LANGUAGE_CODE
+    if not available_languages:
+        return settings.USERS_DEFAULT_LANGUAGE_CODE
+    user_languages = [lang.split(';')[0] for lang in accept_language.split(',')]
+    for user_lang in user_languages:
+        lang_code = user_lang.split('-')[0] if '-' in user_lang else user_lang
+        if lang_code in available_languages:
+            return lang_code
+    return settings.USERS_DEFAULT_LANGUAGE_CODE
+
 
 @csrf_exempt
+# @require_http_methods(["POST"])
 def update_profile_settings(request, access_token):
+    lang = get_preferred_language(request)    
     if request.method != "POST":
-        return JsonResponse({"error":"invalid_method", "details":"this_request_must_be_post"})
-
-    user = User.objects.get(token=access_token)
+        return JsonResponse({"error":"invalid_method", "details": ft_i18n.get_translation(lang, "this_request_must_be_post")})
+    try:
+        user = User.objects.get(token=access_token)
+    except Exception as e:
+        return JsonResponse({"error":"user_not_found", "details":ft_i18n.get_translation(lang, "cannot_find_user_with_this_token")})
     if not user:
-        return JsonResponse({"error":"user_not_found", "details":"cannot_find_user_with_this_token"})
+        return JsonResponse({"error":"user_not_found", "details":ft_i18n.get_translation(lang, "cannot_find_user_with_this_token")})
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
 

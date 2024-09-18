@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from i18n_service_app.views import translations_view, translation_by_key_view, languages_view
+from i18n_service_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('translations/<str:lang_code>/', translations_view, name='translations_view'),
     path('translations/<str:lang_code>/<str:key>/', translation_by_key_view, name='translation_by_key_view'),
     path('languages/', languages_view, name='languages_view'),
+    path('default-language/', default_language, name='default_language'),
 ]

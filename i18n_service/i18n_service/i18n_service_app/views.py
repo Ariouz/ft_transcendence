@@ -1,5 +1,10 @@
 from django.http import JsonResponse
 from .utils import load_translation, load_languages
+from django.conf import settings
+
+def default_language(request):
+    default_language = settings.I18N_DEFAULT_LANGUAGE_CODE
+    return JsonResponse({'default_language': default_language})
 
 # https://stackoverflow.com/questions/34798703/creating-utf-8-jsonresponse-in-django
 def utf8JsonResponse(data):

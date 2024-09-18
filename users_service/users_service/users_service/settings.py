@@ -26,10 +26,14 @@ SECRET_KEY = 'django-insecure-tr82r85d29dtay_inmg36fh+hmyjw)m=cck7tu-abdft(@e9z)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*'] # TODO change
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE');
+
 
 # Application definition
 
@@ -113,33 +117,53 @@ DATABASES = {
 # Logging
 # https://docs.djangoproject.com/en/1.11/topics/logging
 import os
+import sys
 
 # usage:
 # import logging
 # logger = logging.getLogger("users_logger")
 # logger.info('test: %s', '42')
 
+# Allows print()
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
     'handlers': {
         'console': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'filters': ['require_debug_true'],
+            'stream': sys.stdout,
         },
     },
     'loggers': {
-        'users_logger': {
+        'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': 'DEBUG',
         },
     },
 }
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#             'filters': ['require_debug_true'],
+#         },
+#     },
+#     'loggers': {
+#         'users_logger': {
+#             'handlers': ['console'],
+#             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+#         },
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

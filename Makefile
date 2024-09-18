@@ -1,3 +1,9 @@
+DEFAULT_LANGUAGE=en
+
+SERVICES := api_gateway users_service i18n_service websocket_server
+LIBS := ft_requests ft_i18n
+
+
 stop:
 	@echo "Stopping all running containers..."
 	@docker stop $$(docker ps -q)
@@ -9,7 +15,7 @@ remove:
 clean: stop remove delete_libs
 	@echo "All containers have been stopped and removed."
 
-build: update_libs
+build: update_libs update_i18n
 	@echo "Building the Docker image..."
 	@docker compose build
 
@@ -23,14 +29,14 @@ upd:
 
 up-d: upd
 
-buildup: update_libs
+buildup: update_libs update_i18n
 	@echo "Starting the Docker containers..."
 	@docker compose up --build
 
 build-up: buildup
 up-build: buildup
 
-buildupd: update_libs
+buildupd: update_libs update_i18n
 	@echo "Starting the Docker containers..."
 	@docker compose up --build -d
 
@@ -63,22 +69,40 @@ prune:
 restart: down up
 	@echo "Docker containers have been restarted."
 
-
-LIBS := ft_requests ft_i18n
-
-update_libs:
+update_libs: delete_virtual_environments
+	@echo "Adding libraries to backends..."
 	@for lib in $(LIBS); do \
 		echo "Updating $$lib..."; \
 		cd $$lib && ./scripts/build_and_deploy.sh && cd -; \
 	done
 
-delete_libs:
+delete_libs: delete_virtual_environments
+	@echo "Removing libraries from backends..."
 	@for lib in $(LIBS); do \
 		echo "Deleting $$lib..."; \
 		cd $$lib && ./scripts/remove_deployment.sh && cd -; \
 	done
 
+delete_virtual_environments:
+	@echo "Removing virtual environments from backends..."
+	@for service in $(SERVICES); do \
+		echo "Deleting $$service virtual environment..."; \
+		cd $$service && sudo rm -rf .venv/ && cd -; \
+	done
 
+LOCALES_PATH=i18n_service/i18n_service/i18n_service_app/locales
+TO_SET_LOCALE_PATHS=website/src/assets/locale/ \
+					ft_i18n/ft_i18n/locale/
+
+update_i18n:
+	for path in ${TO_SET_LOCALE_PATHS}; do \
+		mkdir -p $$path; \
+		cp -f ${LOCALES_PATH}/${DEFAULT_LANGUAGE}.json $$path; \
+	done
+
+#########################################
+############### TO REMOVE ###############
+#########################################
 DB_NAME=postgres
 DB_USER=postgres
 CONTAINER_NAME="users_service-database"
@@ -110,6 +134,10 @@ clear_users:
 
 list_tables:
 	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "\dt"
+#########################################
+############# end TO REMOVE #############
+#########################################
+
 
 structure:
 	@if [ -z "$(path)" ]; then \
@@ -128,5 +156,10 @@ structure:
 		-print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 
-.PHONY: stop remove clean build up down logs clean-images fclean-images clean-volumes prune restart \
-		insert_user insert_test_user view_users clear_users list_tables structure
+.PHONY: stop remove clean \
+		build up upd up-d buildup build-up up-build buildupd build-up-d \
+		down logs clean-images fclean-images clean-volumes prune restart \
+		update_libs delete_libs delete_virtual_environments \
+		update_i18n \
+		insert_user insert_test_user view_users clear_users list_tables \
+		structure

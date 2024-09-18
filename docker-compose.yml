@@ -53,6 +53,7 @@ services:
       DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+      DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
     volumes:
       - type: bind
         source: ./users_service
@@ -106,7 +107,7 @@ services:
   ## Internationalization services ##
   i18n_service:
     build: ./i18n_service
-    container_name: i18n_service
+    container_name: i18n-service
     restart: always
     ports:
       - ${I18N_SERVICE_PORT}:${I18N_SERVICE_PORT}
@@ -117,6 +118,7 @@ services:
         condition: service_started
     environment:
       PROJECT_NAME: "i18n_service"
+      DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
       APP_PORT: ${I18N_SERVICE_PORT}
     volumes:
       - type: bind

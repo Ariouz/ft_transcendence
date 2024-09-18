@@ -4,7 +4,7 @@ from django.core.files.base import ContentFile
 from django.shortcuts import redirect
 from .ft_api import get_access_token, get_user_data
 from uuid import uuid4
-from ft_requests import ftrequests
+import ft_requests
 import os
 
 def create_account(request):
@@ -28,7 +28,7 @@ def create_account(request):
 
     avatar = request.GET.get("avatar")
     try:
-        response = ftrequests.get(avatar)
+        response = ft_requests.get(avatar)
         if response.status_code == 200:
             avatar_content = ContentFile(response.content)
             avatar_name =f'/user_{user.user_id}.jpg'

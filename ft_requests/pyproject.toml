@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "ft_requests"
 version = "0.1"
 dependencies = []
-description = "A library that clones the 'requests' library without any dependencies, using the http.client module of the standard Python library."
+description = "A simplified 'requests' clone, built with http.client from Python's standard library, allowing easy migration by replacing requests with ft_requests."
 authors = [
     {name = "ElloWorld", email = "contact@elloworld.dev" }
 ]
