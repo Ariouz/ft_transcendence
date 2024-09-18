@@ -26,7 +26,7 @@ def get_translation(lang, key):
             if translation == None:
                 return key
         return translation
-    except ft_requests.exceptions.RequestException as e:
+    except Exception as e:
         try:
             translation = get_translation_from_locale_file(key)
             if translation == None:

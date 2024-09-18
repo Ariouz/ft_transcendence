@@ -73,7 +73,6 @@
   "file_size_exceeds_2mb": "La taille du fichier dépasse 2 Mo.",
   "invalid_file_extension": "Extension de fichier invalide",
   "only_jpg_and_png_are_allowed": "Seuls les fichiers .jpg et .png sont autorisés.",
-  "whatever_sentence": "Voici votre premier mot : %s, et voici votre deuxième mot : %s.",
   "user_logged_in_message_format_name": "Vous êtes connecté en tant que %s !",
   "pong_home_1v1_title": "1 contre 1",
   "pong_home_tournament_title": "Tournois",

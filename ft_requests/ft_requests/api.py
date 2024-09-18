@@ -3,6 +3,7 @@
 import http.client
 import json
 from .models import *
+from .utils import *
 
 
 def send_request(method, url, body=None, headers=None):
@@ -13,12 +14,19 @@ def send_request(method, url, body=None, headers=None):
     if headers is None:
         headers = {}
     try:
-        host, path = parse_url(url)
-        conn = http.client.HTTPSConnection(host)
+        host, path, port, scheme = parse_url(url)
+        conn = None
+        if scheme == "https":
+            conn = http.client.HTTPSConnection(host, port=port)
+        elif scheme == "http":
+            conn = http.client.HTTPConnection(host, port=port)
+        else:
+            raise RequestException(f"Unsupported URL scheme: {scheme}")
         conn.request(method=method, url=path, body=body, headers=headers)
+        response_data = get_response_data(conn)
     except Exception as e:
         raise RequestException(f"Connection error: {e}")
-    return get_response_data(conn)
+    return response_data
 
 
 def get(url, headers=None):

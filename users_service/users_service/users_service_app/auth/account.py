@@ -1,12 +1,10 @@
 from users_service_app.models import *
 from django.http import JsonResponse
 from django.core.files.base import ContentFile
-from django.shortcuts import redirect
-from .ft_api import get_access_token, get_user_data
-from uuid import uuid4
 import ft_requests
-import os
+from django.views.decorators.http import require_http_methods
 
+@require_http_methods(["GET"])
 def create_account(request):
     username = request.GET.get("username")
     email = request.GET.get("email")
@@ -39,6 +37,7 @@ def create_account(request):
 
     return JsonResponse({"message":"Account successfully created", "user_id":user.user_id, "token":token}, status=200)
 
+@require_http_methods(["GET"])
 def account_exists(request):
     username = request.GET.get("username")
     token = request.GET.get("token")

@@ -1,6 +1,7 @@
 from users_service_app.models import *
 from django.http import JsonResponse
 from .ft_api import get_access_token, get_user_data
+from django.views.decorators.http import require_http_methods
 
 # /auth/42
 def ft_auth(request):
@@ -8,6 +9,7 @@ def ft_auth(request):
     return JsonResponse({"url":url})
 
 # /auth/42/access?code=
+@require_http_methods(["GET"])
 def ft_auth_access(request):
     code = request.GET.get("code", None)
     if code is None:

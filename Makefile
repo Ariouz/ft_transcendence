@@ -2,7 +2,8 @@ DEFAULT_LANGUAGE=en
 
 SERVICES := api_gateway users_service i18n_service websocket_server
 LIBS := ft_requests ft_i18n
-
+PYTHON_VERSION := python3.12
+VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
 
 stop:
 	@echo "Stopping all running containers..."
@@ -69,25 +70,29 @@ prune:
 restart: down up
 	@echo "Docker containers have been restarted."
 
-update_libs: delete_virtual_environments
+update_libs: delete_libs_virtual_environments
 	@echo "Adding libraries to backends..."
 	@for lib in $(LIBS); do \
 		echo "Updating $$lib..."; \
 		cd $$lib && ./scripts/build_and_deploy.sh && cd -; \
 	done
 
-delete_libs: delete_virtual_environments
+delete_libs: delete_libs_virtual_environments
 	@echo "Removing libraries from backends..."
 	@for lib in $(LIBS); do \
 		echo "Deleting $$lib..."; \
 		cd $$lib && ./scripts/remove_deployment.sh && cd -; \
 	done
 
-delete_virtual_environments:
+delete_libs_virtual_environments:
 	@echo "Removing virtual environments from backends..."
 	@for service in $(SERVICES); do \
-		echo "Deleting $$service virtual environment..."; \
-		cd $$service && sudo rm -rf .venv/ && cd -; \
+		echo "Deleting libraries from $$service virtual environment..."; \
+		for lib in $(LIBS); do \
+			echo "Removing $$lib from $$service..."; \
+			sudo rm -rf $$service/$(VENV_PATH)/$$lib; \
+			sudo rm -rf $$service/$(VENV_PATH)/$${lib}-0.1.dist-info; \
+		done; \
 	done
 
 LOCALES_PATH=i18n_service/i18n_service/i18n_service_app/locales
@@ -159,7 +164,7 @@ structure:
 .PHONY: stop remove clean \
 		build up upd up-d buildup build-up up-build buildupd build-up-d \
 		down logs clean-images fclean-images clean-volumes prune restart \
-		update_libs delete_libs delete_virtual_environments \
+		update_libs delete_libs delete_libs_virtual_environments \
 		update_i18n \
 		insert_user insert_test_user view_users clear_users list_tables \
 		structure

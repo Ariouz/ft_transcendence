@@ -2,7 +2,6 @@
 
 import http.client
 import json
-from urllib.parse import urlparse
 from .exceptions import *
 
 
@@ -33,19 +32,3 @@ class Response:
 
     def __repr__(self):
         return self.__str__()
-
-
-def get_response_data(conn):
-    try:
-        response = conn.getresponse()
-        data = response.read().decode("utf-8")
-        conn.close()
-        return Response(response.status, data)
-    except http.client.HTTPException as e:
-        raise RequestException(f"Connection error: {e}")
-
-
-def parse_url(url):
-    urlParsed = urlparse(url)
-    host, path = urlParsed.hostname, urlParsed.path
-    return host, path
