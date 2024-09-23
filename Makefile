@@ -105,6 +105,9 @@ update_i18n:
 		cp -f ${LOCALES_PATH}/${DEFAULT_LANGUAGE}.json $$path; \
 	done
 
+install_wheel:
+	python3 -m pip install wheel
+
 #########################################
 ############### TO REMOVE ###############
 #########################################
