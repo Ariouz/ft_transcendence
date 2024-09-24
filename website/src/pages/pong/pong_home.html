@@ -60,6 +60,7 @@
         popup = document.getElementById("pong_home_rules_popup");
         popup.style.top = "45%";
         popup.style.opacity = "1";
+        popup.style.display = "block";
         popup.classList.add("pong_home_rules_popup");
     }
 
@@ -73,6 +74,7 @@
         popup.style.opacity = "0%";
         setTimeout(() => {
             blackScreen.classList.remove("black_screen_filter");
+            popup.style.display = "none";
             if (popup.style.opacity != "0%") return ;
             popup.classList.remove("pong_home_rules_popup");
         }, 500);
