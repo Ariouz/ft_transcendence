@@ -19,7 +19,7 @@ Module:
         Module mineur : Option de personnalisation du jeu.
     Cybersécurité:
         Module majeur : Mettez en place un pare-feu d’application Web (WAF) ou ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour la gestion des secrets.
-        Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs, gestion des données locales et suppression de comptes
+        Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs, gestion des données locales et suppression de comptes                                         ===================================================> OK
     Accessibilité:
         Module mineur : Étendre la compatibilité des navigateurs web.
         Module mineur : Support de multiple langues.    ===================================================> OK

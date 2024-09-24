@@ -8,8 +8,6 @@
             const session_token = getCookieAcccessToken();
             const logged_in = isLoggedIn();
 
-            console.log("Cookie: " + session_token);
-
             loggedInMsg.style.display = logged_in ? 'block' : 'none';
 
             if (logged_in)
@@ -18,14 +16,9 @@
 
                 retrieveUsername(session_token)
                 .then(data => {
-                    console.log(data.username);
                     fetchTranslationWithArgs('user_logged_in_message_format_name', [data.username])
                         .then(translatedMessage => {
-                            if (translatedMessage) {
-                                loggedInMsg.innerText = translatedMessage;
-                            } else {
-                                loggedInMsg.innerText = "Error";
-                            }
+                            loggedInMsg.innerText = translatedMessage ? translatedMessage : "Error";
                         }).catch(error => {
                         loggedInMsg.innerText = error;
                     });

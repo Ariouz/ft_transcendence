@@ -28,6 +28,10 @@ function handleRouting() {
     {
         loadContent("/pages/misc/cookie_policy.html");
     }
+    else if (path === "/privacy-policy")
+    {
+        loadContent("/pages/misc/privacy_policy.html");
+    }
     else if (path === '/login') {
         loadContent("/pages/user/auth/login.html");
     }
