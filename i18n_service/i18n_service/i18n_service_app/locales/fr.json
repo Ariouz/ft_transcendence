@@ -82,5 +82,7 @@
   "pong_home_settings": "Paramètres",
   "pong_home_spectator_mode": "Mode spectateur",
   "pong_home_1v1_desc": "Partie locale ou en ligne",
-  "pong_home_tournament_desc": "De 4 à 8 joueurs"
+  "pong_home_tournament_desc": "De 4 à 8 joueurs",
+  "matchmaking_looking_for_oppponent": "Recherche d'adversaire...",
+  "matchmaking_leave_queue":"Quitter la file d'attente"
 }
