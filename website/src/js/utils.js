@@ -45,6 +45,7 @@ function logout()
 function revokeAllCookies()
 {
     logout();
+    deleteCookie("redirect");
 }
 
 async function fetchBack(url)
@@ -75,4 +76,21 @@ function showNotification(text, duration)
     setTimeout(() => {
         animatedDiv.classList.remove('show');
     }, duration * 1000);
+}
+
+function setRedirectCookie(redirect)
+{
+    setCookie("redirect", redirect);
+}
+
+function navigateToRedirectOr(defaultURL)
+{
+    let redirectCookie = getCookie("redirect");
+    if (redirectCookie)
+    {
+        navigate("/" + redirectCookie);
+        deleteCookie("redirect");
+    }
+    else
+        navigate(defaultURL);
 }

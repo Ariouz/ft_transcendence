@@ -9,5 +9,8 @@
 </div>
 
 <script>
+    params = new URLSearchParams(window.location.search);
+    if (params.get('redirect'))
+        setRedirectCookie(params.get("redirect"));
     if (isLoggedIn()) navigate('/')
 </script>

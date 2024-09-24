@@ -7,7 +7,6 @@ function showError(error)
 
 function redirectToAuth(data)
 {
-    console.log(data.url);
     window.location.replace(data.url);
 }
 
@@ -31,7 +30,8 @@ async function createAccount(username, email, token, avatar, fullname)
         console.log("Account exists, skip creation");
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         createWebSocketFriendList();
-        navigate('/');
+
+        navigateToRedirectOr("/");
         // window.location.reload();
         return ;
     }
@@ -41,7 +41,7 @@ async function createAccount(username, email, token, avatar, fullname)
         console.log(data);
         setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
         createWebSocketFriendList();
-        navigate('/');
+        navigateToRedirectOr("/");
         window.location.reload();
     })
     .catch(error => {

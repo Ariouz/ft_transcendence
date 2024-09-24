@@ -23,11 +23,11 @@ function handleRouting() {
         loadContent("/pages/user/auth/login.html");
     }
     else if (path === '/profile') {
-        if (!isLoggedIn()) navigate("/login");
+        if (!isLoggedIn()) navigate("/login?redirect=profile");
         else loadContent("/pages/user/profile.html");
     }
     else if (parts[0] === 'settings') {
-        if (!isLoggedIn()) navigate("/login");
+        if (!isLoggedIn()) navigate("/login?redirect=settings");
         else loadContent("/pages/user/settings.html");
     }
     else if (path === '/') {
@@ -52,20 +52,20 @@ function routeAuth(parts, params)
         {
             let code = params.get("code");
             if (code === undefined) { navigate('/error'); return; }
-            console.log(code);
+            // console.log(code);
             loadContent("/pages/user/auth/access_code.html");
             ftRetrieveClientAccessToken(code)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
-                console.log(token_data);
+                // console.log(token_data);
                 if (token_data.error) {
                     alert("An error occured, please try again.");
                     navigate("/login");
                     return ;
                 }
-                console.log("Access token: " + token_data.access_token);
+                // console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
-                    console.log(data);
+                    // console.log(data);
                     createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name)
                         .then( r => {
                             setUserLanguage();
@@ -85,7 +85,7 @@ function routeUser(parts, params)
     if (parts.length === 1)
     {
         if (!isLoggedIn())
-            navigate("/login");
+            navigate("/login?redirect=users");
         else loadContent("/pages/users/list_users.html");
         return ;
     }
@@ -98,7 +98,7 @@ function routeUser(parts, params)
 
     if (parts[1] === "profile")
         if (!isLoggedIn())
-            navigate("/login");
+            navigate("/login?redirect=users/profile/"+parts[2]);
         else loadContent("/pages/users/public_profile.html");
 }
 
@@ -117,6 +117,8 @@ function routePong(parts, params)
     }
     else if (parts[1] === "matchmaking")
     {
+        if (!isLoggedIn())
+            navigate("/login?redirect=pong");
         loadContent("/pages/pong/pong_matchmaking.html");
     }
 }
