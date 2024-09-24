@@ -115,6 +115,10 @@ function routePong(parts, params)
             Game.startGameLoop();
         });
     }
+    else if (parts[1] === "matchmaking")
+    {
+        loadContent("/pages/pong/pong_matchmaking.html");
+    }
 }
 
 function loadContent(url, onPageLoaded = () => {}) {

@@ -1,0 +1,65 @@
+@import url('../../variables.css');
+
+.matchmaking_container
+{
+    margin: auto;
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--marine-blue);
+    width: 50%;
+    padding: 20px;
+}
+
+.matchmaking_cards
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.matchmaking_loading_spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0px 20px;
+}
+
+.matchmaking_card
+{
+    padding: 20px;
+}
+
+.matchmaking_avatar_container
+{
+    overflow: hidden;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: 3px inset var(--flashy-pink);
+}
+
+.matchmaking_leave_queue_button
+{
+    margin: auto;
+    margin-top: 30px;
+    padding: 10px;
+    background-color: var(--marine-blue);
+    font-size: 1em;
+    text-align: center;
+    width: 30%;
+    border: 1px solid var(--marine-blue);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.matchmaking_leave_queue_button:hover
+{
+    border: 1px solid var(--light-beige);
+}

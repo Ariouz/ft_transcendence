@@ -1,0 +1,42 @@
+<div class="matchmaking_container">
+    <h2>Looking for opponent...</h2>
+    <div class="matchmaking_cards">
+        <div class="matchmaking_card">
+            <div class="matchmaking_avatar_container">
+                <img src="../../assets/images/default_avatar.svg" alt="avatar" class="rounded-circle" id="matchmaking_user_avatar" style="max-width: 180px; height: auto;">
+            </div>
+        </div>
+        <div class="spinner-border matchmaking_loading_spinner" role="status"> <span class="visually-hidden">Loading...</span> </div>
+        <div class="matchmaking_card">
+            <div class="matchmaking_avatar_container">
+                <img src="../../assets/images/default_avatar.svg" alt="avatar" class="rounded-circle" id="" style="max-width: 180px; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="matchmaking_leave_queue_button" onclick="leaveMatchmakingQueue()">
+    <span>Leave the queue</span>
+</div>
+
+<script>
+    async function loadData()
+    {
+        token = getCookie("session_token");
+        userData = await retrieveSettings(token);
+        if (userData.error)
+        {
+            navigate("/login");
+            return ;
+        }
+        document.getElementById("matchmaking_user_avatar").src = userData.avatar;
+    }
+
+    function leaveMatchmakingQueue()
+    {
+        navigate("/pong");
+        // todo remove from queue
+    }
+
+    loadData();
+</script>
