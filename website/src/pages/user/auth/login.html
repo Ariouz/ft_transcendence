@@ -13,4 +13,7 @@
     if (params.get('redirect'))
         setRedirectCookie(params.get("redirect"));
     if (isLoggedIn()) navigate('/')
+
+    if (!doConsentCookies())
+        setCookieBannerVisibility("flex", "100");
 </script>

@@ -5,6 +5,11 @@ function handleRouting() {
 
     parts.shift();
 
+    setCookieBannerVisibility("none", "0"); 
+    if (!doConsentCookies())
+        setCookieBannerVisibility("flex", "100");
+
+
     // TODO Temporary. This will normally be replaced by game management via the back end.
     Game.stopGameLoop();
     if (parts[0] === "api")

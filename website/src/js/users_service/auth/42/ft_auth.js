@@ -27,20 +27,24 @@ async function accountExists(username, token)
 async function createAccount(username, email, token, avatar, fullname)
 {
     if (await accountExists(username, token)){
-        console.log("Account exists, skip creation");
-        setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
-        createWebSocketFriendList();
-
+        
+        if (doConsentCookies())
+        {
+            setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+            createWebSocketFriendList();
+        }
         navigateToRedirectOr("/");
-        // window.location.reload();
+        window.location.reload();
         return ;
     }
     let url = `http://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
     fetchBack(url)
     .then(data => {
-        console.log(data);
-        setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
-        createWebSocketFriendList();
+        if (doConsentCookies())
+        {
+            setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
+            createWebSocketFriendList();
+        }
         navigateToRedirectOr("/");
         window.location.reload();
     })
@@ -51,6 +55,8 @@ async function createAccount(username, email, token, avatar, fullname)
 
 async function ftGetAccess()
 {
+    setCookieBannerVisibility("none", "0");
+
     let url = `${FT_AUTH_URL}`;
     getFromURL(url, redirectToAuth, showError);
 }

@@ -46,6 +46,8 @@ function revokeAllCookies()
 {
     logout();
     deleteCookie("redirect");
+    deleteCookie("cookie_consent");
+    window.location.reload();
 }
 
 async function fetchBack(url)
@@ -80,7 +82,8 @@ function showNotification(text, duration)
 
 function setRedirectCookie(redirect)
 {
-    setCookie("redirect", redirect);
+    if (doConsentCookies())
+        setCookie("redirect", redirect);
 }
 
 function navigateToRedirectOr(defaultURL)
@@ -93,4 +96,9 @@ function navigateToRedirectOr(defaultURL)
     }
     else
         navigate(defaultURL);
+}
+
+function doConsentCookies()
+{
+    return getCookie("cookie_consent");
 }
