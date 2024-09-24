@@ -26,7 +26,11 @@ def parse_url(url):
 def get_response_data(conn):
     try:
         response = conn.getresponse()
-        data = response.read().decode("utf-8")
+        content_type = response.getheader('Content-Type')
+        if 'text' in content_type or 'application/json' in content_type:
+            data = response.read().decode("utf-8")
+        else:
+            data = response.read()
         conn.close()
         return Response(response.status, data)
     except http.client.HTTPException as e:
