@@ -24,6 +24,10 @@ function handleRouting() {
     else if (parts[0] == "pong") {
         routePong(parts, params);
     }
+    else if (path === "/cookie-policy")
+    {
+        loadContent("/pages/misc/cookie_policy.html");
+    }
     else if (path === '/login') {
         loadContent("/pages/user/auth/login.html");
     }

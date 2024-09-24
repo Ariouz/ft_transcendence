@@ -58,6 +58,7 @@ body {
 footer {
     margin-top: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 150px;
@@ -68,6 +69,19 @@ footer {
 footer div {
     text-align: center;
     margin: auto;
+}
+
+.footer_link
+{
+    margin: 0px 20px;
+    color: #ffffeeaa;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.footer_link:hover
+{
+    color: #ffffeedd;
 }
 
 /* Scroll Bar */
