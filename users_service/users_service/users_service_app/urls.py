@@ -8,7 +8,7 @@ from .friends.friends_views import authenticate_user, list_friends, add_friend, 
 from .auth.user_status import *
 
 urlpatterns = [
-    path('users/', users, name="users"),
+    # path('users/', users, name="users"),
 
     # Auth
     path('auth/42/', ft_auth, name="ft_auth"),
