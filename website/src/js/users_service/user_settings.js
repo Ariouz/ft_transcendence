@@ -152,8 +152,8 @@ function showError(title, message) {
     showElement('settings_error_div',
         'settings_error_title',
         'settings_error_content',
-        getSentenceFromCode(title),
-        getSentenceFromCode(message));
+        title,
+        message);
 }
 
 function hideSuccess() {
@@ -165,7 +165,7 @@ async function showSuccess(message) {
         'settings_success_title',
         'settings_success_content',
         await getSentenceFromCode("success"),
-        await getSentenceFromCode(message));
+        await message);
 }
 
 function showLoadingWheel()
