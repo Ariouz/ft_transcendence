@@ -1,0 +1,1 @@
+const PONG_QUEUE_API = `${PONG_SERVICE_URL}/queue`;

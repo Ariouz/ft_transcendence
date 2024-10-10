@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_DIRS=("../users_service")
+TARGET_DIRS=("../users_service" "../pong_service")
 LIB_NAME="ft_i18n"
 LIB_FILENAME="${LIB_NAME:?}-0.1-py3-none-any.whl"
 LIB_OUTPUT_DIR="dist"

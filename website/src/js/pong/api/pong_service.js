@@ -1,0 +1,1 @@
+const PONG_SERVICE_URL = "http://localhost:8002/api";

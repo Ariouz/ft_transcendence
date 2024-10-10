@@ -78,6 +78,35 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  # pong services
+  pong_service:
+    build: ./pong_service
+    container_name: pong-service
+    restart: always
+    ports:
+      - ${PONG_SERVICE_PORT}:${PONG_SERVICE_PORT}
+    depends_on:
+      users_service_database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      PROJECT_NAME: "pong_service"
+      APP_PORT: ${PONG_SERVICE_PORT}
+      DATABASE_HOST: ${USERS_DB_CONTAINER_NAME}
+      DATABASE_PORT: ${USERS_DB_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+      DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
+    volumes:
+      - type: bind
+        source: ./pong_service
+        target: /pong_service
+
   ## WebSocket server services ##
   websocket_server:
     build: ./websocket_server
@@ -141,4 +170,5 @@ volumes:
   website:
   api_gateway:
   users_service:
+  pong_service:
   pgdata:

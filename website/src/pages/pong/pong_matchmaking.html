@@ -32,11 +32,64 @@
         document.getElementById("matchmaking_user_avatar").src = userData.avatar;
     }
 
+    // fetch(this.action, {
+    //         method: 'POST',
+    //         body: formData,
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         hideLoadingWheel();
+    //         if (data.error)
+    //             showError(data.error, data.details);
+    //         else
+    //             showSuccess(data.success)
+    //     })
+    //     .catch(error => {
+    //         showError(error.error, error.details);
+    //         hideLoadingWheel();
+    //     })
+
+    function joinQueue()
+    {
+        let url = `${PONG_QUEUE_API}/join/`;
+
+        let requestData = { user_id: 0 };
+
+        data = fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        }).then(data => data.json())
+        .then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
     function leaveMatchmakingQueue()
     {
-        navigate("/pong");
-        // todo remove from queue
+        let url = `${PONG_QUEUE_API}/leave/`;
+
+        let requestData = { user_id: 0 };
+
+        data = fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        }).then(data => data.json())
+        .then(data => {
+            console.log(data);
+            navigate("/pong");
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     loadData();
+    joinQueue();
 </script>

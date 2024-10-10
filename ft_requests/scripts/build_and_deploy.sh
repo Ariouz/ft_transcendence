@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_DIRS=("../api_gateway" "../users_service" "../websocket_server" "../ft_i18n")
+TARGET_DIRS=("../api_gateway" "../users_service" "../websocket_server" "../ft_i18n" "../pong_service")
 LIB_NAME="ft_requests"
 LIB_FILENAME="${LIB_NAME:?}-0.1-py3-none-any.whl"
 LIB_OUTPUT_DIR="dist"
