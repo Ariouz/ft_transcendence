@@ -34,7 +34,9 @@ function isLoggedIn()
 
 function logout()
 {
-    g_friendListWebSocket.close();
+    if (g_pongWebSocket) g_pongWebSocket.close();
+    if (g_friendListWebSocket) g_friendListWebSocket.close();
+    
     deleteCookie("session_token");
     removeLanguagePreference()
         .then( _ => {

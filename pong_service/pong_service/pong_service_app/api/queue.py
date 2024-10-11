@@ -3,21 +3,24 @@ from django.core.files.base import ContentFile
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
-import game_endpoints
 import ft_requests
 import redis
 import json
+from . import game_endpoints
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
 
 def is_user_in_queue(user_id):
-    return redis_client.exists(redis_pong_1_1_queue, user_id)
+    queue = redis_client.lrange(redis_pong_1_1_queue, 0, -1)
+    decode_queue = [uid.decode("utf-8") for uid in queue]
+    return user_id in decode_queue
 
 def check_queue_size():
     if redis_client.llen(redis_pong_1_1_queue) >= 2:
         users = []
-        users.append(redis_client.rpop(redis_pong_1_1_queue, 2))
+        users.append(redis_client.rpop(redis_pong_1_1_queue).decode("utf-8"))
+        users.append(redis_client.rpop(redis_pong_1_1_queue).decode("utf-8"))
         game_endpoints.create_game(users)
 
 
@@ -57,4 +60,4 @@ def leave_queue(request):
         return JsonResponse({"error":"Not in queue", "details":"User is not in the queue"}) # TODO change to error_response
     
     redis_client.lrem(redis_pong_1_1_queue, 0, user_id)
-    return JsonResponse({"success":"Successfully leaved the queue!"}) # TODO change to success_response
+    return JsonResponse({"success":"Successfully left the queue!"}) # TODO change to success_response

@@ -49,11 +49,15 @@
     //         hideLoadingWheel();
     //     })
 
-    function joinQueue()
+    sessionToken = getCookie("session_token");
+    
+    async function joinQueue()
     {
         let url = `${PONG_QUEUE_API}/join/`;
 
-        let requestData = { user_id: 0 };
+        let userId = await retrieveId(sessionToken);
+        console.log(userId.user_id);
+        let requestData = { user_id: userId.user_id };
 
         data = fetch(url, {
             method: 'POST',
@@ -69,11 +73,13 @@
         });
     }
 
-    function leaveMatchmakingQueue()
+    async function leaveMatchmakingQueue()
     {
         let url = `${PONG_QUEUE_API}/leave/`;
 
-        let requestData = { user_id: 0 };
+        let userId = await retrieveId(sessionToken);
+        console.log(userId.user_id);
+        let requestData = { user_id: userId.user_id };
 
         data = fetch(url, {
             method: 'POST',

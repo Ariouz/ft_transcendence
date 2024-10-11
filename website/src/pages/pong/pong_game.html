@@ -4,3 +4,21 @@
     <script src="../js/pong/playerMovement.js"></script>
     <script src="../js/pong/gameloop.js"></script>
 </div>
+
+<script>
+    async function loadGame()
+    {
+        let params = new URLSearchParams(window.location.search);
+        let userId = "";
+        let gameId = params.get("gid");
+
+        if (gameId == undefined) {
+            navigate("/pong");
+            return;
+        }
+
+        await checkGame(0, gameId);
+    }
+
+    loadGame();
+</script>

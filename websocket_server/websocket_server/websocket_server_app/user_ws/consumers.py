@@ -5,7 +5,7 @@ import ft_requests
 import traceback
 from threading import Thread
 import logging
-from .user import user_status
+from ..user import user_status
 
 USERS_SERVICE_URL = "http://users-service:8001/api"
 

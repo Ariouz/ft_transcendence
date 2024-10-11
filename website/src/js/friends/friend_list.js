@@ -5,12 +5,15 @@ let errorRetrievingFriends = false;
 let g_friendListWebSocket;
 
 // Create WebSocket connection if user was already logged-in when opening the page
-window.onload = (event) => {
+function loadFriendsWebsocket()
+{
+    console.log("WS loading friend");
     if (g_friendListWebSocket)
         return;
     let user_token = getCookie("session_token");
     if (user_token && user_token.length > 0) {
         createWebSocketFriendList();
+        console.log("WS friend");
     }
 }
 
