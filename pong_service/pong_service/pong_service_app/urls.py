@@ -7,5 +7,6 @@ urlpatterns = [
     path('queue/leave/', queue.leave_queue, name="leave_queue"),
 
     path('game/data/', game.get_game_data, name="get_game_data"),
+    path('game/start/', game.start_game, name="start_game"),
 
 ]

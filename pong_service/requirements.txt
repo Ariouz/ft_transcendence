@@ -32,3 +32,4 @@ channels_redis
 requests
 pillow
 redis
+asyncio

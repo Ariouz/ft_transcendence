@@ -6,7 +6,7 @@ from pong_service_app.models import *
 import ft_requests
 import redis
 import json
-from . import game_endpoints
+from . import game_manager
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
@@ -21,7 +21,7 @@ def check_queue_size():
         users = []
         users.append(redis_client.rpop(redis_pong_1_1_queue).decode("utf-8"))
         users.append(redis_client.rpop(redis_pong_1_1_queue).decode("utf-8"))
-        game_endpoints.create_game(users)
+        game_manager.create_game(users)
 
 
 @csrf_exempt

@@ -1,4 +1,5 @@
+
 window.onload = (event) => {
     loadFriendsWebsocket();
-    loadPongWebsocket();
+    loadPongUserWebsocket();
 }
