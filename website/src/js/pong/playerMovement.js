@@ -4,10 +4,24 @@
 
 function updateLeftPaddlePosition() {
     if (Game.controls.upPressed) {
-        Game.paddle.leftY = Math.max(Game.paddle.leftY - Game.paddle.speed, 0);
+        // Game.paddle.leftY = Math.max(Game.paddle.leftY - Game.paddle.speed, 0);
+        g_pongGameWebSocket.send(JSON.stringify({
+            type: "player_move",
+            data: {
+                player_paddle: g_pongGamePlayerPaddle,
+                direction: "UP"
+            }
+        }))
     }
     if (Game.controls.downPressed) {
-        Game.paddle.leftY = Math.min(Game.paddle.leftY + Game.paddle.speed, Game.canvas.height - Game.paddle.height);
+        // Game.paddle.leftY = Math.min(Game.paddle.leftY + Game.paddle.speed, Game.canvas.height - Game.paddle.height);
+        g_pongGameWebSocket.send(JSON.stringify({
+            type: "player_move",
+            data: {
+                player_paddle: g_pongGamePlayerPaddle,
+                direction: "DOWN"
+            }
+        }))
     }
 }
 

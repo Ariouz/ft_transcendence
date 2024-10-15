@@ -7,9 +7,13 @@ import traceback
 from threading import Thread
 import logging
 from ..user import user_status
+import asyncio
+from redis.asyncio import Redis
 
 USERS_SERVICE_URL = "http://users-service:8001/api"
 PONG_SERVICE_URL = "http://pong-service:8002/api"
+
+redis_client_pong = Redis(host="redis-websocket-users", port="6379", db=0)
 
 # https://channels.readthedocs.io/en/latest/topics/consumers.html#websocketconsumer
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups
@@ -51,9 +55,13 @@ class PongGameConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         try:
             data = json.loads(text_data)
-            logging.getLogger("websocket_logger").info('Received pong game data from user %d:\n%s', self.game_id, data)
+            logging.getLogger("websocket_logger").info('Received pong game data from game %d:\n%s', self.game_id, data)
+
+            await redis_client_pong.xadd(f"pong_game_{self.game_id}_stream", {"message":text_data})
+            logging.getLogger("websocket_logger").info('Sent the data to redis stream')
+
         except:
-            logging.getLogger("websocket_logger").info('Invalid pong game data from user %d:\n%s', self.game_id, data)
+            logging.getLogger("websocket_logger").info('Invalid pong game data from game %d:\n%s', self.game_id, data)
 
     # Called when the socket closes
     async def disconnect(self, close_code):

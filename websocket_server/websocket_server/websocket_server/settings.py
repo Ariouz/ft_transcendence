@@ -50,6 +50,7 @@ CHANNEL_LAYERS = {
             "hosts": [('redis-websocket-users', 6379)],
         },
     },
+    
 }
 
 MIDDLEWARE = [
