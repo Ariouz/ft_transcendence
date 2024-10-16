@@ -5,6 +5,7 @@
 const Game = {
     canvas: null,
     ctx: null,
+    isPaused: null,
     isRunning: null,
 
     paddle: {
@@ -38,6 +39,7 @@ const Game = {
         this.paddle.rightY = (this.canvas.height - this.paddle.height) / 2;
         this.ball.x = this.canvas.width / 2;
         this.ball.y = this.canvas.height / 2;
+        this.isPaused = false;
         this.isRunning = true;
     },
 

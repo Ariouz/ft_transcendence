@@ -54,21 +54,27 @@ async def start_game(game_id):
 async def game_loop(game_state:PongGameState, players):
     redis_task = asyncio.create_task(listen_to_redis(game_state))
 
+    await time_ball(players, game_state, "")
+
     while game_state.is_running:
         await asyncio.sleep(0.016)
 
-        game_state.update_ball_pos() # ce code fait juste +1 sur la position
+        game_state.update_ball_pos()
 
-        # todo check collisions
         game_state.check_ball_wall_collision()
         game_state.check_ball_paddle_collision()
-        game_state.check_score()
+
+        scoring_player = game_state.check_score()
+        if not scoring_player == "":
+            await time_ball(players, game_state, scoring_player)
 
         game_data = game_state.get_state()
         await send_game_state_to_players(players, game_data)
         # logging.getLogger("django").info(f"Game loop {game_state.game_id}")
 
-        if game_state.players['player1']['score'] >= 2: # todo change by win check
+        if game_state.check_win():
+            # todo get the winner
+            game_state.is_paused = True
             game_state.is_running = False
             await send_game_state_to_players(players, game_state.get_state())
             redis_task.cancel()
@@ -77,23 +83,44 @@ async def game_loop(game_state:PongGameState, players):
             except:
                 pass
 
+# used to delay the game start / restart after score
+async def time_ball(players, game_state:PongGameState, scoring_player):
+    game_state.is_paused = True
+    game_state.reset_ball()
+    game_state.reset_players_pos()
+    game_state.ball_velocity = {'x': 0, 'y': 0}
+
+    ball_timer = 5 # seconds before restart
+    if not scoring_player == "":
+        await send_scored_to_players(scoring_player, game_state.get_state(), ball_timer)
+
+    await send_game_state_to_players(players, game_state.get_state())
+    await asyncio.sleep(ball_timer)
+    game_state.is_paused = False
+    game_state.reset_ball()
 
 
 async def send_game_state_to_players(players, game_data):
     channel_layer = get_channel_layer()
-
-    # logging.getLogger("django").info(f"Game update sending to {game_data["game_id"]} with data {game_data}")
 
     await channel_layer.group_send(
         f"pong_game_{game_data['game_id']}",
         {
             "type": "game_state_update",
             "state": game_data
-        }
-    )
+        })
 
-    # logging.getLogger("django").info(f"Game update sent to {game_data["game_id"]}")
 
+async def send_scored_to_players(scoring_player, game_data, ball_timer):
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        f"pong_game_{game_data['game_id']}",
+        {
+            "type": "game_player_scored",
+            "state": game_data,
+            "scoring_player": scoring_player,
+            "countdown_timer": ball_timer
+        })
 
 async def listen_to_redis(game_state:PongGameState):
     redis_client = await redis.asyncio.Redis.from_url('redis://redis-websocket-users:6379')
@@ -111,7 +138,7 @@ async def listen_to_redis(game_state:PongGameState):
                     for msg_id, message_data in messages:
                         message_str = message_data[b'message'].decode("utf-8")
                         message_dict = json.loads(message_str)
-                        logging.getLogger("django").info(f"received msg from redis {message_dict}")
+                        # logging.getLogger("django").info(f"received msg from redis {message_dict}")
                         await handle_redis_message(message_dict, game_state)
 
             await asyncio.sleep(0.016)
@@ -126,9 +153,11 @@ async def listen_to_redis(game_state:PongGameState):
 async def handle_redis_message(message_data, game_state:PongGameState):
     if not message_data['type']:
         return
-    # {'type': 'player_move', 'data': {'player_paddle': 'player1', 'direction': 'DOWN'}}
 
     if message_data['type'] == "player_move":
+        if game_state.is_paused or not game_state.is_running:
+            return
+
         if not message_data['data']:
             return
         data = message_data['data']
@@ -139,6 +168,6 @@ async def handle_redis_message(message_data, game_state:PongGameState):
             return
         direction = data['direction']
         game_state.move_player(player_paddle, direction)
-        logging.getLogger("django").info(f"Moved {player_paddle} {direction}")
+        # logging.getLogger("django").info(f"Moved {player_paddle} {direction}")
 
 

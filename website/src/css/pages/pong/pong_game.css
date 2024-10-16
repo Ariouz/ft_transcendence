@@ -4,7 +4,7 @@
     --canvas-color: var(--electric-blue);
     --canvas-stroke-color: var(--purple-blue);
     --shadow-color: rgba(0, 0, 0, 0.5);
-    --net-color: var(--light-beige);
+    --net-color: #ffffff80;
 }
 
 #pongCanvas {

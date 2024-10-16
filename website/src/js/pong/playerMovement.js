@@ -3,7 +3,7 @@
  */
 
 function updateLeftPaddlePosition() {
-    if (!Game.isRunning) return;
+    if (Game.isPaused || !Game.isRunning) return;
     if (Game.controls.downPressed && Game.controls.upPressed) return;
 
     if (Game.controls.upPressed) {

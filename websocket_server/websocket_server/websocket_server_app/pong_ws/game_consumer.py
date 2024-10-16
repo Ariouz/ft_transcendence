@@ -55,10 +55,7 @@ class PongGameConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         try:
             data = json.loads(text_data)
-            logging.getLogger("websocket_logger").info('Received pong game data from game %d:\n%s', self.game_id, data)
-
             await redis_client_pong.xadd(f"pong_game_{self.game_id}_stream", {"message":text_data})
-            logging.getLogger("websocket_logger").info('Sent the data to redis stream')
 
         except:
             logging.getLogger("websocket_logger").info('Invalid pong game data from game %d:\n%s', self.game_id, data)
@@ -122,5 +119,13 @@ class PongGameConsumer(AsyncWebsocketConsumer):
 
     async def game_state_update(self, event):
         state = event['state']
-        logging.getLogger("websocket_logger").info('Received game state update for game %d', state['game_id'])
         await self.send(text_data=json.dumps({"type": "game_state_update", "state": state}))
+    
+
+    async def game_player_scored(self, event):
+        state = event['state']
+        scoring_player = event['scoring_player']
+        countdown = event['countdown_timer']
+
+        logging.getLogger("websocket_logger").info('Received game score for game %d', state['game_id'])
+        await self.send(text_data=json.dumps({"type": "game_player_scored", "state": state, "scoring_player": scoring_player, "countdown_timer": countdown}))
