@@ -3,6 +3,9 @@
  */
 
 function updateLeftPaddlePosition() {
+    if (!Game.isRunning) return;
+    if (Game.controls.downPressed && Game.controls.upPressed) return;
+
     if (Game.controls.upPressed) {
         // Game.paddle.leftY = Math.max(Game.paddle.leftY - Game.paddle.speed, 0);
         g_pongGameWebSocket.send(JSON.stringify({
@@ -11,7 +14,7 @@ function updateLeftPaddlePosition() {
                 player_paddle: g_pongGamePlayerPaddle,
                 direction: "UP"
             }
-        }))
+        }));
     }
     if (Game.controls.downPressed) {
         // Game.paddle.leftY = Math.min(Game.paddle.leftY + Game.paddle.speed, Game.canvas.height - Game.paddle.height);
@@ -21,7 +24,7 @@ function updateLeftPaddlePosition() {
                 player_paddle: g_pongGamePlayerPaddle,
                 direction: "DOWN"
             }
-        }))
+        }));
     }
 }
 

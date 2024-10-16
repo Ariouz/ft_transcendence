@@ -9,6 +9,7 @@ function handleRouting() {
     if (!doConsentCookies())
         setCookieBannerVisibility("flex", "100");
 
+    // Todo remove from matchmaking queue + pause game if playing
 
     // TODO Temporary. This will normally be replaced by game management via the back end.
     Game.stopGameLoop();

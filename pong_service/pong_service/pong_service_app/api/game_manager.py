@@ -67,6 +67,7 @@ async def game_loop(game_state:PongGameState, players):
 
         if game_state.ball_position['y'] >= 400:
             game_state.is_running = False
+            await send_game_state_to_players(players, game_state.get_state())
             redis_task.cancel()
             try:
                 await redis_task

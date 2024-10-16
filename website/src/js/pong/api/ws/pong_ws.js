@@ -3,8 +3,7 @@
 let g_pongUserWebSocket;
 let g_pongGameWebSocket;
 let g_pongGamePlayerPaddle;
-
-let g_error_pong_ws;
+let g_pongGameState;
 
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
@@ -76,7 +75,7 @@ function createPongGameWebSocket() {
             const data = JSON.parse(e.data);
             g_error_pong_ws = false;
             if (data.type)
-                {
+            {
                 let state = data.state;
                 /*
                 {"type":"game_state_update","state":
@@ -97,6 +96,9 @@ function createPongGameWebSocket() {
                     else if (state.players.player2.id == userId)
                         g_pongGamePlayerPaddle = 'player2';
                 }
+
+                if (state.running != Game.isRunning)
+                    Game.isRunning = !Game.isRunning;
                 
                 console.log(JSON.stringify(data));
                 ball = state.ball_position;
@@ -124,7 +126,7 @@ function createPongGameWebSocket() {
                 
             }
             else
-            g_error_pong_ws = true;
+                g_error_pong_ws = true;
         } catch (error) {
             g_error_pong_ws = true;
         }
