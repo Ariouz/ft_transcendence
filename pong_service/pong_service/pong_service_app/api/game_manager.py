@@ -60,12 +60,15 @@ async def game_loop(game_state:PongGameState, players):
         game_state.update_ball_pos() # ce code fait juste +1 sur la position
 
         # todo check collisions
+        game_state.check_ball_wall_collision()
+        game_state.check_ball_paddle_collision()
+        game_state.check_score()
 
         game_data = game_state.get_state()
         await send_game_state_to_players(players, game_data)
         # logging.getLogger("django").info(f"Game loop {game_state.game_id}")
 
-        if game_state.ball_position['y'] >= 400:
+        if game_state.players['player1']['score'] >= 2: # todo change by win check
             game_state.is_running = False
             await send_game_state_to_players(players, game_state.get_state())
             redis_task.cancel()

@@ -36,12 +36,40 @@ class PongGameState:
             'x': self.canvas['width'] // 2,
             'y': self.canvas['height'] // 2
         }
-        self.ball_velocity = {'x': 0.3, 'y': 0.3}
+        self.ball_velocity = {'x': 1, 'y': 1}
         self.is_running = True
     
     def update_ball_pos(self):
         self.ball_position['x'] += self.ball_velocity['x']
         self.ball_position['y'] += self.ball_velocity['y']
+
+    def check_ball_wall_collision(self):
+        if self.ball_position['y'] <= 0:
+            self.ball_velocity['y'] = abs(self.ball_velocity['y'])
+        if self.ball_position['y'] >= self.canvas['height']:
+            self.ball_velocity['y'] = -abs(self.ball_velocity['y'])
+
+    def check_ball_paddle_collision(self):
+        if self.ball_position['x'] <= self.paddle['width']:
+            if self.players['player1']['position']['y'] <= self.ball_position['y'] <= self.players['player1']['position']['y'] + self.paddle['height']:
+                self.ball_velocity['x'] = abs(self.ball_velocity['x'])
+        
+        if self.ball_position['x'] >= self.canvas['width'] - self.paddle['width']:
+            if self.players['player2']['position']['y'] <= self.ball_position['y'] <= self.players['player2']['position']['y'] + self.paddle['height']:
+                self.ball_velocity['x'] = -abs(self.ball_velocity['x'])
+
+    def check_score(self):
+        if self.ball_position['x'] <= 0:
+            self.players['player2']['score'] += 1
+            self.reset_ball()
+        
+        if self.ball_position['x'] >= self.canvas['width']:
+            self.players['player1']['score'] += 1
+            self.reset_ball()
+
+    def reset_ball(self):
+        self.ball_position = {'x': self.canvas['width'] // 2, 'y': self.canvas['height'] // 2}
+        self.ball_velocity = {'x': 1, 'y': 1}
 
     def get_player_by_id(self, user_id):
         if user_id == self.players['player1']['id']:

@@ -102,12 +102,13 @@ function createPongGameWebSocket() {
                 
                 console.log(JSON.stringify(data));
                 ball = state.ball_position;
-                Game.ball.x = ball.x;
+                
                 Game.ball.y = ball.y;
                 
                 // TODO rendre + lisible
                 if (g_pongGamePlayerPaddle == 'player1')
-                    {
+                {
+                    Game.ball.x = ball.x;
                     Game.paddle.leftX = state.players.player1.position.x;
                     Game.paddle.leftY = state.players.player1.position.y;
                     
@@ -116,6 +117,7 @@ function createPongGameWebSocket() {
                 }
                 else if (g_pongGamePlayerPaddle == 'player2')
                 {
+                    Game.ball.x = Game.canvas.width - ball.x;
                     // Reverse paddles' sides
                     Game.paddle.leftX = state.players.player2.position.x - (Game.canvas.width - Game.paddle.width);
                     Game.paddle.leftY = state.players.player2.position.y;
