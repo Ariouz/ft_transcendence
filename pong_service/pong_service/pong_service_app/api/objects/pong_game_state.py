@@ -71,11 +71,15 @@ class PongGameState:
         if self.ball_position['x'] <= 0 + self.ball_size:
             self.players['player2']['score'] += 1
             self.reset_ball()
+            if self.players['player2']['score'] >= self.score_goal:
+                return ""
             return "player2"
         
         if self.ball_position['x'] >= self.canvas['width'] - self.ball_size:
             self.players['player1']['score'] += 1
             self.reset_ball()
+            if self.players['player1']['score'] >= self.score_goal:
+                return ""
             return "player1"
         return ""
 
@@ -121,6 +125,10 @@ class PongGameState:
 
     def check_win(self):
         return max(self.players['player1']['score'], self.players['player2']['score']) >= self.score_goal
+    
+
+    def get_winner(self):
+        return "player1" if self.players['player1']['score'] >= self.score_goal else "player2"
 
 
     def get_state(self):

@@ -141,7 +141,19 @@ function createPongGameWebSocket() {
                     "countdown_timer": ball_timer
                     */
                     let state = data.state;
-                    update_score(state, data);
+                    updateScore(state, data);
+                }
+                else if (data.type == "game_start_timer")
+                {
+                    let timer = data.countdown_timer;
+                    startTimer(timer);
+                }
+                else if (data.type == "game_winner_timer")
+                {
+                    let state = data.state;
+                    let timer = data.countdown_timer;
+                    let winner = data.winner;
+                    winnerTimer(timer, winner, state);
                 }
             }
             else
@@ -153,7 +165,7 @@ function createPongGameWebSocket() {
 }
 
 
-function update_score(game_data, data)
+function updateScore(game_data, data)
 {
     pong_self_score = document.getElementById("pong_self_score");
     pong_opponent_score = document.getElementById("pong_opponent_score");
@@ -200,4 +212,69 @@ function update_score(game_data, data)
         countdown_timer--;
     }, 1000);
 
+}
+
+function startTimer(countdown_timer)
+{
+    pong_text_overlay = document.getElementById("pong_text_overlay");
+
+    txt_time = countdown_timer - 3 - 1;
+    pong_text_overlay.innerText = "Starting in...";
+    pong_text_overlay.classList.add("pong_text_overlay_shown");
+
+    countdown_timer = 4;
+    let timer = setInterval(() => {
+        if (countdown_timer <= 0)
+        {
+            pong_text_overlay.classList.remove("pong_text_overlay_shown");
+            pong_text_overlay.innerText = "";
+            clearInterval(timer);
+        }
+
+        if (txt_time > 0)
+            txt_time--;
+        else
+            pong_text_overlay.innerText = countdown_timer;
+
+        countdown_timer--;
+    }, 1000);
+}
+
+function winnerTimer(countdown_timer, winner, game_data)
+{
+    pong_self_score = document.getElementById("pong_self_score");
+    pong_opponent_score = document.getElementById("pong_opponent_score");
+
+    player1_score = game_data.players.player1.score;
+    player2_score = game_data.players.player2.score;
+
+    if (g_pongGamePlayerPaddle == 'player1')
+    {
+        pong_self_score.innerText = player1_score;
+        pong_opponent_score.innerText = player2_score;
+    }
+    else
+    {
+        pong_self_score.innerText = player2_score;
+        pong_opponent_score.innerText = player1_score;
+    }
+
+
+    pong_text_overlay = document.getElementById("pong_text_overlay");
+
+    pong_text_overlay.innerText = winner + " won the game!";
+    pong_text_overlay.classList.add("pong_text_overlay_shown");
+
+    let timer = setInterval(() => {
+        if (countdown_timer <= 0)
+        {
+            pong_text_overlay.classList.remove("pong_text_overlay_shown");
+            pong_text_overlay.innerText = "";
+            clearInterval(timer);
+
+            // Remove game socket, redirect to pong page ...
+        }
+
+        countdown_timer--;
+    }, 1000);
 }

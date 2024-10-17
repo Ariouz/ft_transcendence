@@ -73,7 +73,7 @@ async def game_loop(game_state:PongGameState, players):
         # logging.getLogger("django").info(f"Game loop {game_state.game_id}")
 
         if game_state.check_win():
-            # todo get the winner
+            await send_winner_to_players(game_state.get_winner(), game_state.get_state(), 5)
             game_state.is_paused = True
             game_state.is_running = False
             await send_game_state_to_players(players, game_state.get_state())
@@ -93,6 +93,8 @@ async def time_ball(players, game_state:PongGameState, scoring_player):
     ball_timer = 5 # seconds before restart
     if not scoring_player == "":
         await send_scored_to_players(scoring_player, game_state.get_state(), ball_timer)
+    else:
+        await send_start_timer(game_state.get_state(), ball_timer)
 
     await send_game_state_to_players(players, game_state.get_state())
     await asyncio.sleep(ball_timer)
@@ -119,6 +121,26 @@ async def send_scored_to_players(scoring_player, game_data, ball_timer):
             "type": "game_player_scored",
             "state": game_data,
             "scoring_player": scoring_player,
+            "countdown_timer": ball_timer
+        })
+
+async def send_start_timer(game_data, ball_timer):
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        f"pong_game_{game_data['game_id']}",
+        {
+            "type": "game_start_timer",
+            "countdown_timer": ball_timer
+        })
+    
+async def send_winner_to_players(winner, game_data, ball_timer):
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        f"pong_game_{game_data['game_id']}",
+        {
+            "type": "game_winner_timer",
+            "state": game_data,
+            "winner": winner,
             "countdown_timer": ball_timer
         })
 

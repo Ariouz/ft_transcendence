@@ -129,3 +129,17 @@ class PongGameConsumer(AsyncWebsocketConsumer):
 
         logging.getLogger("websocket_logger").info('Received game score for game %d', state['game_id'])
         await self.send(text_data=json.dumps({"type": "game_player_scored", "state": state, "scoring_player": scoring_player, "countdown_timer": countdown}))
+
+
+    async def game_start_timer(self, event):
+        countdown_timer = event['countdown_timer']
+        await self.send(text_data=json.dumps({"type": "game_start_timer", "countdown_timer": countdown_timer}))
+
+
+    async def game_winner_timer(self, event):
+        state = event['state']
+        winner = event['winner']
+        countdown = event['countdown_timer']
+
+        logging.getLogger("websocket_logger").info('Received game winner for game %d', state['game_id'])
+        await self.send(text_data=json.dumps({"type": "game_winner_timer", "state": state, "winner": winner, "countdown_timer": countdown}))
