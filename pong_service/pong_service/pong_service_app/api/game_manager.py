@@ -78,12 +78,24 @@ async def game_loop(game_state:PongGameState, players):
             game_state.is_running = False
             await send_game_state_to_players(players, game_state.get_state())
             redis_task.cancel()
+            await save_game_to_db(game_state)
             try:
                 await redis_task
             except:
                 pass
 
-# used to delay the game start / restart after score
+@sync_to_async
+def save_game_to_db(game_state:PongGameState):
+    game = PongGame.objects.get(game_id=game_state.game_id)
+    
+    game.score = [game_state.players['player1']['score'], game_state.players['player2']['score']]
+    game.winner_id = game_state.get_player_id(game_state.get_winner())
+    game.status = "finished"
+    game.save()
+
+    # todo save users' stats and history
+
+
 async def time_ball(players, game_state:PongGameState, scoring_player):
     game_state.is_paused = True
     game_state.reset_ball()

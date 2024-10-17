@@ -129,6 +129,10 @@ class PongGameState:
 
     def get_winner(self):
         return "player1" if self.players['player1']['score'] >= self.score_goal else "player2"
+    
+
+    def get_player_id(self, player):
+        return self.players[player]['id']
 
 
     def get_state(self):

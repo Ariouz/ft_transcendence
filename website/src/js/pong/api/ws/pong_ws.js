@@ -191,7 +191,7 @@ function updateScore(game_data, data)
     countdown_timer = data.countdown_timer;
     scorer = data.scoring_player;
 
-    txt_time = countdown_timer - 3 - 1; /* -1 because of setInterval() delaying 1s at start*/
+    txt_time = countdown_timer - 3 - 1;
     pong_text_overlay.innerText = scorer + " scored!";
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
@@ -272,7 +272,10 @@ function winnerTimer(countdown_timer, winner, game_data)
             pong_text_overlay.innerText = "";
             clearInterval(timer);
 
-            // Remove game socket, redirect to pong page ...
+            g_pongGameWebSocket.close();
+            g_pongGameState = null;
+            g_pongGamePlayerPaddle = null;
+            navigate("/pong");
         }
 
         countdown_timer--;
