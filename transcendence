@@ -14,7 +14,7 @@ Module:
         Module majeur : Gestion utilisateur standard, authentification, utilisateurs
                         en tournois.
         Module majeur : Implémenter une authentification à distance. API 42    ============================> OK
-        Module majeur : Joueurs à distance.
+        Module majeur : Joueurs à distance.    ============================================================> OK
         Module majeur : Multijoueurs (plus de 2 dans la même partie).
         Module mineur : Option de personnalisation du jeu.
     Cybersécurité:
@@ -24,9 +24,9 @@ Module:
         Module mineur : Étendre la compatibilité des navigateurs web.
         Module mineur : Support de multiple langues.    ===================================================> OK
     Devops:
-        Module majeur : Design du backend comme Microservices.
+        Module majeur : Design du backend comme Microservices.    =========================================> OK
     Orienté objet:
-        Module majeur : Remplacer le Pong de base par un Pong côté serveur et implémentation d’une API.
+        Module majeur : Remplacer le Pong de base par un Pong côté serveur et implémentation d’une API. ===> OK
 
 
 
