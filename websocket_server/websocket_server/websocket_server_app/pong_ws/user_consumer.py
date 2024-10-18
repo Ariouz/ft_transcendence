@@ -6,12 +6,17 @@ import traceback
 from threading import Thread
 import logging
 from ..user import user_status
+import redis
 
 USERS_SERVICE_URL = "http://users-service:8001/api"
 PONG_SERVICE_URL = "http://pong-service:8002/api"
 
 # https://channels.readthedocs.io/en/latest/topics/consumers.html#websocketconsumer
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups
+
+redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
+redis_pong_1_1_queue = "pong-1v1-queue"
+
 class PongUserConsumer(WebsocketConsumer):
     # Called on connection
     def connect(self):
@@ -39,11 +44,21 @@ class PongUserConsumer(WebsocketConsumer):
     # Called when the socket closes
     def disconnect(self, close_code):
         if self.user_id:
+
+            if self.is_user_in_queue(self.user_id):
+                redis_client.lrem(redis_pong_1_1_queue, 0, self.user_id)
+                logging.getLogger("websocket_logger").info('Pong User %d removed from queue.', self.user_id)
+
             logging.getLogger("websocket_logger").info('Pong User %d disconnected.', self.user_id)
             async_to_sync(self.channel_layer.group_discard)(
                 f"pong_user_{self.user_id}",
                 self.channel_name
             )
+
+    def is_user_in_queue(self, user_id):
+        queue = redis_client.lrange(redis_pong_1_1_queue, 0, -1)
+        decode_queue = [uid.decode("utf-8") for uid in queue]
+        return str(user_id) in decode_queue
 
     def authenticate_user(self, token):
         logging.getLogger("websocket_logger").info('Attempting to authenticate pong user with token "%s"...', token)

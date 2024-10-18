@@ -41,6 +41,7 @@ function createPongUserWebSocket() {
                     {
                     game_id = data.game_id;
                     createPongGameWebSocket(game_id, user_token);
+                    g_userInPongQueue = false;
                     navigate(`/pong/game?gid=${game_id}`);
                 }
                 else {

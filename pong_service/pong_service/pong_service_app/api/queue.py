@@ -7,6 +7,7 @@ import ft_requests
 import redis
 import json
 from . import game_manager
+import logging
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
@@ -14,7 +15,9 @@ redis_pong_1_1_queue = "pong-1v1-queue"
 def is_user_in_queue(user_id):
     queue = redis_client.lrange(redis_pong_1_1_queue, 0, -1)
     decode_queue = [uid.decode("utf-8") for uid in queue]
-    return user_id in decode_queue
+    logging.getLogger("django").info(f"matchmaking queue: {decode_queue}")
+    logging.getLogger("django").info(f"is {user_id} in {decode_queue}: {str(user_id) in decode_queue}")
+    return str(user_id) in decode_queue
 
 def check_queue_size():
     if redis_client.llen(redis_pong_1_1_queue) >= 2:

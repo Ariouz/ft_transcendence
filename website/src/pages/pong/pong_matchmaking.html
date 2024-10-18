@@ -30,72 +30,12 @@
             return ;
         }
         document.getElementById("matchmaking_user_avatar").src = userData.avatar;
+        // add user displayname
     }
 
-    // fetch(this.action, {
-    //         method: 'POST',
-    //         body: formData,
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         hideLoadingWheel();
-    //         if (data.error)
-    //             showError(data.error, data.details);
-    //         else
-    //             showSuccess(data.success)
-    //     })
-    //     .catch(error => {
-    //         showError(error.error, error.details);
-    //         hideLoadingWheel();
-    //     })
+    // Todo add opponent avatar + displayname
 
-    sessionToken = getCookie("session_token");
     
-    async function joinQueue()
-    {
-        let url = `${PONG_QUEUE_API}/join/`;
-
-        let userId = await retrieveId(sessionToken);
-        console.log(userId.user_id);
-        let requestData = { user_id: userId.user_id };
-
-        data = fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData),
-        }).then(data => data.json())
-        .then(data => {
-            console.log(data);
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    async function leaveMatchmakingQueue()
-    {
-        let url = `${PONG_QUEUE_API}/leave/`;
-
-        let userId = await retrieveId(sessionToken);
-        console.log(userId.user_id);
-        let requestData = { user_id: userId.user_id };
-
-        data = fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData),
-        }).then(data => data.json())
-        .then(data => {
-            console.log(data);
-            navigate("/pong");
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
     loadData();
     joinQueue();
 </script>

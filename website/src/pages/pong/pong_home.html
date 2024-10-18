@@ -2,8 +2,28 @@
     <span>Pong</span>
 </div>
 <div class="pong_home_content">
+    <div class="pong_home_sidebar_card">
+        <div class="pong_home_sidebar_leaderboard pong_home_sidebar_button">
+            <i class="fa-solid fa-trophy"></i>
+            <span data-i18n="pong_leaderboard_button"> Leaderboard</span>
+        </div>
+        <div class="pong_home_sidebar_rules pong_home_sidebar_button" onclick="displayRulesPopup()">
+            <i class="fa-solid fa-book"></i>
+            <span data-i18n="pong_how_to_play"> How to play</span>
+        </div>
+        <div class="pong_home_sidebar_settings pong_home_sidebar_button">
+            <i class="fa-solid fa-gear"></i>
+            <span data-i18n="pong_home_settings"> Settings</span>
+        </div>
+    </div>
     <div class="pong_home_top_cards">
         <div class="pong_home_types_container">
+            <div class="pong_home_type_item">
+                <span class="pong_home_item_title" data-i18n="pong_home_local_title">Local 1v1</span>
+                <hr>
+                <span data-i18n="pong_home_local_desc">Local or online game</span>
+                <span class="pong_home_play_button" data-i18n="play_button" onclick="joinMatchmakingQueue()">PLAY</span>
+            </div>
             <div class="pong_home_type_item">
                 <span class="pong_home_item_title" data-i18n="pong_home_1v1_title">1 versus 1</span>
                 <hr>
@@ -17,20 +37,7 @@
                 <span class="pong_home_play_button" data-i18n="play_button">PLAY</span>
             </div>
         </div>
-        <div class="pong_home_sidebar_card">
-            <div class="pong_home_sidebar_leaderboard pong_home_sidebar_button">
-                <i class="fa-solid fa-trophy"></i>
-                <span data-i18n="pong_leaderboard_button"> Leaderboard</span>
-            </div>
-            <div class="pong_home_sidebar_rules pong_home_sidebar_button" onclick="displayRulesPopup()">
-                <i class="fa-solid fa-book"></i>
-                <span data-i18n="pong_how_to_play"> How to play</span>
-            </div>
-            <div class="pong_home_sidebar_settings pong_home_sidebar_button">
-                <i class="fa-solid fa-gear"></i>
-                <span data-i18n="pong_home_settings"> Settings</span>
-            </div>
-        </div>
+        
     </div>
     <div class="pong_home_spectator">
         <span data-i18n="pong_home_spectator_mode">Mode Spectateur</span>
