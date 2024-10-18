@@ -11,7 +11,7 @@ import json
 import logging
 import asyncio
 import redis.asyncio
-
+from . import pong_game_ws_update
 
 def create_game(players, type):
     game = PongGame.objects.create(users=players, type=type)
@@ -72,14 +72,14 @@ async def game_loop(game_state:PongGameState, players):
             await time_ball(players, game_state, scoring_player)
 
         game_data = game_state.get_state()
-        await send_game_state_to_players(players, game_data)
+        await pong_game_ws_update.send_game_state_to_players(players, game_data)
         # logging.getLogger("django").info(f"Game loop {game_state.game_id}")
 
         if game_state.check_win():
-            await send_winner_to_players(game_state.get_winner(), game_state.get_state(), 5)
+            await pong_game_ws_update.send_winner_to_players(game_state.get_winner(), game_state.get_state(), 5)
             game_state.is_paused = True
             game_state.is_running = False
-            await send_game_state_to_players(players, game_state.get_state())
+            await pong_game_ws_update.send_game_state_to_players(players, game_state.get_state())
             redis_task.cancel()
             await save_game_to_db(game_state)
             try:
@@ -107,57 +107,17 @@ async def time_ball(players, game_state:PongGameState, scoring_player):
 
     ball_timer = 5 # seconds before restart
     if not scoring_player == "":
-        await send_scored_to_players(scoring_player, game_state.get_state(), ball_timer)
+        await pong_game_ws_update.send_scored_to_players(scoring_player, game_state.get_state(), ball_timer)
     else:
-        await send_start_timer(game_state.get_state(), ball_timer)
+        await pong_game_ws_update.send_start_timer(game_state.get_state(), ball_timer)
 
-    await send_game_state_to_players(players, game_state.get_state())
+    await pong_game_ws_update.send_game_state_to_players(players, game_state.get_state())
     await asyncio.sleep(ball_timer)
     game_state.is_paused = False
     game_state.reset_ball()
 
 
-async def send_game_state_to_players(players, game_data):
-    channel_layer = get_channel_layer()
 
-    await channel_layer.group_send(
-        f"pong_game_{game_data['game_id']}",
-        {
-            "type": "game_state_update",
-            "state": game_data
-        })
-
-
-async def send_scored_to_players(scoring_player, game_data, ball_timer):
-    channel_layer = get_channel_layer()
-    await channel_layer.group_send(
-        f"pong_game_{game_data['game_id']}",
-        {
-            "type": "game_player_scored",
-            "state": game_data,
-            "scoring_player": scoring_player,
-            "countdown_timer": ball_timer
-        })
-
-async def send_start_timer(game_data, ball_timer):
-    channel_layer = get_channel_layer()
-    await channel_layer.group_send(
-        f"pong_game_{game_data['game_id']}",
-        {
-            "type": "game_start_timer",
-            "countdown_timer": ball_timer
-        })
-    
-async def send_winner_to_players(winner, game_data, ball_timer):
-    channel_layer = get_channel_layer()
-    await channel_layer.group_send(
-        f"pong_game_{game_data['game_id']}",
-        {
-            "type": "game_winner_timer",
-            "state": game_data,
-            "winner": winner,
-            "countdown_timer": ball_timer
-        })
 
 async def listen_to_redis(game_state:PongGameState):
     redis_client = await redis.asyncio.Redis.from_url('redis://redis-websocket-users:6379')
@@ -194,11 +154,9 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         if game_state.is_paused or not game_state.is_running:
             return
 
-        # On s'assure que 'data' est un tableau de mouvements
         if not message_data['data'] or not isinstance(message_data['data'], list):
             return
         
-        # Parcourir tous les mouvements reçus
         for data in message_data['data']:
             if not data['player_paddle']:
                 continue
@@ -207,6 +165,5 @@ async def handle_redis_message(message_data, game_state:PongGameState):
                 continue
             direction = data['direction']
             
-            # Effectuer le mouvement du joueur
             game_state.move_player(player_paddle, direction)
 
