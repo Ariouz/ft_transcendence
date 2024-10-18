@@ -12,7 +12,7 @@ class PongUser(models.Model):
     
 class PongGame(models.Model):
     type_choices = [("local1v1", "Local 1v1"), ("1v1", "1v1"), ("tournament", "Tournament")]
-    status_choices = [("init", "Init"), ("finished", "Finished")]
+    status_choices = [("init", "Init"), ("started", "Started"), ("finished", "Finished")]
 
     game_id = models.AutoField(primary_key=True, unique=True)
     users = models.JSONField(default=list)

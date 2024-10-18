@@ -13,7 +13,7 @@ import logging
 from . import game_manager
 import asyncio
 
-executor = ThreadPoolExecutor(max_workers=5)
+executor = ThreadPoolExecutor(max_workers=20)
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -71,6 +71,35 @@ def create_local_game(request):
 
     game_manager.create_game([user_id, user_id], type="local1v1")
     return JsonResponse({"success": "Games created"})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def can_join(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+    except:
+        return JsonResponse({"error":"No user id", "details": "A user_id is required"}, status=400)
+    
+    try:
+        data = json.loads(request.body)
+        game_id = data.get("game_id")
+    except:
+        return JsonResponse({"error":"No game id", "details": "A game_id is required"}, status=400)
+
+    game = PongGame.objects.filter(game_id=game_id)
+    if not game.exists():
+        return JsonResponse({"error":"No game with id", "details": "No game with this id found"}, status=400)
+    
+    game = game.get()
+    if not user_id in [int(id) for id in game.users]:
+        return JsonResponse({"error":"Cannot join game", "details": "Player cannot join this game"}, status=403)
+
+    if game.status == "finished":
+        return JsonResponse({"error":"Game ended", "details": "This game has ended"}, status=403)
+
+    return JsonResponse({"success": "User can join the game"})
 
 def run_start_game(game_id):
     asyncio.run(game_manager.start_game(game_id=game_id))

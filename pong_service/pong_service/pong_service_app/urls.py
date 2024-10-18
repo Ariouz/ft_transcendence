@@ -10,4 +10,6 @@ urlpatterns = [
     path('game/create/local/', game.create_local_game, name="create_local_game"),
     path('game/start/', game.start_game, name="start_game"),
 
+    path('game/can-join/', game.can_join, name="can_join"),
+
 ]

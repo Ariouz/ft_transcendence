@@ -5,12 +5,14 @@ let g_pongGameWebSocket;
 let g_pongGamePlayerPaddle;
 let g_pongGameType;
 
+let g_pongGameOpponentDisconnected = false;
+
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
 {
     if (g_pongUserWebSocket)
         return;
-    let user_token = getCookie("session_token");
+    user_token = getCookie("session_token");
     if (user_token && user_token.length > 0) {
         createPongUserWebSocket();
     }
@@ -40,9 +42,9 @@ function createPongUserWebSocket() {
                 if (data.type === "game_create")
                     {
                     game_id = data.game_id;
-                    createPongGameWebSocket(game_id, user_token);
                     g_userInPongQueue = false;
                     navigate(`/pong/game?gid=${game_id}`);
+                    createPongGameWebSocket(game_id, user_token);
                 }
                 else {
                     console.log(JSON.stringify(data));
@@ -56,7 +58,7 @@ function createPongUserWebSocket() {
     };
 }
 
-function createPongGameWebSocket() {
+function createPongGameWebSocket(game_id) {
     let user_token = getCookie("session_token");
     const WEBSOCKET_PONG_URL = `ws://localhost:7000/ws/pong/game/${user_token}/${game_id}/`;
     g_pongGameWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
@@ -144,11 +146,6 @@ function createPongGameWebSocket() {
                 }
                 else if (data.type == "game_player_scored")
                 {
-                    /*"type": "game_player_scored",
-                    "state": game_data,
-                    "scoring_player": scoring_player,
-                    "countdown_timer": ball_timer
-                    */
                     let state = data.state;
                     updateScore(state, data);
                 }
@@ -163,6 +160,22 @@ function createPongGameWebSocket() {
                     let timer = data.countdown_timer;
                     let winner = data.winner;
                     winnerTimer(timer, winner, state);
+                }
+                else if (data.type == "game_user_disconnected")
+                {
+                    g_pongGameOpponentDisconnected = true;
+                    let state = data.state;
+                    let player = data.player;
+                    let timer = data.countdown_timer;
+                    pauseTimer(timer, player, state);
+                }
+                else if (data.type == "game_user_reconnected")
+                {
+                    let state = data.state;
+                    let player = data.player;
+                    let timer = data.countdown_timer;
+                    resumeTimer(timer, player, state);
+                    g_pongGameOpponentDisconnected = false;
                 }
             }
             else
@@ -195,6 +208,8 @@ function updateScore(game_data, data)
 
     console.log(game_data);
 
+    if (g_pongGameOpponentDisconnected) return ;
+
     pong_text_overlay = document.getElementById("pong_text_overlay");
 
     countdown_timer = data.countdown_timer;
@@ -206,7 +221,7 @@ function updateScore(game_data, data)
 
     countdown_timer = 4;
     let timer = setInterval(() => {
-        if (countdown_timer <= 0)
+        if (countdown_timer <= 0 || g_pongGameOpponentDisconnected)
         {
             pong_text_overlay.classList.remove("pong_text_overlay_shown");
             pong_text_overlay.innerText = "";
@@ -225,6 +240,8 @@ function updateScore(game_data, data)
 
 function startTimer(countdown_timer)
 {
+    if (g_pongGameOpponentDisconnected) return ;
+
     pong_text_overlay = document.getElementById("pong_text_overlay");
 
     txt_time = countdown_timer - 3 - 1;
@@ -233,7 +250,7 @@ function startTimer(countdown_timer)
 
     countdown_timer = 4;
     let timer = setInterval(() => {
-        if (countdown_timer <= 0)
+        if (countdown_timer <= 0 || g_pongGameOpponentDisconnected)
         {
             pong_text_overlay.classList.remove("pong_text_overlay_shown");
             pong_text_overlay.innerText = "";
@@ -285,8 +302,65 @@ function winnerTimer(countdown_timer, winner, game_data)
             g_pongGameState = null;
             g_pongGamePlayerPaddle = null;
             g_pongGameType = null;
+            g_pongGameOpponentDisconnected = false;
             navigate("/pong");
         }
+
+        if (!pong_text_overlay.classList.contains("pong_text_overlay_shown")) pong_text_overlay.classList.add("pong_text_overlay_shown");
+        pong_text_overlay.innerText = winner + " won the game!";
+
+        countdown_timer--;
+    }, 1000);
+}
+
+function pauseTimer(countdown_timer, player, game_data)
+{
+    if (!g_pongGameOpponentDisconnected) return ;
+
+    pong_text_overlay = document.getElementById("pong_text_overlay");
+
+    pong_text_overlay.innerText = player + " disconnected - " + countdown_timer;
+    pong_text_overlay.classList.add("pong_text_overlay_shown");
+
+    let timer = setInterval(() => {
+        if (countdown_timer <= 0 || !g_pongGameOpponentDisconnected)
+        {
+            pong_text_overlay.classList.remove("pong_text_overlay_shown");
+            pong_text_overlay.innerText = "";
+            clearInterval(timer);
+            return ;
+        }
+
+        pong_text_overlay.innerText = player + " disconnected - " + countdown_timer;
+        countdown_timer--;
+    }, 1000);
+}
+
+function resumeTimer(countdown_timer, player, game_data)
+{
+    pong_text_overlay = document.getElementById("pong_text_overlay");
+
+    txt_time = countdown_timer - 3 - 1;
+    pong_text_overlay.innerText = player + " reconnected";
+    pong_text_overlay.classList.add("pong_text_overlay_shown");
+
+    countdown_timer = 4;
+    let timer = setInterval(() => {
+        if (countdown_timer <= 0)
+        {
+            pong_text_overlay.classList.remove("pong_text_overlay_shown");
+            pong_text_overlay.innerText = "";
+            clearInterval(timer);
+        }
+
+        if (!pong_text_overlay.classList.contains("pong_text_overlay_shown")) pong_text_overlay.classList.add("pong_text_overlay_shown");
+        if (txt_time > 0)
+        {
+            pong_text_overlay.innerText = player + " reconnected";
+            txt_time--;
+        }
+        else
+            pong_text_overlay.innerText = countdown_timer;
 
         countdown_timer--;
     }, 1000);

@@ -1,4 +1,5 @@
 import random
+import asyncio
 
 class PongGameState:
     def __init__(self, game_id, player1_id, player2_id, type):
@@ -44,8 +45,13 @@ class PongGameState:
 
         self.score_goal = 5
 
-        self.is_running = True
-        self.is_paused = False
+        self.running = True
+        self.paused = False
+        self.game_pause_task = None
+
+        self.connected_users = set([player1_id, player2_id])
+
+        self.lock = asyncio.Lock()
     
     def update_ball_pos(self):
         self.ball_position['x'] += self.ball_velocity['x']
@@ -102,11 +108,12 @@ class PongGameState:
         self.players['player2']['position']['x'] = self.canvas['width'] - self.paddle['width']
         self.players['player2']['position']['y'] = (self.canvas['height'] - self.paddle['height']) // 2
 
-    def get_player_by_id(self, user_id):
-        if user_id == self.players['player1']['id']:
-            return 'player1'
-        elif user_id == self.players['player2']['id']:
-            return 'player2'
+    async def get_player_by_id(self, user_id):
+        async with self.lock:
+            if user_id == self.players['player1']['id']:
+                return 'player1'
+            elif user_id == self.players['player2']['id']:
+                return 'player2'
 
     def move_player(self, player, direction):
         if direction == "UP":
@@ -134,17 +141,38 @@ class PongGameState:
 
     def get_player_id(self, player):
         return self.players[player]['id']
-
-
-    def get_state(self):
-        return {
-            'game_id': self.game_id,
-            'game_type': self.game_type,
-            'canvas': self.canvas,
-            'paddle': self.paddle,
-            'players': self.players,
-            'ball_position': self.ball_position,
-            'running': self.is_running,
-            'paused': self.is_paused
-        }
     
+
+    async def is_paused(self):
+        async with self.lock:
+            return self.paused
+        
+    async def is_running(self):
+        async with self.lock:
+            return self.running
+    
+    async def set_paused(self, paused):
+        async with self.lock:
+            self.paused = paused
+    
+    async def set_running(self, running):
+        async with self.lock:
+            self.running = running
+
+    async def set_pause_task(self, task):
+        async with self.lock:
+            self.game_pause_task = task
+
+
+    async def get_state(self):
+        async with self.lock:
+            return {
+                'game_id': self.game_id,
+                'game_type': self.game_type,
+                'canvas': self.canvas,
+                'paddle': self.paddle,
+                'players': self.players,
+                'ball_position': self.ball_position,
+                'running': self.running,
+                'paused': self.paused
+            }

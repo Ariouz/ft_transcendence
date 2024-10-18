@@ -30,3 +30,22 @@ async function sendStartLocalGameRequest(game_id)
         console.log(error);
     });
 }
+
+async function canJoinGame(game_id, user_id)
+{
+    let url = `${PONG_SERVICE_URL}/game/can-join/`;
+    let requestData = { game_id: game_id, user_id: user_id };
+    
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    }).then(data => data.json())
+    .then(data => {return data})
+    .catch(error => {
+        console.log(error);
+        return error;
+    });
+}

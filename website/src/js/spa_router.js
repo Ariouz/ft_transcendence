@@ -9,9 +9,19 @@ function handleRouting() {
     if (!doConsentCookies())
         setCookieBannerVisibility("flex", "100");
 
-    // Todo pause game if playing
     if (g_userInPongQueue)
         leaveMatchmakingQueue().then(res => {}).catch(error => {});
+
+    // close game ws to pause if the player leaves the page
+    if (g_pongGameWebSocket)
+    {
+        g_pongGameWebSocket.close();
+        g_pongGameState = null;
+        g_pongGamePlayerPaddle = null;
+        g_pongGameType = null;
+        g_pongGameOpponentDisconnected = false;
+    }
+
     Game.stopGameLoop();
     if (parts[0] === "api")
     {

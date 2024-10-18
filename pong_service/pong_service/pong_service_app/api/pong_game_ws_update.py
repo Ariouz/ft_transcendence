@@ -10,7 +10,7 @@ import logging
 import asyncio
 
 
-async def send_game_state_to_players(players, game_data):
+async def send_game_state_to_players(game_data):
     channel_layer = get_channel_layer()
 
     await channel_layer.group_send(
@@ -49,4 +49,28 @@ async def send_winner_to_players(winner, game_data, ball_timer):
             "state": game_data,
             "winner": winner,
             "countdown_timer": ball_timer
+        })
+    
+    
+async def send_disconnect_pause_to_players(player, game_data, end_timer):
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        f"pong_game_{game_data['game_id']}",
+        {
+            "type": "game_user_disconnected",
+            "state": game_data,
+            "player": player,
+            "countdown_timer": end_timer
+        })
+    
+    
+async def send_reconnected_to_players(player, game_data, end_timer):
+    channel_layer = get_channel_layer()
+    await channel_layer.group_send(
+        f"pong_game_{game_data['game_id']}",
+        {
+            "type": "game_user_reconnected",
+            "state": game_data,
+            "player": player,
+            "countdown_timer": end_timer
         })

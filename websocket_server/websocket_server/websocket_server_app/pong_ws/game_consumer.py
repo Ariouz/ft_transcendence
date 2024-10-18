@@ -48,6 +48,11 @@ class PongGameConsumer(AsyncWebsocketConsumer):
 
             if await self.get_group_size(self.game_id) == 2:
                 await self.start_game()
+
+            # user re-connection
+            await redis_client_pong.xadd(f"pong_game_{self.game_id}_stream", {
+                "message": json.dumps({ "type": "pong_game_user_connected", "user_id": self.user_id })
+            })
         else:
             await self.close()
 
@@ -63,13 +68,17 @@ class PongGameConsumer(AsyncWebsocketConsumer):
     # Called when the socket closes
     async def disconnect(self, close_code):
         if self.game_id:
+
+            await redis_client_pong.xadd(f"pong_game_{self.game_id}_stream", {
+                "message": json.dumps({ "type": "pong_game_user_disconnected", "user_id": self.user_id })
+                })
+
             logging.getLogger("websocket_logger").info('Pong game User %d disconnected.', self.user_id)
             await self.channel_layer.group_discard(
                 f"pong_game_{self.game_id}",
                 self.channel_name
             )
             await self.update_group_size(self.game_id, increment=False)
-
 
     async def authenticate_user(self, token):
         logging.getLogger("websocket_logger").info('Attempting to authenticate pong game user with token "%s"...', token)
@@ -143,3 +152,20 @@ class PongGameConsumer(AsyncWebsocketConsumer):
 
         logging.getLogger("websocket_logger").info('Received game winner for game %d', state['game_id'])
         await self.send(text_data=json.dumps({"type": "game_winner_timer", "state": state, "winner": winner, "countdown_timer": countdown}))
+
+    
+    async def game_user_disconnected(self, event):
+        state = event['state']
+        player = event['player']
+        countdown = event['countdown_timer']
+        logging.getLogger("websocket_logger").info('Received game disconnect for game %d', state['game_id'])
+        await self.send(text_data=json.dumps({"type": "game_user_disconnected", "state": state, "player": player, "countdown_timer": countdown}))
+
+    async def game_user_reconnected(self, event):
+        state = event['state']
+        player = event['player']
+        countdown = event['countdown_timer']
+        logging.getLogger("websocket_logger").info('Received game reconnect for game %d', state['game_id'])
+        await self.send(text_data=json.dumps({"type": "game_user_reconnected", "state": state, "player": player, "countdown_timer": countdown}))
+
+
