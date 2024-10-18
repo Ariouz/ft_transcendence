@@ -29,6 +29,10 @@ const Game = {
         downPressed: false,
         upKey: 'W',
         downKey: 'S',
+        upArrowKey: 'ArrowUp',
+        downArrowKey: 'ArrowDown',
+        upArrowPressed: false,
+        downArrowPressed: false,
     },
 
     init: function () {

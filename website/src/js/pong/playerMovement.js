@@ -2,30 +2,55 @@
  * Player movement
  */
 
-function updateLeftPaddlePosition() {
+let lastSentTime = Date.now();
+const SEND_INTERVAL = 16;
+
+function sendPlayerMoves() {
     if (Game.isPaused || !Game.isRunning) return;
-    if (Game.controls.downPressed && Game.controls.upPressed) return;
+
+    let currentTime = Date.now();
+    if (currentTime - lastSentTime < SEND_INTERVAL) return;
+
+    let moves = [];
 
     if (Game.controls.upPressed) {
-        // Game.paddle.leftY = Math.max(Game.paddle.leftY - Game.paddle.speed, 0);
-        g_pongGameWebSocket.send(JSON.stringify({
-            type: "player_move",
-            data: {
-                player_paddle: g_pongGamePlayerPaddle,
-                direction: "UP"
-            }
-        }));
+        moves.push({
+            player_paddle: g_pongGamePlayerPaddle == "both" ? "player1" : g_pongGamePlayerPaddle,
+            direction: "UP"
+        });
     }
+
     if (Game.controls.downPressed) {
-        // Game.paddle.leftY = Math.min(Game.paddle.leftY + Game.paddle.speed, Game.canvas.height - Game.paddle.height);
+        moves.push({
+            player_paddle: g_pongGamePlayerPaddle == "both" ? "player1" : g_pongGamePlayerPaddle,
+            direction: "DOWN"
+        });
+    }
+
+    if (g_pongGameType == "local1v1") {
+        if (Game.controls.upArrowPressed) {
+            moves.push({
+                player_paddle: "player2",
+                direction: "UP"
+            });
+        }
+
+        if (Game.controls.downArrowPressed) {
+            moves.push({
+                player_paddle: "player2",
+                direction: "DOWN"
+            });
+        }
+    }
+
+    if (moves.length > 0) {
         g_pongGameWebSocket.send(JSON.stringify({
             type: "player_move",
-            data: {
-                player_paddle: g_pongGamePlayerPaddle,
-                direction: "DOWN"
-            }
+            data: moves
         }));
     }
+
+    lastSentTime = currentTime;
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -38,6 +63,13 @@ function keyDownHandler(e) {
     if (e.key === Game.controls.downKey.toLowerCase() || e.key === Game.controls.downKey) {
         Game.controls.downPressed = true;
     }
+
+    if (e.key === Game.controls.upArrowKey.toLowerCase() || e.key === Game.controls.upArrowKey) {
+        Game.controls.upArrowPressed = true;
+    }
+    if (e.key === Game.controls.downArrowKey.toLowerCase() || e.key === Game.controls.downArrowKey) {
+        Game.controls.downArrowPressed = true;
+    }
 }
 
 function keyUpHandler(e) {
@@ -46,5 +78,12 @@ function keyUpHandler(e) {
     }
     if (e.key === Game.controls.downKey.toLowerCase() || e.key === Game.controls.downKey) {
         Game.controls.downPressed = false;
+    }
+
+    if (e.key === Game.controls.upArrowKey.toLowerCase() || e.key === Game.controls.upArrowKey) {
+        Game.controls.upArrowPressed = false;
+    }
+    if (e.key === Game.controls.downArrowKey.toLowerCase() || e.key === Game.controls.downArrowKey) {
+        Game.controls.downArrowPressed = false;
     }
 }

@@ -3,7 +3,7 @@
 let g_pongUserWebSocket;
 let g_pongGameWebSocket;
 let g_pongGamePlayerPaddle;
-let g_pongGameState;
+let g_pongGameType;
 
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
@@ -90,16 +90,23 @@ function createPongGameWebSocket() {
                     },
                     "ball_position":{"x":600,"y":400},
                     "running":true, "paused": false}}*/
+                    if (g_pongGameType == undefined) g_pongGameType = state.game_type;
                     
                     if (g_pongGamePlayerPaddle == undefined)
                     {
-                        let userId = await retrieveId(user_token);
-                        userId = userId.user_id;
-                        if (state.players.player1.id == userId)
-                            g_pongGamePlayerPaddle = 'player1';
-                        else if (state.players.player2.id == userId)
-                            g_pongGamePlayerPaddle = 'player2';
+                        if (g_pongGameType == "local1v1")
+                            g_pongGamePlayerPaddle = "both";
+                        else
+                        {
+                            let userId = await retrieveId(user_token);
+                            userId = userId.user_id;
+                            if (state.players.player1.id == userId)
+                                g_pongGamePlayerPaddle = 'player1';
+                            else if (state.players.player2.id == userId)
+                                g_pongGamePlayerPaddle = 'player2';
+                        }
                     }
+
 
                     if (state.paused != Game.isPaused)
                         Game.isPaused = !Game.isPaused;
@@ -114,7 +121,7 @@ function createPongGameWebSocket() {
 
                     
                     // TODO rendre + lisible
-                    if (g_pongGamePlayerPaddle == 'player1')
+                    if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
                     {
                         Game.ball.x = ball.x;
                         Game.paddle.leftX = state.players.player1.position.x;
@@ -133,6 +140,7 @@ function createPongGameWebSocket() {
                         Game.paddle.rightX = state.players.player1.position.x + (Game.canvas.width - Game.paddle.width);
                         Game.paddle.rightY = state.players.player1.position.y;
                     }
+
                 }
                 else if (data.type == "game_player_scored")
                 {
@@ -174,7 +182,7 @@ function updateScore(game_data, data)
     player1_score = game_data.players.player1.score;
     player2_score = game_data.players.player2.score;
 
-    if (g_pongGamePlayerPaddle == 'player1')
+    if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
     {
         pong_self_score.innerText = player1_score;
         pong_opponent_score.innerText = player2_score;
@@ -249,7 +257,7 @@ function winnerTimer(countdown_timer, winner, game_data)
     player1_score = game_data.players.player1.score;
     player2_score = game_data.players.player2.score;
 
-    if (g_pongGamePlayerPaddle == 'player1')
+    if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
     {
         pong_self_score.innerText = player1_score;
         pong_opponent_score.innerText = player2_score;
@@ -276,6 +284,7 @@ function winnerTimer(countdown_timer, winner, game_data)
             g_pongGameWebSocket.close();
             g_pongGameState = null;
             g_pongGamePlayerPaddle = null;
+            g_pongGameType = null;
             navigate("/pong");
         }
 

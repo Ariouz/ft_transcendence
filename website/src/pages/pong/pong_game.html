@@ -106,10 +106,21 @@
             return;
         }
 
+        let gameData = await getGameData(gameId);
+        gameData = gameData.data;
+        console.log(gameData);
+        let gameType = gameData.type;
+        
+        if (gameType == "local1v1")
+        {
+            await sendStartLocalGameRequest(gameData.game_id);
+        }
+
+
         // await checkGame(0, gameId); Todo check if user can join game (if trying to change gid in url or to reconnect)
         // reconnect user to game's websocket and resume game (if already started)
     }
 
-    // loadGame();
+    loadGame();
    
 </script>

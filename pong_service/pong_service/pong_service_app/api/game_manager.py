@@ -13,12 +13,15 @@ import asyncio
 import redis.asyncio
 
 
-def create_game(players):
-    game = PongGame.objects.create(users=players)
+def create_game(players, type):
+    game = PongGame.objects.create(users=players, type=type)
     game.save()
     channel_layer = get_channel_layer()
 
     logging.getLogger("django").info(f"Creating game for with {players}")
+
+    if type == "local1v1":
+        players.pop() # removed duplicated user (double websocket issue)
 
     for user_id in players:
         async_to_sync(channel_layer.group_send)(
@@ -44,8 +47,8 @@ async def start_game(game_id):
 
     players_ids = [int(player) for player in game.users]
 
-    game_state = PongGameState(game_id=game.game_id,  player1_id=players_ids[0], player2_id=players_ids[1])
-    logging.getLogger("django").info(f"Starting game {game.game_id}")
+    game_state = PongGameState(game_id=game.game_id,  player1_id=players_ids[0], player2_id=players_ids[1], type=game.type)
+    logging.getLogger("django").info(f"Starting {game.type} game {game.game_id}")
     
     await game_loop(game_state=game_state, players=players_ids)
 
@@ -172,7 +175,6 @@ async def listen_to_redis(game_state:PongGameState):
                     for msg_id, message_data in messages:
                         message_str = message_data[b'message'].decode("utf-8")
                         message_dict = json.loads(message_str)
-                        # logging.getLogger("django").info(f"received msg from redis {message_dict}")
                         await handle_redis_message(message_dict, game_state)
 
             await asyncio.sleep(0.016)
@@ -192,16 +194,19 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         if game_state.is_paused or not game_state.is_running:
             return
 
-        if not message_data['data']:
+        # On s'assure que 'data' est un tableau de mouvements
+        if not message_data['data'] or not isinstance(message_data['data'], list):
             return
-        data = message_data['data']
-        if not data['player_paddle']:
-            return
-        player_paddle = data['player_paddle']
-        if not data['direction']:
-            return
-        direction = data['direction']
-        game_state.move_player(player_paddle, direction)
-        # logging.getLogger("django").info(f"Moved {player_paddle} {direction}")
-
+        
+        # Parcourir tous les mouvements reçus
+        for data in message_data['data']:
+            if not data['player_paddle']:
+                continue
+            player_paddle = data['player_paddle']
+            if not data['direction']:
+                continue
+            direction = data['direction']
+            
+            # Effectuer le mouvement du joueur
+            game_state.move_player(player_paddle, direction)
 

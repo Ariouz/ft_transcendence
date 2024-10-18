@@ -1,8 +1,9 @@
 import random
 
 class PongGameState:
-    def __init__(self, game_id, player1_id, player2_id):
+    def __init__(self, game_id, player1_id, player2_id, type):
         self.game_id = game_id
+        self.game_type = type
 
         self.canvas = {
             'width': 800,
@@ -60,12 +61,12 @@ class PongGameState:
         if self.ball_position['x'] <= self.paddle['width'] + self.ball_size:
             if self.players['player1']['position']['y'] - self.ball_size <= self.ball_position['y'] <= self.players['player1']['position']['y'] + self.paddle['height'] + self.ball_size:
                 self.ball_velocity['x'] = abs(self.ball_velocity['x'])
-                self.ball_velocity['x'] += 0.2
+                self.ball_velocity['x'] += 0.3
         
         if self.ball_position['x'] >= self.canvas['width'] - self.paddle['width'] - self.ball_size:
             if self.players['player2']['position']['y'] - self.ball_size <= self.ball_position['y'] <= self.players['player2']['position']['y'] + self.paddle['height'] + self.ball_size:
                 self.ball_velocity['x'] = -abs(self.ball_velocity['x'])
-                self.ball_velocity['x'] -= 0.2
+                self.ball_velocity['x'] -= 0.3
 
     def check_score(self):
         if self.ball_position['x'] <= 0 + self.ball_size:
@@ -138,6 +139,7 @@ class PongGameState:
     def get_state(self):
         return {
             'game_id': self.game_id,
+            'game_type': self.game_type,
             'canvas': self.canvas,
             'paddle': self.paddle,
             'players': self.players,

@@ -53,12 +53,24 @@ def start_game(request):
         logging.getLogger("django").info(f"Game not found {game_id}")
         return JsonResponse({"error":"Game not found", "details": "No game found matching id"}, status=400)
     
-    logging.getLogger("django").info(f"Starting game")
-    
-    
+    logging.getLogger("django").info(f"Starting game {game_id}")
     executor.submit(run_start_game, game_id)
     
     return JsonResponse({"success": "Games started"})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_local_game(request):
+
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+    except:
+        return JsonResponse({"error":"No user id", "details": "A user_id is required"}, status=400)
+
+    game_manager.create_game([user_id, user_id], type="local1v1")
+    return JsonResponse({"success": "Games created"})
 
 def run_start_game(game_id):
     asyncio.run(game_manager.start_game(game_id=game_id))

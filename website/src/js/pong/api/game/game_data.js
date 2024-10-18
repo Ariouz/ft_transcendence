@@ -12,3 +12,21 @@ async function getGameData(game_id)
     })
     return gData;
 }
+
+async function sendStartLocalGameRequest(game_id)
+{
+    let url = `${PONG_SERVICE_URL}/game/start/`;
+    let requestData = { game_id: game_id };
+    
+    await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    }).then(data => data.json())
+    .then(data => {})
+    .catch(error => {
+        console.log(error);
+    });
+}

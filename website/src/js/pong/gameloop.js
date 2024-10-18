@@ -13,7 +13,6 @@ function draw() {
     drawPaddle(Game.paddle.rightX, Game.paddle.rightY);
 
     drawBall();
-    updateLeftPaddlePosition();
 }
 
 function gameLoop() {
@@ -21,4 +20,5 @@ function gameLoop() {
         return;
     draw();
     requestAnimationFrame(gameLoop);
+    setInterval(sendPlayerMoves, 16); // 60 / s
 }
