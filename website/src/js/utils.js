@@ -104,3 +104,27 @@ function doConsentCookies()
 {
     return getCookie("cookie_consent");
 }
+
+function toggleDisplay(selector, show) {
+    document.querySelector(selector).style.display = show ? '' : 'none';
+}
+
+function showMainNavigation()
+{
+    toggleDisplay('.main_nav', true);
+}
+
+function showFooter()
+{
+    toggleDisplay('footer', true);
+}
+
+function hideMainNavigation()
+{
+    toggleDisplay('.main_nav', false);
+}
+
+function hideFooter()
+{
+    toggleDisplay('footer', false);
+}
