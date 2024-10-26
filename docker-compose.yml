@@ -155,6 +155,36 @@ services:
         target: /i18n_service
 
 
+### lib build management ###
+  libs_builder:
+    build:
+      context: ./libs
+      args:
+        MODE: build
+    container_name: libs-builder
+    restart: "no"
+    volumes:
+      - type: bind
+        source: ./libs
+        target: /libs
+    profiles:
+      - libs_management
+
+  libs_cleaner:
+    build:
+      context: ./libs
+      args:
+        MODE: cleanup
+    container_name: libs-cleaner
+    restart: "no"
+    volumes:
+      - type: bind
+        source: ./libs
+        target: /libs
+    profiles:
+      - libs_management
+
+
 ### Networks ###
 networks:
   # suggestion:

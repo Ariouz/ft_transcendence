@@ -1,9 +1,11 @@
 DEFAULT_LANGUAGE=en
 
 SERVICES := api_gateway users_service i18n_service websocket_server
-LIBS := ft_requests ft_i18n
+LIBS := libs/ft_requests libs/ft_i18n
 PYTHON_VERSION := python3.12
 VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
+
+all: update_libs up-build
 
 stop:
 	@echo "Stopping all running containers..."
@@ -43,7 +45,7 @@ buildupd: update_libs update_i18n
 
 build-up-d: buildupd
 
-down: delete_libs
+down:
 	@echo "Stopping the Docker containers..."
 	@docker compose down
 
@@ -70,19 +72,26 @@ prune:
 restart: down up
 	@echo "Docker containers have been restarted."
 
-update_libs: delete_libs_virtual_environments
-	@echo "Adding libraries to backends..."
-	@for lib in $(LIBS); do \
-		echo "Updating $$lib..."; \
-		cd $$lib && ./scripts/build_and_deploy.sh && cd -; \
-	done
+update_libs: delete_libs deploy_libs
+
+deploy_libs:
+	@echo "Starting libs_builder container..." ; echo
+	@docker compose up libs_builder ; echo
+	@echo "libs_builder container finished." ; echo
+	@echo "Running deployment script..." ; echo
+	@./libs/deploy_libs.sh ; echo
+	@echo "Deployment completed successfully."
+
 
 delete_libs: delete_libs_virtual_environments
-	@echo "Removing libraries from backends..."
-	@for lib in $(LIBS); do \
-		echo "Deleting $$lib..."; \
-		cd $$lib && ./scripts/remove_deployment.sh && cd -; \
-	done
+	@echo "Running cleanup script..." ; echo
+	@./libs/cleanup_libs.sh ; echo
+	@echo "Cleanup script completed successfully." ; echo
+	@echo "Starting libs_cleaner container..." ; echo
+	@docker compose up libs_cleaner ; echo
+	@echo "libs_cleaner container finished."
+
+cleanup_libs: delete_libs
 
 delete_libs_virtual_environments:
 	@echo "Removing virtual environments from backends..."
@@ -97,7 +106,7 @@ delete_libs_virtual_environments:
 
 LOCALES_PATH=i18n_service/i18n_service/i18n_service_app/locales
 TO_SET_LOCALE_PATHS=website/src/assets/locale/ \
-					ft_i18n/ft_i18n/locale/
+					libs/ft_i18n/ft_i18n/locale/
 
 update_i18n:
 	for path in ${TO_SET_LOCALE_PATHS}; do \
@@ -167,7 +176,7 @@ structure:
 .PHONY: stop remove clean \
 		build up upd up-d buildup build-up up-build buildupd build-up-d \
 		down logs clean-images fclean-images clean-volumes prune restart \
-		update_libs delete_libs delete_libs_virtual_environments \
+		update_libs deploy_libs delete_libs cleanup_libs delete_libs_virtual_environments \
 		update_i18n \
 		insert_user insert_test_user view_users clear_users list_tables \
 		structure
