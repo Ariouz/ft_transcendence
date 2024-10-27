@@ -28,7 +28,13 @@
                 <span class="pong_home_item_title" data-i18n="pong_home_1v1_title">1 versus 1</span>
                 <hr>
                 <span data-i18n="pong_home_1v1_desc">Local or online game</span>
-                <span class="pong_home_play_button" data-i18n="play_button" onclick="joinMatchmakingQueue()">PLAY</span>
+                <span class="pong_home_play_button" data-i18n="play_button" onclick="joinMatchmakingQueue('1v1')">PLAY</span>
+            </div>
+            <div class="pong_home_type_item">
+                <span class="pong_home_item_title" data-i18n="pong_home_arcade_title">Arcade Mode</span>
+                <hr>
+                <span data-i18n="pong_home_arcade_desc">Local or online game</span>
+                <span class="pong_home_play_button" data-i18n="play_button" onclick="joinMatchmakingQueue('arcade')">PLAY</span>
             </div>
             <div class="pong_home_type_item">
                 <span class="pong_home_item_title" data-i18n="pong_home_tournament_title">Tournament</span>
@@ -87,8 +93,9 @@
         }, 500);
     }
 
-    function joinMatchmakingQueue()
+    function joinMatchmakingQueue(gameType)
     {
-        navigate("/pong/matchmaking");
+        console.log("joinMatchmakingQueue gameType:", gameType);
+        navigate(`/pong/matchmaking?game_type=${gameType}`);
     }
 </script>

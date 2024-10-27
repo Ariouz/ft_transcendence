@@ -16,6 +16,10 @@ PONG_SERVICE_URL = "http://pong-service:8002/api"
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
+redis_pong_arcade_queue = "pong-arcade-queue"
+
+def get_redis_queue(game_type):
+    return redis_pong_arcade_queue if game_type == "arcade" else redis_pong_1_1_queue
 
 class PongUserConsumer(WebsocketConsumer):
     # Called on connection
@@ -45,9 +49,12 @@ class PongUserConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         if self.user_id:
 
-            if self.is_user_in_queue(self.user_id):
+            if self.is_user_in_queue(self.user_id, game_type="1v1"):
                 redis_client.lrem(redis_pong_1_1_queue, 0, self.user_id)
-                logging.getLogger("websocket_logger").info('Pong User %d removed from queue.', self.user_id)
+                logging.getLogger("websocket_logger").info('Pong User %d removed from 1v1 queue.', self.user_id)
+            if self.is_user_in_queue(self.user_id, game_type="arcade"):
+                redis_client.lrem(redis_pong_arcade_queue, 0, self.user_id)
+                logging.getLogger("websocket_logger").info('Pong User %d removed from arcade queue.', self.user_id)
 
             logging.getLogger("websocket_logger").info('Pong User %d disconnected.', self.user_id)
             async_to_sync(self.channel_layer.group_discard)(
@@ -55,8 +62,9 @@ class PongUserConsumer(WebsocketConsumer):
                 self.channel_name
             )
 
-    def is_user_in_queue(self, user_id):
-        queue = redis_client.lrange(redis_pong_1_1_queue, 0, -1)
+    def is_user_in_queue(self, user_id, game_type):
+        redis_queue = get_redis_queue(game_type)
+        queue = redis_client.lrange(redis_queue, 0, -1)
         decode_queue = [uid.decode("utf-8") for uid in queue]
         return str(user_id) in decode_queue
 

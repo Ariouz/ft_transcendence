@@ -3,16 +3,17 @@ const PONG_GAME_API = `${PONG_SERVICE_URL}/game`;
 
 let g_userInPongQueue = false;
 
-// Todo add queue type
-async function joinQueue()
+// Todo add queue type: done?
+async function joinQueue(gameType)
 {
     let url = `${PONG_QUEUE_API}/join/`;
     let sessionToken = getCookie("session_token");
     if (sessionToken == undefined) return;
 
     let userId = await retrieveId(sessionToken);
-    console.log(userId.user_id);
-    let requestData = { user_id: userId.user_id };
+    console.log("userId.user_id:", userId.user_id);
+    console.log("gameType:", gameType);
+    let requestData = { user_id: userId.user_id, game_type: gameType };
 
     data = fetch(url, {
         method: 'POST',

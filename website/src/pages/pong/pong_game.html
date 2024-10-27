@@ -99,9 +99,9 @@
     {
         let token = getCookie("session_token");
 
-        let params = new URLSearchParams(window.location.search);
+        let pongGameParams = new URLSearchParams(window.location.search);
         let userId = "";
-        let gameId = params.get("gid");
+        let gameId = pongGameParams.get("gid");
 
         if (gameId == undefined) {
             navigate("/pong");

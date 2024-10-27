@@ -37,5 +37,6 @@
 
     
     loadData();
-    joinQueue();
+
+    joinQueue(new URLSearchParams(window.location.search).get("game_type"));
 </script>

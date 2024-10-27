@@ -11,7 +11,7 @@ class PongUser(models.Model):
         return str(self.user_id)
     
 class PongGame(models.Model):
-    type_choices = [("local1v1", "Local 1v1"), ("1v1", "1v1"), ("tournament", "Tournament")]
+    type_choices = [("local1v1", "Local 1v1"), ("1v1", "1v1"), ("arcade", "Arcade"), ("tournament", "Tournament")]
     status_choices = [("init", "Init"), ("started", "Started"), ("finished", "Finished")]
 
     game_id = models.AutoField(primary_key=True, unique=True)
