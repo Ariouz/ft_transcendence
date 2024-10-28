@@ -12,6 +12,7 @@ import json
 import logging
 from . import game_manager
 import asyncio
+from .themes import get_default_theme, get_random_theme
 
 executor = ThreadPoolExecutor(max_workers=20)
 
@@ -27,14 +28,18 @@ def get_game_data(request):
         return JsonResponse({"error":"Game not found", "details": "No game found matching id"})
     
     game = PongGame.objects.get(game_id=game_id)
-
+    mapTheme = get_default_theme()
+    if game.type == "arcade":
+        mapTheme = get_random_theme()
+    
     data = {
         "game_id": game_id,
         "players": game.users,
         "status": game.status,
         "type": game.type,
         "score": game.score,
-        "winner_id": game.winner_id
+        "winner_id": game.winner_id,
+        "theme": mapTheme
     }
     return JsonResponse({"success": "Data retrieved", "data": data})
 

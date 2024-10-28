@@ -111,9 +111,9 @@
         let gameData = await getGameData(gameId);
         gameData = gameData.data;
         console.log(gameData);
+        changeTheme(gameData.theme);
         let gameType = gameData.type;
         let gameStatus = gameData.status;
-
         if (gameType == "local1v1")
         {
             await sendStartLocalGameRequest(gameData.game_id);
@@ -135,6 +135,12 @@
         }
         
         
+    }
+
+    function changeTheme(theme) {
+        for (let [key, value] of Object.entries(theme)) {
+            document.documentElement.style.setProperty(key, value);
+        }
     }
 
     loadGame();
