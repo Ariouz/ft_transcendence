@@ -3,9 +3,9 @@ from django.core.files.base import ContentFile
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
+from concurrent.futures import ThreadPoolExecutor
 from channels.db import database_sync_to_async
 from asgiref.sync import async_to_sync
-from concurrent.futures import ThreadPoolExecutor
 import ft_requests
 import redis
 import json
@@ -13,7 +13,7 @@ import logging
 from . import game_manager
 import asyncio
 
-executor = ThreadPoolExecutor(max_workers=20)
+executor = ThreadPoolExecutor()
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -54,7 +54,7 @@ def start_game(request):
         return JsonResponse({"error":"Game not found", "details": "No game found matching id"}, status=400)
     
     logging.getLogger("django").info(f"Starting game {game_id}")
-    executor.submit(run_start_game, game_id)
+    run_start_game(game_id)
     
     return JsonResponse({"success": "Games started"})
 
@@ -102,4 +102,9 @@ def can_join(request):
     return JsonResponse({"success": "User can join the game"})
 
 def run_start_game(game_id):
-    asyncio.run(game_manager.start_game(game_id=game_id))
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+    loop.run_in_executor(executor, lambda: loop.run_until_complete(game_manager.start_game(game_id)))

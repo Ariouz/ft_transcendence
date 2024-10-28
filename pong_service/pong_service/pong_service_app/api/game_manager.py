@@ -31,10 +31,10 @@ def create_game(players, type):
             }
         )
 
-        async_to_sync(channel_layer.group_add)(
-            f"pong_game_{game.game_id}",
-            f"pong_user_{user_id}"
-        )
+        # async_to_sync(channel_layer.group_add)(
+        #     f"pong_game_{game.game_id}",
+        #     f"pong_user_{user_id}"
+        # )
 
 
 @sync_to_async
@@ -44,6 +44,8 @@ def get_game(game_id):
 
 async def start_game(game_id):
     game = await get_game(game_id)
+    if (game.status != "init"):
+        return
     await set_game_status(game.game_id, "started")
 
     players_ids = [int(player) for player in game.users]
@@ -54,9 +56,13 @@ async def start_game(game_id):
     await game_loop(game_state=game_state, players=players_ids)
 
 
-
 async def game_loop(game_state:PongGameState, players):
-    redis_task = asyncio.create_task(listen_to_redis(game_state))
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        redis_task = asyncio.run(listen_to_redis(game_state))
+    else:
+        redis_task = loop.create_task(listen_to_redis(game_state))
 
     await time_ball(players, game_state, "")
 
@@ -130,7 +136,14 @@ async def time_ball(players, game_state:PongGameState, scoring_player, sendStart
     await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
     await asyncio.sleep(ball_timer)
 
-    if not was_paused:
+    was_paused = len(game_state.connected_users) != 2
+    if was_paused:
+        await game_state.set_paused(True)
+        await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
+        game_state.reset_ball()
+        return
+
+    else:
         await game_state.set_paused(False)
         game_state.reset_ball()
 
@@ -209,6 +222,7 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         if game_state.game_pause_task:
             if  not game_state.game_pause_task.cancelled():
                 game_state.game_pause_task.cancel()
+                game_state.game_pause_task = None
                 logging.getLogger("django").info(f"Cancelling disconnect task on game {game_state.game_id}")
             
             logging.getLogger("django").info(f"User {user_id} reconnected on game {game_state.game_id}")
@@ -244,4 +258,5 @@ async def pause_game_user_disconnected(game_state:PongGameState, user_id):
 
     except Exception as e:
         logging.getLogger("django").info(f"User {user_id} reconnection task cancelled on game {game_state.game_id} {str(e)}")
+        game_state.game_pause_task = None
 
