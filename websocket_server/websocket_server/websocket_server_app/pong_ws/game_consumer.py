@@ -79,6 +79,8 @@ class PongGameConsumer(AsyncWebsocketConsumer):
                 self.channel_name
             )
             await self.update_group_size(self.game_id, increment=False)
+            logging.getLogger("websocket_logger").info(f"Game {self.game_id} websocket size is now {await self.get_group_size(self.game_id)}")
+
 
     async def authenticate_user(self, token):
         logging.getLogger("websocket_logger").info('Attempting to authenticate pong game user with token "%s"...', token)
@@ -153,7 +155,6 @@ class PongGameConsumer(AsyncWebsocketConsumer):
         logging.getLogger("websocket_logger").info('Received game winner for game %d', state['game_id'])
         await self.send(text_data=json.dumps({"type": "game_winner_timer", "state": state, "winner": winner, "countdown_timer": countdown}))
 
-    
     async def game_user_disconnected(self, event):
         state = event['state']
         player = event['player']
