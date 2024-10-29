@@ -50,7 +50,7 @@
 }
 
 .pong_home_types_container {
-    margin-top: 80px;
+    margin-top: 60px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -99,9 +99,9 @@
     background-color: var(--purple-blue);
 }
 
-.pong_home_spectator {
+.pong_home_history {
     cursor: pointer;
-    margin-top: 75px;
+    margin-top: 50px;
     margin-bottom: 200px;
     padding: 5px;
     min-width: 20%;
@@ -112,7 +112,7 @@
     transition: ease 0.3s;
 }
 
-.pong_home_spectator:hover {
+.pong_home_history:hover {
     background-color: var(--flashy-pink);
     border: 1px solid var(--purple-blue);
 }

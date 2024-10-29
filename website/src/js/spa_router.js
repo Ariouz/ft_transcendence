@@ -145,6 +145,12 @@ function routePong(parts, params)
             navigate("/login?redirect=pong");
         loadContent("/pages/pong/pong_matchmaking.html");
     }
+    else if (parts[1] == "history")
+    {
+        if (!isLoggedIn())
+            navigate("/login?redirect=pong");
+        loadContent("/pages/pong/pong_history.html");
+    }
 }
 
 function loadContent(url, onPageLoaded = () => {}) {

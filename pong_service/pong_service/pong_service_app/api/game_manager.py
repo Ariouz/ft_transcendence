@@ -90,7 +90,7 @@ async def game_loop(game_state:PongGameState, players):
                     await redis_task
                 except asyncio.CancelledError:
                     pass
-            await save_game_to_db(game_state)
+            await save_game_to_db(game_state, end_status="finished" if not await game_state.get_has_disconnected() else "forfaited")
 
 @sync_to_async
 def set_game_status(game_id, game_status):
@@ -100,12 +100,12 @@ def set_game_status(game_id, game_status):
 
 
 @sync_to_async
-def save_game_to_db(game_state:PongGameState):
+def save_game_to_db(game_state:PongGameState, end_status="finished"):
     game = PongGame.objects.get(game_id=game_state.game_id)
     
     game.score = [game_state.players['player1']['score'], game_state.players['player2']['score']]
     game.winner_id = game_state.get_player_id(game_state.get_winner())
-    game.status = "finished" if not game_state.get_has_disconnected() else "forfaited"
+    game.status = end_status
     game.save()
 
     pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1')
