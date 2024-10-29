@@ -141,7 +141,7 @@ async def time_ball(players, game_state:PongGameState, scoring_player, sendStart
     await asyncio.sleep(ball_timer)
 
 
-    if await game_state.get_has_disconnected() != 2 and not is_reconnect:
+    if await game_state.get_has_disconnected() and not is_reconnect:
         logging.getLogger("django").info(f"Player has disconnected during the timer, game paused")
         await game_state.set_paused(True)
         await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
