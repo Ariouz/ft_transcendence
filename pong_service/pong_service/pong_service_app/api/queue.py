@@ -8,6 +8,7 @@ import redis
 import json
 from . import game_manager
 import logging
+from . import pong_user
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
@@ -49,6 +50,8 @@ def join_queue(request):
     
     if is_user_in_queue(user_id, game_type):
         return JsonResponse({"error":"Already in queue", "details":"User is already in the queue"})
+
+    pong_user.create_user_if_not_exists(user_id)
 
     redis_queue = get_redis_queue(game_type)
     redis_client.lpush(redis_queue, user_id)

@@ -31,7 +31,7 @@ echo "Install dependencies"
 $PIP install -r requirements.txt
 
 echo "Setup database"
-$MANAGE makemigrations $DJANGO_APP
+$MANAGE makemigrations
 $MANAGE migrate
 
 echo "Run tests"
