@@ -20,6 +20,7 @@ function handleRouting() {
         g_pongGamePlayerPaddle = null;
         g_pongGameType = null;
         g_pongGameOpponentDisconnected = false;
+        g_pongGameInterval = null;
     }
 
     Game.stopGameLoop();
@@ -143,7 +144,13 @@ function routePong(parts, params)
     {
         if (!isLoggedIn())
             navigate("/login?redirect=pong");
-        loadContent("/pages/pong/pong_matchmaking.html");
+        else loadContent("/pages/pong/pong_matchmaking.html");
+    }
+    else if (parts[1] == "history")
+    {
+        if (!isLoggedIn())
+            navigate("/login?redirect=pong/history");
+        else loadContent("/pages/pong/pong_history.html");
     }
 }
 

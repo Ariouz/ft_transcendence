@@ -5,7 +5,7 @@ from pong_service_app.models import *
 
 @admin.register(PongUser)
 class PongUserAdmin(admin.ModelAdmin):
-    fields = ('user_id', 'game_history')
+    fields = ('user_id', 'game_history', 'last_game')
     list_display = fields
     search_fields = fields
     list_filter = fields
@@ -13,7 +13,7 @@ class PongUserAdmin(admin.ModelAdmin):
 @admin.register(PongGame)
 class PongGameAdmin(admin.ModelAdmin):
     readonly_fields = ('game_id',)
-    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status')
+    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status', 'date')
     list_display = fields
     search_fields = fields
     list_filter = fields

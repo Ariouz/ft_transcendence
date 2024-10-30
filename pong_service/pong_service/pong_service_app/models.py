@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from .api.themes import get_default_theme
 
 # def user_directory_path(instance, filename):
@@ -7,13 +8,14 @@ from .api.themes import get_default_theme
 class PongUser(models.Model):
     user_id = models.IntegerField(primary_key=True, unique=True)
     game_history = models.JSONField(default=list)
+    last_game = models.IntegerField(default="-1")
 
     def __str__(self):
         return str(self.user_id)
     
 class PongGame(models.Model):
     type_choices = [("local1v1", "Local 1v1"), ("1v1", "1v1"), ("arcade", "Arcade"), ("tournament", "Tournament")]
-    status_choices = [("init", "Init"), ("started", "Started"), ("finished", "Finished")]
+    status_choices = [("init", "Init"), ("started", "Started"), ("finished", "Finished"), ("forfaited", "Forfaited")]
 
     game_id = models.AutoField(primary_key=True, unique=True)
     users = models.JSONField(default=list)
@@ -21,6 +23,7 @@ class PongGame(models.Model):
     score = models.JSONField(default=list)
     type = models.CharField(max_length=255, choices=type_choices, default="1v1")
     status = models.CharField(max_length=255, choices=status_choices, default="init")
+    date = models.DateTimeField(default=timezone.now)
     map_theme = models.JSONField(default=get_default_theme)
 
     def __str__(self):

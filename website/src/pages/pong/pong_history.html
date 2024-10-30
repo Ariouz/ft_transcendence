@@ -1,0 +1,29 @@
+<div>
+    <h1 class="history_title" data-i18n="pong_home_user_history"></h1>
+    <div class="history_content">
+        <span id="history_error"></span>
+        <ul class="history_list" id="history_list">
+        </ul>
+    </div>
+    <div class="history_pagination_nav">
+        <ul>
+            <li onclick="showHistory(0)">
+                <i class="fa-solid fa-angles-left"></i>
+            </li>
+            <li onclick="showHistory(parseInt(g_historyPage) - 1)">
+                <i class="fa-solid fa-angle-left"></i>
+            </li>
+            <li class="history_page_active" id="history_current_page">
+                -
+            </li>
+            <li onclick="showHistory(parseInt(g_historyPage) + 1)">
+                <i class="fa-solid fa-angle-right"></i>
+            </li>
+            <li onclick="showHistory(g_historyMaxPage)">
+                <i class="fa-solid fa-angles-right"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="../../js/pong/page/pong_history.js"></script>

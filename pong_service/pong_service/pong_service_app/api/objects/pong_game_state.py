@@ -50,6 +50,7 @@ class PongGameState:
         self.game_pause_task = None
 
         self.connected_users = set([player1_id, player2_id])
+        self.has_disconnected = False
 
         self.lock = asyncio.Lock()
     
@@ -162,6 +163,14 @@ class PongGameState:
     async def set_pause_task(self, task):
         async with self.lock:
             self.game_pause_task = task
+
+    async def get_has_disconnected(self):
+        async with self.lock:
+            return self.has_disconnected
+        
+    async def set_has_disconnected(self, val):
+        async with self.lock:
+            self.has_disconnected = val
 
 
     async def get_state(self):

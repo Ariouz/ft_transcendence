@@ -12,6 +12,7 @@ import logging
 import asyncio
 import redis.asyncio
 from . import pong_game_ws_update
+from . import pong_user
 from .themes import get_theme
 
 def create_game(players, type):
@@ -22,7 +23,7 @@ def create_game(players, type):
     logging.getLogger("django").info(f"Creating game with {players}")
 
     if type == "local1v1":
-        players.pop() # removed duplicated user (double websocket issue)
+        players.pop() # double websocket
 
     for user_id in players:
         async_to_sync(channel_layer.group_send)(
@@ -31,12 +32,6 @@ def create_game(players, type):
                 "game_id": game.game_id
             }
         )
-
-        # async_to_sync(channel_layer.group_add)(
-        #     f"pong_game_{game.game_id}",
-        #     f"pong_user_{user_id}"
-        # )
-
 
 @sync_to_async
 def get_game(game_id):
@@ -84,7 +79,6 @@ async def game_loop(game_state:PongGameState, players):
 
         game_data = await game_state.get_state()
         await pong_game_ws_update.send_game_state_to_players(game_data)
-        # logging.getLogger("django").info(f"Game loop {game_state.game_id}")
 
         if game_state.check_win():
             await pong_game_ws_update.send_winner_to_players(game_state.get_winner(), await game_state.get_state(), 5)
@@ -97,7 +91,7 @@ async def game_loop(game_state:PongGameState, players):
                     await redis_task
                 except asyncio.CancelledError:
                     pass
-            await save_game_to_db(game_state)
+            await save_game_to_db(game_state, end_status="finished" if not await game_state.get_has_disconnected() else "forfaited")
 
 @sync_to_async
 def set_game_status(game_id, game_status):
@@ -107,18 +101,19 @@ def set_game_status(game_id, game_status):
 
 
 @sync_to_async
-def save_game_to_db(game_state:PongGameState):
+def save_game_to_db(game_state:PongGameState, end_status="finished"):
     game = PongGame.objects.get(game_id=game_state.game_id)
     
     game.score = [game_state.players['player1']['score'], game_state.players['player2']['score']]
     game.winner_id = game_state.get_player_id(game_state.get_winner())
-    game.status = "finished"
+    game.status = end_status
     game.save()
 
-    # todo save users' stats and history
+    pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1')
+    pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2')
 
 
-async def time_ball(players, game_state:PongGameState, scoring_player, sendStartTimer=True):
+async def time_ball(players, game_state:PongGameState, scoring_player, sendStartTimer=True, is_reconnect=False):
     was_paused = False
     if await game_state.is_paused():
         was_paused = True
@@ -137,16 +132,15 @@ async def time_ball(players, game_state:PongGameState, scoring_player, sendStart
     await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
     await asyncio.sleep(ball_timer)
 
-    was_paused = len(game_state.connected_users) != 2
-    if was_paused:
+
+    if await game_state.get_has_disconnected() and not is_reconnect:
+        logging.getLogger("django").info(f"Player has disconnected during the timer, game paused")
         await game_state.set_paused(True)
         await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
-        game_state.reset_ball()
         return
 
-    else:
-        await game_state.set_paused(False)
-        game_state.reset_ball()
+    await game_state.set_paused(False)
+    game_state.reset_ball()
 
 
 
@@ -208,6 +202,7 @@ async def handle_redis_message(message_data, game_state:PongGameState):
             return
         user_id = message_data['user_id']
 
+        await game_state.set_has_disconnected(True)
         if not game_state.game_pause_task:
             game_state.game_pause_task = asyncio.create_task(pause_game_user_disconnected(game_state, user_id))
         # logging.getLogger("django").info(f"User {user_id} disconnected on game {game_state.game_id}")
@@ -229,7 +224,8 @@ async def handle_redis_message(message_data, game_state:PongGameState):
             logging.getLogger("django").info(f"User {user_id} reconnected on game {game_state.game_id}")
             await pong_game_ws_update.send_reconnected_to_players(await game_state.get_player_by_id(user_id), await game_state.get_state(), 5)
             await game_state.set_paused(False)
-            await time_ball([], game_state, "", sendStartTimer=False)
+            await time_ball([], game_state, "", sendStartTimer=False, is_reconnect=True)
+            await game_state.set_has_disconnected(False)
 
 
 async def pause_game_user_disconnected(game_state:PongGameState, user_id):
@@ -253,7 +249,7 @@ async def pause_game_user_disconnected(game_state:PongGameState, user_id):
         logging.getLogger("django").info(f"Users in game {game_state.connected_users}")
         if not user_id in game_state.connected_users:
             logging.getLogger("django").info(f"User {user_id} didn't reconnect on game {game_state.game_id}")
-            opponent = "player1" if game_state.get_player_by_id(user_id) == "player2" else "player2"
+            opponent = "player1" if player == "player2" else "player2"
             game_state.players[opponent]['score'] = 5
             await game_state.set_paused(False)
 

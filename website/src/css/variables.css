@@ -3,6 +3,7 @@
 
 :root {
     --black-blue: #02010A;
+    --darker-marine-blue: #030426;
     --marine-blue: #04052E;
     --purple-blue: #140152;
     --light-purple-blue: #22007C;
@@ -10,4 +11,7 @@
     --flashy-pink: #F72585;
     --beige: #ffffcc;
     --light-beige: #ffffee;
+    --victory-green: #0d6f2f;
+    --lose-red: #d1323f98;
+    --gray-white: #f0f0f0;
 }

@@ -21,6 +21,8 @@ urlpatterns = [
     path('auth/42/data/settings/<str:access_token>/', ft_auth_data_settings, name="ft_auth_data_settings"),
     path('auth/42/data/settings/confidentiality/<str:access_token>/', ft_auth_data_confidentiality_settings, name="ft_auth_data_confidentiality_settings"),
     
+    path('auth/42/data/displayname/<int:user_id>/', ft_auth_data_displayname, name="ft_auth_data_displayname"),
+
     # Account management
     path('account/create/', create_account, name="create_account"),
     path('account/exists/', account_exists, name="account_exists"),
@@ -32,6 +34,7 @@ urlpatterns = [
 
     # View other profile
     path('user/profile/data/<str:username>/', get_profile_data_username, name="get_profile_data_username"),
+    path('user/profile/data/id/<int:user_id>/', get_profile_data_id, name="get_profile_data_id"),
     path('users/all/data/', get_all_users_data, name="get_all_users_data"),
 
     # User status

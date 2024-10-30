@@ -34,7 +34,8 @@ function isLoggedIn()
 
 function logout()
 {
-    if (g_pongWebSocket) g_pongWebSocket.close();
+    if (g_pongUserWebSocket) g_pongUserWebSocket.close();
+    if (g_pongGameWebSocket) g_pongWebSocket.close();
     if (g_friendListWebSocket) g_friendListWebSocket.close();
     
     deleteCookie("session_token");

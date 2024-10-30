@@ -76,6 +76,21 @@ async function retrieveUsername(access_token)
     }
 }
 
+async function retrieveDisplayName(user_id)
+{
+    const url = `${FT_AUTH_URL}/data/displayname/${user_id}`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
 async function retrieveId(access_token)
 {
     const url = `${FT_AUTH_URL}/data/id/${access_token}`;
@@ -124,6 +139,21 @@ async function retrieveConfidentialitySettings(access_token)
 async function retrievePublicProfileDataByUsername(username)
 {
     const url = `${USERS_SERVICE_URL}/user/profile/data/${username}`;
+    try {
+        const data = await fetchBack(url);
+        return data;
+    } catch (error)
+    {
+        return {
+            error: "Cannot fetch user data",
+            details: error.message
+        };
+    }
+}
+
+async function retrievePublicProfileDataById(userId)
+{
+    const url = `${USERS_SERVICE_URL}/user/profile/data/id/${userId}`;
     try {
         const data = await fetchBack(url);
         return data;

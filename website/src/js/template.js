@@ -1,3 +1,4 @@
+
 function setCookieBannerVisibility(mode, finalOpacity)
 {
     cookieBanner = document.getElementById("cookie_consent_banner");
