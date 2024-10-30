@@ -1,4 +1,5 @@
 from django.db import models
+from .api.themes import get_default_theme
 
 # def user_directory_path(instance, filename):
 #     return 'avatars/{0}'.format(filename)
@@ -20,6 +21,7 @@ class PongGame(models.Model):
     score = models.JSONField(default=list)
     type = models.CharField(max_length=255, choices=type_choices, default="1v1")
     status = models.CharField(max_length=255, choices=status_choices, default="init")
+    map_theme = models.JSONField(default=get_default_theme)
 
     def __str__(self):
         return str(self.game_id)
