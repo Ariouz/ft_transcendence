@@ -1,0 +1,131 @@
+@import url('../../variables.css');
+
+.history_pagination_nav {
+    margin-top: 3vh;
+}
+
+.history_pagination_nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    color: var(--gray-white);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.history_pagination_nav li {
+    padding: 7px 15px;
+    background-color: var(--marine-blue);
+    transition: .3s ease;
+}
+
+.history_pagination_nav li:hover {
+    background-color: var(--darker-marine-blue);
+    color: white;
+}
+
+.history_page_active {
+    color: white;
+}
+
+.history_title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.history_content {
+    width: 60%;
+    background-color: var(--marine-blue);
+    border-radius: 10px;
+    border: 2px solid var(--black-blue);
+    margin: 0 auto;
+    padding: 5px 5px;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+#history_error {
+    display: none;
+    color: var(--gray-white);
+    margin: 10px;
+    font-size: 1em;
+}
+
+.history_list {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-beige);
+    list-style-type: none;
+}
+
+.history_item {
+    margin: auto;
+    padding: 5px 7px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--black-blue);
+}
+
+.history_win {
+    background-color: #119f4399;
+    color: #0d6f2f;
+}
+
+.history_defeat {
+    background-color: var(--lose-red);
+    color: #b4222e;
+}
+
+.history_user_info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    margin-left: 5px;
+    gap: 10px;
+    color: var(--gray-white);
+}
+
+.history_score {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.history_game_info {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    text-align: right;
+    margin-right: 5px;
+    color: var(--gray-white);
+}
+
+.history_score_win_status {
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.history_score_score {
+    font-size: 1em;
+    color: var(--gray-white);
+}
+
+.pong_history_avatar {
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 3px inset var(--flashy-pink);
+}

@@ -1,112 +1,29 @@
 <div>
-    <h1>Historique</h1>
+    <h1 class="history_title" data-i18n="pong_home_user_history"></h1>
     <div class="history_content">
-        <ul class="history_list">
-            <li class="history_item history_win">
-                <div class="history_user_info">
-                    <img src="../../assets/images/default_avatar.svg" alt="" width="50px" height="50px">
-                    <span>Opponent DisplayName</span>
-                </div>
-                <div class="history_score">
-                    <div class="history_score_win_status">VICTORY</div>
-                    <div class="history_score_score">5 - 0</div>
-                </div>
-                <div class="history_game_info">
-                    <div>Arcade</div>
-                    <div>October 29th 2024</div>
-                </div>
+        <span id="history_error"></span>
+        <ul class="history_list" id="history_list">
+        </ul>
+    </div>
+    <div class="history_pagination_nav">
+        <ul>
+            <li onclick="showHistory(0)">
+                <i class="fa-solid fa-angles-left"></i>
             </li>
-
-            <li class="history_item history_defeat">
-                <div class="history_user_info">
-                    <img src="../../assets/images/default_avatar.svg" alt="" width="50px" height="50px">
-                    <span>Opponent DisplayName</span>
-                </div>
-                <div class="history_score">
-                    <div class="history_score_win_status">DEFEAT</div>
-                    <div class="history_score_score">2 - 5</div>
-                </div>
-                <div class="history_game_info">
-                    <div>Local 1v1</div>
-                    <div>October 7th 2024</div>
-                </div>
+            <li onclick="showHistory(parseInt(g_historyPage) - 1)">
+                <i class="fa-solid fa-angle-left"></i>
             </li>
-            
+            <li class="history_page_active" id="history_current_page">
+                -
+            </li>
+            <li onclick="showHistory(parseInt(g_historyPage) + 1)">
+                <i class="fa-solid fa-angle-right"></i>
+            </li>
+            <li onclick="showHistory(g_historyMaxPage)">
+                <i class="fa-solid fa-angles-right"></i>
+            </li>
         </ul>
     </div>
 </div>
 
-<style>
-    .history_content {
-        width: 60%;
-        background-color: var(--marine-blue);
-        border-radius: 10px;
-        border: 2px solid var(--black-blue);
-        margin: 0 auto;
-        padding: 5px 5px;
-    }
-
-    .history_list {
-        background-color: var(--light-beige);
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-    }
-
-    .history_item {
-        margin: auto;
-        padding: 5px 7px;
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        border-bottom: 1px solid var(--black-blue);
-    }
-
-    .history_win {
-        background-color: #119f4399;
-        color: #0d6f2f;
-    }
-
-    .history_defeat {
-        background-color: var(--lose-red);
-        color: #b4222e;
-    }
-
-    .history_user_info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-        margin-left: 5px;
-        gap: 10px;
-        color: var(--gray-white);
-    }
-
-    .history_score {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .history_game_info {
-        display: flex;
-        flex-direction: column;
-        align-self: center;
-        text-align: right;
-        margin-right: 5px;
-        color: var(--gray-white);
-    }
-
-    .history_score_win_status {
-        font-size: 1.6em;
-        font-weight: 600;
-    }
-
-    .history_score_score {
-        font-size: 1.2em;
-        color: var(--gray-white);
-    }
-
-</style>
+<script src="../../js/pong/page/pong_history.js"></script>

@@ -75,6 +75,11 @@ def ft_auth_data_confidentiality_settings(request, access_token):
         return JsonResponse(data)
     return JsonResponse({"error":"User not found","details":"No user account exists with this token"})
 
+# /user/profile/data/<int:user_id>/
+def get_profile_data_id(request, user_id):
+    if (User.objects.filter(user_id=user_id).exists()):
+        return get_profile_data_username(request, User.objects.filter(user_id=user_id).get().username)
+    return JsonResponse({"error":"User not found","details":"No user account exists with this id"})
 
 # /user/profile/data/<str:username>/
 def get_profile_data_username(request, username):
@@ -123,3 +128,10 @@ def get_all_users_data(request):
         userData["avatar"] = f"http://localhost:8001{userSettings.avatar.url}"
         data[user.user_id] = userData
     return JsonResponse(data)
+
+
+# /auth/42/data/displayname/<user_id>/
+def ft_auth_data_displayname(request, user_id):
+    if (UserSettings.objects.filter(user_id=user_id).exists()):
+        return JsonResponse({"display_name":UserSettings.objects.filter(user_id=user_id).get().display_name})
+    return JsonResponse({"error":"User not found","details":"No user account exists with this id"})

@@ -29,7 +29,7 @@ def add_game_to_history(user_id, game_id, won_game=False):
     if not user or not user_stats:
         create_user_if_not_exists(user_id)
     
-    user.game_history.append(game_id)
+    user.game_history.insert(0, game_id)
     user.last_game = game_id
     user_stats.played += 1
     user_stats.wins += 1 if won_game else 0

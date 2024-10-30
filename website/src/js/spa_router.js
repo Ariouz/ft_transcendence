@@ -20,6 +20,7 @@ function handleRouting() {
         g_pongGamePlayerPaddle = null;
         g_pongGameType = null;
         g_pongGameOpponentDisconnected = false;
+        g_pongGameInterval = null;
     }
 
     Game.stopGameLoop();
