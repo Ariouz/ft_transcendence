@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from .api.themes import get_default_theme
 
 # def user_directory_path(instance, filename):
 #     return 'avatars/{0}'.format(filename)
@@ -23,6 +24,7 @@ class PongGame(models.Model):
     type = models.CharField(max_length=255, choices=type_choices, default="1v1")
     status = models.CharField(max_length=255, choices=status_choices, default="init")
     date = models.DateTimeField(default=timezone.now)
+    map_theme = models.JSONField(default=get_default_theme)
 
     def __str__(self):
         return str(self.game_id)

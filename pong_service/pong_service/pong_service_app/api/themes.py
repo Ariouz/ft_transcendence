@@ -1,7 +1,5 @@
 import random
-from django.http import JsonResponse
 
-import random
 
 THEMES = [
     # Thème par défaut
@@ -43,11 +41,18 @@ THEMES = [
 ]
 
 
-def get_random_theme():
-    random_theme = random.choice(THEMES)
+def get_random_arcade_theme():
+    random_theme = random.choice(THEMES[1:])
     return random_theme
 
 
 def get_default_theme():
     default_theme = THEMES[0]
     return default_theme
+
+
+def get_theme(game_type):
+    theme = get_default_theme()
+    if game_type == "arcade":
+        theme = get_random_arcade_theme()
+    return theme

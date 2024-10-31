@@ -13,9 +13,10 @@ import asyncio
 import redis.asyncio
 from . import pong_game_ws_update
 from . import pong_user
+from .themes import get_theme
 
 def create_game(players, type):
-    game = PongGame.objects.create(users=players, type=type)
+    game = PongGame.objects.create(users=players, type=type, map_theme=get_theme(type))
     game.save()
     channel_layer = get_channel_layer()
 
