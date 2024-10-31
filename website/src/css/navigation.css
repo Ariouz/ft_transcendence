@@ -4,6 +4,7 @@
 .main_nav {
     background: linear-gradient(345deg, var(--marine-blue) 0%, var(--purple-blue) 60%, var(--light-purple-blue) 100%);
     height: 100px;
+    grid-area: "navbar";
 }
 
 .nav_div {

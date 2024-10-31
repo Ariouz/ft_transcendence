@@ -1,5 +1,10 @@
 @import url("../../variables.css");
 
+.pong_home_parent_container
+{
+    background-color: var(--marine-blue);
+}
+
 .pong_home_title {
     display: flex;
     justify-content: center;
@@ -30,10 +35,8 @@
 
 .pong_home_content {
     background: var(--marine-blue);
-    margin-top: -60px;
     margin-bottom: -20px;
     padding-bottom: 50px;
-    height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,12 +53,13 @@
 }
 
 .pong_home_types_container {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    margin-top: 5vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+    gap: 20px;
+    min-height: 20vh;
+    width: 60%;
 }
 
 .pong_home_type_item {
@@ -68,8 +72,6 @@
     border-radius: 5px;
     padding: 25px;
     height: 275px;
-    width: 250px;
-    margin: 0px 50px;
     transition: 0.3s ease;
 }
 
@@ -102,7 +104,7 @@
 .pong_home_history {
     cursor: pointer;
     margin-top: 50px;
-    margin-bottom: 200px;
+    margin-bottom: 3vh;
     padding: 5px;
     min-width: 20%;
     background-color: var(--purple-blue);
@@ -118,20 +120,18 @@
 }
 
 .pong_home_sidebar_card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: auto;
     padding-top: 50px;
 }
 
 .pong_home_sidebar_button {
-    padding: 10px 15px;
     width: 200px;
+    padding: 10px 15px;
     background-color: blue;
     border-radius: 25px;
-    margin: 10px;
     text-align: right;
     display: flex;
     flex-direction: row;
