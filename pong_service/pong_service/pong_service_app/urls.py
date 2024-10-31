@@ -14,5 +14,6 @@ urlpatterns = [
     path('game/can-join/', game.can_join, name="can_join"),
 
     path('user/game-history/<int:user_id>', user_stats.user_history, name="user_history"),
+    path('user/stats/<int:user_id>', user_stats.get_user_stats, name="get_user_stats"),
 
 ]

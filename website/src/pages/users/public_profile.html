@@ -76,30 +76,41 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4 mb-md-0 card-content-background">
+                                <div class="card-body card-content-background">
+                                    <p class="mb-4"><span class="text-primary font-italic me-1" data-i18n="games_statistics"></span></p>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="played_games"></span><span id="user_profile_played_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="won_games"></span><span id="user_profile_won_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="lost_games"></span><span id="user_profile_lost_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="win_loss_ratio"></span><span id="user_profile_win_ratio">-</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-
-<script src="../../js/users_service/front/pages/public_profile.js"></script>
-<script>
-    path = window.location.pathname;
-    parts = path.split("/");
-    parts.shift();
-    username = parts[2];
-
-    sessionToken = getCookie("session_token");
-
+        </section>
+    </div>
     
-
-    handleFollowButton();
-    handleUnfollowButton();
-
-    githubContainer = document.getElementById("profile_user_github_container");
-    githubContainer.style.display = 'none';
-    githubContainer.classList.remove("d-flex");
-
-    loadAllProfileData();
-
-</script>
+    <script>
+        path = window.location.pathname;
+        parts = path.split("/");
+        parts.shift();
+        username = parts[2];
+        
+        sessionToken = getCookie("session_token");
+        
+        handleFollowButton();
+        handleUnfollowButton();
+        
+        githubContainer = document.getElementById("profile_user_github_container");
+        githubContainer.style.display = 'none';
+        githubContainer.classList.remove("d-flex");
+        
+        loadAllProfileData();
+        
+    </script>

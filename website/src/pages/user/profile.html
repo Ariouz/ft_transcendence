@@ -82,11 +82,11 @@
                                 <div class="card-body card-content-background">
                                     <p class="mb-4"><span class="text-primary font-italic me-1" data-i18n="games_statistics"></span></p>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="played_games"></span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="won_games"></span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="lost_games"></span></li>
-                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="win_loss_ratio"></span></li>
-                                      </ul>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="played_games"></span><span id="user_profile_played_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="won_games"></span><span id="user_profile_won_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="lost_games"></span><span id="user_profile_lost_games">-</span></li>
+                                        <li class="list-group-item card-content-background d-flex justify-content-between align-items-center"><span data-i18n="win_loss_ratio"></span><span id="user_profile_win_ratio">-</span></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -109,6 +109,17 @@
 
 <script>
     token = getCookie("session_token");
+
+    async function displayUserStats(userId)
+    {
+        let statsReq = await getPongUserStats(userId);
+        if (!statsReq.data) return ;
+        let stats = statsReq.data;
+        document.getElementById("user_profile_played_games").innerText = stats.played;
+        document.getElementById("user_profile_won_games").innerText = stats.wins;
+        document.getElementById("user_profile_lost_games").innerText = stats.loses;
+        document.getElementById("user_profile_win_ratio").innerText = stats.ratio;
+    }
 
     async function loadAllProfileData()
     {
@@ -142,6 +153,7 @@
                 githubLink.href = "https://github.com/" + userData.github;
 
                 displayCurrentFriendList();
+                await displayUserStats(userData.user_id);
             }
         }
         catch (error)

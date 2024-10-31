@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
+from .. import pong_user
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -52,4 +53,13 @@ def user_history(request, user_id):
 
     return JsonResponse({"success":"History found", "user_id": user_id, "history": games, "online_games_played": game_count})
 
-    
+def get_user_stats(request, user_id):
+    user_stats = pong_user.get_user_stats(user_id)
+
+    stats = {
+        "played": user_stats.played,
+        "wins": user_stats.wins,
+        "loses": user_stats.loses,
+        "ratio": pong_user.get_win_rate(user_id)
+    }
+    return JsonResponse({"success":"Data retrieved", "data": stats}, status=200)

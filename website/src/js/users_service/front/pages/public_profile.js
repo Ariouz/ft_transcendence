@@ -26,6 +26,8 @@ async function loadAllProfileData()
             }
             githubLink.href = "https://github.com/" + userData.github;
 
+            await displayUserStats(userData.user_id);
+
             await setRightStatus("user_online_status_circle", "user_online_status_radar", userData.user_id);
 
             // Friends
@@ -69,4 +71,15 @@ async function loadAllProfileData()
             followUserButton.style.display ='block';
             unfollowUserButton.style.display = 'none';
         });
+    }
+
+    async function displayUserStats(userId)
+    {
+        let statsReq = await getPongUserStats(userId);
+        if (!statsReq.data) return ;
+        let stats = statsReq.data;
+        document.getElementById("user_profile_played_games").innerText = stats.played;
+        document.getElementById("user_profile_won_games").innerText = stats.wins;
+        document.getElementById("user_profile_lost_games").innerText = stats.loses;
+        document.getElementById("user_profile_win_ratio").innerText = stats.ratio;
     }

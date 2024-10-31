@@ -1,4 +1,5 @@
 from pong_service_app.models import *
+import math
 
 def create_user_if_not_exists(user_id):
     if not PongUser.objects.filter(user_id=user_id).exists():
@@ -12,13 +13,13 @@ def create_user_if_not_exists(user_id):
 
 def get_user(user_id):
     if not PongUser.objects.filter(user_id=user_id).exists():
-        return None
+        return create_user_if_not_exists(user_id)
     return PongUser.objects.filter(user_id=user_id).get()
 
 
 def get_user_stats(user_id):
     if not PongUserStats.objects.filter(user_id=user_id).exists():
-        return None
+        return create_user_if_not_exists(user_id)
     return PongUserStats.objects.filter(user_id=user_id).get()
 
 
@@ -47,7 +48,7 @@ def get_win_rate(user_id):
 
     if user_stats.loses <= 0: return user_stats.wins
 
-    return user_stats.wins / user_stats.loses
+    return round(user_stats.wins / user_stats.played, 2)
 
 
 def get_user_played_games(user_id):
