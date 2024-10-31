@@ -52,7 +52,7 @@ function updateScore(game_data, data)
             return ;
         }
 
-        if (txt_time < 0)
+        if (txt_time <= 0)
             pong_text_overlay.innerText = countdown_timer;
         
         txt_time--;
@@ -78,7 +78,7 @@ function startTimer(countdown_timer)
             return ;
         }
 
-        if (txt_time < 0)
+        if (txt_time <= 0)
             pong_text_overlay.innerText = countdown_timer;
 
         txt_time--;
