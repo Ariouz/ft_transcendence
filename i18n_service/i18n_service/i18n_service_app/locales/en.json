@@ -64,6 +64,8 @@
   "confidentiality_settings_saved": "Confidentiality settings saved!",
   "account_successfully_deleted": "Account successfully deleted!",
   "success": "Operation successful",
+
+
   "invalid_method": "Invalid method",
   "this_request_must_be_post": "This request must be POST",
   "this_request_must_be_delete": "This request must be DELETE",
@@ -73,6 +75,11 @@
   "file_size_exceeds_2mb": "File size exceeds 2MB.",
   "invalid_file_extension": "Invalid file extension",
   "only_jpg_and_png_are_allowed": "Only .jpg and .png are allowed.",
+  "field_too_long": "Value too long",
+  "display_name_too_long": "Displayname is too long (max 20)",
+  "status_too_long": "Status message is too long (max 80)",
+  "github_too_long": "Github usernma is too long (max 39)",
+
   "user_logged_in_message_format_name": "You are logged in as %s!",
   "pong_home_local_title": "Local 1v1",
   "pong_home_1v1_title": "1 versus 1",

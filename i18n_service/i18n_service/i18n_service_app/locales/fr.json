@@ -64,6 +64,8 @@
   "confidentiality_settings_saved": "Paramètres de confidentialité sauvegardés !",
   "account_successfully_deleted": "Compte supprimé avec succès !",
   "success": "Opération réussie",
+
+
   "invalid_method": "Méthode invalide",
   "this_request_must_be_post": "Cette requête doit être POST",
   "this_request_must_be_delete": "Cette requête doit être DELETE",
@@ -73,6 +75,13 @@
   "file_size_exceeds_2mb": "La taille du fichier dépasse 2 Mo.",
   "invalid_file_extension": "Extension de fichier invalide",
   "only_jpg_and_png_are_allowed": "Seuls les fichiers .jpg et .png sont autorisés.",
+  "field_too_long": "Valeur trop longue",
+  "display_name_too_long": "Le nom d'utilisateur est trop long (max 20)",
+  "status_too_long": "Le message de statut est trop long (max 80)",
+  "github_too_long": "Le nom d'utilisateur github est trop long (max 39)",
+
+
+
   "user_logged_in_message_format_name": "Vous êtes connecté en tant que %s !",
   "pong_home_local_title": "1c1 local",
   "pong_home_1v1_title": "1 contre 1",

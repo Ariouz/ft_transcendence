@@ -26,14 +26,26 @@ def update_profile_settings(request, access_token):
 
     display_name = request.POST.get("display_name")
     if display_name:
+        if len(display_name) > 20:
+            return error_response(
+                request, "field_too_long", "display_name_too_long"
+            )
         userSettings.display_name = display_name
 
     github_url = request.POST.get("github_url")
     if github_url:
+        if len(github_url) > 39:
+            return error_response(
+                request, "field_too_long", "github_too_long"
+            )
         userSettings.github = github_url
 
     status_message = request.POST.get("status_message")
     if status_message:
+        if len(status_message) > 80:
+            return error_response(
+                request, "field_too_long", "status_too_long"
+            )
         userSettings.status_message = status_message
 
     lang = request.POST.get("lang")
