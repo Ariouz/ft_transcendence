@@ -84,3 +84,58 @@
 .pong_infos_opponent {
     margin-right: 200px;;
 }
+
+.pong_game_users_info
+{
+    width: 800px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    margin-top: 30px;
+    background-color: var(--light-purple-blue);
+    border: 3px outset var(--darker-marine-blue);
+    padding: 10px 15px;
+}
+
+.pong_game_user_info
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.pong_game_user_info_self {
+    margin-left: 10px;
+}
+
+.pong_game_user_info_opponent {
+    margin-right: 10px;
+    flex-direction: row-reverse;
+}
+
+.pong_game_avatar
+{
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: 3px inset var(--flashy-pink);
+}
+
+.pong_game_vs
+{
+    font-size: 2rem;
+    font-family: "Teko", sans-serif;
+    vertical-align: center;
+}
+
+.pong_game_displayname
+{
+    margin: 10px;
+}

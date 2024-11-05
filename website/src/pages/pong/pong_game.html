@@ -15,6 +15,20 @@
             <canvas id="pongCanvas" width="800" height="400"></canvas>
         </div>
     </div>
+    <div class="pong_game_users_info">
+        <div class="pong_game_user_info_self pong_game_user_info">
+            <div class="pong_game_avatar"><img src="" alt="" width="90px" height="auto" id="pong_game_avatar_1"></div>
+            <span class="pong_game_displayname" id="pong_game_displayname_1"></span>
+        </div>
+        <span class="pong_game_vs">
+            VS
+        </span>
+        <div class="pong_game_user_info_opponent pong_game_user_info">
+            <div class="pong_game_avatar"><img src="" alt="" width="90px" height="auto" id="pong_game_avatar_2"></div>
+            <span class="pong_game_displayname" id="pong_game_displayname_2"></span>
+        </div>
+    </div>
+
     <script>
         let pong_text_overlay = document.getElementById("pong_text_overlay");
     </script>
@@ -41,7 +55,7 @@
         let gameData = await getGameData(gameId);
         if (gameData.error)
         {
-            console.error(gameData.error);
+            navigate("/pong");
             return ;
         }
         gameData = gameData.data;
@@ -53,23 +67,22 @@
         if (gameType == "local1v1")
         {
             await sendStartLocalGameRequest(gameData.game_id);
+            await loadPlayersData(gameData, token);
         }
         else
         {
             let userIdReq = await retrieveId(token);
             let userId = userIdReq.user_id;
 
+            await loadPlayersData(gameData, token);
             let canJoinReq = await canJoinGame(gameData.game_id, userId);
             if (canJoinReq.success)
             {
                 createPongGameWebSocket(gameData.game_id, token);
             }
             else
-            {
                 console.error("Cannot join game: " + canJoinReq.error);
-            }
         }
-        
         
     }
 
@@ -77,6 +90,23 @@
         for (let [key, value] of Object.entries(theme)) {
             document.documentElement.style.setProperty(key, value);
         }
+    }
+
+    async function loadPlayersData(gameData, token)
+    {
+
+        let userIdReq = await retrieveId(token);
+        let userId = userIdReq.user_id;
+        let opponentId = gameData.players[0] == userId ? gameData.players[1] : gameData.players[0];
+
+        let userData = await retrievePublicProfileDataById(userId);
+        let opponentData = await retrievePublicProfileDataById(opponentId);
+
+        document.getElementById("pong_game_avatar_1").src = userData.avatar;
+        document.getElementById("pong_game_avatar_2").src = opponentData.avatar;
+
+        document.getElementById("pong_game_displayname_1").innerText = userData.display_name;
+        document.getElementById("pong_game_displayname_2").innerText = opponentData.display_name;
     }
 
     loadGame();
