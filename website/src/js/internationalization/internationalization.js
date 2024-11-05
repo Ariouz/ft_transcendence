@@ -1,6 +1,6 @@
 var DEFAULT_LANGUAGE = 'en';
 let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
-let availableLanguages = {};
+let availableLanguages = [];
 const I18N_SERVICE_URL = "http://localhost:8006"
 
 async function assignDefaultLanguage() {
@@ -45,6 +45,8 @@ function getPreferredLanguageFromNavigator() {
     const userLanguages = navigator.languages;
     for (const userLang of userLanguages) {
         const langCode = userLang.includes('-') ? userLang.split('-')[0] : userLang;
+        console.log(availableLanguages);
+        console.log(typeof(availableLanguages));
         const isLanguageSupported = availableLanguages.some(lang => lang.code === langCode);
         if (isLanguageSupported) {
             return langCode;
@@ -106,6 +108,9 @@ async function getLanguageDisplayName(languageCode) {
 async function createLanguageDropdown() {
     const userPreferredLanguage = getLanguagePreference();
     const select = document.getElementById('settings_user_lang');
+    
+    if (availableLanguages.length == 0) await loadInitialTranslations();
+
     availableLanguages.forEach(lang => {
         const option = document.createElement('option');
         option.value = lang.code;
