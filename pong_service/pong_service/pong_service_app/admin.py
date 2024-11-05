@@ -13,7 +13,7 @@ class PongUserAdmin(admin.ModelAdmin):
 @admin.register(PongGame)
 class PongGameAdmin(admin.ModelAdmin):
     readonly_fields = ('game_id',)
-    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status', 'date')
+    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status', 'date', 'map_theme')
     list_display = fields
     search_fields = fields
     list_filter = fields

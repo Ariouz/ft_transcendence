@@ -39,8 +39,14 @@
         }
 
         let gameData = await getGameData(gameId);
+        if (gameData.error)
+        {
+            console.error(gameData.error);
+            return ;
+        }
         gameData = gameData.data;
         console.log(gameData);
+
         changeTheme(gameData.theme);
         let gameType = gameData.type;
         let gameStatus = gameData.status;
