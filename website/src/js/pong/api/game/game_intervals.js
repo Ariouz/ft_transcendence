@@ -39,7 +39,7 @@ function updateScore(game_data, data)
     scorer = data.scoring_player;
 
     txt_time = countdown_timer - 3 - 1;
-    pong_text_overlay.innerText = scorer + " scored!";
+    pong_text_overlay.innerText = getDisplayNameByPlayer(scorer) + " scored!";
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer = 4;
@@ -105,6 +105,9 @@ function winnerTimer(countdown_timer, winner, game_data)
             g_pongGameType = null;
             g_pongGameOpponentDisconnected = false;
             g_pongGameInterval = null;
+            
+            showMainNavigation();
+            showFooter();
             navigate("/pong");
             return ;
         }

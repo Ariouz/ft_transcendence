@@ -107,6 +107,9 @@
 
         document.getElementById("pong_game_displayname_1").innerText = userData.display_name;
         document.getElementById("pong_game_displayname_2").innerText = opponentData.display_name;
+
+        g_pongSelfDisplayName = userData.display_name;
+        g_pongOpponentDisplayName = opponentData.display_name;
     }
 
     loadGame();

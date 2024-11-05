@@ -8,6 +8,9 @@ let g_pongGameType;
 let g_pongGameOpponentDisconnected = false;
 let g_pongGameInterval;
 
+let g_pongSelfDisplayName = "";
+let g_pongOpponentDisplayName = "";
+
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
 {
@@ -106,7 +109,7 @@ async function handlePongGameWs(e, user_token) {
                 let state = data.state;
                 let timer = data.countdown_timer;
                 let winner = data.winner;
-                winnerTimer(timer, winner, state);
+                winnerTimer(timer, getDisplayNameByPlayer(winner), state);
             }
             else if (data.type == "game_user_disconnected")
             {
@@ -114,7 +117,7 @@ async function handlePongGameWs(e, user_token) {
                 let player = data.player;
                 let timer = data.countdown_timer;
                 g_pongGameOpponentDisconnected = true;
-                pauseTimer(timer, player, state);
+                pauseTimer(timer, getDisplayNameByPlayer(player), state);
             }
             else if (data.type == "game_user_reconnected")
             {
@@ -122,7 +125,8 @@ async function handlePongGameWs(e, user_token) {
                 let player = data.player;
                 let timer = data.countdown_timer;
                 g_pongGameOpponentDisconnected = false;
-                resumeTimer(timer, player, state);
+                setScore(state);
+                resumeTimer(timer, getDisplayNameByPlayer(player), state);
             }
         }
         else
