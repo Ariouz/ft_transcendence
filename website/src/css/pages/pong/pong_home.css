@@ -88,8 +88,7 @@
     cursor: pointer;
     margin: auto;
     padding: 10px;
-    margin-top: 80px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     width: 75%;
     background-color: var(--light-purple-blue);
     border: 2px solid var(--flashy-pink);
