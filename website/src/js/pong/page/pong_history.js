@@ -54,7 +54,7 @@ async function loadHistory(page)
     let historyList = document.getElementById("history_list");
     
     let onlineGamesPlayed = userHistoryData.online_games_played;
-    g_historyMaxPage = Math.floor(onlineGamesPlayed / itemsPerPage);
+    g_historyMaxPage = onlineGamesPlayed / itemsPerPage;
     
     if (userHistoryData.error)
     {

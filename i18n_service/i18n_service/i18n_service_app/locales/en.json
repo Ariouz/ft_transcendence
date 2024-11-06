@@ -80,7 +80,13 @@
   "status_too_long": "Status message is too long (max 80)",
   "github_too_long": "Github usernma is too long (max 39)",
 
-  "user_logged_in_message_format_name": "You are logged in as %s!",
+  "home_card_member_title_login": "Become a member",
+  "home_card_member_title_profile": "Check your profile",
+  "home_member_profile_button": "Go to my profile",
+  "home_content_pong_games_title": "Enjoy our games",
+  "home_content_pong_leaderboard_title": "Compete with others",
+  "home_content_pong_leaderboard_button": "Check the leaderboard",
+
   "pong_home_local_title": "Local 1v1",
   "pong_home_1v1_title": "1 versus 1",
   "pong_home_arcade_title": "Arcade Mode",
@@ -93,6 +99,7 @@
   "pong_home_1v1_desc": "Online game",
   "pong_home_arcade_desc": "Online game",
   "pong_home_tournament_desc": "From 4 to 8 players",
+
   "matchmaking_looking_for_oppponent": "Looking for opponent...",
   "matchmaking_leave_queue": "Leave the queue",
   

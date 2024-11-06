@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 from pong_service_app.models import *
 from .. import pong_user
 
@@ -21,20 +22,25 @@ def user_history(request, user_id):
 
     if offset >= len(history):
             return JsonResponse({"success":"History found", "user_id": user_id, "history": {}})
-    if offset + limit > len(history):
-        limit = len(history) - offset
+    if offset > len(history):
+        offset = len(history)
 
     games = {}
     count = 0
-    for i in range(offset, len(history)):
+
+    ponggames = PongGame.objects.filter(
+        users__contains=str(user_id),
+    ).exclude(type="local1v1").order_by('-game_id')
+
+    paginator = Paginator(ponggames, limit)
+    page = paginator.get_page(offset // limit + 1)
+
+    for g in page.object_list:
         if count >= limit: break
 
-        game_id = history[i]
-        game = PongGame.objects.filter(game_id=game_id).first()
+        game = g
+        game_id = g.game_id
         
-        if not game or game.type == "local1v1":
-            continue
-
         games[game_id] = {
             "game_id": game.game_id,
             "users": [int(i) for i in game.users],

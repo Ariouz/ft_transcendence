@@ -80,9 +80,14 @@
   "status_too_long": "Le message de statut est trop long (max 80)",
   "github_too_long": "Le nom d'utilisateur github est trop long (max 39)",
 
+  "home_card_member_title_login": "Devenir membre",
+  "home_card_member_title_profile": "Visitez votre profil",
+  "home_member_profile_button": "Aller sur mon profil",
+  "home_content_pong_games_title": "Testez nos jeux",
+  "home_content_pong_leaderboard_title": "Entrez dans la compétition",
+  "home_content_pong_leaderboard_button": "Voir le classement",
 
 
-  "user_logged_in_message_format_name": "Vous êtes connecté en tant que %s !",
   "pong_home_local_title": "1c1 local",
   "pong_home_1v1_title": "1 contre 1",
   "pong_home_arcade_title": "Mode Arcade",
