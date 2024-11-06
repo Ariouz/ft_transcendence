@@ -6,6 +6,8 @@
 }
 
 .pong_home_title {
+    font-family: "Teko", sans-serif;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,8 +21,8 @@
 }
 
 .pong_home_title span {
-    font-size: 3em;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 5em;
     letter-spacing: 3px;
     text-shadow: 3px 3px 5px var(--flashy-pink);
     transform-origin: center;

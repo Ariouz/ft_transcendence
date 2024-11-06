@@ -1,33 +1,59 @@
 <div>
-    <h1 data-i18n="home_page_title"></h1>
-    <span id="logged_in_msg"></span>
-    <script>
-        function checkLogin()
-        {
-            loggedInMsg = document.getElementById("logged_in_msg");
-            const session_token = getCookieAcccessToken();
-            const logged_in = isLoggedIn();
-
-            loggedInMsg.style.display = logged_in ? 'block' : 'none';
-
-            if (logged_in)
-            {
-                userName = document.getElementById("username");
-
-                retrieveUsername(session_token)
-                .then(data => {
-                    fetchTranslationWithArgs('user_logged_in_message_format_name', [data.username])
-                        .then(translatedMessage => {
-                            loggedInMsg.innerText = translatedMessage ? translatedMessage : "Error";
-                        }).catch(error => {
-                        loggedInMsg.innerText = error;
-                    });
-                }).catch(error => {
-                    loggedInMsg.innerText = error;
-                });
-            }
-        }
-        checkLogin();
-    </script>
+    <div>
+        <h1 class="home_page_title">Transcendence</h1>
+    </div>
+    
+    <div class="home_content_container">
+        <div class="home_content">
+            <div class="home_content_member home_content_section" id="home_content_member_section_login">
+                <div class="home_become_member_title">Become a member</div>
+                <div class="home_become_member_login" onclick="ftGetAccess()">
+                    <span class="login_button" data-i18n="login_with_42"></span>
+                </div>
+            </div>
+            <div class="home_content_member home_content_section" id="home_content_member_section_profile">
+                <div class="home_become_member_title">Check your profile</div>
+                <div class="home_become_member_login" onclick="navigate('/profile')">
+                    <span>Go to my profile</span>
+                </div>
+            </div>
+            <div class="home_content_pong home_content_section">
+                <div class="home_content_pong_title">
+                    Pong
+                </div>
+                <div class="home_content_pong_content">
+                    <div class="home_content_pong_item home_content_pong_play">
+                        <div class="home_content_pong_item_title">
+                            Enjoy our pong games
+                        </div>
+                        <div class="home_content_pong_item_button" onclick="navigate('/pong')">
+                            Play now
+                        </div>
+                    </div>
+                    <div class="home_content_pong_item home_content_pong_leaderboard">
+                        <div class="home_content_pong_item_title">
+                            Compete with others
+                        </div>
+                        <div class="home_content_pong_item_button" onclick="navigate('/pong/leaderboard')">
+                            Check the leaderboard
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+
+<script>
+    function loadMemberCard()
+    {
+        let loginCard = document.getElementById("home_content_member_section_login");
+        let profileCard = document.getElementById("home_content_member_section_profile");
+
+        loginCard.style.display = isLoggedIn() ? 'none' : 'flex';
+        profileCard.style.display = !isLoggedIn() ? 'none' : 'flex';
+    }
+
+    loadMemberCard();
+</script>
