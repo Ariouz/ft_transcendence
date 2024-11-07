@@ -74,6 +74,21 @@ restart: down up
 
 update_libs: delete_libs deploy_libs
 
+ssl_cert:
+	@echo "Generating new certificates..."
+	@echo "[req]" > tmp_openssl.cnf
+	@echo "distinguished_name = req" >> tmp_openssl.cnf
+	@echo "[SAN]" >> tmp_openssl.cnf
+	@echo "subjectAltName = DNS:localhost,DNS:users-service,DNS:pong-service" >> tmp_openssl.cnf
+	
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+		-keyout ./ssl_certs/selfsigned.key -out ./ssl_certs/selfsigned.crt \
+		-subj "/C=FR/ST=State/L=City/O=Organization/OU=Department/CN=localhost" \
+		-extensions SAN \
+		-config tmp_openssl.cnf
+	rm -f tmp_openssl.cnf
+
+
 deploy_libs:
 	@echo "Starting libs_builder container..." ; echo
 	@docker compose up libs_builder ; echo

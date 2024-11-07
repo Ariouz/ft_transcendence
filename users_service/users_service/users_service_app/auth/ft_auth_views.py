@@ -5,7 +5,7 @@ from django.views.decorators.http import require_http_methods
 
 # /auth/42
 def ft_auth(request):
-    url = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-29f5277a5943e1f33349c04ecb3f211dc78d70e98943ad05d0f1328d38ba42f6&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
+    url = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-29f5277a5943e1f33349c04ecb3f211dc78d70e98943ad05d0f1328d38ba42f6&redirect_uri=https%3A%2F%2Flocalhost%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
     return JsonResponse({"url":url})
 
 # /auth/42/access?code=
@@ -15,7 +15,7 @@ def ft_auth_access(request):
     if code is None:
         return JsonResponse({"error":"Failed to fetch access token","details":"A 'code' parameter is expected"})
     token_url = "https://api.intra.42.fr/oauth/token"
-    redirect_url = "http://localhost:8080/api/auth/42/access"
+    redirect_url = "https://localhost/api/auth/42/access"
     try:
         data = get_access_token("authorization_code", code, redirect_url, token_url)
         return data
@@ -53,7 +53,7 @@ def ft_auth_data_settings(request, access_token):
             "username": user.username,
             "full_name": user.fullname,
             "email": user.email,
-            "avatar": f"http://localhost:8001{userSetting.avatar.url}",
+            "avatar": f"https://localhost:8001{userSetting.avatar.url}",
             "display_name": userSetting.display_name,
             "lang": userSetting.lang,
             "github": userSetting.github,
@@ -96,7 +96,7 @@ def get_profile_data_username(request, username):
             "username": user.username,
             "full_name": user.fullname,
             "email": user.email,
-            "avatar": f"http://localhost:8001{userSetting.avatar.url}",
+            "avatar": f"https://localhost:8001{userSetting.avatar.url}",
             "display_name": userSetting.display_name,
             "lang": userSetting.lang,
             "github": userSetting.github,
@@ -125,7 +125,7 @@ def get_all_users_data(request):
         userSettings = UserSettings.objects.get(user_id=user.user_id)
         userData = {}
         userData["username"] = user.username
-        userData["avatar"] = f"http://localhost:8001{userSettings.avatar.url}"
+        userData["avatar"] = f"https://localhost:8001{userSettings.avatar.url}"
         data[user.user_id] = userData
     return JsonResponse(data)
 

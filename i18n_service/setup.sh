@@ -42,4 +42,4 @@ echo "Create admin user"
 $MANAGE createsuperuser --no-input
 
 echo "Start Django server"
-$MANAGE runserver $ADDRESS
+$MANAGE runserver_plus $ADDRESS --cert-file=/etc/ssl/certs/django-selfsigned.crt --key-file=/etc/ssl/private/django-selfsigned.key

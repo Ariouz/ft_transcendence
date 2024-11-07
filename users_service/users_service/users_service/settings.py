@@ -26,13 +26,22 @@ SECRET_KEY = 'django-insecure-tr82r85d29dtay_inmg36fh+hmyjw)m=cck7tu-abdft(@e9z)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] # TODO change
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
-USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE');
+ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-serivce', 'users-service']
+
+
+USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
 
 
 # Application definition
@@ -49,6 +58,8 @@ INSTALLED_APPS = [
 
     'users_service_app',
     'corsheaders',
+
+    'django_extensions',
 ]
 
 ASGI_APPLICATION = 'users_service.asgi.application'

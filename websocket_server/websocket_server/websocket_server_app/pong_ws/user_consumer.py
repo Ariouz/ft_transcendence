@@ -8,8 +8,8 @@ import logging
 from ..user import user_status
 import redis
 
-USERS_SERVICE_URL = "http://users-service:8001/api"
-PONG_SERVICE_URL = "http://pong-service:8002/api"
+USERS_SERVICE_URL = "https://users-service:8001/api"
+PONG_SERVICE_URL = "https://pong-service:8002/api"
 
 # https://channels.readthedocs.io/en/latest/topics/consumers.html#websocketconsumer
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups

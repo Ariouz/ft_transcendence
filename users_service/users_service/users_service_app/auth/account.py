@@ -28,7 +28,7 @@ def create_account(request):
     try:
         response = ft_requests.get(avatar)
         if response.status_code == 200:
-            avatar_content = ContentFile(response.content)
+            avatar_content = ContentFile(response.data)
             avatar_name =f'/user_{user.user_id}.jpg'
             userSettings.avatar.save(avatar_name, avatar_content)
             userSettings.save()

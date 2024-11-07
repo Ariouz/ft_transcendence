@@ -5,10 +5,19 @@ services:
     build: ./website
     ports:
       - ${WEBSITE_PORT}:${WEBSITE_PORT}
+      - "443:443"
     volumes:
       - type: bind
         source: ./website/src
         target: /usr/share/nginx/html
+      - type: bind
+        source: ./ssl_certs/selfsigned.crt
+        target: /etc/ssl/certs/selfsigned.crt
+      - type: bind
+        source: ./ssl_certs/selfsigned.key
+        target: /etc/ssl/private/selfsigned.key
+    environment:
+      SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
 
   ## API Gateway services ##
   api_gateway:
@@ -54,10 +63,18 @@ services:
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
+      SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
     volumes:
       - type: bind
         source: ./users_service
         target: /users_service
+      - type: bind
+        source: ./ssl_certs/selfsigned.crt
+        target: /etc/ssl/certs/selfsigned.crt
+      - type: bind
+        source: ./ssl_certs/selfsigned.key
+        target: /etc/ssl/private/selfsigned.key
+      
 
   users_service_database:
     image: postgres:latest
@@ -102,10 +119,17 @@ services:
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
+      SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
     volumes:
       - type: bind
         source: ./pong_service
         target: /pong_service
+      - type: bind
+        source: ./ssl_certs/selfsigned.crt
+        target: /etc/ssl/certs/selfsigned.crt
+      - type: bind
+        source: ./ssl_certs/selfsigned.key
+        target: /etc/ssl/private/selfsigned.key
 
   ## WebSocket server services ##
   websocket_server:
@@ -122,10 +146,17 @@ services:
     environment:
       PROJECT_NAME: "websocket_server"
       APP_PORT: ${WEBSOCKET_SERVER_PORT}
+      SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
     volumes:
       - type: bind
         source: ./websocket_server
         target: /websocket_server
+      - type: bind
+        source: ./ssl_certs/selfsigned.crt
+        target: /etc/ssl/certs/selfsigned.crt
+      - type: bind
+        source: ./ssl_certs/selfsigned.key
+        target: /etc/ssl/private/selfsigned.key
 
   redis:
     container_name: redis-websocket-users

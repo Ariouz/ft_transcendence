@@ -3,6 +3,7 @@
 from django.db import migrations, models
 import django.utils.timezone
 
+import pong_service_app.api.themes
 
 class Migration(migrations.Migration):
 
@@ -22,6 +23,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(choices=[('local1v1', 'Local 1v1'), ('1v1', '1v1'), ('arcade', 'Arcade'), ('tournament', 'Tournament')], default='1v1', max_length=255)),
                 ('status', models.CharField(choices=[('init', 'Init'), ('started', 'Started'), ('finished', 'Finished'), ('forfaited', 'Forfaited')], default='init', max_length=255)),
                 ('date', models.DateTimeField(default=django.utils.timezone.now)),
+                ('map_theme', models.JSONField(default=pong_service_app.api.themes.get_default_theme)),
             ],
         ),
         migrations.CreateModel(

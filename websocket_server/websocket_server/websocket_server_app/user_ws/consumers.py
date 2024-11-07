@@ -7,7 +7,7 @@ from threading import Thread
 import logging
 from ..user import user_status
 
-USERS_SERVICE_URL = "http://users-service:8001/api"
+USERS_SERVICE_URL = "https://users-service:8001/api"
 
 # https://channels.readthedocs.io/en/latest/topics/consumers.html#websocketconsumer
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups
@@ -26,6 +26,7 @@ class FriendsConsumer(WebsocketConsumer):
             )
             user_status.set_user_online(self.user_id)
         else:
+            logging.getLogger("websocket_logger").info('Rejected connection')
             self.close()
 
     # Called with either text_data or bytes_data for each frame
@@ -52,7 +53,8 @@ class FriendsConsumer(WebsocketConsumer):
             user_data = user_resp.json()
             logging.getLogger("websocket_logger").info('Found user with id %d.', user_data['user_id'])
             return user_data['user_id']
-        except ft_requests.exceptions.RequestException:
+        except ft_requests.exceptions.RequestException as e:
+            logging.getLogger("websocket_logger").info(f'Error while authenticating: {e}')
             return None
 
     def fetch_friends(self):

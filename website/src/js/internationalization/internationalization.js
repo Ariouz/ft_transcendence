@@ -1,7 +1,7 @@
 var DEFAULT_LANGUAGE = 'en';
 let SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
 let availableLanguages = {};
-const I18N_SERVICE_URL = "http://localhost:8006"
+const I18N_SERVICE_URL = "https://localhost:8006"
 
 async function assignDefaultLanguage() {
     const url = `${I18N_SERVICE_URL}/default-language/`;
@@ -78,7 +78,7 @@ function setUserLanguage() {
 
 async function fetchAvailableLanguages() {
     try {
-        const url = `http://localhost:8006/languages/`;
+        const url = `https://localhost:8006/languages/`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching languages: ${response.statusText}`);
@@ -169,7 +169,7 @@ async function fetchTranslation(key) {
 
 async function fetchTranslationDefaultLanguage(key) {
     try {
-        const url = `http://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/`;
+        const url = `https://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);
@@ -184,7 +184,7 @@ async function fetchTranslationDefaultLanguage(key) {
 
 async function fetchTranslationSelectedLanguage(key) {
     try {
-        const url = `http://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/`;
+        const url = `https://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);
@@ -209,7 +209,7 @@ async function fetchTranslationWithArgs(key, args = []) {
 async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
     try {
         const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
-        const url = `http://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/?${queryString}`;
+        const url = `https://localhost:8006/translations/${SELECTED_LANGUAGE}/${key}/?${queryString}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);
@@ -225,7 +225,7 @@ async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
 async function fetchTranslationDefaultLanguageWithArgs(key, args = []) {
     try {
         const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
-        const url = `http://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/?${queryString}`;
+        const url = `https://localhost:8006/translations/${DEFAULT_LANGUAGE}/${key}/?${queryString}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);

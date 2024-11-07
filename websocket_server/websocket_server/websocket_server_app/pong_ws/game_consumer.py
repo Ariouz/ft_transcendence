@@ -10,8 +10,8 @@ from ..user import user_status
 import asyncio
 from redis.asyncio import Redis
 
-USERS_SERVICE_URL = "http://users-service:8001/api"
-PONG_SERVICE_URL = "http://pong-service:8002/api"
+USERS_SERVICE_URL = "https://users-service:8001/api"
+PONG_SERVICE_URL = "https://pong-service:8002/api"
 
 redis_client_pong = Redis(host="redis-websocket-users", port="6379", db=0)
 

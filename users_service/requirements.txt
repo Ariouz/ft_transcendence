@@ -3,6 +3,8 @@
 asgiref==3.4.1
 Django==4.0.1
 django-cors-headers==3.11.0
+django-extensions
+Werkzeug
 attrs==21.4.0
 autobahn==21.11.1
 Automat==20.2.0

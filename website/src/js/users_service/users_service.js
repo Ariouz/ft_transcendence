@@ -1,4 +1,4 @@
-const USERS_SERVICE_URL = "http://localhost:8001/api";
+const USERS_SERVICE_URL = "https://localhost:8001/api";
 
 async function getUsers(onSuccess, onError)
 {

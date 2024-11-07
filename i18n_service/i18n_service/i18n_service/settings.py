@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +26,17 @@ SECRET_KEY = 'django-insecure-wvk5#&%d_()g%b!q=mg$jpnrsfafa5%v&+!lwn^fr*ze8m#59b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] # TODO change
 
-import os
+# HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+ALLOWED_HOSTS = ['localhost']
+
 
 I18N_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE');
 
@@ -41,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'i18n_service_app'
+    'i18n_service_app',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

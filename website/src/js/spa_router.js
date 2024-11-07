@@ -84,7 +84,7 @@ function routeAuth(parts, params)
                 token_data = JSON.parse(JSON.stringify(data));
                 // console.log(token_data);
                 if (token_data.error) {
-                    alert("An error occured, please try again.");
+                    alert("An error occured, please try again. " + token_data.error + " " + token_data.details);
                     navigate("/login");
                     return ;
                 }

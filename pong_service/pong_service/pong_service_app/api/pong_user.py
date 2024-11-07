@@ -13,13 +13,13 @@ def create_user_if_not_exists(user_id):
 
 def get_user(user_id):
     if not PongUser.objects.filter(user_id=user_id).exists():
-        return create_user_if_not_exists(user_id)
+        create_user_if_not_exists(user_id)
     return PongUser.objects.filter(user_id=user_id).get()
 
 
 def get_user_stats(user_id):
     if not PongUserStats.objects.filter(user_id=user_id).exists():
-        return create_user_if_not_exists(user_id)
+        create_user_if_not_exists(user_id)
     return PongUserStats.objects.filter(user_id=user_id).get()
 
 

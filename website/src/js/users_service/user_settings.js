@@ -33,7 +33,7 @@ function showProfileSection() {
     showSection("settings_profile_section", "profile_settings", "settings_nav_profile");
 
     let form = document.getElementById("settings_panel_form_profile")
-    form.action = "http://localhost:8001/api/account/settings/profile/"+getCookie("session_token");
+    form.action = "https://localhost:8001/api/account/settings/profile/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
         showLoadingWheel();
@@ -67,7 +67,7 @@ function showConfidentialitySection() {
     showSection("settings_confidentiality_section", "confidentiality_settings", "settings_nav_confidentiality");
 
     let form = document.getElementById("settings_panel_form_confidentiality")
-    form.action = "http://localhost:8001/api/account/settings/confidentiality/"+getCookie("session_token");
+    form.action = "https://localhost:8001/api/account/settings/confidentiality/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
         showLoadingWheel();
@@ -100,7 +100,7 @@ function showAccountSection() {
     showSection("settings_account_section", "account_settings", "settings_nav_account");
 
     let form = document.getElementById("settings_panel_form_account")
-    form.action = "http://localhost:8001/api/account/settings/delete/"+getCookie("session_token");
+    form.action = "https://localhost:8001/api/account/settings/delete/"+getCookie("session_token");
 
     form.addEventListener('submit', function(event) {
         showLoadingWheel();

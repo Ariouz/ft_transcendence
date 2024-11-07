@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-jv-aytvfx9r7nt!6x)0@9uz-z^np*gby199g8t4cah^x7o&gq+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# HTTPS/WSS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-serivce', 'users-service']
 
 
 # Application definition
@@ -39,6 +47,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'daphne',
+    'django_extensions',
 ]
 
 ASGI_APPLICATION = 'websocket_server.asgi.application'
