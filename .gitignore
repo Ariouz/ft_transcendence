@@ -22,3 +22,6 @@ api_gateway/api_gateway/db.sqlite3
 !ft_requests/
 
 users_service/users_service/media
+!users_service/users_service/media/avatars/default_avatar.svg
+
+ssl_certs/*

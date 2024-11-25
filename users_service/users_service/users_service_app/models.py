@@ -16,7 +16,7 @@ class User(models.Model):
 
 class UserSettings(models.Model):
     user_id = models.IntegerField(unique=True)
-    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True, default="avatars/default_avatar.svg")
     display_name = models.CharField(max_length=32)
     lang = models.CharField(max_length=2, default="en")
     github = models.CharField(max_length=255, default="null")
