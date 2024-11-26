@@ -23,12 +23,15 @@ def get_user_stats(user_id):
     return PongUserStats.objects.filter(user_id=user_id).get()
 
 
-def add_game_to_history(user_id, game_id, won_game=False):
+def add_game_to_history(user_id, game_id, won_game=False, is_local=False):
     user = get_user(user_id)
     user_stats = get_user_stats(user_id)
 
     if not user or not user_stats:
         create_user_if_not_exists(user_id)
+    
+    if is_local:
+        return
     
     user.game_history.insert(0, game_id)
     user.last_game = game_id

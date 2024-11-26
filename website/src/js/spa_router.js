@@ -129,6 +129,12 @@ function routeUser(parts, params)
 
 function routePong(parts, params)
 {
+    const pages = {
+        "matchmaking": "/pages/pong/pong_matchmaking.html",
+        "history": "/pages/pong/pong_history.html",
+        "leaderboard": "/pages/pong/pong_leaderboard.html"
+    };
+
     if (parts.length === 1)
     {
         loadContent("/pages/pong/pong_home.html");
@@ -140,18 +146,13 @@ function routePong(parts, params)
             Game.startGameLoop();
         });
     }
-    else if (parts[1] === "matchmaking")
-    {
+    else if (pages[parts[1]]) {
         if (!isLoggedIn())
-            navigate("/login?redirect=pong");
-        else loadContent("/pages/pong/pong_matchmaking.html");
+            navigate(`/login?redirect=pong/${parts[1]}`);
+        else
+            loadContent(pages[parts[1]]);
     }
-    else if (parts[1] == "history")
-    {
-        if (!isLoggedIn())
-            navigate("/login?redirect=pong/history");
-        else loadContent("/pages/pong/pong_history.html");
-    }
+
 }
 
 function loadContent(url, onPageLoaded = () => {}) {

@@ -1,0 +1,42 @@
+<div>
+    <h1 class="leaderboard_title">Leaderboard</h1>
+    <div class="leaderboard_content">
+        <table class="leaderboard_table" id="leaderboard_table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Rank</th>
+                    <th>Games Played</th>
+                    <th>Wins</th>
+                    <th>Win Rate</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard_table_content">
+            </tbody>
+            
+            <span id="leaderboard_error"></span>
+        </table>
+        
+    </div>
+    <div class="history_pagination_nav">
+        <ul>
+            <li onclick="showLeaderboard(0)">
+                <i class="fa-solid fa-angles-left"></i>
+            </li>
+            <li onclick="showLeaderboard(parseInt(g_leaderboardPage) - 1)">
+                <i class="fa-solid fa-angle-left"></i>
+            </li>
+            <li class="history_page_active" id="leaderboard_current_page">
+                -
+            </li>
+            <li onclick="showLeaderboard(parseInt(g_leaderboardPage) + 1)">
+                <i class="fa-solid fa-angle-right"></i>
+            </li>
+            <li onclick="showLeaderboard(g_leaderboardMaxPage)">
+                <i class="fa-solid fa-angles-right"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="../../js/pong/page/pong_leaderboard.js"></script>

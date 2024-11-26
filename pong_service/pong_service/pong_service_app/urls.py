@@ -1,7 +1,7 @@
 from django.urls import path
 from .api import queue
 from .api import game
-from .api.data_endpoints import user_stats
+from .api.data_endpoints import user_stats, leaderboard
 
 urlpatterns = [
     path('queue/join/', queue.join_queue, name="join_queue"),
@@ -15,5 +15,8 @@ urlpatterns = [
 
     path('user/game-history/<int:user_id>', user_stats.user_history, name="user_history"),
     path('user/stats/<int:user_id>', user_stats.get_user_stats, name="get_user_stats"),
+
+    path('all/leaderboard/', leaderboard.get_leaderboard, name="get_leaderboard"),
+
 
 ]

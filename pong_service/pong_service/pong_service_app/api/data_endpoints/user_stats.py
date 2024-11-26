@@ -18,7 +18,7 @@ def user_history(request, user_id):
     history = user.game_history
 
     offset = max(0, offset)
-    limit = max(0, limit)
+    limit = max(1, limit)
 
     if offset >= len(history):
             return JsonResponse({"success":"History found", "user_id": user_id, "history": {}})
