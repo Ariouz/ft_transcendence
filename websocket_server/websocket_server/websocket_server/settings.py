@@ -33,7 +33,7 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-serivce', 'users-service']
+ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service']
 
 
 # Application definition
