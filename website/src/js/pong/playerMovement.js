@@ -2,8 +2,8 @@
  * Player movement
  */
 
-let lastSentTime = Date.now();
-const SEND_INTERVAL = 16;
+lastSentTime = Date.now();
+SEND_INTERVAL = 16;
 
 function sendPlayerMoves() {
     if (Game.isPaused || !Game.isRunning) return;

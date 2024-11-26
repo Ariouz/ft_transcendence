@@ -30,7 +30,7 @@
     </div>
 
     <script>
-        let pong_text_overlay = document.getElementById("pong_text_overlay");
+        pong_text_overlay = document.getElementById("pong_text_overlay");
     </script>
     <script src="../js/pong/drawing.js"></script>
     <script src="../js/pong/playerMovement.js"></script>
@@ -102,8 +102,11 @@
         let userData = await retrievePublicProfileDataById(userId);
         let opponentData = await retrievePublicProfileDataById(opponentId);
 
-        document.getElementById("pong_game_avatar_1").src = userData.avatar;
-        document.getElementById("pong_game_avatar_2").src = opponentData.avatar;
+        let userAvatar = document.getElementById("pong_game_avatar_1");
+        let opAvatar = document.getElementById("pong_game_avatar_2");
+        if (!userAvatar || !opAvatar) return ;
+        userAvatar.src = userData.avatar;
+        opAvatar.src = opponentData.avatar;
 
         document.getElementById("pong_game_displayname_1").innerText = userData.display_name;
         document.getElementById("pong_game_displayname_2").innerText = opponentData.display_name;
