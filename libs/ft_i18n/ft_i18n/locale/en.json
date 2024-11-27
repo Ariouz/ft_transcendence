@@ -64,6 +64,8 @@
   "confidentiality_settings_saved": "Confidentiality settings saved!",
   "account_successfully_deleted": "Account successfully deleted!",
   "success": "Operation successful",
+  "invalid_displayname": "Invalid displayname",
+  "displayname_already_used": "This displayname is already used",
 
 
   "invalid_method": "Invalid method",

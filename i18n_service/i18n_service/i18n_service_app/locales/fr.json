@@ -64,6 +64,8 @@
   "confidentiality_settings_saved": "Paramètres de confidentialité sauvegardés !",
   "account_successfully_deleted": "Compte supprimé avec succès !",
   "success": "Opération réussie",
+  "invalid_displayname": "Nom d'utilisateur invalide",
+  "displayname_already_used": "Ce nom d'utilisateur est déja utilisé",
 
 
   "invalid_method": "Méthode invalide",
