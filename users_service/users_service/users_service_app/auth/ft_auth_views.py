@@ -48,12 +48,17 @@ def ft_auth_data_settings(request, access_token):
     if (User.objects.filter(token=access_token).exists()):
         user = User.objects.filter(token=access_token).get()
         userSetting = UserSettings.objects.filter(user_id=user.user_id).get()
+        
+        avatar_url = (
+            f"https://localhost:8001{userSetting.avatar.url}" if userSetting.avatar else None
+        )
+        
         data = {
             "user_id": user.user_id,
             "username": user.username,
             "full_name": user.fullname,
             "email": user.email,
-            "avatar": f"https://localhost:8001{userSetting.avatar.url}",
+            "avatar": avatar_url,
             "display_name": userSetting.display_name,
             "lang": userSetting.lang,
             "github": userSetting.github,

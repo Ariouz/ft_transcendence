@@ -39,7 +39,7 @@ function logout()
     if (g_friendListWebSocket) g_friendListWebSocket.close();
     
     deleteCookie("session_token");
-    removeLanguagePreference()
+    updateLanguagePreferenceRemoval()
         .then( _ => {
         navigate('/');
     });

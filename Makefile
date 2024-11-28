@@ -5,7 +5,7 @@ LIBS := libs/ft_requests libs/ft_i18n
 PYTHON_VERSION := python3.12
 VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
 
-all: update_libs up-build
+all: ssl_cert update_libs up-build
 
 stop:
 	@echo "Stopping all running containers..."
@@ -75,6 +75,7 @@ restart: down up
 update_libs: delete_libs deploy_libs
 
 ssl_cert:
+	@mkdir -p ssl_certs
 	@echo "Generating new certificates..."
 	@echo "[req]" > tmp_openssl.cnf
 	@echo "distinguished_name = req" >> tmp_openssl.cnf
