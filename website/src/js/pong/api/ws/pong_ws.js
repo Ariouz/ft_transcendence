@@ -175,6 +175,8 @@ async function defineUserPaddle(state, user_token)
 
 function movePaddles(state)
 {
+    // Add? ball = state.ball_position;
+
     if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
     {
         Game.ball.x = ball.x;
@@ -186,11 +188,11 @@ function movePaddles(state)
     }
     else if (g_pongGamePlayerPaddle == 'player2')
     {
-        Game.ball.x = Game.canvas.width - ball.x;
-        Game.paddle.leftX = state.players.player2.position.x - (Game.canvas.width - Game.paddle.width);
+        Game.ball.x = PONG_CANVAS_WIDTH - ball.x;
+        Game.paddle.leftX = state.players.player2.position.x - (PONG_CANVAS_WIDTH - Game.paddle.width);
         Game.paddle.leftY = state.players.player2.position.y;
         
-        Game.paddle.rightX = state.players.player1.position.x + (Game.canvas.width - Game.paddle.width);
+        Game.paddle.rightX = state.players.player1.position.x + (PONG_CANVAS_WIDTH - Game.paddle.width);
         Game.paddle.rightY = state.players.player1.position.y;
     }
 }

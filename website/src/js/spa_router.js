@@ -5,6 +5,8 @@ function handleRouting() {
 
     parts.shift();
 
+    resetWebsiteBackgroundColorToInitial();
+    
     setCookieBannerVisibility("none", "0"); 
     if (!doConsentCookies())
         setCookieBannerVisibility("flex", "100");

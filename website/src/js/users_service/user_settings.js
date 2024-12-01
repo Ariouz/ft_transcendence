@@ -184,11 +184,6 @@ function hideLoadingWheel()
     }, 500);
 }
 
-function selectDefaultLanguage(lang)
-{
-    setLanguagePreference(lang);
-}
-
 function setInputValue(inputId, value)
 {
     let input = document.getElementById(inputId);

@@ -2,9 +2,22 @@
  * Initial game values
  */
 
+const PONG_CANVAS_WIDTH = 800;
+const PONG_CANVAS_HEIGHT = 400;
+
 const Game = {
-    canvas: null,
-    ctx: null,
+    canvases: {
+        background: null,
+        net: null,
+        stroke: null,
+        game: null,
+    },
+    contexts: {
+        backgroundCtx: null,
+        netCtx: null,
+        strokeCtx: null,
+        gameCtx: null,
+    },
     isPaused: null,
     isRunning: null,
 
@@ -36,24 +49,42 @@ const Game = {
     },
 
     init: function () {
-        this.canvas = document.getElementById('pongCanvas');
-        this.ctx = this.canvas.getContext('2d');
-        this.paddle.rightX = this.canvas.width - this.paddle.width;
-        this.paddle.leftY = (this.canvas.height - this.paddle.height) / 2;
-        this.paddle.rightY = (this.canvas.height - this.paddle.height) / 2;
-        this.ball.x = this.canvas.width / 2;
-        this.ball.y = this.canvas.height / 2;
+        this.canvases.background = document.getElementById('backgroundCanvas');
+        this.canvases.net = document.getElementById('netCanvas');
+        this.canvases.stroke = document.getElementById('strokeCanvas');
+        this.canvases.game = document.getElementById('pongCanvas');
+
+        this.contexts.backgroundCtx = this.canvases.background.getContext('2d');
+        this.contexts.netCtx = this.canvases.net.getContext('2d');
+        this.contexts.strokeCtx = this.canvases.stroke.getContext('2d');
+        this.contexts.gameCtx = this.canvases.game.getContext('2d');
+
+        Object.values(this.canvases).forEach(canvas => {
+            canvas.width = PONG_CANVAS_WIDTH;
+            canvas.height = PONG_CANVAS_HEIGHT;
+        });
+
+        this.paddle.rightX = PONG_CANVAS_WIDTH - this.paddle.width;
+        this.paddle.leftY = (PONG_CANVAS_HEIGHT - this.paddle.height) / 2;
+        this.paddle.rightY = (PONG_CANVAS_HEIGHT - this.paddle.height) / 2;
+        this.ball.x = PONG_CANVAS_WIDTH / 2;
+        this.ball.y = PONG_CANVAS_HEIGHT / 2;
+
         this.isPaused = false;
         this.isRunning = true;
+
+        // TODO: setWebsiteBackgroundColor(getStyle('--flashy-pink'));
+
+        // TODO: draw background when no image
+
+        drawNet(this.contexts.netCtx);
     },
 
-    // TODO Temporary. This will normally be replaced by game management via the back end.
     startGameLoop: function () {
-        Game.init();
+        this.init();
         gameLoop();
     },
 
-    // TODO Temporary. This will normally be replaced by game management via the back end.
     stopGameLoop: function () {
         this.isRunning = false;
     }

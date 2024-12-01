@@ -3,16 +3,12 @@
  */
 
 function draw() {
-    clearCanva();
+    clearCanva(Game.contexts.gameCtx);
 
-    drawBackground();
+    drawPaddle(Game.contexts.gameCtx, Game.paddle.leftX, Game.paddle.leftY);
+    drawPaddle(Game.contexts.gameCtx, Game.paddle.rightX, Game.paddle.rightY);
 
-    drawNet();
-
-    drawPaddle(Game.paddle.leftX, Game.paddle.leftY);
-    drawPaddle(Game.paddle.rightX, Game.paddle.rightY);
-
-    drawBall();
+    drawBall(Game.contexts.gameCtx);
 }
 
 function gameLoop() {

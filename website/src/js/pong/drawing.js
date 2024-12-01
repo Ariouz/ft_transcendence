@@ -7,59 +7,53 @@ function getStyle(styleName) {
     return getComputedStyle(document.documentElement).getPropertyValue(styleName);
 }
 
-function drawRectangle(x, y, width, height, fillColor, strokeColor = null, strokeWidth = 0) {
-    Game.ctx.beginPath();
-    Game.ctx.rect(x, y, width, height);
-    Game.ctx.fillStyle = fillColor;
-    if (strokeColor !== null && strokeWidth !== 0) {
-        Game.ctx.lineWidth = strokeWidth;
-        Game.ctx.strokeStyle = strokeColor;
-    }
-    Game.ctx.fill();
-    Game.ctx.closePath();
+function drawRectangle(ctx, x, y, width, height, fillColor = null) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    if (fillColor != null)
+        ctx.fillStyle = fillColor;
+    ctx.fill();
+    ctx.closePath();
 }
 
-function drawCircle(x, y, radius, fillColor, strokeColor = null, strokeWidth = 0) {
-    Game.ctx.beginPath();
-    Game.ctx.arc(x, y, radius, 0, Math.PI * 2);
-    Game.ctx.fillStyle = fillColor;
+function drawCircle(ctx, x, y, radius, fillColor, strokeColor = null, strokeWidth = 0) {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fillStyle = fillColor;
     if (strokeColor !== null && strokeWidth !== 0) {
-        Game.ctx.lineWidth = strokeWidth;
-        Game.ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = strokeWidth;
+        ctx.strokeStyle = strokeColor;
     }
-    Game.ctx.fill();
-    Game.ctx.closePath();
+    ctx.fill();
+    ctx.closePath();
 }
 
-function drawNet() {
-    Game.ctx.beginPath();
-    Game.ctx.setLineDash([5, 15]);
-    Game.ctx.moveTo(Game.canvas.width / 2, 0);
-    Game.ctx.lineTo(Game.canvas.width / 2, Game.canvas.height);
-    Game.ctx.strokeStyle = getStyle('--net-color');
-    Game.ctx.lineWidth = 2;
-    Game.ctx.stroke();
-    Game.ctx.closePath();
+function drawNet(ctx) {
+    ctx.beginPath();
+    ctx.setLineDash([5, 15]);
+    ctx.moveTo(PONG_CANVAS_WIDTH / 2, 0);
+    ctx.lineTo(PONG_CANVAS_WIDTH / 2, PONG_CANVAS_HEIGHT);
+    ctx.strokeStyle = getStyle('--net-color');
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.closePath();
 }
-function drawBall() {
-    drawCircle(Game.ball.x, Game.ball.y, Game.ball.radius,
+function drawBall(ctx) {
+    drawCircle(ctx, Game.ball.x, Game.ball.y, Game.ball.radius,
         getStyle('--ball-color')
     );
 }
 
-function drawPaddle(x, y) {
-    drawRectangle(x, y, Game.paddle.width, Game.paddle.height,
+function drawPaddle(ctx, x, y) {
+    drawRectangle(ctx, x, y, Game.paddle.width, Game.paddle.height,
         getStyle('--paddle-color'),
     );
 }
 
-function drawBackground() {
-    drawRectangle(0, 0, Game.canvas.width, Game.canvas.height,
-        getStyle('--canvas-color'),
-        getStyle('--canvas-stroke-color', 8
-        ));
+function drawBackground(ctx) {
+    drawRectangle(ctx, 0, 0, PONG_CANVAS_WIDTH, PONG_CANVAS_HEIGHT, getStyle('--canvas-color'));
 }
 
-function clearCanva() {
-    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+function clearCanva(ctx) {
+    ctx.clearRect(0, 0, PONG_CANVAS_WIDTH, PONG_CANVAS_HEIGHT);
 }

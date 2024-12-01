@@ -12,7 +12,13 @@
             <div class="game_texts_overlay pong_text_overlay_show" id="pong_text_overlay">
                 <span></span>
             </div>
-            <canvas id="pongCanvas" width="800" height="400"></canvas>
+            <div class="canvas_layers_container">
+                <img id="pongBackgroundImage" alt="background" src="/assets/images/bangkok-blue-pink-red.jpg" />
+                <canvas id="backgroundCanvas"></canvas>
+                <canvas id="netCanvas"></canvas>
+                <canvas id="strokeCanvas"></canvas>
+                <canvas id="pongCanvas"></canvas>
+            </div>
         </div>
     </div>
     <div class="pong_game_users_info">
