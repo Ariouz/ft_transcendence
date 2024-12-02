@@ -5,15 +5,13 @@ from django.db.models import Q
 
 from .models import TournamentPairingData
 from tournament.models import TournamentData
-from users.models import User
+from pong_service.pong_service_app.models import PongUser
 from .serializers import TournamentPairingSerializer
 from tournament.serializers import TournamentSerializer
 from tournamentParticipants.models import TournamentParticipants
 from tournamentParticipants.serializers import TournamentParticipantsSerializer
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
-
-
 
 import random
 
@@ -42,7 +40,7 @@ class CreateMatchMakingView(APIView):
 			rand1 = self.pop_random(particpantsData)
 			particpantsData.remove(rand1[0])
 			try:
-				user = User.objects.get(id=rand1[0]['uuid'])
+				user = PongUser.objects.get(user_id=rand1[0]['uuid'])
 			except ObjectDoesNotExist:
 				return Response({'message': 'user not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -50,7 +48,7 @@ class CreateMatchMakingView(APIView):
 				rand2 = self.pop_random(particpantsData)
 				particpantsData.remove(rand2[0])
 				try:
-					user2 = User.objects.get(id=rand2[0]['uuid'])
+					user2 = PongUser.objects.get(user_id=rand2[0]['uuid'])
 				except ObjectDoesNotExist:
 					return Response({'message': 'user not found'}, status=status.HTTP_404_NOT_FOUND)
 			else:
@@ -86,7 +84,7 @@ class UpdateWinnerView(APIView):
 		serializerTournamentPartiData = TournamentParticipantsSerializer(tournamentParticpantsData, many=True)
 		
 		try:
-			user = User.objects.get(id=data["winner_id"])
+			user = PongUser.objects.get(user_id=data["winner_id"])
 			tournamentPairings.update(winner=user)
 			if(len(serializerTournamentPartiData.data) == 1):
 				tournamentData = TournamentData.objects.filter(id=data["tournament_id"])

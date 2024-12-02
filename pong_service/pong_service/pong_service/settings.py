@@ -69,9 +69,26 @@ INSTALLED_APPS = [
 
     'pong_service_app',
     'corsheaders',
+    'drf_spectacular',
+
+    'tournament',
+    'lobby',
+    'tournamentParticipants',
+    'tournamentPairings',
 
     'django_extensions',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Backend API',
+    'DESCRIPTION': 'Transcendence Backend API',
+    'VERSION': '0.0.1',
+    'SERVE_INCLUDE_SCHEMA': True,
+}
 
 ASGI_APPLICATION = 'pong_service.asgi.application'
 
