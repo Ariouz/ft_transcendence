@@ -39,7 +39,7 @@ function updateScore(game_data, data)
     scorer = data.scoring_player;
 
     txt_time = countdown_timer - 3 - 1;
-    pong_text_overlay.innerText = getDisplayNameByPlayer(scorer) + " scored!";
+    pong_text_overlay.innerText = getDisplayNameByPlayer(scorer, game_data.players, g_pongUserId) + " scored!";
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer = 4;
@@ -54,6 +54,9 @@ function updateScore(game_data, data)
 
         if (txt_time <= 0)
             pong_text_overlay.innerText = countdown_timer;
+
+        if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
+            pong_text_overlay.classList.add("pong_text_overlay_shown");
         
         txt_time--;
         countdown_timer--;
@@ -80,6 +83,9 @@ function startTimer(countdown_timer)
 
         if (txt_time <= 0)
             pong_text_overlay.innerText = countdown_timer;
+
+        if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
+            pong_text_overlay.classList.add("pong_text_overlay_shown");
 
         txt_time--;
         countdown_timer--;
@@ -136,6 +142,9 @@ function pauseTimer(countdown_timer, player, game_data)
             stopInterval();
             return ;
         }
+
+        if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
+            pong_text_overlay.classList.add("pong_text_overlay_shown");
             
         pong_text_overlay.innerText = player + " disconnected - " + countdown_timer;
         countdown_timer--;

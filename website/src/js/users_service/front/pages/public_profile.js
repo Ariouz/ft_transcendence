@@ -1,6 +1,5 @@
 async function loadAllPublicProfileData(targetUsername)
     {
-        console.log("target:" + targetUsername);
         let visitorId = await retrieveId(sessionToken);
         let userData = await retrievePublicProfileDataByUsername(targetUsername);
 

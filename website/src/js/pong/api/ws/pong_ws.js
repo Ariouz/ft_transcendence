@@ -11,6 +11,8 @@ let g_pongGameInterval;
 let g_pongSelfDisplayName = "";
 let g_pongOpponentDisplayName = "";
 
+let g_pongUserId;
+
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
 {
@@ -109,7 +111,7 @@ async function handlePongGameWs(e, user_token) {
                 let state = data.state;
                 let timer = data.countdown_timer;
                 let winner = data.winner;
-                winnerTimer(timer, getDisplayNameByPlayer(winner), state);
+                winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_disconnected")
             {
@@ -117,16 +119,19 @@ async function handlePongGameWs(e, user_token) {
                 let player = data.player;
                 let timer = data.countdown_timer;
                 g_pongGameOpponentDisconnected = true;
-                pauseTimer(timer, getDisplayNameByPlayer(player), state);
+                pauseTimer(timer, getDisplayNameByPlayer(player, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_reconnected")
             {
+                let userId = await retrieveId(user_token);
+                g_pongUserId = userId.user_id;
+
                 let state = data.state;
                 let player = data.player;
                 let timer = data.countdown_timer;
                 g_pongGameOpponentDisconnected = false;
                 setScore(state);
-                resumeTimer(timer, getDisplayNameByPlayer(player), state);
+                resumeTimer(timer, getDisplayNameByPlayer(player, state.players, g_pongUserId), state);
             }
         }
         else
@@ -167,6 +172,7 @@ async function defineUserPaddle(state, user_token)
 
     let userId = await retrieveId(user_token);
     userId = userId.user_id;
+    g_pongUserId = userId;
     if (state.players.player1.id == userId)
         g_pongGamePlayerPaddle = 'player1';
     else if (state.players.player2.id == userId)

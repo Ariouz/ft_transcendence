@@ -1,6 +1,6 @@
-function getDisplayNameByPlayer(player)
+function getDisplayNameByPlayer(player, players, user_id)
 {
-    if (player == "player1")
+    if (players[player].id == user_id)
         return g_pongSelfDisplayName;
     else return g_pongOpponentDisplayName;
 }
