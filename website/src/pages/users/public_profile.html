@@ -104,8 +104,8 @@
         
         sessionToken = getCookie("session_token");
         
-        handleFollowButton();
-        handleUnfollowButton();
+        handleFollowButton(targetUsername);
+        handleUnfollowButton(targetUsername);
         
         githubContainer = document.getElementById("profile_user_github_container");
         githubContainer.style.display = 'none';
