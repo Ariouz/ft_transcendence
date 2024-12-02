@@ -99,9 +99,10 @@ function displayMessageInFriendList(message) {
     friendListElement.appendChild(errorElement);
 }
 
-function sendNewFollowerNotification(followerUsername)
+async function sendNewFollowerNotification(followerUsername)
 {
     let key = "new_follower_notification";
-    let text = selectedLanguageData[key] || defaultLanguageData[key];
+    let text = await fetchTranslation(key);
+
     showNotification(`${text} ${followerUsername}`, 5);
 }
