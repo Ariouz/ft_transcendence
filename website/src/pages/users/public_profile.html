@@ -100,7 +100,7 @@
         path = window.location.pathname;
         parts = path.split("/");
         parts.shift();
-        username = parts[2];
+        targetUsername = parts[2];
         
         sessionToken = getCookie("session_token");
         
@@ -111,6 +111,7 @@
         githubContainer.style.display = 'none';
         githubContainer.classList.remove("d-flex");
         
-        loadAllProfileData();
+        console.log(targetUsername);
+        loadAllPublicProfileData(targetUsername);
         
     </script>

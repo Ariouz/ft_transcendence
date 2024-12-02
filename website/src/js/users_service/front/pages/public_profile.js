@@ -1,7 +1,8 @@
-async function loadAllProfileData()
+async function loadAllPublicProfileData(targetUsername)
     {
+        console.log("target:" + targetUsername);
         let visitorId = await retrieveId(sessionToken);
-        let userData = await retrievePublicProfileDataByUsername(username);
+        let userData = await retrievePublicProfileDataByUsername(targetUsername);
 
         if (userData.error)
             navigate("/error");
@@ -43,9 +44,9 @@ async function loadAllProfileData()
         }
     }
 
-    async function handleFollowButton() {
+    async function handleFollowButton(targetUsername) {
         let visitorId = await retrieveId(sessionToken);
-        let userData = await retrievePublicProfileDataByUsername(username);
+        let userData = await retrievePublicProfileDataByUsername(targetUsername);
 
         unfollowUserButton = document.getElementById("public_profile_unfollow_user");
 
@@ -58,9 +59,9 @@ async function loadAllProfileData()
         });
     }
 
-    async function handleUnfollowButton() {
+    async function handleUnfollowButton(targetUsername) {
         let visitorId = await retrieveId(sessionToken);
-        let userData = await retrievePublicProfileDataByUsername(username);
+        let userData = await retrievePublicProfileDataByUsername(targetUsername);
 
         followUserButton = document.getElementById("public_profile_follow_user");
 
