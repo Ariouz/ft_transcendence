@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from .models import LobbyData
 from .serializers import LobbySerializer
-from users.models import User
+from pong_service.pong_service_app.models import PongUser
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -48,7 +48,7 @@ class LobbyView(APIView):
 	def post(self, request):
 			data = request.data
 			try:
-				user = User.objects.get(id=data['uuid'])
+				user = PongUser.objects.get(user_id=data['uuid'])
 				new_lobby = LobbyData.objects.create(
 					name=data['name'],
 					# isPrivate=data['isPrivate'],
@@ -76,7 +76,7 @@ class LobbyUpdateView(APIView):
 
 		if(serializerLobby.data[0]['isActiveLobby'] == True):
 			try:
-				user = User.objects.get(uuid=user_id)
+				user = PongUser.objects.get(user_id=user_id)
 				lobbyData.update(player2=user)
 				lobbyData.update(isActiveLobby=False)
 				return Response({'message':'You have updated player2 successfully'}, status=status.HTTP_201_CREATED)	
