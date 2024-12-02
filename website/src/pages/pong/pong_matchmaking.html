@@ -29,14 +29,11 @@
             navigate("/login");
             return ;
         }
-        document.getElementById("matchmaking_user_avatar").src = userData.avatar;
-        // add user displayname
+        let matchmakingAvatar = document.getElementById("matchmaking_user_avatar");
+        if (!matchmakingAvatar) return ;
+        matchmakingAvatar.src = userData.avatar;
     }
 
-    // Todo add opponent avatar + displayname
-
-    
     loadData();
-
     joinQueue(new URLSearchParams(window.location.search).get("game_type"));
 </script>

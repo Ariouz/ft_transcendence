@@ -50,6 +50,10 @@ def join_queue(request):
     
     if is_user_in_queue(user_id, game_type):
         return JsonResponse({"error":"Already in queue", "details":"User is already in the queue"})
+    
+    game_types = ["1v1", "arcade"]
+    if not game_type in game_types:
+        return JsonResponse({"error":"Invalid game type", "details":"Invalid game type"})
 
     pong_user.create_user_if_not_exists(user_id)
 

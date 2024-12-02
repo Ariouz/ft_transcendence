@@ -10,6 +10,12 @@ async function joinQueue(gameType)
     let sessionToken = getCookie("session_token");
     if (sessionToken == undefined) return;
 
+    if (!gameType)
+    {
+        navigate('/pong');
+        return ;
+    }
+
     let userId = await retrieveId(sessionToken);
     console.log("userId.user_id:", userId.user_id);
     console.log("gameType:", gameType);
@@ -24,7 +30,10 @@ async function joinQueue(gameType)
     }).then(data => data.json())
     .then(data => {
         console.log(data);
-        g_userInPongQueue = true;
+        if (data.success)
+            g_userInPongQueue = true;
+        else
+            navigate('/pong');
     }).catch(error => {
         console.log(error);
     });
