@@ -52,7 +52,7 @@ async function loadUsers()
             users.push({"id": userId, "username":username, "avatar":avatar});
         }
         return users;
-    }).catch(error => { console.error(error) });
+    }).catch(error => { console.log(error) });
     return userList;
 }
 
@@ -87,7 +87,7 @@ async function loadUserLists()
         searchByUsername(users, searchUsername)
         .then (newusers => {
             displayCards(newusers);
-        });
+        }).catch(error => {});
     });
     
 }

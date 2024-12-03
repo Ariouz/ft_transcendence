@@ -36,6 +36,7 @@ async function joinQueue(gameType)
             navigate('/pong');
     }).catch(error => {
         console.log(error);
+        navigate("/pong");
     });
 }
 
@@ -60,11 +61,11 @@ async function leaveMatchmakingQueue()
         body: JSON.stringify(requestData),
     }).then(data => data.json())
     .then(data => {
-        console.log(data);
         g_userInPongQueue = false;
         navigate("/pong");
     }).catch(error => {
         console.log(error);
+        navigate("/pong");
     });
 }
 
@@ -86,9 +87,9 @@ async function createLocalGame()
         body: JSON.stringify(requestData),
     }).then(data => data.json())
     .then(data => {
-        console.log(data);
         g_userInPongQueue = false;
     }).catch(error => {
         console.log(error);
+        navigate("/pong");
     });
 }

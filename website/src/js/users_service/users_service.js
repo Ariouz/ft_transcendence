@@ -14,14 +14,11 @@ async function getFromURL(url, onSuccess, onError)
         const data = await response.json();
 
         if (response.ok) {
-            console.debug('Data:', data);
             onSuccess(data);
         } else {
-            console.error('Error:', data);
             onError(data);
         }
     } catch (error) {
-        console.error('Error:', error);
         onError(error);
     }
 }

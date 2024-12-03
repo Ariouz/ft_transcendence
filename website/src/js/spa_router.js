@@ -79,29 +79,26 @@ function routeAuth(parts, params)
         {
             let code = params.get("code");
             if (code === undefined) { navigate('/error'); return; }
-            // console.log(code);
             loadContent("/pages/user/auth/access_code.html");
             ftRetrieveClientAccessToken(code)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
-                // console.log(token_data);
                 if (token_data.error) {
-                    alert("An error occured, please try again. " + token_data.error + " " + token_data.details);
+                    alert("An error occured, please try again.");
+                    console.log(token_data.error + " " + token_data.details);
                     navigate("/login");
                     return ;
                 }
-                // console.log("Access token: " + token_data.access_token);
                 data = retrieveFtData(token_data.access_token).then(data => {
-                    // console.log(data);
                     createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name)
                         .then( r => {
                             setUserLanguage();
                         })
                 }).catch(error => {
-                    console.error(error);
+                    console.log(error);
                 });
             }).catch(error => {
-                console.error(error);
+                console.log(error);
             });
         }
     }

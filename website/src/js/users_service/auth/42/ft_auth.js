@@ -15,10 +15,8 @@ async function accountExists(username, token)
     let url = `https://${g_host}:8001/api/account/exists/?username=${username}&token=${token}`;
     let data = await fetchBack(url)
     .then(data => {
-        console.log(data);
         return data.exists;
     }).catch(error => {
-        console.error(error);
         return false;
     });
     return data;
@@ -49,7 +47,7 @@ async function createAccount(username, email, token, avatar, fullname)
         window.location.reload();
     })
     .catch(error => {
-        console.error(error)
+        console.log(error)
     });
 }
 
@@ -186,7 +184,6 @@ async function retrieveFtData(access_token)
     const url = `${FT_AUTH_URL}/data/42/${access_token}`;
     try {
         const data = await fetchBack(url);
-        console.log(data);
         return data;
     } catch (error)
     {

@@ -60,14 +60,12 @@ async function fetchBack(url)
         const data = await response.json();
 
         if (response.ok) {
-            console.debug('Data:', data);
             return data;
         } else {
-            console.error('Error:', data);
             return data;
         }
     } catch (error) {
-        throw error;
+        console.log("Failed to fetch:" + error);
     }
 }
 

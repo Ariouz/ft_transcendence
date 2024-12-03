@@ -10,6 +10,7 @@ async function setRightStatus(circleId, radarId, user_id)
     let radar = document.getElementById(radarId);
 
     let online = await isOnline(user_id);
+    if (online.error) return ;
     if (online.status == 0)
     {
         circle.classList.add("online-status-circle-offline");

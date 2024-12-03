@@ -114,12 +114,13 @@ async function fetchTranslationSelectedLanguage(key) {
         const url = `https://${g_host}:8006/translations/${SELECTED_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Error fetching translation: ${response.statusText}`);
+            return key;
         }
         const data = await response.json();
+        if (data.error) return key;
         return data[key];
     } catch (error) {
-        // TODO
+        console.log("Error: " + error);
         return null;
     }
 }

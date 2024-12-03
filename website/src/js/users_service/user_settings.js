@@ -224,9 +224,9 @@ function setDefaultSettingsValues()
                     setChecked("profile_show_fullname", userConfidentiality.show_fullname);
                     setChecked("profile_show_email", userConfidentiality.show_email);
                 })
-                .catch(error => { console.error(error); });
+                .catch(error => { console.log(error); });
             }
-        }).catch(error => { console.error(error); });
+        }).catch(error => { console.log(error); });
 }
 
 showProfileSection();
