@@ -109,8 +109,8 @@ def save_game_to_db(game_state:PongGameState, end_status="finished"):
     game.status = end_status
     game.save()
 
-    pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1')
-    pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2')
+    pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1', game.type == "local1v1")
+    pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2', game.type == "local1v1")
 
 
 async def time_ball(players, game_state:PongGameState, scoring_player, sendStartTimer=True, is_reconnect=False):

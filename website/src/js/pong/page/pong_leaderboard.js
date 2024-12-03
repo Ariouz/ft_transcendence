@@ -14,7 +14,7 @@ async function addGameToLeaderboard(userData, userLang, fragment)
         <td>#${userData.rank}</td>
         <td>${userData.played}</td>
         <td>${userData.wins}</td>
-        <td>${userData.win_rate}%</td>
+        <td>${Math.floor(userData.win_rate)}%</td>
     </tr>
 
     `;
