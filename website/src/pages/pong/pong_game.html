@@ -65,13 +65,17 @@
             return ;
         }
         gameData = gameData.data;
-        console.log(gameData);
 
         changeTheme(gameData.theme);
         let gameType = gameData.type;
         let gameStatus = gameData.status;
         if (gameType == "local1v1")
         {
+            if (gameStatus != "init")
+            {
+                navigate('/pong');
+                return ;
+            }
             await sendStartLocalGameRequest(gameData.game_id);
             await loadPlayersData(gameData, token);
         }
@@ -87,7 +91,10 @@
                 createPongGameWebSocket(gameData.game_id, token);
             }
             else
-                console.error("Cannot join game: " + canJoinReq.error);
+            {
+                console.log("Cannot join game: " + canJoinReq.error);
+                navigate('/pong');
+            }
         }
         
     }
