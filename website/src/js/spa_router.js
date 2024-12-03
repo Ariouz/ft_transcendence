@@ -163,6 +163,7 @@ function loadContent(url, onPageLoaded = () => {}) {
         return response.text();
     })
     .then(html => {
+        showNavigationAndFooter();
         document.getElementById('page_content').innerHTML = "";
         handleNavLoginButton();
         document.getElementById('page_content').innerHTML = html;

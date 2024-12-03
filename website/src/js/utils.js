@@ -127,3 +127,9 @@ function hideFooter()
 {
     toggleDisplay('footer', false);
 }
+
+function showNavigationAndFooter()
+{
+    showMainNavigation();
+    showFooter();
+}

@@ -74,6 +74,7 @@
             if (gameStatus != "init")
             {
                 navigate('/pong');
+                showNavigationAndFooter();
                 return ;
             }
             await sendStartLocalGameRequest(gameData.game_id);
@@ -94,6 +95,7 @@
             {
                 console.log("Cannot join game: " + canJoinReq.error);
                 navigate('/pong');
+                showNavigationAndFooter();
             }
         }
         
