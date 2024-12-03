@@ -40,7 +40,7 @@ async function loadLeaderboard(page)
     {
         historyList.innerHTML = "";
         document.getElementById("leaderboard_error").style.display = "block";
-        document.getElementById("leaderboard_error").innerText = "No user to show"; // TODO TRANSLATE
+        document.getElementById("leaderboard_error").innerText = await fetchTranslation("leaderboard_no_user");
         return ;
     }
     

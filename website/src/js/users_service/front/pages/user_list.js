@@ -7,7 +7,7 @@ function addFloor(floorId)
     container.appendChild(floor);
 }
 
-function addUserCard(username, avatar, floorId, userId)
+async function addUserCard(username, avatar, floorId, userId)
 {
     let container = document.getElementById("users_list_floor_"+floorId);
     if (container == null)
@@ -32,7 +32,7 @@ function addUserCard(username, avatar, floorId, userId)
                                     ${username} </span> \
                             </div> \
                             <div class="user_list_card_bottom"> \
-                                <button class="btn btn-outline-primary" onclick="navigate('/users/profile/${username}')">View profile</button> \
+                                <button class="btn btn-outline-primary" onclick="navigate('/users/profile/${username}')">${await fetchTranslation("view_profile")}</button> \
                             </div>`;
     container.appendChild(element);
     setRightStatus(`user_online_status_circle-${userId}`, `user_online_status_radar-${userId}`, userId);
@@ -61,7 +61,7 @@ async function displayCards(userList)
     let floorId = 0;
     for (user of userList)
         {
-        addUserCard(user.username, user.avatar, Math.floor(floorId / 5), user.id);
+        await addUserCard(user.username, user.avatar, Math.floor(floorId / 5), user.id);
         floorId++;
     }
 }

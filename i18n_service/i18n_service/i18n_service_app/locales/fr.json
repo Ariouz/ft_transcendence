@@ -9,6 +9,7 @@
   "logout": "Se déconnecter",
   "home_page_title": "Ceci est le contenu de la page d'accueil",
   "search": "Rechercher",
+  "view_profile": "Voir le profil",
   "follow_user": "Suivre",
   "unfollow_user": "Ne plus suivre",
   "new_follower_notification": "Nouvel abonné:",
@@ -116,6 +117,14 @@
   
   "pong_how_to_play": "Comment jouer",
   "pong_how_to_play_text": "<span><strong>Pong</strong> est un jeu classique de tennis de table où deux joueurs utilisent des palettes pour frapper une balle d'avant en arrière à travers l'écran. L'objectif est d'empêcher la balle de passer de votre côté et de marquer en la faisant passer chez votre adversaire.</span><br><br><span><strong>Contrôles :</strong> Utilisez les touches 'W' et 'S' (ou <strong>HAUT</strong> et <strong>BAS</strong> pour le Joueur 2 dans le jeu local) pour déplacer votre palette verticalement. Restez concentré et essayez d'anticiper le mouvement de la balle pour la bloquer et la renvoyer de l'autre côté.</span><br><br><span><strong>Scoring :</strong> Chaque fois que la balle passe la palette d'un joueur, l'adversaire marque un point. Le jeu continue jusqu'à ce qu'un joueur atteigne <strong>5 points</strong>.</span>",
+
+  "leaderboard_title": "Classement",
+  "leaderboard_player": "Joueur",
+  "leaderboard_rank": "Rang",
+  "leaderboard_played": "Parties Jouées",
+  "leaderboard_wins": "Victoires",
+  "leaderboard_win_rate": "Taux de Victoire",
+  "leaderboard_no_user": "Aucun joueur à afficher",
 
   "cookie_policy": "Politique de Cookies",
   "cookie_policy_content": "<h1>Politique de Cookies</h1><hr> <div class='cookie_policy_content'> <p>Cette Politique de Cookies explique comment notre site web utilise des cookies et des technologies similaires pour améliorer votre expérience de navigation et garantir le bon fonctionnement du site. En utilisant notre site, vous consentez à l'utilisation des cookies comme décrit dans cette politique.<br></p> <h3>Que sont les Cookies ?</h3> <p>Les cookies sont de petits fichiers texte stockés sur votre appareil lorsque vous visitez un site web. Ils aident les sites web à se souvenir de vos préférences et de vos activités afin de vous offrir une expérience plus personnalisée.</p><br> <h3>Quels Cookies Utilisons-Nous ?</h3> <h5>Cookies Essentiels</h5> <p>Ces cookies sont nécessaires pour le bon fonctionnement de notre site web. Sans eux, certaines parties du site peuvent ne pas fonctionner correctement. Nous utilisons des cookies essentiels pour : Stocker l'access_token pour un accès sécurisé à votre compte. Gérer les informations de session, y compris la redirection après la connexion ou des actions spécifiques.</p> <h5>Cookies de Préférence</h5> <p>Ces cookies enregistrent vos préférences concernant les cookies et nous aident à nous souvenir de vos choix, tels que : Si vous avez accepté ou refusé certains types de cookies.</p><br> <h3>Pourquoi Utilisons-Nous Ces Cookies ?</h3> <p>Pour garantir un accès sécurisé à votre compte en utilisant un access_token. Pour vous rediriger vers la page correcte après la connexion ou des actions nécessitant une redirection. Pour nous souvenir de vos préférences en matière de cookies afin que vous n'ayez pas à les définir à chaque visite.</p><br> <h3>Gérer Vos Préférences de Cookies</h3> Vous pouvez gérer vos préférences de cookies à tout moment en visitant votre page de paramètres de confidentialité. Cependant, veuillez noter que la désactivation des cookies essentiels peut affecter le fonctionnement du site web. Pour plus d'informations sur la manière dont nous traitons vos données, veuillez consulter notre <span onclick='navigate(\"/privacy-policy\")' style=\"cursor: pointer; text-decoration: underline;\">Politique de Confidentialité</span>.</div>",
