@@ -26,7 +26,7 @@ function loadPongUserWebsocket()
 
 function createPongUserWebSocket() {
     let user_token = getCookie("session_token");
-    const WEBSOCKET_PONG_URL = `wss://localhost:7000/ws/pong/user/${user_token}/`;
+    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/pong/user/${user_token}/`;
     g_pongUserWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
     console.log("Pong WS: Created WebSocket for user's pong.");
     
@@ -68,7 +68,7 @@ function createPongGameWebSocket(game_id) {
     if (g_pongGameWebSocket) return ;
     
     let user_token = getCookie("session_token");
-    const WEBSOCKET_PONG_URL = `wss://localhost:7000/ws/pong/game/${user_token}/${game_id}/`;
+    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/pong/game/${user_token}/${game_id}/`;
     g_pongGameWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
     console.log("Pong Game WS: Created WebSocket for user's pong.");
     

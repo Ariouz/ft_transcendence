@@ -37,7 +37,7 @@ SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service']
+ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service', os.getenv("HOST_IP")]
 
 USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
 

@@ -1,1 +1,1 @@
-const PONG_SERVICE_URL = "https://localhost:8002/api";
+const PONG_SERVICE_URL = `https://${g_host}:8002/api`;

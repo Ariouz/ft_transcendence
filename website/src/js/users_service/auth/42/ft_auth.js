@@ -12,7 +12,7 @@ function redirectToAuth(data)
 
 async function accountExists(username, token)
 {
-    let url = `https://localhost:8001/api/account/exists/?username=${username}&token=${token}`;
+    let url = `https://${g_host}:8001/api/account/exists/?username=${username}&token=${token}`;
     let data = await fetchBack(url)
     .then(data => {
         console.log(data);
@@ -37,7 +37,7 @@ async function createAccount(username, email, token, avatar, fullname)
         window.location.reload();
         return ;
     }
-    let url = `https://localhost:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
+    let url = `https://${g_host}:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
     fetchBack(url)
     .then(data => {
         if (doConsentCookies())
@@ -199,7 +199,7 @@ async function retrieveFtData(access_token)
 
 async function ftRetrieveClientAccessToken(code)
 {
-    const url = `${FT_AUTH_URL}/access/?code=${code}`;
+    const url = `${FT_AUTH_URL}/access?code=${code}`;
     try {
         const data = await fetchBack(url);
         return data;
