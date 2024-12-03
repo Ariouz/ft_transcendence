@@ -11,6 +11,8 @@ let g_pongGameInterval;
 let g_pongSelfDisplayName = "";
 let g_pongOpponentDisplayName = "";
 
+let g_pongTranslations = {};
+
 let g_pongUserId;
 
 // Create WebSocket connection if user was already logged-in when opening the page
@@ -21,6 +23,7 @@ function loadPongUserWebsocket()
     user_token = getCookie("session_token");
     if (user_token && user_token.length > 0) {
         createPongUserWebSocket();
+        loadPongTranslations();
     }
 }
 
@@ -44,9 +47,9 @@ function createPongUserWebSocket() {
             const data = JSON.parse(e.data);
             g_error_pong_ws = false;
             if (data.type)
-            {
-                if (data.type === "game_create")
                 {
+                if (data.type === "game_create")
+                    {
                     game_id = data.game_id;
                     g_userInPongQueue = false;
                     navigate(`/pong/game?gid=${game_id}`);
@@ -57,7 +60,7 @@ function createPongUserWebSocket() {
                 }
             }
             else
-                g_error_pong_ws = true;
+            g_error_pong_ws = true;
         } catch (error) {
             g_error_pong_ws = true;
         }
@@ -85,24 +88,32 @@ function createPongGameWebSocket(game_id) {
     }
 }
 
+async function loadPongTranslations()
+{
+    g_pongTranslations['starting'] = await fetchTranslation("pong_game_starting");
+    g_pongTranslations['scored'] = await fetchTranslation("pong_game_scored");
+    g_pongTranslations['disconnected'] = await fetchTranslation("pong_game_disconnected");
+    g_pongTranslations['reconnected'] = await fetchTranslation("pong_game_reconnected");
+    g_pongTranslations['win'] = await fetchTranslation("pong_game_win");
+}
 
 async function handlePongGameWs(e, user_token) {
     try {
         const data = JSON.parse(e.data);
         g_error_pong_ws = false;
         if (data.type)
-        {
+            {
             if (data.type == "game_state_update")
                 await handleGameStateUpdate(data, user_token);
             else stopInterval();
             
             if (data.type == "game_player_scored")
-            {
+                {
                 let state = data.state;
                 updateScore(state, data);
             }
             else if (data.type == "game_start_timer")
-            {
+                {
                 let timer = data.countdown_timer;
                 startTimer(timer);
             }
@@ -111,10 +122,11 @@ async function handlePongGameWs(e, user_token) {
                 let state = data.state;
                 let timer = data.countdown_timer;
                 let winner = data.winner;
+                console.log("WINNER");
                 winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_disconnected")
-            {
+                {
                 let state = data.state;
                 let player = data.player;
                 let timer = data.countdown_timer;
@@ -122,10 +134,10 @@ async function handlePongGameWs(e, user_token) {
                 pauseTimer(timer, getDisplayNameByPlayer(player, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_reconnected")
-            {
+                {
                 let userId = await retrieveId(user_token);
                 g_pongUserId = userId.user_id;
-
+                
                 let state = data.state;
                 let player = data.player;
                 let timer = data.countdown_timer;
@@ -135,7 +147,7 @@ async function handlePongGameWs(e, user_token) {
             }
         }
         else
-            g_error_pong_ws = true;
+        g_error_pong_ws = true;
     } catch (error) {
         g_error_pong_ws = true;
     }
@@ -163,13 +175,13 @@ async function defineUserPaddle(state, user_token)
 {
     if (g_pongGamePlayerPaddle != undefined)
         return ;
-
+    
     if (g_pongGameType == "local1v1")
-    {
+        {
         g_pongGamePlayerPaddle = "both";
         return ;
     }
-
+    
     let userId = await retrieveId(user_token);
     userId = userId.user_id;
     g_pongUserId = userId;
@@ -182,9 +194,9 @@ async function defineUserPaddle(state, user_token)
 function movePaddles(state)
 {
     // Add? ball = state.ball_position;
-
+    
     if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
-    {
+        {
         Game.ball.x = ball.x;
         Game.paddle.leftX = state.players.player1.position.x;
         Game.paddle.leftY = state.players.player1.position.y;
@@ -193,7 +205,7 @@ function movePaddles(state)
         Game.paddle.rightY = state.players.player2.position.y;
     }
     else if (g_pongGamePlayerPaddle == 'player2')
-    {
+        {
         Game.ball.x = PONG_CANVAS_WIDTH - ball.x;
         Game.paddle.leftX = state.players.player2.position.x - (PONG_CANVAS_WIDTH - Game.paddle.width);
         Game.paddle.leftY = state.players.player2.position.y;

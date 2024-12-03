@@ -39,7 +39,10 @@ function updateScore(game_data, data)
     scorer = data.scoring_player;
 
     txt_time = countdown_timer - 3 - 1;
-    pong_text_overlay.innerText = getDisplayNameByPlayer(scorer, game_data.players, g_pongUserId) + " scored!";
+
+    let scoredTranslation = g_pongTranslations["scored"];
+
+    pong_text_overlay.innerText = `${getDisplayNameByPlayer(scorer, game_data.players, g_pongUserId)} ${scoredTranslation}`;
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer = 4;
@@ -68,7 +71,10 @@ function startTimer(countdown_timer)
     if (g_pongGameOpponentDisconnected) return ;
 
     txt_time = countdown_timer - 3 - 1;
-    pong_text_overlay.innerText = "Starting in...";
+
+    let startingTranslation = g_pongTranslations["starting"];
+    pong_text_overlay.innerText = `${startingTranslation}`;
+
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer = 4;
@@ -95,7 +101,13 @@ function startTimer(countdown_timer)
 function winnerTimer(countdown_timer, winner, game_data)
 {
     setScore(game_data);
-    pong_text_overlay.innerText = winner + " won the game!";
+    console.log("Score updated");
+
+    let winTranslation = g_pongTranslations["win"];
+    let winText = `${getDisplayNameByPlayer(scorer, game_data.players, g_pongUserId)} - ${winTranslation}`;
+    pong_text_overlay.innerText = winText;
+
+
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     g_pongGameInterval = setInterval(() => {
@@ -120,7 +132,7 @@ function winnerTimer(countdown_timer, winner, game_data)
 
         if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
             pong_text_overlay.classList.add("pong_text_overlay_shown");
-        pong_text_overlay.innerText = winner + " won the game!";
+        pong_text_overlay.innerText = winText;
 
         countdown_timer--;
     }, 1000);
@@ -130,7 +142,9 @@ function pauseTimer(countdown_timer, player, game_data)
 {
     if (!g_pongGameOpponentDisconnected) return ;
 
-    pong_text_overlay.innerText = player + " disconnected - " + countdown_timer;
+    let disconnectedTranslation = g_pongTranslations["disconnected"];
+    pong_text_overlay.innerText = `${player} ${disconnectedTranslation} - ${countdown_timer}`;
+    
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer--;
@@ -146,7 +160,7 @@ function pauseTimer(countdown_timer, player, game_data)
         if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
             pong_text_overlay.classList.add("pong_text_overlay_shown");
             
-        pong_text_overlay.innerText = player + " disconnected - " + countdown_timer;
+        pong_text_overlay.innerText = `${player} ${disconnectedTranslation} - ${countdown_timer}`;
         countdown_timer--;
     }, 1000);
 }
@@ -154,7 +168,9 @@ function pauseTimer(countdown_timer, player, game_data)
 function resumeTimer(countdown_timer, player, game_data)
 {
     txt_time = countdown_timer - 3 - 1;
-    pong_text_overlay.innerText = player + " reconnected";
+
+    let reconnectedTranslation = g_pongTranslations["reconnected"];
+    pong_text_overlay.innerText = `${player} ${reconnectedTranslation}`;
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
     countdown_timer = 4;
@@ -170,7 +186,7 @@ function resumeTimer(countdown_timer, player, game_data)
         if (!pong_text_overlay.classList.contains("pong_text_overlay_shown"))
             pong_text_overlay.classList.add("pong_text_overlay_shown");
 
-        pong_text_overlay.innerText = txt_time > 0 ? player + " reconnected" : countdown_timer;
+        pong_text_overlay.innerText = txt_time > 0 ? `${player} ${reconnectedTranslation}` : countdown_timer;
 
         txt_time--;
         countdown_timer--;

@@ -58,6 +58,8 @@
             return;
         }
 
+        await loadPongTranslations();
+
         let gameData = await getGameData(gameId);
         if (gameData.error)
         {
@@ -88,6 +90,7 @@
             let canJoinReq = await canJoinGame(gameData.game_id, userId);
             if (canJoinReq.success)
             {
+                await loadPongTranslations();
                 createPongGameWebSocket(gameData.game_id, token);
             }
             else
