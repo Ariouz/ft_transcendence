@@ -48,6 +48,7 @@ class PongGameState:
         self.running = True
         self.paused = False
         self.game_pause_task = None
+        self.game_cancelled = False
 
         self.connected_users = set([player1_id, player2_id])
         self.has_disconnected = False

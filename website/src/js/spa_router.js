@@ -18,6 +18,7 @@ function handleRouting() {
     if (g_pongGameWebSocket)
     {
         g_pongGameWebSocket.close();
+        g_pongGameType = null;
         g_pongGameState = null;
         g_pongGamePlayerPaddle = null;
         g_pongGameType = null;

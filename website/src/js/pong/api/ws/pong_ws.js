@@ -23,7 +23,6 @@ function loadPongUserWebsocket()
     user_token = getCookie("session_token");
     if (user_token && user_token.length > 0) {
         createPongUserWebSocket();
-        loadPongTranslations();
     }
 }
 
@@ -122,7 +121,6 @@ async function handlePongGameWs(e, user_token) {
                 let state = data.state;
                 let timer = data.countdown_timer;
                 let winner = data.winner;
-                console.log("WINNER");
                 winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_disconnected")
@@ -177,7 +175,7 @@ async function defineUserPaddle(state, user_token)
         return ;
     
     if (g_pongGameType == "local1v1")
-        {
+    {
         g_pongGamePlayerPaddle = "both";
         return ;
     }
@@ -196,7 +194,7 @@ function movePaddles(state)
     // Add? ball = state.ball_position;
     
     if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
-        {
+    {
         Game.ball.x = ball.x;
         Game.paddle.leftX = state.players.player1.position.x;
         Game.paddle.leftY = state.players.player1.position.y;
@@ -205,7 +203,7 @@ function movePaddles(state)
         Game.paddle.rightY = state.players.player2.position.y;
     }
     else if (g_pongGamePlayerPaddle == 'player2')
-        {
+    {
         Game.ball.x = PONG_CANVAS_WIDTH - ball.x;
         Game.paddle.leftX = state.players.player2.position.x - (PONG_CANVAS_WIDTH - Game.paddle.width);
         Game.paddle.leftY = state.players.player2.position.y;

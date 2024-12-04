@@ -101,12 +101,11 @@ function startTimer(countdown_timer)
 function winnerTimer(countdown_timer, winner, game_data)
 {
     setScore(game_data);
-    console.log("Score updated");
 
     let winTranslation = g_pongTranslations["win"];
-    let winText = `${getDisplayNameByPlayer(scorer, game_data.players, g_pongUserId)} - ${winTranslation}`;
+    //${getDisplayNameByPlayer(winner, game_data.players, g_pongUserId)}
+    let winText = `${winner} - ${winTranslation}`;
     pong_text_overlay.innerText = winText;
-
 
     pong_text_overlay.classList.add("pong_text_overlay_shown");
 
@@ -118,6 +117,7 @@ function winnerTimer(countdown_timer, winner, game_data)
             stopInterval();
 
             g_pongGameWebSocket.close();
+            g_pongGameWebSocket = null;
             g_pongGameState = null;
             g_pongGamePlayerPaddle = null;
             g_pongGameType = null;

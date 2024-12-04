@@ -97,7 +97,7 @@ def can_join(request):
     if not user_id in [int(id) for id in game.users]:
         return JsonResponse({"error":"Cannot join game", "details": "Player cannot join this game"}, status=403)
 
-    if game.status == "finished":
+    if game.status in ["finished", "forfaited"]:
         return JsonResponse({"error":"Game ended", "details": "This game has ended"}, status=403)
 
     return JsonResponse({"success": "User can join the game"})

@@ -109,8 +109,12 @@ def save_game_to_db(game_state:PongGameState, end_status="finished"):
     game.status = end_status
     game.save()
 
-    pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1', game.type == "local1v1")
-    pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2', game.type == "local1v1")
+    ignore_user_stats = True if game_state.game_type == "local1v1" else False
+    ignore_user_stats = True if game_state.game_cancelled else ignore_user_stats
+    logging.getLogger("django").info(f"Ignore stats: {ignore_user_stats}")
+
+    pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1', ignore_user_stats)
+    pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2', ignore_user_stats)
 
 
 async def time_ball(players, game_state:PongGameState, scoring_player, sendStartTimer=True, is_reconnect=False):
@@ -203,9 +207,17 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         user_id = message_data['user_id']
 
         await game_state.set_has_disconnected(True)
+        game_state.connected_users.remove(user_id)
+
         if not game_state.game_pause_task:
             game_state.game_pause_task = asyncio.create_task(pause_game_user_disconnected(game_state, user_id))
-        # logging.getLogger("django").info(f"User {user_id} disconnected on game {game_state.game_id}")
+        
+        if len(game_state.connected_users) == 0:
+            logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game")
+            game_state.game_cancelled = True
+            game_state.players['player1']['score'] = 5
+            await game_state.set_paused(False)
+
     elif message_data['type'] == "pong_game_user_connected":
         if not await game_state.is_running():
             return
@@ -236,7 +248,6 @@ async def pause_game_user_disconnected(game_state:PongGameState, user_id):
 
         await game_state.set_paused(True)
         logging.getLogger("django").info(f"Game {game_state.game_id} is now paused.")
-        game_state.connected_users.remove(user_id)
 
         player = await game_state.get_player_by_id(user_id)
         await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
