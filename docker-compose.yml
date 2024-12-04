@@ -62,6 +62,7 @@ services:
       DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+      DJANGO_SECRET: ${DJANGO_SECRET}
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
@@ -119,6 +120,7 @@ services:
       DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
       DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
       DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
+      DJANGO_SECRET: ${DJANGO_SECRET}
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
@@ -148,6 +150,7 @@ services:
     environment:
       PROJECT_NAME: "websocket_server"
       APP_PORT: ${WEBSOCKET_SERVER_PORT}
+      DJANGO_SECRET: ${DJANGO_SECRET}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
     volumes:
@@ -184,6 +187,7 @@ services:
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
       HOST_IP: ${HOST_IP}
       APP_PORT: ${I18N_SERVICE_PORT}
+      DJANGO_SECRET: ${DJANGO_SECRET}
     volumes:
       - type: bind
         source: ./i18n_service
