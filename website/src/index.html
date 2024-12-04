@@ -54,15 +54,11 @@
     
     <div id="black_screen_filter"></div>
     <div id="cookie_consent_banner">
-        <h2>We Value Your Privacy</h2>
-        <span>
-            This site uses cookies to ensure its proper functionality and to enhance your browsing experience.
-            Certain cookies are essential for the full use of the site. By continuing to browse, you agree to our use of these cookies.
-            <br/>For more information, please read our <a href="">Cookie Policy</a>.
-        </span>
+        <h2 data-i18n="cookie_consent_title"></h2>
+        <span data-i18n="cookie_consent_content"></span>
         <div class="cookie_consent_buttons">
-            <span class="cookie_consent_button cookie_decline" onclick="setCookieBannerVisibility('none', '0')">Decline</span>
-            <span class="cookie_consent_button cookie_consent" onclick="acceptCookies()">Accept</span>
+            <span class="cookie_consent_button cookie_decline" onclick="setCookieBannerVisibility('none', '0')" data-i18n="cookie_button_decline"></span>
+            <span class="cookie_consent_button cookie_consent" onclick="acceptCookies()" data-i18n="cookie_button_accept"></span>
         </div>
     </div>
     
