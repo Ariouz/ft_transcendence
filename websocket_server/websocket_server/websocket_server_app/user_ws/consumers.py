@@ -49,11 +49,12 @@ class FriendsConsumer(WebsocketConsumer):
         logging.getLogger("websocket_logger").info('Attempting to authenticate user with token "%s"...', token)
         try:
             user_resp = ft_requests.get(f'{USERS_SERVICE_URL}/user/authenticate/{token}/')
-            user_resp.raise_for_status()
+            if not user_resp.status == 200:
+                return None
             user_data = user_resp.json()
             logging.getLogger("websocket_logger").info('Found user with id %d.', user_data['user_id'])
             return user_data['user_id']
-        except ft_requests.exceptions.RequestException as e:
+        except Exception as e:
             logging.getLogger("websocket_logger").info(f'Error while authenticating: {e}')
             return None
 

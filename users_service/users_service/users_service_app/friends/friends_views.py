@@ -49,7 +49,9 @@ def remove_friend(request, user_id, friend_id):
 # Recovery of login and user name by token, for test purposes only at the moment.
 @require_http_methods(["GET"])
 def authenticate_user(request, token):
-    user = get_object_or_404(User, token=token)
+    if not User.objects.filter(token=token).exists():
+        return JsonResponse({"error":"User not found"}, status=404)
+    user = User.objects.filter(token=token).get()
     return JsonResponse({"user_id": user.user_id, "username": user.username})
 
 
