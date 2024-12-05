@@ -13,10 +13,8 @@
                 <span></span>
             </div>
             <div class="canvas_layers_container">
-                <img id="pongBackgroundImage" alt="background" src="/assets/images/bangkok-blue-pink-red.jpg" />
                 <canvas id="backgroundCanvas"></canvas>
                 <canvas id="netCanvas"></canvas>
-                <canvas id="strokeCanvas"></canvas>
                 <canvas id="pongCanvas"></canvas>
             </div>
         </div>
@@ -47,6 +45,8 @@
 <script>
     async function loadGame()
     {
+        resetTheme();
+
         let token = getCookie("session_token");
 
         let pongGameParams = new URLSearchParams(window.location.search);
@@ -68,8 +68,9 @@
         }
         gameData = gameData.data;
 
-        changeTheme(gameData.theme);
         let gameType = gameData.type;
+        if (gameType == "arcade")
+            setArcadeTheme(gameData.theme);
         let gameStatus = gameData.status;
         if (gameType == "local1v1")
         {
@@ -99,13 +100,7 @@
                 navigate('/pong');
             }
         }
-        
-    }
-
-    function changeTheme(theme) {
-        for (let [key, value] of Object.entries(theme)) {
-            document.documentElement.style.setProperty(key, value);
-        }
+        Game.startGameLoop(gameType);
     }
 
     async function loadPlayersData(gameData, token)
@@ -131,9 +126,7 @@
         g_pongOpponentDisplayName = opponentData.display_name;
     }
 
-    loadGame();
-</script>
-<script>
     hideMainNavigation();
     hideFooter();
+    loadGame();
 </script>

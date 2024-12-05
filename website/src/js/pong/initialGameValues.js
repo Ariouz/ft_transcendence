@@ -9,13 +9,11 @@ const Game = {
     canvases: {
         background: null,
         net: null,
-        stroke: null,
         game: null,
     },
     contexts: {
         backgroundCtx: null,
         netCtx: null,
-        strokeCtx: null,
         gameCtx: null,
     },
     isPaused: null,
@@ -51,12 +49,10 @@ const Game = {
     init: function () {
         this.canvases.background = document.getElementById('backgroundCanvas');
         this.canvases.net = document.getElementById('netCanvas');
-        this.canvases.stroke = document.getElementById('strokeCanvas');
         this.canvases.game = document.getElementById('pongCanvas');
 
         this.contexts.backgroundCtx = this.canvases.background.getContext('2d');
         this.contexts.netCtx = this.canvases.net.getContext('2d');
-        this.contexts.strokeCtx = this.canvases.stroke.getContext('2d');
         this.contexts.gameCtx = this.canvases.game.getContext('2d');
 
         Object.values(this.canvases).forEach(canvas => {
@@ -73,11 +69,7 @@ const Game = {
         this.isPaused = false;
         this.isRunning = true;
 
-        // TODO: setWebsiteBackgroundColor(getStyle('--flashy-pink'));
-
-        // TODO: draw background when no image
-
-        drawNet(this.contexts.netCtx);
+        setGameBackground();
     },
 
     startGameLoop: function () {
@@ -89,3 +81,48 @@ const Game = {
         this.isRunning = false;
     }
 };
+
+async function setGameBackground() {
+    const imageUrl = getStyle('--canvas-background-url').trim().replace(/^["']|["']$/g, '');    
+    if (!imageUrl) {
+        drawCanvasBackground(Game.contexts.gameCtx);
+        return;
+    }
+    const isValid = await isImageValid(imageUrl);
+
+    if (!isValid) {
+        drawCanvasBackground(Game.contexts.gameCtx);
+        return;
+    }
+    const hasSetImageBackground = setImageBackground(imageUrl);
+    if (hasSetImageBackground)
+        return;
+    drawCanvasBackground(Game.contexts.gameCtx);
+}
+
+function isImageValid(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
+}
+
+function setImageBackground(imageUrl) {
+    const targetDiv = document.querySelector('.canvas_layers_container');
+    if (!targetDiv)
+        return false;
+
+    const imgElement = document.createElement('img');
+    imgElement.id = 'pongBackgroundImage';
+    imgElement.alt = 'background';
+    imgElement.src = imageUrl;
+
+    try {
+        targetDiv.insertBefore(imgElement, targetDiv.firstChild);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
