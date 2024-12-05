@@ -62,7 +62,9 @@ function handleRouting() {
         loadContent("/pages/home.html");
     }
     else {
-        loadContent("/pages/error/404.html");
+        if (path === "/user-error")
+            loadContent("/pages/error/404user.html");
+        else loadContent("/pages/error/404.html");
     }
 }
 

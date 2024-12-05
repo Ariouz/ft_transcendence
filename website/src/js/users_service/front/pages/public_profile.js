@@ -4,7 +4,7 @@ async function loadAllPublicProfileData(targetUsername)
         let userData = await retrievePublicProfileDataByUsername(targetUsername);
 
         if (userData.error)
-            navigate("/error");
+            navigate("/user-error");
         else
         {
             document.getElementById("profile_username").innerText = userData.username;
@@ -39,6 +39,9 @@ async function loadAllPublicProfileData(targetUsername)
 
             followUserButton.style.display = isFollowing || isSameUser ? 'none' : 'block';
             unfollowUserButton.style.display = !isFollowing || isSameUser ? 'none' : 'block';
+
+            historyButton = document.getElementById("public_profile_history_button");
+            historyButton.setAttribute('onclick', `navigate('/pong/history/${userData.username}')`);
 
         }
     }

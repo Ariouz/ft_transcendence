@@ -115,8 +115,30 @@ g_historyUserId = 0;
 
 async function initHistory()
 {
-    let access_token = getCookie("session_token");
-    let userIdData = await retrieveId(access_token);
+
+    path = window.location.pathname;
+    parts = path.split("/");
+    parts.shift();
+
+    let userIdData;
+
+    if (parts.length != 3) 
+    {
+        let sessionToken = getCookie("session_token");
+        userIdData = await retrieveId(sessionToken);
+    }else
+    {
+        let targetUsername = parts[2];
+        userIdData = await retrievePublicProfileDataByUsername(targetUsername);
+    }
+    
+
+    if (userIdData.error)
+    {
+        navigate("/user-error");
+        return ;
+    }
+
     g_historyUserId = userIdData.user_id;
     await loadTranslations();
     await showHistory(0);
