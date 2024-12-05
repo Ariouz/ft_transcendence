@@ -60,7 +60,7 @@ async function loadHistory(page)
     {
         historyList.innerHTML = "";
         document.getElementById("history_error").style.display = "block";
-        document.getElementById("history_error").innerText = g_historyTranslations['pong_history_no_user'];
+        document.getElementById("history_error").innerText = g_historyTranslations['pong_history_no_game'];
         return ;
     }
     
