@@ -5,15 +5,37 @@
     --canvas-stroke-color: var(--purple-blue);
     --shadow-color: rgba(0, 0, 0, 0.5);
     --net-color: #ffffff80;
-    /* todo: --canvas-background-url: ""; */
+    --canvas-background-url: '';
+    --page-background-color: transparent;
 }
 
+/* TODO: enhance. The 2 colors may be set by the back end. */
 #pongCanvas {
     display: block;
     margin: 0 auto;
-    border: 8px solid var(--purple-blue);
+    border: 5px solid;
     box-shadow: 0 0 20px var(--shadow-color);
-}
+    border-image: linear-gradient(0deg, var(--purple-blue), var(--flashy-pink)) 1;
+    animation: gradientMove 5s infinite;
+  }
+
+  @keyframes gradientMove {
+    0% {
+        border-image-source: linear-gradient(0deg, var(--purple-blue), var(--flashy-pink));
+      }
+      25% {
+        border-image-source: linear-gradient(90deg, var(--purple-blue), var(--flashy-pink));
+      }
+      50% {
+        border-image-source: linear-gradient(180deg, var(--purple-blue), var(--flashy-pink));
+      }
+      75% {
+        border-image-source: linear-gradient(270deg, var(--purple-blue), var(--flashy-pink));
+      }
+      100% {
+        border-image-source: linear-gradient(360deg, var(--purple-blue), var(--flashy-pink));
+      }
+  }
 
 .game_container {
     display: flex;

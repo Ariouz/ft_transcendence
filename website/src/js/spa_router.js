@@ -143,10 +143,7 @@ function routePong(parts, params)
     }
     else if (parts[1] === "game")
     {
-        loadContent("/pages/pong/pong_game.html", () => {
-            // TODO Temporary. This will normally be replaced by game management via the back end.
-            Game.startGameLoop();
-        });
+        loadContent("/pages/pong/pong_game.html");
     }
     else if (pages[parts[1]]) {
         if (!isLoggedIn())

@@ -2,6 +2,17 @@ import random
 
 
 THEMES = [
+    # test
+    {
+        "--paddle-color": "#b4eb34",
+        "--ball-color": "#3d8215",
+        "--canvas-color": "#23663c",
+        "--canvas-stroke-color": "#140152",
+        "--shadow-color": "rgba(0, 0, 0, 0.5)",
+        "--net-color": "#ffffff80",
+        "--canvas-background-url": "/assets/images/grece-white-blue.jpg",
+        "--page-background-color": "#23663c"
+    },
     # Thème par défaut
     {
         "--paddle-color": "#F72585",
@@ -53,6 +64,7 @@ def get_default_theme():
 
 def get_theme(game_type):
     theme = get_default_theme()
-    if game_type == "arcade":
-        theme = get_random_arcade_theme()
+    # TODO
+    # if game_type == "arcade":
+        # theme = get_random_arcade_theme()
     return theme
