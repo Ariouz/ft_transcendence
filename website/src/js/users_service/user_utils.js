@@ -9,6 +9,10 @@ async function setRightStatus(circleId, radarId, user_id)
     let circle = document.getElementById(circleId);
     let radar = document.getElementById(radarId);
 
+    while (!g_friendListWebSocket) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
     let online = await isOnline(user_id);
     if (online.error) return ;
     if (online.status == 0)
