@@ -68,28 +68,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'users_service_app',
-	'drf_spectacular',
-	
-    'tournament',
-    'lobby',
-    'tournamentParticipants',
-    'tournamentPairings',
-
     'corsheaders',
 
     'django_extensions',
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Backend API',
-    'DESCRIPTION': 'Transcendence Backend API',
-    'VERSION': '0.0.1',
-    'SERVE_INCLUDE_SCHEMA': True,
-}
 
 ASGI_APPLICATION = 'users_service.asgi.application'
 

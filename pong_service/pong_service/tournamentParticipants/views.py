@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from .models import TournamentParticipants
 from tournament.models import TournamentData
-from pong_service.pong_service.pong_service_app.models import PongUser
+from pong_service.pong_service_app.models import PongUser
 from .serializers import TournamentParticipantsSerializer
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist

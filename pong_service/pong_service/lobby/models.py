@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from pong_service.pong_service_app.models import PongUser
+from pong_service_app.models import PongUser
 from uuid import uuid4
 
 # Create your models here.

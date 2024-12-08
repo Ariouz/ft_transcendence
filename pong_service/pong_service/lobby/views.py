@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from .models import LobbyData
 from .serializers import LobbySerializer
-from pong_service.pong_service_app.models import PongUser
+from pong_service_app.models import PongUser
 from rest_framework import status
 from django.core.exceptions import ObjectDoesNotExist
 

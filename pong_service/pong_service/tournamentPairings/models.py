@@ -1,5 +1,5 @@
 from django.db import models
-from pong_service.pong_service_app.models import PongUser
+from pong_service_app.models import PongUser
 from uuid import uuid4
 
 

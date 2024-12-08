@@ -84,8 +84,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Backend API',
-    'DESCRIPTION': 'Transcendence Backend API',
+    'TITLE': 'Pong service API',
+    'DESCRIPTION': 'Pong service API',
     'VERSION': '0.0.1',
     'SERVE_INCLUDE_SCHEMA': True,
 }

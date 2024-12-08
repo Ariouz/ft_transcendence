@@ -5,7 +5,7 @@ from django.db.models import Q
 
 from .models import TournamentPairingData
 from tournament.models import TournamentData
-from pong_service.pong_service_app.models import PongUser
+from pong_service_app.models import PongUser
 from .serializers import TournamentPairingSerializer
 from tournament.serializers import TournamentSerializer
 from tournamentParticipants.models import TournamentParticipants
