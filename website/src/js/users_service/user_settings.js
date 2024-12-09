@@ -190,6 +190,12 @@ function setInputValue(inputId, value)
     input.value = value;
 }
 
+function setSelected(inputId, value)
+{
+    let input = document.getElementById(inputId);
+    input.selected = value;
+}
+
 function setChecked(inputId, value)
 {
     let input = document.getElementById(inputId);
@@ -219,7 +225,7 @@ function setDefaultSettingsValues()
                     if (userConfidentiality.error) {
                         throw userConfidentiality.error;
                     }
-                    setChecked("profile_visibility_"+userConfidentiality.profile_visibility, true);
+                    setSelected("profile_visibility_"+userConfidentiality.profile_visibility, true);
 
                     setChecked("profile_show_fullname", userConfidentiality.show_fullname);
                     setChecked("profile_show_email", userConfidentiality.show_email);

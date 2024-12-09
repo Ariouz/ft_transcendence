@@ -32,7 +32,7 @@ async function addUserCard(username, avatar, floorId, userId)
                                     ${username} </span> \
                             </div> \
                             <div class="user_list_card_bottom"> \
-                                <button class="btn btn-outline-primary" onclick="navigate('/users/profile/${username}')">${await fetchTranslation("view_profile")}</button> \
+                                <span class="custom_button custom_button_blue" onclick="navigate('/users/profile/${username}')">${await fetchTranslation("view_profile")}</span> \
                             </div>`;
     container.appendChild(element);
     setRightStatus(`user_online_status_circle-${userId}`, `user_online_status_radar-${userId}`, userId);

@@ -51,7 +51,6 @@
     <!-- Settings panel -->
     <div class="settings_panel">
 
-
         <!-- Back button -->
         <div class="settings_panel_top_section">
             <div class="settings_panel_section_title">
@@ -63,14 +62,18 @@
         </div>
 
         <hr>
-        <div class="alert alert-danger" role="alert" id="settings_error_div" style="display: none;">
-            <h5 id="settings_error_title"></h5>
+
+        <div id="settings_error_div" style="display: none; padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+            <h5 id="settings_error_title" style="margin: 0;"></h5>
             <span id="settings_error_content"></span>
         </div>
-        <div class="alert alert-success" role="alert" id="settings_success_div" style="display: none;">
-            <h5 id="settings_success_title"></h5>
+        
+        <div id="settings_success_div" style="display: none; padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
+            <h5 id="settings_success_title" style="margin: 0;"></h5>
             <span id="settings_success_content"></span>
         </div>
+        <br>
+
         <!-- Profile -->
         <section class="settings_panel_section" id="settings_profile_section">
 
@@ -80,33 +83,31 @@
                 <div class="settings_panel_form_content">
 
                     <div class="settings_panel_form_section">
-                        <div class="mb-3 settings_panel_form_item">
+                        <div class="settings_panel_form_item">
                             <label for="settings_user_displayname" class="form-label" data-i18n="display_name">Display
                                 Name</label>
-                            <div class="input-group">
-                                <span class="input-group-text">@</span>
+                            <div class="">
+                                <span class="">@</span>
                                 <input name="display_name" type="text" id="settings_user_displayname"
-                                       class="form-control" data-i18n-placeholder="display_name_placeholder"
+                                       class="user_input_item" data-i18n-placeholder="display_name_placeholder"
                                        aria-label="Display name" aria-describedby="basic-addon1">
                             </div>
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
-                                 data-i18n="display_name_settings_desc"></div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" data-i18n="display_name_settings_desc"></div>
                         </div>
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_github" class="form-label" data-i18n="your_github_url"></label>
-                            <div class="input-group">
-                                <span class="input-group-text" id="settings_user_github_l">https://github.com/</span>
-                                <input name="github_url" type="text" class="form-control" id="settings_user_github"
-                                       aria-describedby="basic-addon3 basic-addon4">
+                        <div class="settings_panel_form_item">
+                            <label for="settings_user_github" class="" data-i18n="your_github_url"></label>
+                            <div class="">
+                                <span class="" id="settings_user_github_l">https://github.com/</span>
+                                <input name="github_url" type="text" class="user_input_item" id="settings_user_github">
                             </div>
                         </div>
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_avatar" class="form-label" data-i18n="profile_picture"></label>
-                            <input name="avatar" class="form-control" type="file" id="settings_user_avatar">
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
-                                 data-i18n="valid_picture_desc"></div>
+                        <div class="settings_panel_form_item">
+                            <label for="settings_user_avatar" class="" data-i18n="profile_picture"></label>
+                            <br>
+                            <input name="avatar" class="user_input_item" type="file" id="settings_user_avatar">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" data-i18n="valid_picture_desc"></div>
 
                         </div>
 
@@ -114,23 +115,22 @@
 
                     <div class="settings_panel_form_section">
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_status" class="form-label" data-i18n="status_message"></label>
-                            <input name="status_message" type="text" class="form-control" id="settings_user_status"
+                        <div class="settings_panel_form_item">
+                            <label for="settings_user_status" class="" data-i18n="status_message"></label>
+                            <input name="status_message" type="text" class="user_input_item" id="settings_user_status"
                                    aria-describedby="Status" data-i18n-placeholder="status_message_placeholder">
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
-                                 data-i18n="status_message_desc"></div>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" data-i18n="status_message_desc"></div>
 
                         </div>
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="settings_user_lang" class="form-label" data-i18n="language"></label>
-                            <select name="lang" class="form-select" id="settings_user_lang"></select>
+                        <div class="settings_panel_form_item">
+                            <label for="settings_user_lang" class="" data-i18n="language"></label>
+                            <select name="lang" class="user_input_item" id="settings_user_lang"></select>
                         </div>
 
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success settings_panel_save" data-i18n="save"></button>
+                <button type="submit" class="custom_button custom_button_green_fill settings_panel_save" data-i18n="save"></button>
             </form>
         </section>
         <!-- Confidentiality -->
@@ -141,61 +141,60 @@
                 <div class="settings_panel_form_content">
 
                     <div class="settings_panel_form_section">
-                        <div class="mb-3 settings_panel_form_item">
-                            <label for="profile_visibility_public" class="form-label"
-                                   data-i18n="profile_visibility"></label>
+                        <div class="settings_panel_form_item">
+                            <span class="" data-i18n="profile_visibility"></span>
+                            <br>
+                            <select name="profile_visibility" id="" class="user_input_item">
+                                <option value="public" data-i18n="public" id="profile_visibility_public"></option>
+                                <option value="private" data-i18n="private" id="profile_visibility_private"></option>
+                            </select>
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" data-i18n="profile_visibility_desc"></div>
+                        </div>
+
+                        <div class="settings_panel_form_item">
                             <div>
-                                <input type="radio" class="btn-check" name="profile_visibility"
-                                       id="profile_visibility_public" autocomplete="off" value="public">
-                                <label class="btn btn-outline-success" for="profile_visibility_public"
-                                       data-i18n="public"></label>
-
-                                <input type="radio" class="btn-check" name="profile_visibility"
-                                       id="profile_visibility_private" autocomplete="off" value="private">
-                                <label class="btn btn-outline-danger" for="profile_visibility_private"
-                                       data-i18n="private"></label>
-                            </div>
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
-                                 data-i18n="profile_visibility_desc"></div>
-                        </div>
-
-                        <div class="mb-3 settings_panel_form_item">
-                            <div class="form-check form-switch">
-                                <label for="profile_show_fullname" class="form-label" data-i18n="show_fullname"></label>
-                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_fullname"
-                                       name="profile_show_fullname">
+                                <label for="profile_show_fullname" data-i18n="show_fullname"></label>
+                                <label for="profile_show_fullname" class="custom_input_switch">
+                                    <input class="custom_input_check" type="checkbox" id="profile_show_fullname" name="profile_show_fullname">
+                                    <span class="custom_check_slider"></span>
+                                </label>
                             </div>
                         </div>
+                        
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <div class="form-check form-switch">
-                                <label for="profile_show_email" class="form-label" data-i18n="show_email"></label>
-                                <input class="form-check-input" type="checkbox" role="switch" id="profile_show_email"
-                                       name="profile_show_email">
+                        <div class="settings_panel_form_item">
+                            <div>
+                                <label for="profile_show_email" data-i18n="show_email"></label>
+                                <label for="profile_show_email" class="custom_input_switch">
+                                    <input class="custom_input_check" type="checkbox" id="profile_show_email" name="profile_show_email">
+                                    <span class="custom_check_slider"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
 
                     <div class="settings_panel_form_section">
 
-                        <div class="mb-3 settings_panel_form_item">
-                            <label class="form-label" for="cookies_revoke" data-i18n="cookies_preferences"></label>
-                            <div class="form-check form-switch">
-                                <label for="cookies_revoke" class="form-label" data-i18n="revoke_cookies"></label>
-                                <input class="form-check-input" type="checkbox" role="switch" id="cookies_revoke"
-                                       name="revoke_cookies">
+                        <div class="settings_panel_form_item">
+                            <label class="" for="cookies_revoke" data-i18n="cookies_preferences"></label>
+                            <div>
+                                <label for="cookies_revoke" data-i18n="revoke_cookies"></label>
+                                <label for="cookies_revoke" class="custom_input_switch">
+                                    <input class="custom_input_check" type="checkbox" id="cookies_revoke" name="revoke_cookies">
+                                    <span class="custom_check_slider"></span>
+                                </label>
                             </div>
-                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"
-                                 data-i18n="revoke_cookies_desc">
+                            <div style="color: var(--light-beige); opacity: 80%;" class="form-text" data-i18n="revoke_cookies_desc">
                             </div>
                         </div>
+                        
 
-                        <div class="mb-3 settings_panel_form_item">
+                        <div class="settings_panel_form_item">
 
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success settings_panel_save" data-i18n="save"></button>
+                <button type="submit" class="custom_button custom_button_green_fill settings_panel_save" data-i18n="save"></button>
             </form>
         </section>
         <!-- Account -->
@@ -204,40 +203,53 @@
                   enctype="multipart/form-data">
                 <div class="settings_panel_form_section">
 
-                    <div class="mb-3 settings_panel_form_item">
+                    <div class="settings_panel_form_item">
 
                         <h5 data-i18n="account_deletion"></h5>
-                        <div style="color: var(--light-beige); opacity: 80%;" class="form-text" id="basic-addon4"><span
+                        <div style="color: var(--light-beige); opacity: 80%;" class="form-text"><span
                                 data-i18n="account_deletion_desc"></span></div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-danger settings_panel_save" id="delete" data-bs-toggle="modal"
-                        data-bs-target="#accountDeletionModal" data-i18n="delete_account"></button>
 
-                <div class="modal fade" id="accountDeletionModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" style="color: var(--light-beige);">
-                        <div class="modal-content"
-                             style="background-color: var(--marine-blue); color: var(--light-beige);">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel"
-                                    data-i18n="confirmation_title"></h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                        style="background-color: white"></button>
+
+                <span type="button" class="custom_button custom_button_red_fill settings_panel_save" id="delete" data-i18n="delete_account"></span>
+               
+                <div id="accountDeletionModal" class="custom-modal">
+                    <div class="custom-modal-dialog">
+                        <div class="custom-modal-content">
+                            <div class="custom-modal-header">
+                                <h1 id="staticBackdropLabel" data-i18n="confirmation_title"></h1>
+                                <button type="button" class="close-btn" onclick="closeModal('accountDeletionModal')">×</button>
                             </div>
-                            <div class="modal-body"><span data-i18n="account_deletion_desc"></span></div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal"
-                                        data-i18n="cancel">
-                                </button>
-                                <button type="submit" class="btn btn-danger" data-i18n="delete"></button>
+                            <div class="custom-modal-body">
+                                <span data-i18n="account_deletion_desc"></span>
+                            </div>
+                            <div class="custom-modal-footer">
+                                <button type="button" class="custom_button custom_button_green" onclick="closeModal('accountDeletionModal')" data-i18n="cancel"></button>
+                                <button type="submit" class="custom_button custom_button_red_fill" onclick="deleteAccount()" data-i18n="delete"></button>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </form>
         </section>
     </div>
 </div>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).classList.add('show-modal');
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('show-modal');
+    }
+    function deleteAccount() {
+        closeModal();
+    }
+    document.getElementById('delete').addEventListener('click', () => {
+        openModal('accountDeletionModal');
+    });
+</script>
 
 <script src="../../js/users_service/user_settings.js"></script>
