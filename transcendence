@@ -7,19 +7,21 @@
 Module:
     Web:
         Module majeur : Utiliser un framework en backend.    ==============================================> OK
-        Module mineur : Utiliser un framework ou toolkit en frontend.    ==================================> OK
+        Module mineur : Utiliser un framework ou toolkit en frontend.    ==================================> CANCELLED
         Module mineur : Utiliser une base de données en backend.    =======================================> OK
 
     Gestion utilisateur:
         Module majeur : Gestion utilisateur standard, authentification, utilisateurs
-                        en tournois.
+                        en tournois.                                        ===============================> WIP
         Module majeur : Implémenter une authentification à distance. API 42    ============================> OK
         Module majeur : Joueurs à distance.    ============================================================> OK
-        Module mineur : Option de personnalisation du jeu.
+        Module mineur : Option de personnalisation du jeu.        =========================================> WIP
     Cybersécurité:
-        Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs, gestion des données locales et suppression de comptes                                         ===================================================> OK
+        Module mineur : Options de conformité au RGPD avec anonymisation des utilisateurs,
+        gestion des données locales et suppression de comptes             =================================> OK
+        Implémenter l’authentification à 2 facteurs (2FA) et JWT (JSON Web Tokens):           =============> WIP
     Accessibilité:
-        Module mineur : Étendre la compatibilité des navigateurs web.
+        Module mineur : Étendre la compatibilité des navigateurs web.               =======================> CANCELLED
         Module mineur : Support de multiple langues.    ===================================================> OK
     Devops:
         Module majeur : Design du backend comme Microservices.    =========================================> OK
@@ -37,8 +39,6 @@ Potentiel:
         IA-Algo:
             Module majeur : Implémenter un adversaire contrôlé par IA.  ---------------------------------------------> Haut potentiel
             Module mineur : Panneaux d’affichage (dashboards) d’utilisateurs et statis-tiques des parties
-        Cybersécurité:
-            Module majeur : Implémenter l’authentification à 2 facteurs (2FA) et JWT (JSON Web Tokens). -------------> Haut potentiel
          Devops:
             Module majeur : Configuration de l’infrastructure pour la gestion des jour-naux (logs)
             Module mineur : Système de monitoring.
