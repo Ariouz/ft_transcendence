@@ -3,7 +3,6 @@ const PONG_GAME_API = `${PONG_SERVICE_URL}/game`;
 
 let g_userInPongQueue = false;
 
-// Todo add queue type: done?
 async function joinQueue(gameType)
 {
     let url = `${PONG_QUEUE_API}/join/`;
@@ -40,7 +39,6 @@ async function joinQueue(gameType)
     });
 }
 
-// Todo add queue type
 async function leaveMatchmakingQueue()
 {
     let url = `${PONG_QUEUE_API}/leave/`;

@@ -46,7 +46,9 @@ const Game = {
         downArrowPressed: false,
     },
 
-    init: function () {
+    init: function (gameType) {
+        removePreviousBackgroundImage();
+
         this.canvases.background = document.getElementById('backgroundCanvas');
         this.canvases.net = document.getElementById('netCanvas');
         this.canvases.game = document.getElementById('pongCanvas');
@@ -69,11 +71,11 @@ const Game = {
         this.isPaused = false;
         this.isRunning = true;
 
-        setGameBackground();
+        setGameBackground(gameType);
     },
 
-    startGameLoop: function () {
-        this.init();
+    startGameLoop: function (gameType) {
+        this.init(gameType);
         gameLoop();
     },
 
@@ -82,8 +84,12 @@ const Game = {
     }
 };
 
-async function setGameBackground() {
-    const imageUrl = getStyle('--canvas-background-url').trim().replace(/^["']|["']$/g, '');    
+async function setGameBackground(gameType) {
+    if (gameType != "arcade") {
+        drawCanvasBackground(Game.contexts.gameCtx);
+        return;
+    }
+    const imageUrl = getStyle('--canvas-background-url').trim().replace(/^["']|["']$/g, '');
     if (!imageUrl) {
         drawCanvasBackground(Game.contexts.gameCtx);
         return;
@@ -125,4 +131,18 @@ function setImageBackground(imageUrl) {
     } catch (error) {
         return false;
     }
+}
+
+function removePreviousBackgroundImage() {
+    const targetDiv = document.querySelector('.canvas_layers_container');
+    if (!targetDiv)
+        return ;
+    const existingImgElement = targetDiv.querySelector('#pongBackgroundImage');
+    if (existingImgElement) {
+        try {
+            targetDiv.removeChild(existingImgElement);
+        } catch (error) {
+        }
+    }
+
 }

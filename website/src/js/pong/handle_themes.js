@@ -16,8 +16,7 @@ function getRootFromSpecificCSS(cssFileName) {
                         }
                     }
                 }
-            } catch (e) {
-                // todo
+            } catch (error) {
             }
         }
     }

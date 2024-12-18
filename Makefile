@@ -76,6 +76,7 @@ update_libs: delete_libs deploy_libs
 
 ssl_cert:
 	@mkdir -p ssl_certs
+# @chmod 777 -R ssl_certs
 	@echo "Generating new certificates..."
 	@echo "[req]" > tmp_openssl.cnf
 	@echo "distinguished_name = req" >> tmp_openssl.cnf
@@ -88,6 +89,7 @@ ssl_cert:
 		-extensions SAN \
 		-config tmp_openssl.cnf
 	rm -f tmp_openssl.cnf
+# @chmod 777 -R ssl_certs
 
 
 deploy_libs:

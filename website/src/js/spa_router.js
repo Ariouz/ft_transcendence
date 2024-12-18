@@ -1,12 +1,7 @@
 function handleRouting() {
     const path = window.location.pathname;
-    const parts = path.split("/");
+    const parts = path.split("/").filter(part => part !== "");
     const params = new URLSearchParams(window.location.search);
-
-    parts.shift();
-
-    resetWebsiteBackgroundColorToInitial();
-    
     setCookieBannerVisibility("none", "0"); 
     if (!doConsentCookies())
         setCookieBannerVisibility("flex", "100");
@@ -151,6 +146,8 @@ function routePong(parts, params)
         else
             loadContent(pages[parts[1]]);
     }
+    else
+        loadContent("/pages/error/404.html");
 
 }
 

@@ -2,38 +2,37 @@
     --paddle-color: var(--flashy-pink);
     --ball-color: white;
     --canvas-color: var(--electric-blue);
-    --canvas-stroke-color: var(--purple-blue);
     --shadow-color: rgba(0, 0, 0, 0.5);
     --net-color: #ffffff80;
     --canvas-background-url: '';
-    --page-background-color: transparent;
+    --border-animation-primary-color: var(--light-purple-blue);
+    --border-animation-secondary-color: var(--flashy-pink);
 }
 
-/* TODO: enhance. The 2 colors may be set by the back end. */
 #pongCanvas {
     display: block;
     margin: 0 auto;
     border: 5px solid;
     box-shadow: 0 0 20px var(--shadow-color);
-    border-image: linear-gradient(0deg, var(--purple-blue), var(--flashy-pink)) 1;
+    border-image: linear-gradient(0deg, var(--border-animation-primary-color), var(--border-animation-secondary-color)) 1;
     animation: gradientMove 5s infinite;
   }
 
   @keyframes gradientMove {
     0% {
-        border-image-source: linear-gradient(0deg, var(--purple-blue), var(--flashy-pink));
+        border-image-source: linear-gradient(0deg, var(--border-animation-primary-color), var(--border-animation-secondary-color));
       }
       25% {
-        border-image-source: linear-gradient(90deg, var(--purple-blue), var(--flashy-pink));
+        border-image-source: linear-gradient(90deg, var(--border-animation-primary-color), var(--border-animation-secondary-color));
       }
       50% {
-        border-image-source: linear-gradient(180deg, var(--purple-blue), var(--flashy-pink));
+        border-image-source: linear-gradient(180deg, var(--border-animation-primary-color), var(--border-animation-secondary-color));
       }
       75% {
-        border-image-source: linear-gradient(270deg, var(--purple-blue), var(--flashy-pink));
+        border-image-source: linear-gradient(270deg, var(--border-animation-primary-color), var(--border-animation-secondary-color));
       }
       100% {
-        border-image-source: linear-gradient(360deg, var(--purple-blue), var(--flashy-pink));
+        border-image-source: linear-gradient(360deg, var(--border-animation-primary-color), var(--border-animation-secondary-color));
       }
   }
 
