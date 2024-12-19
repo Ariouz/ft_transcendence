@@ -72,6 +72,7 @@ const Game = {
         this.isRunning = true;
 
         setGameBackground(gameType);
+        drawNet(this.contexts.netCtx);
     },
 
     startGameLoop: function (gameType) {
