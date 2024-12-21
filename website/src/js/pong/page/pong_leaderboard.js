@@ -2,6 +2,8 @@ async function addGameToLeaderboard(userData, userLang, fragment)
 {
 
     let userPublicData = await retrievePublicProfileDataById(userData.user_id);
+    if (userPublicData.error)
+        return ;
 
     let userEntry = document.createElement("tr");
     userEntry.innerHTML = `
@@ -18,7 +20,7 @@ async function addGameToLeaderboard(userData, userLang, fragment)
     </tr>
 
     `;
-    
+
     fragment.appendChild(userEntry);
 }
 
@@ -47,7 +49,7 @@ async function loadLeaderboard(page)
     fragment = document.createDocumentFragment();
     for (game in history)
         await addGameToLeaderboard(history[game], userLang, fragment);
-    
+
     historyList.replaceChildren(fragment);
     document.getElementById("leaderboard_error").style.display = "none";
 }

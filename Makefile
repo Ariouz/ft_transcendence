@@ -72,7 +72,9 @@ prune:
 restart: down up
 	@echo "Docker containers have been restarted."
 
-update_libs: delete_libs deploy_libs
+update_libs: deploy_libs
+# todo voir pour remettre delete_libs en premiere dependance
+
 
 ssl_cert:
 	@mkdir -p ssl_certs

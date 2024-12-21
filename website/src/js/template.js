@@ -1,4 +1,4 @@
-const g_host = window.location.host;
+const g_host = window.location.host.split(":")[0];
 
 
 function setCookieBannerVisibility(mode, finalOpacity)
