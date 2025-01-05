@@ -1,12 +1,7 @@
-from django.http import JsonResponse
-from django.core.files.base import ContentFile
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync, sync_to_async
 from pong_service_app.models import *
 from .objects.pong_game_state import PongGameState
-import ft_requests
 import json
 import logging
 import asyncio

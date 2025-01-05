@@ -1,5 +1,4 @@
 from users_service_app.models import *
-from django.http import JsonResponse
 from django.core.files.base import ContentFile
 import ft_requests
 from django.views.decorators.http import require_http_methods

@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 import ft_requests
 import os
 from users_service_app.response_messages import json_response

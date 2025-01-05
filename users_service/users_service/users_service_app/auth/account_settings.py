@@ -14,44 +14,32 @@ def update_profile_settings(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
     if not user:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
 
     display_name = request.POST.get("display_name")
     if display_name:
         if len(display_name) > 20:
-            return error_response(
-                request, "field_too_long", "display_name_too_long"
-            )
+            return error_response(request, "field_too_long", "display_name_too_long")
         
         if UserSettings.objects.filter(display_name=display_name).exists():
             if not UserSettings.objects.filter(display_name=display_name).get().user_id == userSettings.user_id:
-                return error_response(
-                    request, "invalid_displayname", "displayname_already_used"
-                )
+                return error_response(request, "invalid_displayname", "displayname_already_used")
         userSettings.display_name = display_name
 
     github_url = request.POST.get("github_url")
     if github_url:
         if len(github_url) > 39:
-            return error_response(
-                request, "field_too_long", "github_too_long"
-            )
+            return error_response(request, "field_too_long", "github_too_long")
         userSettings.github = github_url
 
     status_message = request.POST.get("status_message")
     if status_message:
         if len(status_message) > 80:
-            return error_response(
-                request, "field_too_long", "status_too_long"
-            )
+            return error_response(request, "field_too_long", "status_too_long")
         userSettings.status_message = status_message
 
     lang = request.POST.get("lang")
@@ -68,9 +56,7 @@ def update_profile_settings(request, access_token):
         allowed_extensions = ["jpg", "jpeg", "png"]
         file_extension = avatar.name.split(".")[-1].lower()
         if file_extension not in allowed_extensions:
-            return error_response(
-                request, "invalid_file_extension", "only_jpg_and_png_are_allowed"
-            )
+            return error_response(request, "invalid_file_extension", "only_jpg_and_png_are_allowed")
 
         new_filename = f"user_{user.user_id}.{file_extension}"
         new_file_path = os.path.join(settings.MEDIA_ROOT, f"avatars", new_filename)
@@ -92,13 +78,9 @@ def update_confidentiality_settings(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
     if not user:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
 
     userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
 
@@ -129,13 +111,9 @@ def delete_account(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
     if not user:
-        return error_response(
-            request, "user_not_found", "cannot_find_user_with_this_token"
-        )
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
     userConfidentialitySettings = UserConfidentialitySettings.objects.get(

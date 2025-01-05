@@ -1,5 +1,4 @@
 from users_service_app.models import User, Friend
-from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from channels.layers import get_channel_layer
@@ -45,11 +44,10 @@ def remove_friend(request, user_id, friend_id):
     )
 
 
-# Recovery of login and user name by token, for test purposes only at the moment.
 @require_http_methods(["GET"])
 def authenticate_user(request, token):
     if not User.objects.filter(token=token).exists():
-        return error_response(request, "user_not_found", status_code=404)
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
     user = User.objects.filter(token=token).get()
     return json_response({"user_id": user.user_id, "username": user.username})
 

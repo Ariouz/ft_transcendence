@@ -1,5 +1,4 @@
 import redis
-from django.http import JsonResponse
 from users_service_app.response_messages import json_response
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)

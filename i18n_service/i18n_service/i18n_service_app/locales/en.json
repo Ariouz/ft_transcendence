@@ -188,6 +188,16 @@
   "invalid_game_type": "Invalid game type",
 
   "queue_successfully_joined": "Successfully joined the queue!",
-  "queue_already_in": "Already in queue"
+  "queue_successfully_left": "Successfully left the queue!",
+  "queue_already_in": "Already in queue",
+  "not_in_queue": "Not in queue",
+  "queue_user_is_not_in": "User is not in the queue",
+  "game_type_invalid": "Invalid game type",
+  "invalid_json": "Invalid JSON",
+
+
+  "user_not_found_id": "No user found matching id",
+
+  "leaderboard_found": "Leaderboard found"
 
 }

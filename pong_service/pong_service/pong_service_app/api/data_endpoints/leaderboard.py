@@ -1,10 +1,10 @@
-from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db.models import F
 from pong_service_app.models import *
 from .. import pong_user
+from pong_service_app.response_messages import success_response
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -24,7 +24,7 @@ def get_leaderboard(request):
         .order_by('-score', '-ratio', '-wins'))
 
     if offset >= len(leaderboard):
-            return JsonResponse({"success":"Leadeboard found", "leaderboard": {}})
+            return success_response(request, "leaderboard_found", extra_data={"leaderboard": {}})
     if offset > len(leaderboard):
         offset = len(leaderboard)
 
@@ -55,4 +55,4 @@ def get_leaderboard(request):
         count += 1
 
     user_count = PongUserStats.objects.exclude(played=0).count()
-    return JsonResponse({"success":"Leaderboard found", "leaderboard": users, "user_count": user_count})
+    return success_response(request, "leaderboard_found", extra_data={"leaderboard": users, "user_count": user_count})

@@ -1,5 +1,4 @@
 from users_service_app.models import *
-from django.http import JsonResponse
 from .ft_api import get_access_token, get_user_data
 from django.views.decorators.http import require_http_methods
 import urllib.parse

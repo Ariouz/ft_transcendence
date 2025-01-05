@@ -33,7 +33,7 @@ def get_game_data(request):
         "winner_id": game.winner_id,
         "theme": game.map_theme
     }
-    return JsonResponse({"success": get_translation(request, "data_retrieved"), "data": data})
+    return success_response(request, "data_retrieved", extra_data={"data": data})
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -83,7 +83,7 @@ def can_join(request):
         data = json.loads(request.body)
         game_id = data.get("game_id")
     except:
-        return error_response(request, "game_no_id",  "game_id_required")
+        return error_response(request, "game_no_id", "game_id_required")
 
     game = PongGame.objects.filter(game_id=game_id)
     if not game.exists():

@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
@@ -42,7 +41,7 @@ def join_queue(request):
         user_id = data.get("user_id")
         game_type = data.get("game_type")
     except:
-        return JsonResponse({"error":"Invalid JSON", "details":"Invalid JSON"})
+        return error_response(request, "invalid_json", "invalid_json")
 
     if user_id is None:
         return error_response(request, "user_no_id", "user_id_required")
@@ -52,7 +51,7 @@ def join_queue(request):
     
     game_types = ["1v1", "arcade"]
     if not game_type in game_types:
-        return error_response(request, "invalid_game_type")
+        return error_response(request, "invalid_game_type", "invalid_game_type")
 
     pong_user.create_user_if_not_exists(user_id)
 
@@ -70,18 +69,18 @@ def leave_queue(request):
         user_id = data.get("user_id")
         game_type = data.get("game_type")
     except:
-        return JsonResponse({"error":"Invalid JSON", "details":"Invalid JSON"})
+        return error_response(request, "invalid_json", "invalid_json")
 
     if user_id is None:
-        return JsonResponse({"error":"User Id required", "details":"user_id field is required"})
+        return error_response(request, "user_no_id", "user_id_required")
     
     game_types = ["1v1", "arcade"]
     if not game_type in game_types:
-        return JsonResponse({"error":"Invalid game type", "details":"Invalid game type"})
+        return error_response(request, "game_type_invalid", "game_type_invalid")
 
     if not is_user_in_queue(user_id, game_type):
-        return JsonResponse({"error":"Not in queue", "details":"User is not in the queue"})
+        return error_response(request, "not_in_queue", "queue_user_is_not_in")
     
     redis_queue = get_redis_queue(game_type)
     redis_client.lrem(redis_queue, 0, user_id)
-    return JsonResponse({"success":"Successfully left the queue!"})
+    return success_response(request, "queue_successfully_left")

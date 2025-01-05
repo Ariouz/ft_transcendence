@@ -1,9 +1,9 @@
-from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from pong_service_app.models import *
 from .. import pong_user
+from pong_service_app.response_messages import success_response, error_response
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -12,7 +12,7 @@ def user_history(request, user_id):
     limit = int(request.GET.get("limit", 50))
 
     if not PongUser.objects.filter(user_id=user_id).exists():
-        return JsonResponse({"error":"User not found", "details": "No user found matching id"}, status=400)
+        return error_response(request, "user_not_found", "user_not_found_id", status=404)
     
     user = PongUser.objects.filter(user_id=user_id).get()
     history = user.game_history
@@ -21,7 +21,7 @@ def user_history(request, user_id):
     limit = max(1, limit)
 
     if offset >= len(history):
-            return JsonResponse({"success":"History found", "user_id": user_id, "history": {}})
+            return success_response(request, "history_found", extra_data={"user_id": user_id, "history": {}})
     if offset > len(history):
         offset = len(history)
 
@@ -57,7 +57,7 @@ def user_history(request, user_id):
         users__contains=str(user_id),
     ).exclude(type="local1v1").count()
 
-    return JsonResponse({"success":"History found", "user_id": user_id, "history": games, "online_games_played": game_count})
+    return success_response(request, "history_found", extra_data={"user_id": user_id, "history": games, "online_games_played": game_count})
 
 def get_user_stats(request, user_id):
     user_stats = pong_user.get_user_stats(user_id)
@@ -68,4 +68,4 @@ def get_user_stats(request, user_id):
         "loses": user_stats.loses,
         "ratio": pong_user.get_win_rate(user_id)
     }
-    return JsonResponse({"success":"Data retrieved", "data": stats}, status=200)
+    return success_response(request, "data_retrieved", extra_data={"data": stats})

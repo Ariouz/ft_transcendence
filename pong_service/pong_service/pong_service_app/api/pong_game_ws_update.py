@@ -1,14 +1,5 @@
-from django.http import JsonResponse
-from django.core.files.base import ContentFile
 from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync, sync_to_async
 from pong_service_app.models import *
-from .objects.pong_game_state import PongGameState
-import ft_requests
-import json
-import logging
-import asyncio
-
 
 async def send_game_state_to_players(game_data):
     channel_layer = get_channel_layer()
