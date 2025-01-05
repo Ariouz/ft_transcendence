@@ -1,38 +1,32 @@
 from django.conf import settings
 import ft_i18n
-import ft_requests
 from django.http import JsonResponse
 
 
-def get_preferred_language(request):
-    accept_language = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
-    if not accept_language:
-        return settings.USERS_DEFAULT_LANGUAGE_CODE
-    try:
-        available_languages = ft_i18n.fetch_available_languages()
-    except Exception as e:
-        return settings.USERS_DEFAULT_LANGUAGE_CODE
-    if not available_languages:
-        return settings.USERS_DEFAULT_LANGUAGE_CODE
-    user_languages = [lang.split(";")[0] for lang in accept_language.split(",")]
-    for user_lang in user_languages:
-        lang_code = user_lang.split("-")[0] if "-" in user_lang else user_lang
-        if lang_code in available_languages:
-            return lang_code
-    return settings.USERS_DEFAULT_LANGUAGE_CODE
+def json_response(data, status_code=200):
+    return JsonResponse(data, status=status_code)
 
 
-def success_response(request, title):
-    return JsonResponse(
-        {"success": ft_i18n.get_translation(get_preferred_language(request), title)}
-    )
+def get_translation(request, string, *args):
+    ft_i18n.get_translation(ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE), string, args)
 
 
-def error_response(request, title, details):
-    language = get_preferred_language(request)
+def success_response(request, success_title, status_code=200, extra_data=None):
+    response_data = {
+        "success": ft_i18n.get_translation(ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE), success_title)
+    }
+    if extra_data:
+        response_data.update(extra_data)
+    
+    return JsonResponse(response_data, status=status_code)
+
+
+def error_response(request, error_title, details, status_code=400):
+    language = ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE)
     return JsonResponse(
         {
-            "error": ft_i18n.get_translation(language, title),
+            "error": ft_i18n.get_translation(language, error_title),
             "details": ft_i18n.get_translation(language, details),
-        }
+        },
+        status = status_code
     )

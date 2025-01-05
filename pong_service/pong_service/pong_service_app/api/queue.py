@@ -1,14 +1,13 @@
 from django.http import JsonResponse
-from django.core.files.base import ContentFile
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
-import ft_requests
 import redis
 import json
 from . import game_manager
 import logging
 from . import pong_user
+from pong_service_app.response_messages import success_response, error_response
 
 redis_client = redis.StrictRedis(host="redis-websocket-users", port="6379", db=0)
 redis_pong_1_1_queue = "pong-1v1-queue"
@@ -46,21 +45,21 @@ def join_queue(request):
         return JsonResponse({"error":"Invalid JSON", "details":"Invalid JSON"})
 
     if user_id is None:
-        return JsonResponse({"error":"User Id required", "details":"user_id field is required"})
+        return error_response(request, "user_no_id", "user_id_required")
     
     if is_user_in_queue(user_id, game_type):
-        return JsonResponse({"error":"Already in queue", "details":"User is already in the queue"})
+        return error_response(request, "Already in queue", "User is already in the queue")
     
     game_types = ["1v1", "arcade"]
     if not game_type in game_types:
-        return JsonResponse({"error":"Invalid game type", "details":"Invalid game type"})
+        return error_response(request, "invalid_game_type")
 
     pong_user.create_user_if_not_exists(user_id)
 
     redis_queue = get_redis_queue(game_type)
     redis_client.lpush(redis_queue, user_id)
     check_queue_size(game_type)
-    return JsonResponse({"success":"Successfully joined the queue!"})
+    return success_response(request, "queue_successfully_joined")
 
 
 @csrf_exempt

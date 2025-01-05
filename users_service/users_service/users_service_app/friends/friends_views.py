@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from users_service_app.response_messages import error_response, json_response, get_translation
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -16,7 +17,7 @@ def list_friends(request, user_id):
         {"user_id": friend.friend.user_id, "username": friend.friend.username}
         for friend in friends
     ]
-    return JsonResponse({"friends": friend_list})
+    return json_response({"friends": friend_list})
 
 
 @csrf_exempt
@@ -28,9 +29,7 @@ def add_friend(request, user_id, friend_id):
     send_friend_update(user_id)
     send_friend_update(friend_id)
     send_new_friend_notification(friend_id, user_id)
-    return JsonResponse(
-        {"status": "success", "message": f"{friend.username} added as a friend."}
-    )
+    return json_response({"status": "success", "message": get_translation(request, "added_as_a_friend", friend.username)})
 
 
 @csrf_exempt
@@ -41,8 +40,8 @@ def remove_friend(request, user_id, friend_id):
     Friend.objects.filter(user=user, friend=friend).delete()
     send_friend_update(user_id)
     send_friend_update(friend_id)
-    return JsonResponse(
-        {"status": "success", "message": f"{friend.username} removed from friends."}
+    return json_response(
+        {"status": "success", "message": get_translation(request, "removed_from_friends", friend.username)}
     )
 
 
@@ -50,9 +49,9 @@ def remove_friend(request, user_id, friend_id):
 @require_http_methods(["GET"])
 def authenticate_user(request, token):
     if not User.objects.filter(token=token).exists():
-        return JsonResponse({"error":"User not found"}, status=404)
+        return error_response(request, "user_not_found", status_code=404)
     user = User.objects.filter(token=token).get()
-    return JsonResponse({"user_id": user.user_id, "username": user.username})
+    return json_response({"user_id": user.user_id, "username": user.username})
 
 
 @require_http_methods(["GET"])
@@ -63,13 +62,13 @@ def list_friends(request, user_id):
         {"user_id": friend.friend.user_id, "username": friend.friend.username}
         for friend in friends
     ]
-    return JsonResponse({"friends": friend_list})
+    return json_response({"friends": friend_list})
 
 # /api/user/friends/follows/<int:user_id>/<int:friend_id>/
 # Returns whether user_id follows friend_id
 @require_http_methods(["GET"])
 def is_following(request, user_id, friend_id):
-    return JsonResponse({"is_following": Friend.objects.filter(user_id=user_id, friend_id=friend_id).exists()})
+    return json_response({"is_following": Friend.objects.filter(user_id=user_id, friend_id=friend_id).exists()})
 
 # https://channels.readthedocs.io/en/stable/topics/channel_layers.html#groups
 # type: name of the method that will receive the message

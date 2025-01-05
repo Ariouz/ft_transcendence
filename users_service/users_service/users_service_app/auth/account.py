@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.core.files.base import ContentFile
 import ft_requests
 from django.views.decorators.http import require_http_methods
+from users_service_app.response_messages import error_response, success_response, json_response
 
 @require_http_methods(["GET"])
 def create_account(request):
@@ -13,12 +14,12 @@ def create_account(request):
 
     if (User.objects.filter(username=username).exists()):
         if (User.objects.filter(token=token).exists()):
-            return JsonResponse({"message":"Account already created"}, status=200)
+            return success_response(request, "account_already_created")
         else:
             user = User.objects.get(username=username)
             user.token = token
             user.save()
-            return JsonResponse({"message":"Account token successfully updated", "user_id":user.user_id, "token":token}, status=200)
+            return success_response(request, "account_token_successfully_updated", extra_data={ "user_id": user.user_id, "token": token })
     
     user = User.objects.create(username=username, email=email, token=token, fullname=fullname)
     userSettings = UserSettings.objects.create(user_id=user.user_id, display_name=username)
@@ -33,13 +34,13 @@ def create_account(request):
             userSettings.avatar.save(avatar_name, avatar_content)
             userSettings.save()
     except UserSettings.DoesNotExist:
-        return JsonResponse({"error":"Failed to create account", "details":"Cannot fetch user default avatar"})
+        return error_response(request, "account_failed_to_create", "account_cannot_fetch_user_default_avatar")
 
-    return JsonResponse({"message":"Account successfully created", "user_id":user.user_id, "token":token}, status=200)
+    return success_response(request, "account_successfully_created", extra_data={ "user_id": user.user_id, "token": token })
 
 @require_http_methods(["GET"])
 def account_exists(request):
     username = request.GET.get("username")
     token = request.GET.get("token")
 
-    return JsonResponse({  "exists": User.objects.filter(username=username, token=token).exists() })
+    return json_response({  "exists": User.objects.filter(username=username, token=token).exists() })
