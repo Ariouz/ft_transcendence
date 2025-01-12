@@ -1,4 +1,5 @@
 async function getDefaultI18nServiceLanguage() {
+    if (await isTranslationServiceOffline()) return null;
     const url = `${I18N_SERVICE_URL}/default-language/`;
     try {
         const data = await fetchBack(url);

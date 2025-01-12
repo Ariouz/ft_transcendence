@@ -218,7 +218,7 @@ services:
     restart: "no"
     volumes:
       - type: bind
-        source: ./libs6380
+        source: ./libs
         target: /libs
     profiles:
       - libs_management

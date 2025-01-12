@@ -1,5 +1,4 @@
 const PONG_DEFAULT_STYLES = getRootFromSpecificCSS("pong_game.css");
-console.log(PONG_DEFAULT_STYLES);
 
 function getRootFromSpecificCSS(cssFileName) {
     const result = {};

@@ -16,8 +16,6 @@ async function joinQueue(gameType)
     }
 
     let userId = await retrieveId(sessionToken);
-    console.log("userId.user_id:", userId.user_id);
-    console.log("gameType:", gameType);
     let requestData = { user_id: userId.user_id, game_type: gameType };
 
     data = fetch(url, {

@@ -1,10 +1,5 @@
 DEFAULT_LANGUAGE=en
 
-SERVICES := api_gateway users_service i18n_service websocket_server
-LIBS := libs/ft_requests libs/ft_i18n
-PYTHON_VERSION := python3.12
-VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
-
 all: ssl_cert update_libs up-build
 
 stop:
@@ -113,12 +108,18 @@ delete_libs: delete_libs_virtual_environments
 
 cleanup_libs: delete_libs
 
+SERVICES := api_gateway users_service pong_service i18n_service websocket_server
+PYTHON_VERSION := python3.12
+VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
+LIBS := ft_requests ft_i18n
 delete_libs_virtual_environments:
 	@echo "Removing virtual environments from backends..."
 	@for service in $(SERVICES); do \
 		echo "Deleting libraries from $$service virtual environment..."; \
 		for lib in $(LIBS); do \
 			echo "Removing $$lib from $$service..."; \
+			echo "$$service/$(VENV_PATH)/$$lib" \
+			echo "$$service/$(VENV_PATH)/$${lib}-0.1.dist-info" \
 			sudo rm -rf $$service/$(VENV_PATH)/$$lib; \
 			sudo rm -rf $$service/$(VENV_PATH)/$${lib}-0.1.dist-info; \
 		done; \

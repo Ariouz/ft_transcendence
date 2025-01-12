@@ -12,6 +12,8 @@ async function getSentenceFromCode(code) {
 }
 
 function getPreferredLanguageFromNavigator() {
+    if (availableLanguages == null)
+        return DEFAULT_LANGUAGE;
     const userLanguages = navigator.languages;
     for (const userLang of userLanguages) {
         const langCode = userLang.includes('-') ? userLang.split('-')[0] : userLang;
@@ -47,6 +49,8 @@ function setUserLanguage() {
 }
 
 async function fetchAvailableLanguages() {
+    if (isOfflineTimestampValid() || await isTranslationServiceOffline()) return null;
+
     try {
         const url = `https://${g_host}:8006/languages/`;
         const response = await fetch(url);
@@ -60,15 +64,16 @@ async function fetchAvailableLanguages() {
 }
 
 async function getLanguageDisplayName(languageCode) {
+    if (availableLanguages == null)
+        return languageCode;
     try {
         const language = availableLanguages.find(lang => lang.code === languageCode);
         if (!language) {
-            throw new Error(`Language with code ${languageCode} not found`);
+            return languageCode;
         }
         return language.displayName;
     } catch (error) {
-        // Todo
-        return "An error occured";
+        return languageCode;
     }
 }
 
@@ -85,12 +90,91 @@ async function updateTranslations() {
     SELECTED_LANGUAGE = getLanguagePreference();
 }
 
+function isOfflineTimestampValid() {
+    const offlineTimestamp = sessionStorage.getItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
+
+    if (!offlineTimestamp) {
+        return null;
+    }
+
+    const offlineTime = new Date(parseInt(offlineTimestamp, 10));
+    const now = new Date();
+    return now - offlineTime < I18N_SERVICE_OFFLINE_TIMER;
+}
+
+
+async function isTranslationServiceOffline() {
+    timeoutNotFinished = isOfflineTimestampValid();
+    if (timeoutNotFinished != null) {
+        return timeoutNotFinished;
+    }
+    try {
+        await testTranslationService();
+        return false;
+    } catch (error) {
+        return true;
+    }
+}
+
+let isTestTranslationServiceRunning = false;
+let testTranslationPromise = null;
+
+async function testTranslationService() {
+    if (isTestTranslationServiceRunning) {
+        return testTranslationPromise;
+    }
+
+    timeoutNotFinished = isOfflineTimestampValid();
+    if (timeoutNotFinished != null) {
+        return timeoutNotFinished;
+    }
+
+    isTestTranslationServiceRunning = true;
+    testTranslationPromise = (async () => {
+        try {
+            const testUrl = `${I18N_SERVICE_URL}/default-language/`;
+
+            const response = await fetch(testUrl, { method: 'HEAD' });
+
+            if (!response || !response.ok) {
+                sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
+                throw new Error();
+            }
+        } catch (error) {
+            sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
+            throw new Error();
+        } finally {
+            isTestTranslationServiceRunning = false;
+            testTranslationPromise = null;
+        }
+    })();
+
+    sessionStorage.removeItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
+    return testTranslationPromise;
+}
+
+
 async function fetchTranslation(key) {
-    const translation = await fetchTranslationSelectedLanguage(key);
-    if (translation) {
-        return translation;
+    if (isOfflineTimestampValid()) {
+        return await fetchTranslationFromLocal(key) || key;
     } else {
-        return await fetchTranslationDefaultLanguage(key);
+        var checkIsOffline = await isTranslationServiceOffline();
+        if (checkIsOffline == true)
+            return await fetchTranslationFromLocal(key) || key;
+    }
+    try {
+        const translation = await fetchTranslationSelectedLanguage(key);
+        if (translation) {
+            return translation;
+        }
+        const defaultTranslation = await fetchTranslationDefaultLanguage(key);
+        if (defaultTranslation) {
+            return defaultTranslation;
+        }
+        const localTranslation = await fetchTranslationFromLocal(key);
+        return localTranslation || key;
+    } catch (error) {
+        return await fetchTranslationFromLocal(key) || key;
     }
 }
 
@@ -99,13 +183,12 @@ async function fetchTranslationDefaultLanguage(key) {
         const url = `https://${g_host}:8006/translations/${DEFAULT_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Error fetching translation: ${response.statusText}`);
+            throw new Error();
         }
         const data = await response.json();
         return data[key];
     } catch (error) {
-        // TODO
-        return null;
+        throw new Error();
     }
 }
 
@@ -117,11 +200,12 @@ async function fetchTranslationSelectedLanguage(key) {
             return key;
         }
         const data = await response.json();
-        if (data.error) return key;
+        if (data.error) {
+            throw new Error();
+        }
         return data[key];
     } catch (error) {
-        console.log("Error: " + error);
-        return null;
+        throw new Error();
     }
 }
 

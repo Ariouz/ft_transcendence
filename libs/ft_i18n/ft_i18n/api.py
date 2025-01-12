@@ -1,11 +1,33 @@
 import ft_requests
 import os
 import json
+import time
 
 I18N_URL = "http://i18n-service:8006"
 DEFAULT_LOCALE_DIR = "locale"
 I18N_DEFAULT_LANGUAGE = 'en'
+I18N_SERVICE_OFFLINE = False
+I18N_SERVICE_OFFLINE_TIMESTAMP = None
+I18N_SERVICE_OFFLINE_TIMEOUT = 10 * 60
 
+
+def is_i18n_service_offline():
+    global I18N_SERVICE_OFFLINE, I18N_SERVICE_OFFLINE_TIMESTAMP
+
+    if I18N_SERVICE_OFFLINE:
+        if I18N_SERVICE_OFFLINE_TIMESTAMP:
+            elapsed_time = time.time() - I18N_SERVICE_OFFLINE_TIMESTAMP
+            if elapsed_time > I18N_SERVICE_OFFLINE_TIMEOUT:
+                I18N_SERVICE_OFFLINE = False
+                I18N_SERVICE_OFFLINE_TIMESTAMP = None
+        return I18N_SERVICE_OFFLINE
+    return False
+
+
+def mark_i18n_service_offline():
+    global I18N_SERVICE_OFFLINE, I18N_SERVICE_OFFLINE_TIMESTAMP
+    I18N_SERVICE_OFFLINE = True
+    I18N_SERVICE_OFFLINE_TIMESTAMP = time.time()
 
 def fetch_translation(lang, key):
     """
@@ -20,6 +42,9 @@ def fetch_translation(lang, key):
 
 
 def get_translation(lang, key, *args):
+    if is_i18n_service_offline():
+        return get_translation_from_locale_file(lang) or get_translation_from_locale_file(I18N_DEFAULT_LANGUAGE) or key
+
     fallback_languages = [
         lang,
         os.getenv('DEFAULT_LANGUAGE_CODE'),
@@ -33,13 +58,11 @@ def get_translation(lang, key, *args):
             continue
         try:
             translation = fetch_translation(fallback_lang, key)
+            if translation:
+                break
         except Exception:
-            translation = None
-        if not translation:
-            try:
-                translation = get_translation_from_locale_file(fallback_lang, key)
-            except Exception:
-                continue
+            pass
+        translation = get_translation_from_locale_file(fallback_lang)
         if translation:
             break
 
@@ -68,20 +91,23 @@ def fetch_available_languages():
 
 
 def get_translation_from_locale_file(lang, key):
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    locale_dir = os.path.join(current_dir, DEFAULT_LOCALE_DIR)
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        locale_dir = os.path.join(current_dir, DEFAULT_LOCALE_DIR)
 
-    filename = f"{lang}.json"
-    json_file_path = os.path.join(locale_dir, filename)
+        filename = f"{lang}.json"
+        json_file_path = os.path.join(locale_dir, filename)
 
-    if os.path.exists(json_file_path):
-        try:
-            with open(json_file_path, "r", encoding="utf-8") as json_file:
-                data = json.load(json_file)
-                return data.get(key, None)
-        except Exception:
+        if os.path.exists(json_file_path):
+            try:
+                with open(json_file_path, "r", encoding="utf-8") as json_file:
+                    data = json.load(json_file)
+                    return data.get(key, None)
+            except Exception:
+                return None
+        else:
             return None
-    else:
+    except Exception:
         return None
 
 def get_preferred_language(request=None, default_language_code=I18N_DEFAULT_LANGUAGE):
