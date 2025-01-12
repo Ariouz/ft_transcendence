@@ -40,11 +40,7 @@ function showProfileSection() {
         event.preventDefault();
         const formData = new FormData(this);
 
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
+        postWithCsrfToken(this.action, formData)
         .then(data => {
             hideLoadingWheel();
             if (data.error)
@@ -63,7 +59,7 @@ function showProfileSection() {
     });
 }
 
-function showConfidentialitySection() {
+async function showConfidentialitySection() {
     showSection("settings_confidentiality_section", "confidentiality_settings", "settings_nav_confidentiality");
 
     let form = document.getElementById("settings_panel_form_confidentiality")
@@ -74,11 +70,7 @@ function showConfidentialitySection() {
         event.preventDefault();
         const formData = new FormData(this);
 
-        fetch(this.action, {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
+        postWithCsrfToken(this.action, formData)
         .then(data => {
             hideLoadingWheel();
             if (data.error)
@@ -106,12 +98,7 @@ function showAccountSection() {
         showLoadingWheel();
         event.preventDefault();
         const formData = new FormData(this);
-
-        fetch(this.action, {
-            method: 'DELETE',
-            body: formData,
-        })
-        .then(response => response.json())
+        deleteWithCsrfToken(this.action, formData)
         .then(data => {
             hideLoadingWheel();
             if (data.error)

@@ -43,7 +43,7 @@ def fetch_translation(lang, key):
 
 def get_translation(lang, key, *args):
     if is_i18n_service_offline():
-        return get_translation_from_locale_file(lang) or get_translation_from_locale_file(I18N_DEFAULT_LANGUAGE) or key
+        return get_translation_from_locale_file(lang, key) or get_translation_from_locale_file(I18N_DEFAULT_LANGUAGE, key) or key
 
     fallback_languages = [
         lang,
@@ -62,7 +62,7 @@ def get_translation(lang, key, *args):
                 break
         except Exception:
             pass
-        translation = get_translation_from_locale_file(fallback_lang)
+        translation = get_translation_from_locale_file(fallback_lang, key)
         if translation:
             break
 

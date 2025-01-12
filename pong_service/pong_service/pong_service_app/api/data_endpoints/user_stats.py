@@ -1,11 +1,9 @@
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from pong_service_app.models import *
 from .. import pong_user
 from pong_service_app.response_messages import success_response, error_response
 
-@csrf_exempt
 @require_http_methods(["GET"])
 def user_history(request, user_id):
     offset = int(request.GET.get("offset", 0))

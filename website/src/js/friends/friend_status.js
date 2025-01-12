@@ -11,10 +11,7 @@ async function isUserFollowing(user_id, target_id)
 async function followUser(user_id, target_id)
 {
     let url = `${USERS_SERVICE_URL}/user/friends/${user_id}/add/${target_id}/`;
-    let result = await fetch(url, {
-        method: 'POST'
-    })
-    .then(data => data.json())
+    postWithCsrfToken(url)
     .then(data => { return data; })
     .catch(error => { return error; });
     return result;
@@ -23,10 +20,7 @@ async function followUser(user_id, target_id)
 async function unfollowUser(user_id, target_id)
 {
     let url = `${USERS_SERVICE_URL}/user/friends/${user_id}/remove/${target_id}/`;
-    let result = await fetch(url, {
-        method: 'DELETE'
-    })
-    .then(data => data.json())
+    deleteWithCsrfToken(url)
     .then(data => { return data; })
     .catch(error => { return error; });
     return result;

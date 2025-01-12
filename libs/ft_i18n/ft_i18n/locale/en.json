@@ -185,7 +185,6 @@
   "game_started": "Game started",
 
   "data_retrieved": "Data retrieved",
-  "invalid_game_type": "Invalid game type",
 
   "queue_successfully_joined": "Successfully joined the queue!",
   "queue_successfully_left": "Successfully left the queue!",

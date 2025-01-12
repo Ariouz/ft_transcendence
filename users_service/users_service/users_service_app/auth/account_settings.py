@@ -1,15 +1,13 @@
 from users_service_app.models import *
 from django.core.files.storage import default_storage
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import os
 from django.conf import settings
 from users_service_app.response_messages import error_response, success_response
 
 
-@csrf_exempt
-# @require_http_methods(["POST"])
+@require_http_methods(["POST"])
 def update_profile_settings(request, access_token):
     try:
         user = User.objects.get(token=access_token)
@@ -72,7 +70,6 @@ def update_profile_settings(request, access_token):
     return success_response(request, "profile_settings_saved")
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def update_confidentiality_settings(request, access_token):
     try:
@@ -105,7 +102,6 @@ def update_confidentiality_settings(request, access_token):
     return success_response(request, "confidentiality_settings_saved")
 
 
-@csrf_exempt
 @require_http_methods(["DELETE"])
 def delete_account(request, access_token):
     try:

@@ -38,10 +38,17 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 # TODO
-ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service', os.getenv("HOST_IP"), '10.11.3.7:8443']
+ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service', os.getenv("HOST_IP"), '10.11.3.7:8443', '127.0.0.1:8443']
 
 CORS_ALLOWED_ORIGINS = [
     "https://10.11.3.7:8443",
+    "https://127.0.0.1:8443",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://127.0.0.1:8443",
 ]
 
 USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')

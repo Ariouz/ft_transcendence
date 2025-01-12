@@ -1,17 +1,14 @@
-from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
 from concurrent.futures import ThreadPoolExecutor
 import json
 import logging
 from . import game_manager
 import asyncio
-from pong_service_app.response_messages import success_response, error_response, get_translation
+from pong_service_app.response_messages import success_response, error_response
 
 executor = ThreadPoolExecutor()
 
-@csrf_exempt
 @require_http_methods(["GET"])
 def get_game_data(request):
     game_id = request.GET.get("game_id")
@@ -35,7 +32,6 @@ def get_game_data(request):
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def start_game(request):
 
@@ -56,7 +52,6 @@ def start_game(request):
     return success_response(request, "game_started")
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def create_local_game(request):
 
@@ -70,7 +65,6 @@ def create_local_game(request):
     return success_response(request, "game_created")
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def can_join(request):
     try:

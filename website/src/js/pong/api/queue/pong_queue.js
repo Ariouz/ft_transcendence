@@ -2,29 +2,24 @@ const PONG_QUEUE_API = `${PONG_SERVICE_URL}/queue`;
 const PONG_GAME_API = `${PONG_SERVICE_URL}/game`;
 
 let g_userInPongQueue = false;
+var g_matchmakingGameType = null;
 
-async function joinQueue(gameType)
+async function joinQueue()
 {
     let url = `${PONG_QUEUE_API}/join/`;
     let sessionToken = getCookie("session_token");
     if (sessionToken == undefined) return;
 
-    if (!gameType)
+    if (!g_matchmakingGameType)
     {
         navigate('/pong');
         return ;
     }
 
     let userId = await retrieveId(sessionToken);
-    let requestData = { user_id: userId.user_id, game_type: gameType };
+    let requestData = { user_id: userId.user_id, game_type: g_matchmakingGameType };
 
-    data = fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    }).then(data => data.json())
+    postWithCsrfToken(url, requestData, true)
     .then(data => {
         console.log(data);
         if (data.success)
@@ -44,18 +39,14 @@ async function leaveMatchmakingQueue()
 
     if (sessionToken == undefined) return;
     if (!g_userInPongQueue) return;
+    if (!g_matchmakingGameType) return ;
 
     let userId = await retrieveId(sessionToken);
-    console.log(userId.user_id);
-    let requestData = { user_id: userId.user_id };
+    let requestData = { user_id: userId.user_id, game_type: g_matchmakingGameType };
 
-    data = fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    }).then(data => data.json())
+    g_matchmakingGameType = null;
+
+    postWithCsrfToken(url, requestData, true)
     .then(data => {
         g_userInPongQueue = false;
         navigate("/pong");
@@ -75,13 +66,7 @@ async function createLocalGame()
     console.log(userId.user_id);
     let requestData = { user_id: userId.user_id };
 
-    data = fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    }).then(data => data.json())
+    postWithCsrfToken(url, requestData, true)
     .then(data => {
         g_userInPongQueue = false;
     }).catch(error => {

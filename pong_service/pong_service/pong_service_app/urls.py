@@ -2,8 +2,11 @@ from django.urls import path
 from .api import queue
 from .api import game
 from .api.data_endpoints import user_stats, leaderboard
+from .csrf_protection import get_csrf_token
 
 urlpatterns = [
+    path('get-csrf-token/', get_csrf_token, name='get_csrf_token'),
+
     path('queue/join/', queue.join_queue, name="join_queue"),
     path('queue/leave/', queue.leave_queue, name="leave_queue"),
 

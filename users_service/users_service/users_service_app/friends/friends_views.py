@@ -5,8 +5,6 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from users_service_app.response_messages import error_response, json_response, get_translation
 
-from django.views.decorators.csrf import csrf_exempt
-
 
 @require_http_methods(["GET"])
 def list_friends(request, user_id):
@@ -19,7 +17,6 @@ def list_friends(request, user_id):
     return json_response({"friends": friend_list})
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def add_friend(request, user_id, friend_id):
     user = get_object_or_404(User, pk=user_id)
@@ -31,7 +28,6 @@ def add_friend(request, user_id, friend_id):
     return json_response({"status": "success", "message": get_translation(request, "added_as_a_friend", friend.username)})
 
 
-@csrf_exempt
 @require_http_methods(["DELETE"])
 def remove_friend(request, user_id, friend_id):
     user = get_object_or_404(User, pk=user_id)

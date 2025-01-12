@@ -1,5 +1,4 @@
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
 import redis
 import json
@@ -33,7 +32,6 @@ def get_redis_queue(game_type):
     return redis_pong_arcade_queue if game_type == "arcade" else redis_pong_1_1_queue
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def join_queue(request):
     try:
@@ -51,7 +49,7 @@ def join_queue(request):
     
     game_types = ["1v1", "arcade"]
     if not game_type in game_types:
-        return error_response(request, "invalid_game_type", "invalid_game_type")
+        return error_response(request, "game_type_invalid", "game_type_invalid")
 
     pong_user.create_user_if_not_exists(user_id)
 
@@ -61,7 +59,6 @@ def join_queue(request):
     return success_response(request, "queue_successfully_joined")
 
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def leave_queue(request):
     try:

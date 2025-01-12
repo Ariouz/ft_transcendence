@@ -6,9 +6,11 @@ from .auth.account import create_account, account_exists
 from .auth.account_settings import update_profile_settings, update_confidentiality_settings, delete_account
 from .friends.friends_views import authenticate_user, list_friends, add_friend, remove_friend, is_following
 from .auth.user_status import *
+from .csrf_protection import get_csrf_token
 
 urlpatterns = [
     # path('users/', users, name="users"),
+    path('get-csrf-token/', get_csrf_token, name='get_csrf_token'),
 
     # Auth
     path('auth/42/', ft_auth, name="ft_auth"),
