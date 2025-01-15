@@ -34,6 +34,9 @@ function handleRouting() {
     else if (parts[0] == "pong") {
         routePong(parts, params);
     }
+    else if (parts[0] === "tournaments") {
+        routeTournaments(parts, params);
+    }
     else if (path === "/cookie-policy")
     {
         loadContent("/pages/misc/cookie_policy.html");
@@ -149,6 +152,22 @@ function routePong(parts, params)
     else
         loadContent("/pages/error/404.html");
 
+}
+
+function routeTournaments(parts, params)
+{
+    if (parts.length === 1)
+    {
+        loadContent("/pages/tournaments/viewpage.html");
+    }
+    else if (parts.length === 2)
+    {
+        loadContent("/pages/tournaments/tournament_details.html");
+    }
+    else
+    {
+        loadContent("/pages/error/404.html");
+    }
 }
 
 function loadContent(url, onPageLoaded = () => {}) {
