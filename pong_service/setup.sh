@@ -11,7 +11,6 @@ ADDRESS="0.0.0.0:${APP_PORT}"
 
 CMD_INSTALL="apk add --update --no-cache"
 
-
 cd /${PROJECT_NAME} || exit
 
 
@@ -33,6 +32,17 @@ $PIP install -r requirements.txt
 echo "Setup database"
 $MANAGE makemigrations
 $MANAGE migrate
+
+# echo "Applying migrations for Lobby, Tournament, TournamentPairings, and TournamentParticipants"
+# # Ensure all migrations are applied
+# APPS=("lobby" "tournament" "tournamentPairings" "tournamentParticipants")
+# for APP in "${APPS[@]}"; do
+#     echo "Applying migrations for $APP"
+#     $MANAGE makemigrations $APP || { echo "Failed to make migrations for $APP"; exit 1; }
+#     $MANAGE migrate $APP || { echo "Failed to apply migrations for $APP"; exit 1; }
+# done
+
+# echo "Finished applying migrations for Lobby, Tournament, TournamentPairings, and TournamentParticipants"
 
 echo "Run tests"
 if ! $MANAGE test $DJANGO_APP; then

@@ -1,0 +1,47 @@
+body {
+  background-color: #121212;
+  color: #fff;
+}
+
+.modal-content {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.form-control,
+.form-select {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: #2d2d2d;
+  border-color: #0d6efd;
+  color: #fff;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.tournament-item {
+  cursor: pointer;
+  border-bottom: 1px solid #404040;
+  padding: 0.5rem 0;
+  color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tournament-item:hover {
+  background-color: #2d2d2d;
+}
+
+.modal-header,
+.modal-footer {
+  border-color: #404040;
+}
+
+.btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
