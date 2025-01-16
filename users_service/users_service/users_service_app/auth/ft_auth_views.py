@@ -11,7 +11,7 @@ host = os.getenv("HOST_IP")
 # /auth/42/<host>
 def ft_auth(request):
     encoded_host = urllib.parse.quote(host)
-    url = f"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-29f5277a5943e1f33349c04ecb3f211dc78d70e98943ad05d0f1328d38ba42f6&redirect_uri=https%3A%2F%2F{encoded_host}%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
+    url = f"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-29f5277a5943e1f33349c04ecb3f211dc78d70e98943ad05d0f1328d38ba42f6&redirect_uri=https%3A%2F%2F{encoded_host}%3A8443%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
     return json_response({"url":url})
 
 # /auth/42/access/<host>/?code=
@@ -21,7 +21,7 @@ def ft_auth_access(request):
     if code is None:
         return error_response(request, "failed_to_fetch_access_token", "a_code_parameter_is_expected")
     token_url = "https://api.intra.42.fr/oauth/token"
-    redirect_url = f"https://{host}/api/auth/42/access"
+    redirect_url = f"https://{host}:8443/api/auth/42/access"
     try:
         data = get_access_token("authorization_code", code, redirect_url, token_url)
         return data
