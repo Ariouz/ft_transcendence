@@ -37,3 +37,31 @@ class PongUserStats(models.Model):
 
     def __str__(self):
         return str(self.user_id)
+    
+class Tournament(models.Model):
+    tournament_id = models.AutoField(primary_key=True, unique=True)
+    state = models.CharField(max_length=20, choices=[
+        ('pending', 'Pending'),
+        ('ongoing', 'Ongoing'),
+        ('finished', 'Finished')
+    ], default='pending')
+    winner = models.ForeignKey(PongUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='won_tournaments')
+    host = models.ForeignKey(PongUser, on_delete=models.CASCADE, related_name='hosted_tournaments')
+    created_at = models.DateTimeField(default=timezone.now)
+
+class TournamentParticipant(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    pong_user = models.ForeignKey(PongUser, on_delete=models.CASCADE)
+    eliminated = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('tournament', 'pong_user')
+
+class TournamentMatch(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    player1 = models.ForeignKey(PongUser, on_delete=models.CASCADE, related_name='matches_as_player1')
+    player2 = models.ForeignKey(PongUser, on_delete=models.CASCADE, related_name='matches_as_player2')
+    winner = models.ForeignKey(PongUser, on_delete=models.SET_NULL, null=True, blank=True)
+    round = models.IntegerField()
+    score1 = models.IntegerField(default=0)
+    score2 = models.IntegerField(default=0)

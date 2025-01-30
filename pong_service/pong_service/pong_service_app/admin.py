@@ -24,3 +24,25 @@ class PongUserStatsAdmin(admin.ModelAdmin):
     list_display = fields
     search_fields = fields
     list_filter = fields
+
+@admin.register(Tournament)
+class TournamentAdmin(admin.ModelAdmin):
+    readonly_fields = ('tournament_id',)
+    fields = ('tournament_id', 'state', 'winner', 'host', 'created_at')
+    list_display = fields
+    search_fields = fields
+    list_filter = fields
+
+@admin.register(TournamentParticipant)
+class TournamentParticipantAdmin(admin.ModelAdmin):
+    fields = ('tournament', 'pong_user', 'eliminated')
+    list_display = fields
+    search_fields = fields
+    list_filter = fields
+
+@admin.register(TournamentMatch)
+class TournamentMatchAdmin(admin.ModelAdmin):
+    fields = ('tournament', 'player1', 'player2', 'winner', 'round', 'score1', 'score2')
+    list_display = fields
+    search_fields = fields
+    list_filter = fields
