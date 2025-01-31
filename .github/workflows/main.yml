@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer Make et Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make docker-compose
+
+      - name: Build et lancement des services avec Make
+        run: make
+
+      - name: Vérifier l'état des conteneurs
+        run: docker ps
+
+      - name: Arrêter et nettoyer les conteneurs
+        run: make down
