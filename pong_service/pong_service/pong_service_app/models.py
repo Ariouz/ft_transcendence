@@ -50,7 +50,7 @@ class Tournament(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
 class TournamentParticipant(models.Model):
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name="participants")
     pong_user = models.ForeignKey(PongUser, on_delete=models.CASCADE)
     eliminated = models.BooleanField(default=False)
 
