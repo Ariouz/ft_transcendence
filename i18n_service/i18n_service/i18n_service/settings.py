@@ -40,6 +40,7 @@ ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service
 
 CORS_ALLOWED_ORIGINS = [
     "https://10.11.3.7:8443",
+    os.getenv("HOST_IP")
 ]
 
 I18N_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
