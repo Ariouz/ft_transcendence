@@ -50,7 +50,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://127.0.0.1:8443",
-    os.getenv("HOST_IP")
+    f"https://{os.getenv("HOST_IP")}"
 ]
 
 USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
