@@ -12,13 +12,12 @@ async function createTournament() {
     postWithCsrfToken(url, requestData, true)
     .then(data => {
         let tournamentId = data.tournament_id;
-        // todo init tournament ws
+        displayTournamentSuccess(data.success);
         console.log(`Created tournament ${tournamentId}`);
-        navigate(`/tournament/lobby?tid=${tournamentId}`);
+        // navigate(`/tournament/lobby?tid=${tournamentId}`);
     })
     .catch(error => {
-        // todo display error in error div
-        console.error(error)
+        displayTournamentError(error.error, error.details);
     });
 }
 
@@ -53,7 +52,7 @@ async function getTournamentState(tournamentId)
        return data.state;
     })
     .catch(error => {
-        console.error(error)
+        console.error(error);
         return "finished";
     });
 
@@ -71,12 +70,68 @@ async function deleteTournament(tournamentId)
     let requestData = { user_id: userId, tournament_id: tournamentId };
     postWithCsrfToken(url, requestData, true)
     .then(data => {
+       displayTournamentSuccess(data.success);
        console.log(data);
        navigate("/tournament");
     })
     .catch(error => {
-        console.error(error)
-        // todo display in error div
+        displayTournamentError(error.error, error.details);
     });
 
+}
+
+async function joinTournament(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/join/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       displayTournamentSuccess(data.success);
+       console.log(data);
+    //    navigate(`/tournament/lobby?tid=${data.tournament_id}`);
+    })
+    .catch(error => {
+        displayTournamentError(error.error, error.details);
+    });
+}
+
+async function leaveTournament(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/leave/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       displayTournamentSuccess(data.success);
+       console.log(data);
+       navigate(`/tournament`);
+    })
+    .catch(error => {
+        displayTournamentError(error.error, error.details);
+    });
+}
+
+async function getTournaments()
+{
+    let url = `${TOURNAMENT_URL}/list/`;
+
+    let data = postWithCsrfToken(url, {}, true)
+    .then(data => {
+        console.log(data.data);
+        return data.data;
+    })
+    .catch(error => {
+        console.error(error);
+        return {};
+    });
+    return data;
 }

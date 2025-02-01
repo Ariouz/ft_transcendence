@@ -1,5 +1,11 @@
 <div>
     <h2>Tournois</h2>
+    <!-- Error div -->
+    <div id="tournamentErrorDiv">
+        <h3 id="tournamentErrorTitle"></h3>
+        <span id="tournamentErrorDetails"></span>
+    </div>
+
     <div>
         <div>
             <h3>Host</h3>
@@ -9,21 +15,12 @@
         </div>
         <br>
         <div>
-            <h3>Tournaments list</h3>
-            <br>
-            <div>
-                <span>Dummy</span><br>
-                <span>3/4 players</span><br>
-                <span>Hosted by John</span><br>
-                <button>Join</button>
-            </div><hr>
-            <br>
-            <div>
-                <span>Dummy</span><br>
-                <span>3/4 players</span><br>
-                <span>Hosted by John</span><br>
-                <button>Join</button>
+            <h3>Active tournaments</h3>
+            <div id="tournaments_list">
+                <!-- Active tournaments filled here -->
             </div>
         </div>
     </div>
 </div>
+
+<script src="../js/tournaments/tournament_list.js"></script>

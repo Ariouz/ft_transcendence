@@ -23,8 +23,8 @@ function deleteWithCsrfToken(url, bodyContent = null, isJson = false) {
         })
         .then(response => {
             if (!response.ok) {
-                return response.text().then(errorText => {
-                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                return response.json().then(jsonError => {
+                    throw jsonError;
                 });
             }
             return response.json().catch(() => ({}));

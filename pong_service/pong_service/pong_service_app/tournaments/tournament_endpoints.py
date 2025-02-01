@@ -1,11 +1,9 @@
 from django.views.decorators.http import require_http_methods
 from pong_service_app.models import *
-from concurrent.futures import ThreadPoolExecutor
 import json
-import logging
-import asyncio
 
 from pong_service_app.response_messages import success_response, error_response
+from . import tournament_ws_utils
 
 # /api/tournament/create/
 @require_http_methods(["POST"])
@@ -34,7 +32,8 @@ def create_tournament(request):
     tournament = Tournament.objects.create(host=host)
     TournamentParticipant.objects.create(tournament=tournament, pong_user=host)
 
-    return success_response(request, "Tournament created successfully", extra_data={"tournament_id":tournament.tournament_id})
+    tournament_ws_utils.connect_user(host.user_id, tournament.tournament_id)
+    return success_response(request, "Tournament created", extra_data={"tournament_id":tournament.tournament_id})
 
 
 # /api/tournament/delete/
@@ -68,8 +67,80 @@ def delete_tournament(request):
     if tournament.state != "pending":
         return error_response(request, "Invalid state", "Tournament has already started")
     
+    # TODO disconnect all users from tournament websocket
     tournament.delete()
     return success_response(request, "Tournament deleted")
+
+
+# /api/tournament/join/
+@require_http_methods(["POST"])
+def join_tournament(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+        tournament_id = data.get("tournament_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not user_id:
+        return error_response(request, "Missing parameter", "user_id missing")
+    
+    if not tournament_id:
+        return error_response(request, "Missing parameter", "tournament_id missing")
+    
+    user = PongUser.objects.filter(user_id=user_id).get()
+    if not user:
+        return error_response(request, "Invalid user", "User not found")
+    
+    tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
+    if not tournament:
+        return error_response(request, "Invalid tournament", "Tournament not found")
+
+    if tournament.state != "pending":
+        return error_response(request, "Invalid state", "Tournament has already started")
+
+    if TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).exists():
+        return error_response(request, "Already a participant", "You already participate to this tournament")
+    
+
+    TournamentParticipant.objects.create(tournament=tournament, pong_user=user)
+    tournament_ws_utils.connect_user(user.user_id, tournament.tournament_id)
+    return success_response(request, "Joined tournament", extra_data={"tournament_id":tournament_id})
+
+
+# /api/tournament/leave/
+@require_http_methods(["POST"])
+def leave_tournament(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+        tournament_id = data.get("tournament_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not user_id:
+        return error_response(request, "Missing parameter", "user_id missing")
+    
+    if not tournament_id:
+        return error_response(request, "Missing parameter", "tournament_id missing")
+    
+    user = PongUser.objects.filter(user_id=user_id).get()
+    if not user:
+        return error_response(request, "Invalid user", "User not found")
+    
+    tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
+    if not tournament:
+        return error_response(request, "Invalid tournament", "Tournament not found")
+
+    if not TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).exists():
+        return error_response(request, "Not a participant", "You don't participate to this tournament")
+
+    if tournament.host == user:
+        return error_response(request, "Cannot delete", "Tournament's host cannot leave the tournament. You need to delete it")
+
+    TournamentParticipant.objects.filter(tournament=tournament, pong_user=user).delete()
+    # TODO disconnect user from tournament websocket
+    return success_response(request, "Left tournament", extra_data={"tournament_id":tournament_id})
 
 
 # /api/tournament/does-participates/
@@ -98,6 +169,7 @@ def does_participates(request):
     return success_response(request, "User participates", extra_data={'participates':True})
 
 
+# /api/tournament/state/
 @require_http_methods(["POST"])
 def tournament_state(request):
     try:
@@ -114,3 +186,15 @@ def tournament_state(request):
         return error_response(request, "Invalid tournament", "Tournament not found")
     
     return success_response(request, "State retrieved", extra_data={"state":tournament.state})
+
+
+# /api/tournament/list/
+@require_http_methods(["POST"])
+def tournament_list(request):
+    tournaments = Tournament.objects.filter(state="pending").all()
+
+    data = {}
+    for tournament in tournaments:
+        data[tournament.tournament_id] = {"tournament_id": tournament.tournament_id}
+    
+    return success_response(request, "List retrieved", extra_data={"data":data})
