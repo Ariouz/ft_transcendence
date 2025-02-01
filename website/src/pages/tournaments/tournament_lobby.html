@@ -1,4 +1,10 @@
 <div>
+    <!-- Error div -->
+    <div id="tournamentErrorDiv">
+        <h3 id="tournamentErrorTitle"></h3>
+        <span id="tournamentErrorDetails"></span>
+    </div>
+
     <h1>Lobby</h1>
     <h2>Host: </h2>
     <div>
@@ -7,7 +13,7 @@
         <span>player</span><br>
         <span>player</span><br>
     </div>
-    <button>Leave tournament</button>
+    <button onclick="leave()">Leave tournament</button>
     
     <!-- Host only -->
     <button onclick="destroyTournament()">Delete tournament</button> 
@@ -60,6 +66,19 @@
         }
 
         deleteTournament(tournamentId);
+    }
+
+    async function leave()
+    {
+        let tournamentParams = new URLSearchParams(window.location.search);
+        let tournamentId = tournamentParams.get("tid");
+
+        if (tournamentId == undefined) {
+            navigate("/tournament");
+            return;
+        }
+
+        leaveTournament(tournamentId);
     }
 
     checkTournamentId();
