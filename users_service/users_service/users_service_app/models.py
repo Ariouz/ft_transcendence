@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 def user_directory_path(instance, filename):
     return 'avatars/{0}'.format(filename)
@@ -48,8 +49,18 @@ class Friend(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["user", "friend"], name="unique_friendship")
+            models.UniqueConstraint(fields=["user", "friend"], name="unique_friendship"),
+            models.CheckConstraint(
+                check=~Q(user=models.F("friend")),
+                name="prevent_self_friendship",
+            ),
         ]
+
+    def save(self, *args, **kwargs):
+        """Ensure that friendships are always stored in the same order."""
+        if self.user.user_id > self.friend.user_id:
+            self.user, self.friend = self.friend, self.user
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username} is friends with {self.friend.username}"

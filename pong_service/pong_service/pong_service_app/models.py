@@ -8,7 +8,7 @@ from .api.themes import get_default_theme
 class PongUser(models.Model):
     user_id = models.IntegerField(primary_key=True, unique=True)
     game_history = models.JSONField(default=list)
-    last_game = models.IntegerField(default="-1")
+    last_game = models.IntegerField(default=-1)
 
     def __str__(self):
         return str(self.user_id)
