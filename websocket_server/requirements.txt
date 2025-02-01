@@ -30,3 +30,4 @@ zope.interface==5.4.0
 channels_redis
 redis
 asyncio
+psycopg2==2.9.9

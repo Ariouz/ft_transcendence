@@ -61,7 +61,7 @@ services:
       
 
   users_service_database:
-    image: postgres:latest
+    image: postgres:16-alpine
     container_name: ${USERS_DB_CONTAINER_NAME}
     restart: always
     ports:
@@ -77,7 +77,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - users_service_data:/var/lib/postgresql/data
 
   # pong services
   pong_service:
@@ -87,15 +87,15 @@ services:
     ports:
       - ${PONG_SERVICE_PORT}:${PONG_SERVICE_PORT}
     depends_on:
-      users_service_database:
+      pong_service_database:
         condition: service_healthy
       redis:
         condition: service_started
     environment:
       PROJECT_NAME: "pong_service"
       APP_PORT: ${PONG_SERVICE_PORT}
-      DATABASE_HOST: ${USERS_DB_CONTAINER_NAME}
-      DATABASE_PORT: ${USERS_DB_PORT}
+      DATABASE_HOST: ${PONG_DB_CONTAINER_NAME}
+      DATABASE_PORT: ${PONG_DB_PORT}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -117,6 +117,25 @@ services:
         source: ./ssl_certs/selfsigned.key
         target: /etc/ssl/private/selfsigned.key
 
+  pong_service_database:
+    image: postgres:16-alpine
+    container_name: ${PONG_DB_CONTAINER_NAME}
+    restart: always
+    ports:
+      - ${PONG_DB_PORT}:${PONG_DB_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: [ "postgres", "-c", "port=${PONG_DB_PORT}" ]
+    healthcheck:
+      test: "pg_isready -U $$POSTGRES_USER -p ${PONG_DB_PORT} -d $$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pong_service_data:/var/lib/postgresql/data
+
   ## WebSocket server services ##
   websocket_server:
     build: ./websocket_server
@@ -125,13 +144,21 @@ services:
     ports:
       - ${WEBSOCKET_SERVER_PORT}:${WEBSOCKET_SERVER_PORT}
     depends_on:
-      users_service_database:
+      websocket_server_database:
         condition: service_healthy
       redis:
         condition: service_started
     environment:
       PROJECT_NAME: "websocket_server"
       APP_PORT: ${WEBSOCKET_SERVER_PORT}
+      DATABASE_HOST: ${WEBSOCKET_DB_CONTAINER_NAME}
+      DATABASE_PORT: ${WEBSOCKET_DB_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
       DJANGO_SECRET: ${DJANGO_SECRET}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
@@ -145,6 +172,25 @@ services:
       - type: bind
         source: ./ssl_certs/selfsigned.key
         target: /etc/ssl/private/selfsigned.key
+
+  websocket_server_database:
+    image: postgres:16-alpine
+    container_name: ${WEBSOCKET_DB_CONTAINER_NAME}
+    restart: always
+    ports:
+      - ${WEBSOCKET_DB_PORT}:${WEBSOCKET_DB_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: [ "postgres", "-c", "port=${WEBSOCKET_DB_PORT}" ]
+    healthcheck:
+      test: "pg_isready -U $$POSTGRES_USER -p ${WEBSOCKET_DB_PORT} -d $$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - websocket_server_data:/var/lib/postgresql/data
 
   redis:
     container_name: redis-websocket-users
@@ -160,13 +206,21 @@ services:
     ports:
       - ${I18N_SERVICE_PORT}:${I18N_SERVICE_PORT}
     depends_on:
-      users_service_database:
+      i18n_service_database:
         condition: service_healthy
       redis:
         condition: service_started
     environment:
       PROJECT_NAME: "i18n_service"
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
+      DATABASE_HOST: ${I18N_DB_CONTAINER_NAME}
+      DATABASE_PORT: ${I18N_DB_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
+      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
+      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
       HOST_IP: ${HOST_IP}
       APP_PORT: ${I18N_SERVICE_PORT}
       DJANGO_SECRET: ${DJANGO_SECRET}
@@ -175,6 +229,24 @@ services:
         source: ./i18n_service
         target: /i18n_service
 
+  i18n_service_database:
+    image: postgres:16-alpine
+    container_name: ${I18N_DB_CONTAINER_NAME}
+    restart: always
+    ports:
+      - ${I18N_DB_PORT}:${I18N_DB_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: [ "postgres", "-c", "port=${I18N_DB_PORT}" ]
+    healthcheck:
+      test: "pg_isready -U $$POSTGRES_USER -p ${I18N_DB_PORT} -d $$POSTGRES_DB"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - i18n_service_data:/var/lib/postgresql/data
 
 ### lib build management ###
   libs_builder:
@@ -207,7 +279,14 @@ services:
 
 ### Volumes ###
 volumes:
+  # Apps
   website:
   users_service:
   pong_service:
-  pgdata:
+  websocket_server:
+  i18n_service:
+  # Databases
+  users_service_data:
+  pong_service_data:
+  websocket_server_data:
+  i18n_service_data:

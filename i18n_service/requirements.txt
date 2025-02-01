@@ -6,3 +6,4 @@ django-cors-headers==3.11.0
 django-extensions
 Werkzeug
 pyOpenSSL
+psycopg2==2.9.9
