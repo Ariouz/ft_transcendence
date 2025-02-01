@@ -30,7 +30,7 @@ jobs:
           echo "📌 Checking container statuses..."
           
           # List containers excluding libs-builder
-          BAD_CONTAINERS=$(docker ps -a --format "{{.Names}}: {{.Status}}" | grep -v "libs-builder" | grep -E "(Exited|Restarting|unhealthy)")
+          BAD_CONTAINERS=$(docker ps -a --format "{{.Names}}: {{.Status}}" | grep -v "libs-builder" | grep -E "(Exited|Restarting|unhealthy)" || true)
 
           if [ -n "$BAD_CONTAINERS" ]; then
             echo "🚨 Some containers are not in a healthy state:"
