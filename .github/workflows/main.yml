@@ -13,19 +13,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout du code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Installer Make et Docker
+      - name: Install Make and Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y make docker-compose
 
-      - name: Build et lancement des services avec Make
-        run: make
+      - name: Build and start services with Make
+        run: make ci-github-actions
 
-      - name: Vérifier l'état des conteneurs
-        run: docker ps
+      - name: Check container status
+        run: |
+          sleep 60  # Wait a bit for the services to start
+          echo "📌 Checking container statuses..."
+          
+          # List containers excluding libs-builder
+          BAD_CONTAINERS=$(docker ps -a --format "{{.Names}}: {{.Status}}" | grep -v "libs-builder" | grep -E "(Exited|Restarting|unhealthy)")
 
-      - name: Arrêter et nettoyer les conteneurs
+          if [ -n "$BAD_CONTAINERS" ]; then
+            echo "🚨 Some containers are not in a healthy state:"
+            echo "$BAD_CONTAINERS"
+            docker ps
+            exit 1
+          else
+            echo "✅ All containers (except libs-builder) are UP."
+          fi
+
+      - name: Stop and clean up containers
         run: make down

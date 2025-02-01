@@ -2,6 +2,8 @@ DEFAULT_LANGUAGE=en
 
 all: ssl_cert update_libs up-build
 
+ci-github-actions: ssl_cert update_libs build-up-d
+
 stop:
 	@echo "Stopping all running containers..."
 	@docker stop $$(docker ps -q)
@@ -138,45 +140,6 @@ update_i18n:
 install_wheel:
 	python3 -m pip install wheel
 
-#########################################
-############### TO REMOVE ###############
-#########################################
-DB_NAME=postgres
-DB_USER=postgres
-CONTAINER_NAME="users_service-database"
-
-insert_test_user:
-	make insert_user username=testuser email=testuser@example.com password=testuserpassword
-
-insert_user:
-	@if [ -z "$(username)" ]; then \
-		echo "Usage: make insert_user username=<username> [email=<email>] [password=<password>]"; \
-		exit 1; \
-	fi; \
-	demail=$(email); \
-	if [ -z "$${demail}" ]; then \
-		demail="$(username)@example.com"; \
-	fi; \
-	dpassword=$(password); \
-	if [ -z "$${dpassword}" ]; then \
-		dpassword="$$(openssl rand -base64 12)"; \
-	fi; \
-	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "INSERT INTO users_service_app_user (username, email, password) VALUES ('$(username)', '$${demail}', '$${dpassword}');"; \
-	echo "User $(username) with email $${demail} and password $${dpassword} has been inserted."
-
-view_users:
-	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "SELECT * FROM users_service_app_user;"
-
-clear_users:
-	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "DELETE FROM users_service_app_user;"
-
-list_tables:
-	docker exec -i $(CONTAINER_NAME) psql -U $(DB_USER) -d $(DB_NAME) -c "\dt"
-#########################################
-############# end TO REMOVE #############
-#########################################
-
-
 structure:
 	@if [ -z "$(path)" ]; then \
 		to_find_path="."; \
@@ -194,7 +157,7 @@ structure:
 		-print | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
 
-.PHONY: stop remove clean \
+.PHONY: all ci-github-actions stop remove clean \
 		build up upd up-d buildup build-up up-build buildupd build-up-d \
 		down logs clean-images fclean-images clean-volumes prune restart \
 		update_libs deploy_libs delete_libs cleanup_libs delete_libs_virtual_environments \
