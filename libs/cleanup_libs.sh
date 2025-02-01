@@ -4,7 +4,7 @@ FILE_LIB_FT_I18N="ft_i18n-0.1-py3-none-any.whl"
 FILE_LIB_FT_REQUESTS="ft_requests-0.1-py3-none-any.whl"
 
 DEST_LIB_FT_I18N=("users_service" "pong_service")
-DEST_LIB_FT_REQUESTS=("api_gateway" "users_service" "websocket_server" "libs/ft_i18n" "pong_service")
+DEST_LIB_FT_REQUESTS=("users_service" "websocket_server" "libs/ft_i18n" "pong_service")
 
 echo "Starting cleanup process for libraries."
 

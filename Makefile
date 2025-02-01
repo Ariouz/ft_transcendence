@@ -110,7 +110,7 @@ delete_libs: delete_libs_virtual_environments
 
 cleanup_libs: delete_libs
 
-SERVICES := api_gateway users_service pong_service i18n_service websocket_server
+SERVICES := users_service pong_service i18n_service websocket_server
 PYTHON_VERSION := python3.12
 VENV_PATH := .venv/lib/$(PYTHON_VERSION)/site-packages
 LIBS := ft_requests ft_i18n
