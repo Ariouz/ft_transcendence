@@ -19,24 +19,6 @@ services:
     environment:
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
 
-  ## API Gateway services ##
-  api_gateway:
-    build: ./api_gateway
-    container_name: api_gateway
-    restart: always
-    ports:
-      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
-    environment:
-      PROJECT_NAME: "api_gateway"
-      APP_PORT: ${API_GATEWAY_PORT}
-      DJANGO_SUPERUSER_EMAIL: ${ADMIN_EMAIL}
-      DJANGO_SUPERUSER_USERNAME: ${ADMIN_USERNAME}
-      DJANGO_SUPERUSER_PASSWORD: ${ADMIN_PASSWORD}
-    volumes:
-      - type: bind
-        source: ./api_gateway
-        target: /api_gateway
-
   ## Users management services ##
   users_service:
     build: ./users_service
@@ -223,21 +205,9 @@ services:
     profiles:
       - libs_management
 
-
-### Networks ###
-networks:
-  # suggestion:
-  # isolate services, forcing the site frontend to contact the API Gateway only
-  services-network:
-    driver: bridge
-  # linking website with api_gateway only
-  website-network:
-    driver: bridge
-
 ### Volumes ###
 volumes:
   website:
-  api_gateway:
   users_service:
   pong_service:
   pgdata:
