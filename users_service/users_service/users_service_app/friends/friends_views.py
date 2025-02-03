@@ -9,7 +9,7 @@ from users_service_app.response_messages import error_response, json_response, g
 @require_http_methods(["GET"])
 def list_friends(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    friends = user.friends.all()
+    friends = Friend.objects.filter(user=user).select_related("friend")
     friend_list = [
         {"user_id": friend.friend.user_id, "username": friend.friend.username}
         for friend in friends
@@ -46,17 +46,6 @@ def authenticate_user(request, token):
         return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
     user = User.objects.filter(token=token).get()
     return json_response({"user_id": user.user_id, "username": user.username})
-
-
-@require_http_methods(["GET"])
-def list_friends(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
-    friends = user.user_friends.all()
-    friend_list = [
-        {"user_id": friend.friend.user_id, "username": friend.friend.username}
-        for friend in friends
-    ]
-    return json_response({"friends": friend_list})
 
 # /api/user/friends/follows/<int:user_id>/<int:friend_id>/
 # Returns whether user_id follows friend_id
