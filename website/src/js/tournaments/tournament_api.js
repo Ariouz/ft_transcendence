@@ -193,3 +193,37 @@ async function askToConnectToTournamentWS(tournamentId)
         displayTournamentError(error.error, error.details);
     });
 }
+
+async function launchTournament(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/launch/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       console.log(data);
+       navigate(`/tournament/rounds?tid=${tournamentId}`);
+    })
+    .catch(error => {
+        displayTournamentError(error.error, error.details);
+    });
+}
+
+
+async function getTournamentRounds(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/get-rounds/`;
+
+    let requestData = { tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       console.log(data);
+    })
+    .catch(error => {
+        displayTournamentError(error.error, error.details);
+    });
+}

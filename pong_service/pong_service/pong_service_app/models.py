@@ -48,6 +48,8 @@ class Tournament(models.Model):
     winner = models.ForeignKey(PongUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='won_tournaments')
     host = models.ForeignKey(PongUser, on_delete=models.CASCADE, related_name='hosted_tournaments')
     created_at = models.DateTimeField(default=timezone.now)
+    current_round = models.IntegerField(default=1)
+    total_rounds = models.IntegerField(default=None, blank=True, null=True)
 
 class TournamentParticipant(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name="participants")

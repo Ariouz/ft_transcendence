@@ -41,7 +41,7 @@ async function addTournamentParticipantToList(user_id)
 {
     let table = document.getElementById("tournamentParticipantsList");
 
-    if (isTournamentParticipantListEntrySet(user_id, table)) return;
+    if (!table || isTournamentParticipantListEntrySet(user_id, table)) return;
     let element = await generateTournamentParticipantListEntry(user_id);
 
     table.appendChild(element);
@@ -70,7 +70,9 @@ async function displayTournamentLobbyButtons(tournamentId)
 
     let leaveButton = document.getElementById("tournamentLeaveButton");
     let deleteButton = document.getElementById("tournamentDeleteButton");
+    let launchButton = document.getElementById("tournamentLaunchButton");
 
     leaveButton.style.display = isHost ? "none" : "block";
     deleteButton.style.display = !isHost ? "none" : "block";
+    launchButton.style.display = !isHost ? "none" : "block";
 }

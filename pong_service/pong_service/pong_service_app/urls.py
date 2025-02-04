@@ -2,7 +2,7 @@ from django.urls import path
 from .api import queue
 from .api import game
 from .api.data_endpoints import user_stats, leaderboard
-from .tournaments import tournament_endpoints
+from .tournaments import tournament_endpoints, tournament_rounds
 from .csrf_protection import get_csrf_token
 
 urlpatterns = [
@@ -29,6 +29,10 @@ urlpatterns = [
     # Tournaments
     path('tournament/create/', tournament_endpoints.create_tournament, name="create_tournament"),
     path('tournament/delete/', tournament_endpoints.delete_tournament, name="delete_tournament"),
+
+    path('tournament/launch/', tournament_rounds.launch_tournament, name="launch_tournament"),
+    path('tournament/get-rounds/', tournament_rounds.get_tournament_rounds, name="get_tournament_rounds"),
+    
 
     path('tournament/join/', tournament_endpoints.join_tournament, name="join_tournament"),
     path('tournament/leave/', tournament_endpoints.leave_tournament, name="leave_tournament"),

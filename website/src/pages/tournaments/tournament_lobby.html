@@ -20,13 +20,13 @@
     
     <!-- Host only -->
     <button onclick="destroyTournament()" id="tournamentDeleteButton" style="display: none;">Delete tournament</button> 
+    <button onclick="startTournament()" id="tournamentLaunchButton" style="display: none;">Launch tournament</button>
 </div>
 
-<script src="../js/tournaments/tournament_lobby.js"></script>
-
+<script src="../../js/tournaments/tournament_lobby.js"></script>
 <script>
 
-    async function checkTournamentId()
+async function checkTournamentId()
     {
         let tournamentParams = new URLSearchParams(window.location.search);
         let tournamentId = tournamentParams.get("tid");
@@ -75,7 +75,7 @@
             return;
         }
 
-        deleteTournament(tournamentId);
+        await deleteTournament(tournamentId);
     }
 
     async function leave()
@@ -88,9 +88,20 @@
             return;
         }
 
-        leaveTournament(tournamentId);
+        await leaveTournament(tournamentId);
+    }
+
+    async function startTournament()
+    {
+        let tournamentParams = new URLSearchParams(window.location.search);
+        let tournamentId = tournamentParams.get("tid");
+
+        if (tournamentId == undefined) {
+            navigate("/tournament");
+            return;
+        }
+        await launchTournament(tournamentId);
     }
 
     checkTournamentId();
-
 </script>

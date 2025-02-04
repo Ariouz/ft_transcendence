@@ -289,6 +289,6 @@ def is_host(request):
     
     participant = TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).get()
     if tournament.host != participant.pong_user:
-        return error_response(request, "User isn't host")
+        return error_response(request, "Invalid host", "User isn't host")
     
     return success_response(request, "User is host", extra_data={'is_host':True})
