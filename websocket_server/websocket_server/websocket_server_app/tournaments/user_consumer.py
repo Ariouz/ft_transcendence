@@ -22,7 +22,7 @@ class TournamentUserConsumer(WebsocketConsumer):
         self.user_id = self.authenticate_user(self.user_token)
         if self.user_id:
             self.accept()
-            logging.getLogger("websocket_logger").info('Accepted new pong connection from user %d.', self.user_id)
+            logging.getLogger("websocket_logger").info('Accepted new tournament connection from user %d.', self.user_id)
             async_to_sync(self.channel_layer.group_add)(
                 f"tournament_user_{self.user_id}",
                 self.channel_name
@@ -64,3 +64,9 @@ class TournamentUserConsumer(WebsocketConsumer):
         tournament_id = event['tournament_id']
         logging.getLogger("websocket_logger").info('Tournament joined message with id %d.', tournament_id)
         self.send(text_data=json.dumps({"type":"joined_tournament", "tournament_id": tournament_id}))
+
+
+    def ws_connect_user(self, event):
+        tournament_id = event['tournament_id']
+        logging.getLogger("websocket_logger").info('Tournament ws connect message with id %s.', tournament_id)
+        self.send(text_data=json.dumps({"type":"ws_connect_user", "tournament_id": tournament_id}))        

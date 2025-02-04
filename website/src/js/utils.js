@@ -37,6 +37,9 @@ function logout()
     if (g_pongUserWebSocket) g_pongUserWebSocket.close();
     if (g_pongGameWebSocket) g_pongWebSocket.close();
     if (g_friendListWebSocket) g_friendListWebSocket.close();
+
+    if (g_tournamentUserWebSocket) g_tournamentUserWebSocket.close();
+    if (g_tournamentWebSocket) g_tournamentWebSocket.close();
     
     deleteCookie("session_token");
     updateLanguagePreferenceRemoval()

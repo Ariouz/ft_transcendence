@@ -32,17 +32,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                     f"tournament_{self.tournament_id}",
                     {
-                        "type": "user_connected",
+                        "type": "user_joined",
                         "tournament_id": self.tournament_id,
                         "user_id": self.user_id,
                     }
                 )
             await self.update_group_size(self.tournament_id, increment=True)
-            # debug log
-            logging.getLogger("websocket_logger").info(f"Tournament {self.tournament_id} websocket size is now {await self.get_group_size(self.tournament_id)}")
-
-            if await self.get_group_size(self.tournament_id) == 2:
-                await self.start_game()
 
         else:
             await self.close()
@@ -55,9 +50,18 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             logging.getLogger("websocket_logger").info('Invalid pong game data from game %d:\n%s', self.tournament_id, data)
 
     # Called when the socket closes
-    async def disconnect(self, close_code):
+    async def disconnect(self, close_code=0):
         if self.tournament_id:
 
+            await self.channel_layer.group_send(
+                    f"tournament_{self.tournament_id}",
+                    {
+                        "type": "user_left",
+                        "tournament_id": self.tournament_id,
+                        "user_id": self.user_id,
+                    }
+                )
+            
             logging.getLogger("websocket_logger").info('Tournament participant %d disconnected.', self.user_id)
             await self.channel_layer.group_discard(
                 f"tournament_{self.tournament_id}",
@@ -93,9 +97,21 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         return self.group_user_count.get(tournament_id, 0)
 
     
-    async def user_connected(self, event):
+    async def user_joined(self, event):
         await self.send(text_data=json.dumps({
-            'type': 'user_connected',
+            'type': 'user_joined',
             'tournament_id': event['tournament_id'],
             'user_id': event['user_id'],
         }))
+
+    async def user_left(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'user_left',
+            'tournament_id': event['tournament_id'],
+            'user_id': event['user_id'],
+        }))
+
+    async def ws_disconnect_user(self, event):
+        user_id = event['user_id']
+        if self.user_id == user_id:
+            self.disconnect()
