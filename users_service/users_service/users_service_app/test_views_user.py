@@ -50,3 +50,54 @@ class UserViewsTestCase(TestCase):
         response = self.client.get(url, secure=True)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.json()["is_following"])
+
+    def test_authenticate_user_invalid_token(self):
+        url = f"https://testserver/api/user/authenticate/invalidtoken/"
+        response = self.client.get(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json()["error"], "cannot_find_user_with_this_token")
+
+    def test_list_friends_invalid_user(self):
+        url = f"https://testserver/api/user/friends/9999/"
+        response = self.client.get(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_add_friend_invalid_user(self):
+        url = f"https://testserver/api/user/friends/9999/add/{self.user3.user_id}/"
+        response = self.client.post(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_add_friend_invalid_friend(self):
+        url = f"https://testserver/api/user/friends/{self.user1.user_id}/add/9999/"
+        response = self.client.post(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_add_friend_duplicate(self):
+        url = f"https://testserver/api/user/friends/{self.user1.user_id}/add/{self.user2.user_id}/"
+        response = self.client.post(url, secure=True)
+        self.assertEqual(response.status_code, 400)
+    
+    def test_add_friend_self(self):
+        url = f"https://testserver/api/user/friends/{self.user1.user_id}/add/{self.user1.user_id}/"
+        response = self.client.post(url, secure=True)
+        self.assertEqual(response.status_code, 400)
+
+    def test_remove_friend_not_existing(self):
+        url = f"https://testserver/api/user/friends/{self.user1.user_id}/remove/{self.user3.user_id}/"
+        response = self.client.delete(url, secure=True)
+        self.assertEqual(response.status_code, 400)
+
+    def test_remove_friend_invalid_user(self):
+        url = f"https://testserver/api/user/friends/9999/remove/{self.user2.user_id}/"
+        response = self.client.delete(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_is_following_invalid_user(self):
+        url = f"https://testserver/api/user/friends/follows/9999/{self.user2.user_id}/"
+        response = self.client.get(url, secure=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_is_following_invalid_friend(self):
+        url = f"https://testserver/api/user/friends/follows/{self.user1.user_id}/9999/"
+        response = self.client.get(url, secure=True)
+        self.assertEqual(response.status_code, 404)
