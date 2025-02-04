@@ -16,10 +16,10 @@
             </tr>
         </table>
     </div>
-    <button onclick="leave()">Leave tournament</button>
+    <button onclick="leave()" id="tournamentLeaveButton" style="display: none;">Leave tournament</button>
     
     <!-- Host only -->
-    <button onclick="destroyTournament()">Delete tournament</button> 
+    <button onclick="destroyTournament()" id="tournamentDeleteButton" style="display: none;">Delete tournament</button> 
 </div>
 
 <script src="../js/tournaments/tournament_lobby.js"></script>
@@ -60,6 +60,7 @@
             createTournamentWebSocket(tournamentId, user_token);
 
         console.log("All checks valid");
+        await displayTournamentLobbyButtons(tournamentId);
         await loadTournamentParticipantsList(tournamentId);
     
     }

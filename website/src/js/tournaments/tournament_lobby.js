@@ -1,4 +1,4 @@
-let g_tournamentParticipantCount = 0;
+var g_tournamentParticipantCount = 0;
 
 async function generateTournamentParticipantListEntry(user_id)
 {
@@ -62,4 +62,15 @@ function updateTournamentParticipantCount()
 {
     let count = document.getElementById("tournamentParticipantsCount");
     count.innerText = g_tournamentParticipantCount;
+}
+
+async function displayTournamentLobbyButtons(tournamentId)
+{
+    let isHost = await isTournamentPlayerHost(tournamentId);
+
+    let leaveButton = document.getElementById("tournamentLeaveButton");
+    let deleteButton = document.getElementById("tournamentDeleteButton");
+
+    leaveButton.style.display = isHost ? "none" : "block";
+    deleteButton.style.display = !isHost ? "none" : "block";
 }

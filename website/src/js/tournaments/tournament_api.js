@@ -35,7 +35,26 @@ async function doesPlayerParticipate(tournamentId)
        return data.participates;
     })
     .catch(error => {
-        console.error(error)
+        return false;
+    });
+
+    return retVal;
+}
+
+async function isTournamentPlayerHost(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/is-host/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    let retVal = postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       return data.is_host;
+    })
+    .catch(error => {
         return false;
     });
 
@@ -52,7 +71,6 @@ async function getTournamentState(tournamentId)
        return data.state;
     })
     .catch(error => {
-        console.error(error);
         return "finished";
     });
 

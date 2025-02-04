@@ -257,3 +257,38 @@ def ws_connect(request):
     
     tournament_ws_utils.ws_connect_user(user_id, tournament_id)
     return success_response(request, "Connected successfully", extra_data={'tournament_id':tournament_id})
+
+
+# /api/tournament/is-host/
+@require_http_methods(["POST"])
+def is_host(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+        tournament_id = data.get("tournament_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not user_id:
+        return error_response(request, "Missing parameter", "user_id missing")
+    
+    if not tournament_id:
+        return error_response(request, "Missing parameter", "tournament_id missing")
+    
+    tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
+    if not tournament:
+        return error_response(request, "Invalid tournament", "Tournament not found")
+
+    if not PongUser.objects.filter(user_id=user_id).exists():
+        return error_response(request, "Invalid user", "User not found")
+        
+    user = PongUser.objects.filter(user_id=user_id).get()
+    
+    if not TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).exists():
+        return error_response(request, "User doesn't participates")
+    
+    participant = TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).get()
+    if tournament.host != participant.pong_user:
+        return error_response(request, "User isn't host")
+    
+    return success_response(request, "User is host", extra_data={'is_host':True})
