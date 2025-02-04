@@ -52,6 +52,7 @@ async function addTournamentParticipantToList(user_id)
 
 async function loadTournamentParticipantsList(tournament_id)
 {
+    g_tournamentParticipantCount = 0;
     let participants = await getTournamentParticipants(tournament_id);
     for (let participantId of participants)
         await addTournamentParticipantToList(participantId);
