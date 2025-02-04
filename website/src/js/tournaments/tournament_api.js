@@ -72,6 +72,8 @@ async function deleteTournament(tournamentId)
     .then(data => {
        displayTournamentSuccess(data.success);
        console.log(data);
+       if (g_tournamentWebSocket) g_tournamentWebSocket.close();
+        g_tournamentWebSocket = null;
        navigate("/tournament");
     })
     .catch(error => {
@@ -113,6 +115,8 @@ async function leaveTournament(tournamentId)
     .then(data => {
        displayTournamentSuccess(data.success);
        console.log(data);
+       if (g_tournamentWebSocket) g_tournamentWebSocket.close();
+       g_tournamentWebSocket = null;
        navigate(`/tournament`);
     })
     .catch(error => {
@@ -134,4 +138,40 @@ async function getTournaments()
         return {};
     });
     return data;
+}
+
+async function getTournamentParticipants(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/participants/`;
+
+    let data = postWithCsrfToken(url, {tournament_id: tournamentId}, true)
+    .then(data => {
+        return data.participants;
+    })
+    .catch(error => {
+        console.error(error);
+        return [];
+    });
+    return data;
+}
+
+async function askToConnectToTournamentWS(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/ws-connect/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+    //    navigate(`/tournament/lobby?tid=${data.tournament_id}`);
+    })
+    .catch(error => {
+        if (g_tournamentWebSocket) g_tournamentWebSocket.close();
+        g_tournamentWebSocket = null;
+        navigate("/tournament")
+        displayTournamentError(error.error, error.details);
+    });
 }

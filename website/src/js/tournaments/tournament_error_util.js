@@ -7,7 +7,7 @@ function displayTournamentError(title, details)
 
 async function displayTournamentSuccess(message)
 {
-    showNotification(`${message}`, 5);
+    showNotification(`${message}`, 3);
     setTournamentErrorDivDisplay(false);
 }
 

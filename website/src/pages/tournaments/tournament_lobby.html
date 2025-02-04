@@ -8,10 +8,13 @@
     <h1>Lobby</h1>
     <h2>Host: </h2>
     <div>
-        <h3>Participants <span>x/8</span></h3>
-        <span>player</span><br>
-        <span>player</span><br>
-        <span>player</span><br>
+        <h3>Participants <span><span id="tournamentParticipantsCount"></span>/8</span></h3>
+        <table id="tournamentParticipantsList">
+            <tr>
+                <th>Id</th>
+                <th>Displayname</th>
+            </tr>
+        </table>
     </div>
     <button onclick="leave()">Leave tournament</button>
     
@@ -19,6 +22,7 @@
     <button onclick="destroyTournament()">Delete tournament</button> 
 </div>
 
+<script src="../js/tournaments/tournament_lobby.js"></script>
 
 <script>
 
@@ -51,7 +55,12 @@
             return ;
         }
 
+        user_token = getCookie("session_token");
+        if (!g_tournamentWebSocket)
+            createTournamentWebSocket(tournamentId, user_token);
+
         console.log("All checks valid");
+        await loadTournamentParticipantsList(tournamentId);
     
     }
 
