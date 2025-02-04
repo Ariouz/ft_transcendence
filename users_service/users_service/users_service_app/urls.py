@@ -30,9 +30,9 @@ urlpatterns = [
     path('account/exists/', account_exists, name="account_exists"),
 
     # User Settings
-    path('account/settings/profile/<str:access_token>', update_profile_settings, name="update_profile_settings"),
-    path('account/settings/confidentiality/<str:access_token>', update_confidentiality_settings, name="update_confidentiality_settings"),
-    path('account/settings/delete/<str:access_token>', delete_account, name="delete_account"),
+    path('account/settings/profile/<str:access_token>/', update_profile_settings, name="update_profile_settings"),
+    path('account/settings/confidentiality/<str:access_token>/', update_confidentiality_settings, name="update_confidentiality_settings"),
+    path('account/settings/delete/<str:access_token>/', delete_account, name="delete_account"),
 
     # View other profile
     path('user/profile/data/<str:username>/', get_profile_data_username, name="get_profile_data_username"),

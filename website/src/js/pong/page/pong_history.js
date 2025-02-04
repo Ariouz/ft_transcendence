@@ -17,32 +17,52 @@ function translateGameDate(gameDate, userLang)
     return formattedDate;
 }
 
-async function addGameToHistory(game, userId, userLang, fragment)
-{
+async function addGameToHistory(game, userId, userLang, fragment) {
     let opponentId = game.users[0] == userId ? game.users[1] : game.users[0];
     let opponentData = await retrievePublicProfileDataById(opponentId);
-    
-    let gameEntry = document.createElement("li");
-    gameEntry.innerHTML = `<li class="history_item history_${isWinner(userId, game) ? "win" : "defeat"}">
-                <div class="history_user_info">
-                    <div class="pong_history_avatar"><img src="${opponentData.avatar}" alt="" width="90px" height="auto"></div>
-                    <span>${opponentData.display_name}</span>
-                </div>
-                <div class="history_score">
-                    <div class="history_score_win_status">${isWinner(userId, game) ? g_historyTranslations['victory'] : g_historyTranslations['defeat']}</div>
-                    <div class="history_score_score">
-                        ${isWinner(userId, game) ? Math.max(game.score[0], game.score[1]) : Math.min(game.score[0], game.score[1])}
+
+    let gameEntry = createElement("li", {
+        class: `history_item history_${isWinner(userId, game) ? "win" : "defeat"}`
+    });
+
+    let userInfoDiv = createElement("div", { class: "history_user_info" }, [
+        createElement("div", { class: "pong_history_avatar" }, [
+            createElement("img", {
+                src: opponentData.avatar,
+                alt: "Opponent Avatar",
+                width: "90px",
+                height: "auto"
+            })
+        ]),
+        createElement("span", {}, opponentData.display_name)
+    ]);
+
+    let scoreDiv = createElement("div", { class: "history_score" }, [
+        createElement("div", { class: "history_score_win_status" }, 
+            g_historyTranslations[isWinner(userId, game) ? 'victory' : 'defeat']
+        ),
+        createElement("div", { class: "history_score_score" }, 
+            `${isWinner(userId, game) ? Math.max(game.score[0], game.score[1]) : Math.min(game.score[0], game.score[1])}
                          - 
-                        ${isWinner(userId, game) ? Math.min(game.score[0], game.score[1]) : Math.max(game.score[0], game.score[1])}
-                    </div>
-                </div>
-                <div class="history_game_info">
-                    <div>${g_historyTranslations[game.type]}</div>
-                    <div>${translateGameDate(game.date, userLang)}</div>
-                </div>
-            </li>`;
-    
+            ${isWinner(userId, game) ? Math.min(game.score[0], game.score[1]) : Math.max(game.score[0], game.score[1])}`
+        )
+    ]);
+
+    let gameInfoDiv = createElement("div", { class: "history_game_info" }, [
+        createElement("div", {}, g_historyTranslations[game.type]),
+        createElement("div", {}, translateGameDate(game.date, userLang))
+    ]);
+
+    [userInfoDiv, scoreDiv, gameInfoDiv].forEach(el => gameEntry.appendChild(el));
     fragment.appendChild(gameEntry);
+}
+
+function createElement(tag, attributes = {}, content = null) {
+    let element = document.createElement(tag);
+    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+    if (Array.isArray(content)) content.forEach(child => element.appendChild(child));
+    else if (content) element.textContent = content;
+    return element;
 }
 
 async function loadHistory(page)
