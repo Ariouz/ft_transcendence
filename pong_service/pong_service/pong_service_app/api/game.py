@@ -1,4 +1,5 @@
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -32,6 +33,7 @@ def get_game_data(request):
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def start_game(request):
 

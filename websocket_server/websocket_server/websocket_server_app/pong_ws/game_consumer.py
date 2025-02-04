@@ -117,11 +117,17 @@ class PongGameConsumer(AsyncWebsocketConsumer):
     
 
     async def start_game(self):
+        from django.middleware.csrf import get_token
         try:
+
+            headers = {
+                'Content-Type': 'application/json',
+                'Referer': 'https://websocket_server',
+            }
             data = {
                 'game_id': self.game_id
             }
-            game_resp = ft_requests.post(f'{PONG_SERVICE_URL}/game/start/', data=data)
+            game_resp = ft_requests.post(f'{PONG_SERVICE_URL}/game/start/', data=data, headers=headers)
             game_resp.raise_for_status()
             game_resp = game_resp.json()
             logging.getLogger("websocket_logger").info(f"Game {self.game_id} sent start message")
