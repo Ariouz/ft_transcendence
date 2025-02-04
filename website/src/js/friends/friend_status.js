@@ -11,7 +11,7 @@ async function isUserFollowing(user_id, target_id)
 async function followUser(user_id, target_id)
 {
     let url = `${USERS_SERVICE_URL}/user/friends/${user_id}/add/${target_id}/`;
-    postWithCsrfToken(url)
+    let result = postWithCsrfToken(url)
     .then(data => { return data; })
     .catch(error => { return error; });
     return result;
@@ -20,7 +20,7 @@ async function followUser(user_id, target_id)
 async function unfollowUser(user_id, target_id)
 {
     let url = `${USERS_SERVICE_URL}/user/friends/${user_id}/remove/${target_id}/`;
-    deleteWithCsrfToken(url)
+    let result = deleteWithCsrfToken(url)
     .then(data => { return data; })
     .catch(error => { return error; });
     return result;

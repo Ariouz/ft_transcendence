@@ -89,6 +89,7 @@
 
             await loadPlayersData(gameData, token);
             let canJoinReq = await canJoinGame(gameData.game_id, userId);
+            console.log(canJoinReq);
             if (canJoinReq.success)
             {
                 await loadPongTranslations();

@@ -90,7 +90,7 @@ def can_join(request):
     if game.status in ["finished", "forfaited"]:
         return error_response(request, "game_ended", "game_has_ended", status=403)
 
-    return success_response(request, "game_user_can_join")
+    return success_response(request, "game_user_can_join", extra_data={"success":True})
 
 def run_start_game(game_id):
     try:

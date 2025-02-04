@@ -30,7 +30,7 @@ async function canJoinGame(game_id, user_id)
     let url = `${PONG_SERVICE_URL}/game/can-join/`;
     let requestData = { game_id: game_id, user_id: user_id };
     
-    postWithCsrfToken(url, requestData, true)
+    return postWithCsrfToken(url, requestData, true)
     .then(data => {return data})
     .catch(error => {
         console.log(error);

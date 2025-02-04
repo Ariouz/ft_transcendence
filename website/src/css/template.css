@@ -27,6 +27,7 @@ body {
 .page_content {
     margin-top: 50px;
     color: white;
+    padding-bottom: 50px;
 }
 
 /* NOTIFICATIONS */
