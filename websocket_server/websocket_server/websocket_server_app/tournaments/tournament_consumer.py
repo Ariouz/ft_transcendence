@@ -115,3 +115,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         user_id = event['user_id']
         if self.user_id == user_id:
             self.disconnect()
+
+    async def tournament_delete(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'tournament_delete',
+        }))

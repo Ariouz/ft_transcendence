@@ -37,7 +37,12 @@ def ws_disconnect_user(user_id, tournament_id):
 
 # tournament ws
 def send_tournament_delete(tournament_id):
-    pass
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        f"{TOURNAMENT}{tournament_id}", {
+            "type": "tournament_delete",
+        }
+    )
 
 # tournament ws
 def send_new_user(tournament_id):

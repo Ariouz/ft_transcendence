@@ -28,7 +28,7 @@ class PongUserStatsAdmin(admin.ModelAdmin):
 @admin.register(Tournament)
 class TournamentAdmin(admin.ModelAdmin):
     readonly_fields = ('tournament_id',)
-    fields = ('tournament_id', 'state', 'winner', 'host', 'created_at')
+    fields = ('tournament_id', 'state', 'winner', 'host', 'created_at', 'current_round', 'total_rounds')
     list_display = fields
     search_fields = fields
     list_filter = fields

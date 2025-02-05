@@ -60,7 +60,7 @@ def generate_tournament_matches(tournament: Tournament):
         TournamentMatch.objects.create(
             tournament=tournament,
             player1=qualified_player,
-            player2=None,
+            player2=qualified_player,
             winner=qualified_player,
             round=tournament.current_round
         )
@@ -141,6 +141,8 @@ def get_tournament_rounds(request):
             "round_number": round_num,
             "completed": round_completed,
             "matches": match_data,
+            'current_round': tournament.current_round,
+            'total_rounds': tournament.total_rounds,
         })
 
     return JsonResponse({"rounds": rounds_data})

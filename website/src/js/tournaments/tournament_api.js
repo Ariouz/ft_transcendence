@@ -219,11 +219,13 @@ async function getTournamentRounds(tournamentId)
     let url = `${TOURNAMENT_URL}/get-rounds/`;
 
     let requestData = { tournament_id: tournamentId };
-    postWithCsrfToken(url, requestData, true)
+    return postWithCsrfToken(url, requestData, true)
     .then(data => {
        console.log(data);
+       return data;
     })
     .catch(error => {
         displayTournamentError(error.error, error.details);
+        return {rounds: []};
     });
 }

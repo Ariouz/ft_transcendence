@@ -70,7 +70,7 @@ def delete_tournament(request):
     if tournament.state != "pending":
         return error_response(request, "Invalid state", "Tournament has already started")
     
-    # TODO disconnect all users from tournament websocket
+    tournament_ws_utils.send_tournament_delete(tournament.tournament_id)
     tournament.delete()
     return success_response(request, "Tournament deleted")
 

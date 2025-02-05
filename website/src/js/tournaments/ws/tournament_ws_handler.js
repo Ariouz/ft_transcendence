@@ -9,6 +9,8 @@ async function handleTournamentWs(e, user_token) {
                 await handleTournamentUserJoinedWS(data);
             else if (data.type == "user_left")
                 await handleTournamentUserLeftWS(data);
+            else if (data.type == "tournament_delete")
+                await handleTournamentDeleteWs();
         }
         else
         g_error_tournament_ws = true;
@@ -37,3 +39,11 @@ async function handleTournamentUserLeftWS(data)
     removeTournamentParticipantListEntry(userId);
 }
 
+async function handleTournamentDeleteWs()
+{
+    displayTournamentSuccess("Tournament cancelled");// TODO translate using g_tournamentTranslations[key]
+    if (g_tournamentWebSocket)
+        g_tournamentWebSocket.close()
+    g_tournamentWebSocket = null;
+    navigate("/tournament");
+}

@@ -1,54 +1,51 @@
 async function generateTournamentRoundList(tournamentId)
 {
-    let rounds = await getTournamentRounds(tournamentId).rounds;
+    let response = await getTournamentRounds(tournamentId);
+
+    console.log("resp: " + response);
+    let rounds = response.rounds;
     
     let container = document.getElementById("tournamentRoundsContainer");
     
-    // test
-    let round = createRound(1);
-    console.log(container);
-    container.appendChild(round);
+    console.log("rounds: " + rounds);
 
-    let round2 = createRound(2);
-    console.log(container);
-    container.appendChild(round2);
+    rounds.forEach(roundData => {
+        let roundElement = createRound(roundData);
+        container.appendChild(roundElement);
+    });
     
-    console.log(rounds);
 }
 
-function createRound(roundId)
-{
+function createRound(roundData) {
     let element = document.createElement("div");
     element.classList.add("column");
-    
-    let p1 = {name: "Player 1", id: 0, score: 3};
-    let p2 = {name: "Player 2", id: 1, score: 1};
-    let p3 = {name: "Player 3", id: 2, score: 2};
-    let p4 = {name: "Player 4", id: 3, score: 5};
 
-    let match = createMatch(0, p1, p2);
-    element.appendChild(match);
-
-    if (roundId == 1)
-    {
-        let match2 = createMatch(0, p3, p4);
-        element.appendChild(match2);
-    }
+    roundData.matches.forEach(matchData => {
+        let match = createMatch(matchData, roundData.current_round, roundData.total_rounds);
+        element.appendChild(match);
+    });
 
     return element;
 }
 
-function createMatch(matchId, p1, p2)
-{
+function createMatch(matchData, currentRound, totalRounds) {
+    let { match_id, player1, player2, score1, score2, winner } = matchData;
+
     let container = document.createElement("div");
     container.classList.add("match");
-    container.classList.add(`winner-${p1.score > p2.score ? "top" : "bottom"}`);
     
-    createMatchEntry(true, p1.id, p1.name, p1.score, container);
-    createMatchEntry(false, p2.id, p2.name, p2.score, container);
-    
-    createMatchLines(container);
-    
+    let winnerClass = "";
+    if (winner !== null) {
+        winnerClass = winner === player1 ? "winner-top" : "winner-bottom";
+        container.classList.add(winnerClass);
+    }
+
+    createMatchEntry(true, player1, `Joueur ${player1}`, score1, container);
+    if (player1 != player2)
+        createMatchEntry(false, player2, `Joueur ${player2}`, score2, container);
+
+    createMatchLines(container, currentRound, totalRounds);
+
     return container;
 }
 
@@ -67,7 +64,7 @@ function createMatchEntry(isTop, playerId, name, score, parent)
     parent.appendChild(container);
 }
     
-function createMatchLines(parent)
+function createMatchLines(parent, currentRound, totalRounds)
 {
     let lines = document.createElement("div");
     lines.classList.add("match-lines");
@@ -81,6 +78,8 @@ function createMatchLines(parent)
     linesAlt.classList.add("alt");
     linesAlt.innerHTML = `<div class="line one"></div>`;
 
-    parent.appendChild(lines);
-    parent.appendChild(linesAlt);
+    if (currentRound > 1 && totalRounds > 1){
+        parent.appendChild(lines);
+        parent.appendChild(linesAlt);
+    }
 }

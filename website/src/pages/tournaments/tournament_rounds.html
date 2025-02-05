@@ -175,7 +175,7 @@
     let tournamentParams = new URLSearchParams(window.location.search);
     let tournamentId = tournamentParams.get("tid");
 
-    if (tournamentId == undefined) navigate("/tournament");
+    
 
     async function checkTournamentRoundId()
     {
@@ -203,6 +203,10 @@
         generateTournamentRoundList(tournamentId);
     }
 
-    checkTournamentRoundId();
+    if (tournamentId == undefined) {
+        navigate("/tournament");
+    }
+    else
+        checkTournamentRoundId();
 
 </script>
