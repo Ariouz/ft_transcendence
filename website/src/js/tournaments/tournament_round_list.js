@@ -54,6 +54,8 @@ function createMatchEntry(isTop, playerId, name, score, parent)
     let container = document.createElement("div");
     container.classList.add("team");
     container.classList.add(`match-${isTop ? "top": "bottom"}`);
+
+    // replace by XSS protection
     container.innerHTML = `
         <span class="image"></span>
         <span class="seed">${playerId}</span>
