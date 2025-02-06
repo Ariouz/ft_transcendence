@@ -26,10 +26,10 @@
 <script src="../../js/tournaments/tournament_lobby.js"></script>
 <script>
 
-async function checkTournamentId()
+    async function checkTournamentId()
     {
-        let tournamentParams = new URLSearchParams(window.location.search);
-        let tournamentId = tournamentParams.get("tid");
+        tournamentParams = new URLSearchParams(window.location.search);
+        tournamentId = tournamentParams.get("tid");
 
         if (tournamentId == undefined) {
             navigate("/tournament");

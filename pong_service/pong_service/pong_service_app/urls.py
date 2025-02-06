@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('tournament/launch/', tournament_rounds.launch_tournament, name="launch_tournament"),
     path('tournament/get-rounds/', tournament_rounds.get_tournament_rounds, name="get_tournament_rounds"),
+    path('tournament/start-round/', tournament_rounds.start_next_tournament_round, name="start_next_tournament_round"),
     
 
     path('tournament/join/', tournament_endpoints.join_tournament, name="join_tournament"),

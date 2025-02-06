@@ -1,4 +1,5 @@
 import random
+import logging
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from pong_service_app.models import *
@@ -7,6 +8,9 @@ from django.core.serializers.json import DjangoJSONEncoder
 import json
 from pong_service_app.response_messages import success_response, error_response
 import math
+from asgiref.sync import async_to_sync, sync_to_async
+from ..api.game import create_game
+from ..api.objects import pong_game_state
 
 
 # /api/tournament/launch/
@@ -38,8 +42,8 @@ def launch_tournament(request):
 
     participant_count = TournamentParticipant.objects.filter(tournament=tournament).count()
 
-    # if participant_count <= 2:
-    #     return error_response(request, "No enough players", "Participant count must be > 2")
+    if participant_count <= 2:
+        return error_response(request, "No enough players", "Participant count must be > 2")
 
     tournament.total_rounds = math.ceil(math.log2(participant_count)) if participant_count > 0 else 0
     tournament.state = 'ongoing'
@@ -146,3 +150,114 @@ def get_tournament_rounds(request):
         })
 
     return JsonResponse({"rounds": rounds_data})
+
+
+# /api/tournament/start-round/
+@require_http_methods(["POST"])
+def start_next_tournament_round(request):
+    try:
+        data = json.loads(request.body)
+        tournament_id = data.get("tournament_id")
+    except json.JSONDecodeError:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not tournament_id:
+        return error_response(request, "Missing parameter", "tournament_id missing")
+
+    try:
+        tournament = Tournament.objects.get(tournament_id=tournament_id)
+    except Tournament.DoesNotExist:
+        return error_response(request, "Tournament not found", "Tournament not found")
+
+    if tournament.state != 'ongoing':
+        return error_response(request, "Invalid tournament state", "Tournament is not ongoing")
+
+    current_round = tournament.current_round
+
+    matches = TournamentMatch.objects.filter(tournament=tournament, round=current_round)
+
+    for match in matches:
+        if match.pong_game is not None:
+            return error_response(request, "Round already started", f"You must wait for all matches to be finished")
+
+    game_ids = []
+    for match in matches:
+        players = [match.player1.user_id]
+        if match.player2:
+            players.append(match.player2.user_id)
+
+        if match.player1 == match.player2:
+            game = PongGame.objects.create(
+                users=players, 
+                type="classic", 
+                map_theme="classic", 
+                winner_id=match.player1.user_id,
+                status="finished",
+                tournament_id=tournament_id
+            )
+            game.save()
+            game_id = game.game_id
+            logging.getLogger("django").info(f"Created finished game (same players): {players}")
+        else:
+            game_id = create_game(players, "classic", tournament_id=tournament_id)
+            game = PongGame.objects.get(game_id=game_id)
+            logging.getLogger("django").info(f"Creating game with {players}")
+
+        match.pong_game = game
+        match.save()
+        game_ids.append(game_id)
+
+    return success_response(request, "Round started", extra_data={"game_ids": game_ids})
+
+
+@sync_to_async
+def update_tournament_match(game_state: pong_game_state.PongGameState):
+    try:
+        match = TournamentMatch.objects.get(pong_game=game_state.game_id)
+
+        winner_id = game_state.get_player_id(game_state.get_winner())
+        winner = PongUser.objects.get(user_id=winner_id)
+
+        match.score1 = game_state.players['player1']['score']
+        match.score2 = game_state.players['player2']['score']
+
+        if match.score1 == 5 or match.score2 == 5:
+            match.winner = winner
+            pongloser = match.player1 if match.player1 != winner else match.player2
+            if pongloser:
+                loser = TournamentParticipant.objects.get(pong_user=pongloser)
+                loser.eliminated = True
+                loser.save()
+
+        match.save()
+
+        logging.getLogger("django").info(f"TournamentMatch updated for game {game_state.game_id}")
+
+        check_round_completion(match.tournament)
+
+    except TournamentMatch.DoesNotExist:
+        logging.getLogger("django").info(f"No TournamentMatch found for game {game_state.game_id}")
+    except PongUser.DoesNotExist:
+        logging.getLogger("django").error(f"Winner not found for game {game_state.game_id}")
+    except Exception as e:
+        logging.getLogger("django").error(f"Error updating TournamentMatch: {e}")
+
+
+def check_round_completion(tournament:Tournament):
+    current_round = tournament.current_round
+    matches_in_round = TournamentMatch.objects.filter(tournament=tournament, round=current_round)
+
+    if all(match.winner is not None for match in matches_in_round):
+        if current_round < tournament.total_rounds:
+            tournament.current_round += 1
+            tournament.save()
+            generate_tournament_matches(tournament)
+            logging.info(f"Round {current_round} completed. Starting round {tournament.current_round} generation.")
+        else:
+            tournament.state = "finished"
+            tournament.save()
+            logging.info(f"Tournament {tournament.tournament_id} finished.")
+    else:
+        logging.info(f"Round {current_round} is not yet completed.")
+
+

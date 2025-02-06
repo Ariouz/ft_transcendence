@@ -13,7 +13,7 @@ class PongUserAdmin(admin.ModelAdmin):
 @admin.register(PongGame)
 class PongGameAdmin(admin.ModelAdmin):
     readonly_fields = ('game_id',)
-    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status', 'date', 'map_theme')
+    fields = ('game_id', 'users', 'winner_id', 'score', 'type', 'status', 'date', 'map_theme', 'tournament_id')
     list_display = fields
     search_fields = fields
     list_filter = fields
@@ -42,7 +42,7 @@ class TournamentParticipantAdmin(admin.ModelAdmin):
 
 @admin.register(TournamentMatch)
 class TournamentMatchAdmin(admin.ModelAdmin):
-    fields = ('tournament', 'player1', 'player2', 'winner', 'round', 'score1', 'score2')
+    fields = ('tournament', 'player1', 'player2', 'winner', 'round', 'score1', 'score2', 'pong_game')
     list_display = fields
     search_fields = fields
     list_filter = fields

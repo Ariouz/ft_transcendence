@@ -184,5 +184,5 @@ class PongGameState:
                 'players': self.players,
                 'ball_position': self.ball_position,
                 'running': self.running,
-                'paused': self.paused
+                'paused': self.paused,
             }

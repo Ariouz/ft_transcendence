@@ -158,9 +158,10 @@ class PongGameConsumer(AsyncWebsocketConsumer):
         state = event['state']
         winner = event['winner']
         countdown = event['countdown_timer']
+        tournament_id = event['tournament_id']
 
         logging.getLogger("websocket_logger").info('Received game winner for game %d', state['game_id'])
-        await self.send(text_data=json.dumps({"type": "game_winner_timer", "state": state, "winner": winner, "countdown_timer": countdown}))
+        await self.send(text_data=json.dumps({"type": "game_winner_timer", "state": state, "winner": winner, "countdown_timer": countdown, "tournament_id": tournament_id}))
 
     async def game_user_disconnected(self, event):
         state = event['state']

@@ -9,24 +9,7 @@ import redis.asyncio
 from . import pong_game_ws_update
 from . import pong_user
 from .themes import get_theme
-
-def create_game(players, type):
-    game = PongGame.objects.create(users=players, type=type, map_theme=get_theme(type))
-    game.save()
-    channel_layer = get_channel_layer()
-
-    logging.getLogger("django").info(f"Creating game with {players}")
-
-    if type == "local1v1":
-        players.pop() # double websocket
-
-    for user_id in players:
-        async_to_sync(channel_layer.group_send)(
-            f"pong_user_{user_id}", {
-                "type": "game_create",
-                "game_id": game.game_id
-            }
-        )
+from ..tournaments import tournament_rounds
 
 @sync_to_async
 def get_game(game_id):
@@ -44,10 +27,10 @@ async def start_game(game_id):
     game_state = PongGameState(game_id=game.game_id,  player1_id=players_ids[0], player2_id=players_ids[1], type=game.type)
     logging.getLogger("django").info(f"Starting {game.type} game {game.game_id}")
     
-    await game_loop(game_state=game_state, players=players_ids)
+    await game_loop(game, game_state=game_state, players=players_ids)
 
 
-async def game_loop(game_state:PongGameState, players):
+async def game_loop(game:PongGame, game_state:PongGameState, players):
     try:
         loop = asyncio.get_running_loop()
     except RuntimeError:
@@ -70,13 +53,14 @@ async def game_loop(game_state:PongGameState, players):
 
         scoring_player = game_state.check_score()
         if not scoring_player == "":
+            await tournament_rounds.update_tournament_match(game_state)
             await time_ball(players, game_state, scoring_player)
 
         game_data = await game_state.get_state()
         await pong_game_ws_update.send_game_state_to_players(game_data)
 
         if game_state.check_win():
-            await pong_game_ws_update.send_winner_to_players(game_state.get_winner(), await game_state.get_state(), 5)
+            await pong_game_ws_update.send_winner_to_players(game_state.get_winner(), await game_state.get_state(), 5, game.tournament_id)
             await game_state.set_paused(True)
             await game_state.set_running(False)
             await pong_game_ws_update.send_game_state_to_players(await game_state.get_state())
@@ -87,6 +71,7 @@ async def game_loop(game_state:PongGameState, players):
                 except asyncio.CancelledError:
                     pass
             await save_game_to_db(game_state, end_status="finished" if not await game_state.get_has_disconnected() else "forfaited")
+            await tournament_rounds.update_tournament_match(game_state)
 
 @sync_to_async
 def set_game_status(game_id, game_status):
@@ -111,7 +96,6 @@ def save_game_to_db(game_state:PongGameState, end_status="finished"):
     pong_user.add_game_to_history(int(game_state.players['player1']['id']), game_state.game_id, game_state.get_winner() == 'player1', ignore_user_stats)
     pong_user.add_game_to_history(int(game_state.players['player2']['id']), game_state.game_id, game_state.get_winner() == 'player2', ignore_user_stats)
 
-
 async def time_ball(players, game_state:PongGameState, scoring_player, sendStartTimer=True, is_reconnect=False):
     was_paused = False
     if await game_state.is_paused():
@@ -124,6 +108,7 @@ async def time_ball(players, game_state:PongGameState, scoring_player, sendStart
 
     ball_timer = 5 # seconds before restart
     if not scoring_player == "" and not was_paused:
+        
         await pong_game_ws_update.send_scored_to_players(scoring_player, await game_state.get_state(), ball_timer)
     elif sendStartTimer and not was_paused:
         await pong_game_ws_update.send_start_timer(await game_state.get_state(), ball_timer)

@@ -98,7 +98,7 @@ function startTimer(countdown_timer)
     }, 1000);
 }
 
-function winnerTimer(countdown_timer, winner, game_data)
+function winnerTimer(countdown_timer, winner, game_data, tournament_id)
 {
     setScore(game_data);
 
@@ -126,7 +126,10 @@ function winnerTimer(countdown_timer, winner, game_data)
             
             showMainNavigation();
             showFooter();
-            navigate("/pong");
+            console.log(tournament_id);
+            if (tournament_id && tournament_id != -1)
+                navigate(`/tournament/rounds?tid=${tournament_id}`);
+            else navigate("/pong");
             return ;
         }
 

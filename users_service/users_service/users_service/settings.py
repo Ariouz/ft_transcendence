@@ -44,13 +44,15 @@ ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service
 CORS_ALLOWED_ORIGINS = [
     "https://10.11.3.7:8443",
     "https://127.0.0.1:8443",
+    "https://localhost:8443",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "https://127.0.0.1:8443",
-    f"https://{os.getenv("HOST_IP")}"
+    f"https://{os.getenv("HOST_IP")}",
+    "https://localhost:8443",
 ]
 
 USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')

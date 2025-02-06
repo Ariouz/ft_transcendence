@@ -229,3 +229,21 @@ async function getTournamentRounds(tournamentId)
         return {rounds: []};
     });
 }
+
+async function startTournamentNextRound(tournamentId)
+{
+    let url = `${TOURNAMENT_URL}/start-round/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId, tournament_id: tournamentId };
+    postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       console.log("Starting round matches");
+    })
+    .catch(error => {
+        displayTournamentError(error.error, error.details);
+    });
+}

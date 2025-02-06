@@ -121,7 +121,9 @@ async function handlePongGameWs(e, user_token) {
                 let state = data.state;
                 let timer = data.countdown_timer;
                 let winner = data.winner;
-                winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state);
+                let tournamentId = data.tournament_id;
+                console.log(data);
+                winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state, tournamentId);
             }
             else if (data.type == "game_user_disconnected")
                 {

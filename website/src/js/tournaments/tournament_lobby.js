@@ -6,6 +6,7 @@ async function generateTournamentParticipantListEntry(user_id)
     let userDisplayName = displayNameReq.display_name;
 
     let element = document.createElement("tr");
+    // TODO XSS PROTECTION
     element.innerHTML = `
         <td>${user_id}</td>
         <td>${userDisplayName}</td>

@@ -25,6 +25,7 @@ class PongGame(models.Model):
     status = models.CharField(max_length=255, choices=status_choices, default="init")
     date = models.DateTimeField(default=timezone.now)
     map_theme = models.JSONField(default=get_default_theme)
+    tournament_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.game_id)
@@ -67,3 +68,4 @@ class TournamentMatch(models.Model):
     round = models.IntegerField()
     score1 = models.IntegerField(default=0)
     score2 = models.IntegerField(default=0)
+    pong_game = models.ForeignKey(PongGame, on_delete=models.CASCADE, null=True, blank=True)

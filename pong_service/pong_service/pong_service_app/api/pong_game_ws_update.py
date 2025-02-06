@@ -31,7 +31,7 @@ async def send_start_timer(game_data, ball_timer):
             "countdown_timer": ball_timer
         })
     
-async def send_winner_to_players(winner, game_data, ball_timer):
+async def send_winner_to_players(winner, game_data, ball_timer, tournament_id):
     channel_layer = get_channel_layer()
     await channel_layer.group_send(
         f"pong_game_{game_data['game_id']}",
@@ -39,7 +39,8 @@ async def send_winner_to_players(winner, game_data, ball_timer):
             "type": "game_winner_timer",
             "state": game_data,
             "winner": winner,
-            "countdown_timer": ball_timer
+            "countdown_timer": ball_timer,
+            "tournament_id": tournament_id if tournament_id else -1
         })
     
     

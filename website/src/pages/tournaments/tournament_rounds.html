@@ -168,12 +168,13 @@
     <div class="bracket disable-image" id="tournamentRoundsContainer">
         <!-- Rounds generated here -->
     </div>
+    <button id="tournamentRoundStartNext" style="display: none;" onclick="startRoundMatches()">Start next rounds</button>
 </div>
 
 <script src="../../js/tournaments/tournament_round_list.js"></script>
 <script>
-    let tournamentParams = new URLSearchParams(window.location.search);
-    let tournamentId = tournamentParams.get("tid");
+    tournamentParams = new URLSearchParams(window.location.search);
+    tournamentId = tournamentParams.get("tid");
 
     
 
@@ -200,7 +201,8 @@
             createTournamentWebSocket(tournamentId, user_token);
 
         console.log("All checks valid");
-        generateTournamentRoundList(tournamentId);
+        await generateTournamentRoundList(tournamentId);
+        await displayStartNextRoundButton(tournamentId);
     }
 
     if (tournamentId == undefined) {
@@ -208,5 +210,10 @@
     }
     else
         checkTournamentRoundId();
+
+    async function startRoundMatches()
+    {
+        await startTournamentNextRound(tournamentId);
+    }
 
 </script>

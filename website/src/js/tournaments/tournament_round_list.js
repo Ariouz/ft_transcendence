@@ -1,3 +1,12 @@
+async function displayStartNextRoundButton(tournamentId)
+{
+    let startButton = document.getElementById("tournamentRoundStartNext");
+    let isHost = await isTournamentPlayerHost(tournamentId);
+
+    startButton.style.display = isHost ? "block" : "none";
+}
+
+
 async function generateTournamentRoundList(tournamentId)
 {
     let response = await getTournamentRounds(tournamentId);
@@ -55,7 +64,7 @@ function createMatchEntry(isTop, playerId, name, score, parent)
     container.classList.add("team");
     container.classList.add(`match-${isTop ? "top": "bottom"}`);
 
-    // replace by XSS protection
+    // replace by XSS protection for name
     container.innerHTML = `
         <span class="image"></span>
         <span class="seed">${playerId}</span>
