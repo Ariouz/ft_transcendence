@@ -13,8 +13,8 @@ from asgiref.sync import async_to_sync, sync_to_async
 
 executor = ThreadPoolExecutor()
 
-def create_game(players, type, tournament_id=None):
-    game = PongGame.objects.create(users=players, type=type, map_theme=get_theme(type), tournament_id=tournament_id)
+def create_game(players, type, tournament_id=None, theme=None):
+    game = PongGame.objects.create(users=players, type=type, map_theme=get_theme(type) if not theme else get_theme(theme), tournament_id=tournament_id)
     game.save()
     channel_layer = get_channel_layer()
 
@@ -51,7 +51,8 @@ def get_game_data(request):
         "type": game.type,
         "score": game.score,
         "winner_id": game.winner_id,
-        "theme": game.map_theme
+        "theme": game.map_theme,
+        "is_tournament": game.tournament_id is not None
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 

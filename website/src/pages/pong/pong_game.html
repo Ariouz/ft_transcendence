@@ -69,8 +69,10 @@
         gameData = gameData.data;
 
         let gameType = gameData.type;
-        if (gameType == "arcade")
-            setArcadeTheme(gameData.theme);
+        console.log(gameData);
+        if (gameType == "arcade" || gameData.is_tournament)
+            changeTheme(gameData.theme);
+
         let gameStatus = gameData.status;
         if (gameType == "local1v1")
         {
@@ -101,7 +103,7 @@
                 navigate('/pong');
             }
         }
-        Game.startGameLoop(gameType);
+        Game.startGameLoop(gameType, gameData.is_tournament);
     }
 
     async function loadPlayersData(gameData, token)

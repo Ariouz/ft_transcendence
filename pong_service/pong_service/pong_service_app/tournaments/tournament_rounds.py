@@ -11,6 +11,7 @@ import math
 from asgiref.sync import async_to_sync, sync_to_async
 from ..api.game import create_game
 from ..api.objects import pong_game_state
+from ..api.themes import get_theme, get_tournament_theme
 
 
 # /api/tournament/launch/
@@ -190,7 +191,7 @@ def start_next_tournament_round(request):
             game = PongGame.objects.create(
                 users=players, 
                 type="classic", 
-                map_theme="classic", 
+                map_theme=get_tournament_theme(), 
                 winner_id=match.player1.user_id,
                 status="finished",
                 tournament_id=tournament_id
@@ -199,7 +200,7 @@ def start_next_tournament_round(request):
             game_id = game.game_id
             logging.getLogger("django").info(f"Created finished game (same players): {players}")
         else:
-            game_id = create_game(players, "classic", tournament_id=tournament_id)
+            game_id = create_game(players, "classic", tournament_id=tournament_id, theme="tournament")
             game = PongGame.objects.get(game_id=game_id)
             logging.getLogger("django").info(f"Creating game with {players}")
 

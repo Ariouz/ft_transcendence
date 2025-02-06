@@ -84,6 +84,16 @@ THEMES = [
     },
 ]
 
+TOURNAMENT_THEME = [
+    {
+        "--paddle-color": "#C0C0C0",
+        "--ball-color": "#FFD700",
+        "--net-color": "#efefef",
+        "--canvas-background-url": "/assets/images/tournament.png",
+        "--border-animation-primary-color": "#FFD700",
+        "--border-animation-secondary-color": "#1E90FF"
+    },
+]
 
 def get_random_arcade_theme():
     random_theme = random.choice(THEMES)
@@ -94,9 +104,13 @@ def get_default_theme():
     default_theme = {}
     return default_theme
 
+def get_tournament_theme():
+    return TOURNAMENT_THEME[0]
 
 def get_theme(game_type):
     theme = get_default_theme()
     if game_type == "arcade":
         theme = get_random_arcade_theme()
+    if game_type == "tournament":
+        theme = get_tournament_theme()
     return theme

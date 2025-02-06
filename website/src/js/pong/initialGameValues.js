@@ -46,7 +46,7 @@ const Game = {
         downArrowPressed: false,
     },
 
-    init: function (gameType) {
+    init: function (gameType, isTournament) {
         removePreviousBackgroundImage();
 
         this.canvases.background = document.getElementById('backgroundCanvas');
@@ -71,12 +71,12 @@ const Game = {
         this.isPaused = false;
         this.isRunning = true;
 
-        setGameBackground(gameType);
+        setGameBackground(gameType, isTournament);
         drawNet(this.contexts.netCtx);
     },
 
-    startGameLoop: function (gameType) {
-        this.init(gameType);
+    startGameLoop: function (gameType, isTournament) {
+        this.init(gameType, isTournament);
         gameLoop();
     },
 
@@ -85,8 +85,8 @@ const Game = {
     }
 };
 
-async function setGameBackground(gameType) {
-    if (gameType != "arcade") {
+async function setGameBackground(gameType, isTournament) {
+    if (gameType != "arcade" && !isTournament) {
         drawCanvasBackground(Game.contexts.gameCtx);
         return;
     }

@@ -23,5 +23,7 @@ function getTournamentErrorDetails()
 
 function setTournamentErrorDivDisplay(show)
 {
-    document.getElementById("tournamentErrorDiv").style.display = show ? "block" : "none";
+    let doc = document.getElementById("tournamentErrorDiv");
+    if (doc)
+        doc.style.display = show ? "block" : "none";
 }
