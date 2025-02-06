@@ -197,6 +197,8 @@
 
   "user_not_found_id": "No user found matching id",
 
-  "leaderboard_found": "Leaderboard found"
-
+  "leaderboard_found": "Leaderboard found",
+  "social-information": "Social information",
+  "42-intra-profile": "42 Intra profile",
+  "github-profile": "GitHub profile"
 }
