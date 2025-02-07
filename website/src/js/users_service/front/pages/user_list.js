@@ -20,20 +20,29 @@ async function addUserCard(username, avatar, floorId, userId)
     element.classList.add("user_list_item");
     
     element.innerHTML = `<div class="user_list_card_top"> \
-                                <div class="user_list_card_top_avatar_container"> \
-                                    <img src="${avatar}" alt="avatar" \
-                                    class="rounded-circle" id="" style="max-width: 180px; height: auto;"> \
-                                </div> \
-                                <span> \
-                                    <div class="online-status-container"> \
-                                        <div class="online-status-circle" id="user_online_status_circle-${userId}"></div> \
-                                        <div class="online-status-radar" id="user_online_status_radar-${userId}"></div> \
-                                    </div> \
-                                    ${username} </span> \
-                            </div> \
-                            <div class="user_list_card_bottom"> \
-                                <span class="custom_button custom_button_blue" onclick="navigate('/users/profile/${username}')">${await fetchTranslation("view_profile")}</span> \
-                            </div>`;
+            <div class="user_list_card_top_avatar_container"> \
+                <img src="" alt="avatar" \
+                    class="rounded-circle" id="" style="max-width: 180px; height: auto;"> \
+            </div> \
+            <span> \
+                <div class="online-status-container"> \
+                    <div class="online-status-circle" id="user_online_status_circle-${userId}"></div> \
+                    <div class="online-status-radar" id="user_online_status_radar-${userId}"></div> \
+                </div> \
+                <span class="username"></span> \
+            </span> \
+        </div> \
+        <div class="user_list_card_bottom"> \
+            <span class="custom_button custom_button_blue"></span> \
+        </div>`;
+
+    element.querySelector("img").src = avatar;
+    element.querySelector(".username").textContent = username;
+    element.querySelector(".custom_button").textContent = await fetchTranslation("view_profile");
+        element.querySelector(".custom_button").addEventListener("click", () => {
+        navigate(`/users/profile/${encodeURIComponent(username)}`);
+    });
+
     container.appendChild(element);
     setRightStatus(`user_online_status_circle-${userId}`, `user_online_status_radar-${userId}`, userId);
 }

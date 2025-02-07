@@ -6,11 +6,15 @@ async function generateTournamentParticipantListEntry(user_id)
     let userDisplayName = displayNameReq.display_name;
 
     let element = document.createElement("tr");
-    // TODO XSS PROTECTION
-    element.innerHTML = `
-        <td>${user_id}</td>
-        <td>${userDisplayName}</td>
-    `;
+    let userIdCell = document.createElement("td");
+    let userDisplayNameCell = document.createElement("td");
+   
+    userIdCell.textContent = user_id;
+    userDisplayNameCell.textContent = userDisplayName;
+    
+    element.appendChild(userIdCell);
+    element.appendChild(userDisplayNameCell);
+    
     element.setAttribute("tournament-participant", user_id);
     return element;
 }

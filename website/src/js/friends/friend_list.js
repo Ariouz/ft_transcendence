@@ -74,11 +74,20 @@ function displayFriendList() {
     let friendListElement = document.getElementById('friend-list');
     friendListElement.innerHTML = '';
     g_currentFriendList.forEach(friend => {
-        let friendElement = document.createElement('li');
+        let friendElement = document.createElement("li");
         friendElement.id = `user-${friend.user_id}`;
-        // friendElement.className = 'list-group-item card-content-background';
-        friendElement.innerHTML = `<span onclick="navigate('/users/profile/${friend.username}')" style="cursor:pointer; text-decoration: underline;">${friend.username}</span>`;
-        friendListElement.appendChild(friendElement);
+        // friendElement.className = 'list-group-item card-content-background'
+        let usernameSpan = document.createElement("span");
+        usernameSpan.textContent = friend.username;
+        usernameSpan.style.cursor = "pointer";
+        usernameSpan.style.textDecoration = "underline";
+        
+        usernameSpan.addEventListener("click", () => {
+            navigate(`/users/profile/${encodeURIComponent(friend.username)}`);
+        });
+        friendElement.appendChild(usernameSpan);
+        
+        friendListElement.appendChild(friendElement);        
     })
 }
 

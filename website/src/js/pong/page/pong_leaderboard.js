@@ -6,20 +6,44 @@ async function addGameToLeaderboard(userData, userLang, fragment)
         return ;
 
     let userEntry = document.createElement("tr");
-    userEntry.innerHTML = `
-
-    <tr class="leaderboard_row">
-        <td class="leaderboard_user_info">
-            <div class="pong_leaderboard_avatar"><img src="${userPublicData.avatar}" alt="" width="90px" height="auto"></div>
-            <span>${userPublicData.username}</span>
-        </td>
-        <td>#${userData.rank}</td>
-        <td>${userData.played}</td>
-        <td>${userData.wins}</td>
-        <td>${Math.floor(userData.win_rate)}%</td>
-    </tr>
-
-    `;
+    userEntry.classList.add("leaderboard_row");
+    
+    let userInfoCell = document.createElement("td");
+    userInfoCell.classList.add("leaderboard_user_info");
+    
+    let avatarContainer = document.createElement("div");
+    avatarContainer.classList.add("pong_leaderboard_avatar");
+    
+    let avatarImg = document.createElement("img");
+    avatarImg.src = userPublicData.avatar;
+    avatarImg.width = 90;
+    avatarImg.style.height = "auto";
+    
+    avatarContainer.appendChild(avatarImg);
+    
+    let usernameSpan = document.createElement("span");
+    usernameSpan.textContent = userPublicData.username;
+    
+    userInfoCell.appendChild(avatarContainer);
+    userInfoCell.appendChild(usernameSpan);
+    
+    let rankCell = document.createElement("td");
+    rankCell.textContent = `#${userData.rank}`;
+    
+    let playedCell = document.createElement("td");
+    playedCell.textContent = userData.played;
+    
+    let winsCell = document.createElement("td");
+    winsCell.textContent = userData.wins;
+    
+    let winRateCell = document.createElement("td");
+    winRateCell.textContent = `${Math.floor(userData.win_rate)}%`;
+    
+    userEntry.appendChild(userInfoCell);
+    userEntry.appendChild(rankCell);
+    userEntry.appendChild(playedCell);
+    userEntry.appendChild(winsCell);
+    userEntry.appendChild(winRateCell);
 
     fragment.appendChild(userEntry);
 }

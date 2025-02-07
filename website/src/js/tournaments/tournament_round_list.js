@@ -64,14 +64,17 @@ function createMatchEntry(isTop, playerId, name, score, parent)
     container.classList.add("team");
     container.classList.add(`match-${isTop ? "top": "bottom"}`);
 
-    // replace by XSS protection for name
     container.innerHTML = `
         <span class="image"></span>
-        <span class="seed">${playerId}</span>
-        <span class="name">${name}</span>
-        <span class="score">${score}</span>
+        <span class="seed"></span>
+        <span class="name"></span>
+        <span class="score"></span>
     `;
-    
+
+    container.querySelector('.seed').textContent = playerId;
+    container.querySelector('.name').textContent = name;
+    container.querySelector('.score').textContent = score;
+
     parent.appendChild(container);
 }
     

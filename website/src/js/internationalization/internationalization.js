@@ -52,7 +52,7 @@ async function fetchAvailableLanguages() {
     if (isOfflineTimestampValid() || await isTranslationServiceOffline()) return null;
 
     try {
-        const url = `https://${g_host}:8006/languages/`;
+        const url = `${I18N_SERVICE_URL}/languages/`;
         const response = await fetch(url);
         if (!response.ok) {
             return null;
@@ -99,7 +99,7 @@ function isOfflineTimestampValid() {
 
     const offlineTime = new Date(parseInt(offlineTimestamp, 10));
     const now = new Date();
-    return now - offlineTime < I18N_SERVICE_OFFLINE_TIMER;
+    return now - offlineTime < I18N_SERVICE_OFFLINE_TIMER_MINUTES;
 }
 
 
@@ -164,7 +164,7 @@ async function fetchTranslation(key) {
     }
     try {
         const translation = await fetchTranslationSelectedLanguage(key);
-        if (translation) {
+        if (translation && translation != key) {
             return translation;
         }
         const defaultTranslation = await fetchTranslationDefaultLanguage(key);
@@ -180,7 +180,7 @@ async function fetchTranslation(key) {
 
 async function fetchTranslationDefaultLanguage(key) {
     try {
-        const url = `https://${g_host}:8006/translations/${DEFAULT_LANGUAGE}/${key}/`;
+        const url = `${I18N_SERVICE_URL}/translations/${DEFAULT_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error();
@@ -194,7 +194,7 @@ async function fetchTranslationDefaultLanguage(key) {
 
 async function fetchTranslationSelectedLanguage(key) {
     try {
-        const url = `https://${g_host}:8006/translations/${SELECTED_LANGUAGE}/${key}/`;
+        const url = `${I18N_SERVICE_URL}/translations/${SELECTED_LANGUAGE}/${key}/`;
         const response = await fetch(url);
         if (!response.ok) {
             return key;
@@ -221,7 +221,7 @@ async function fetchTranslationWithArgs(key, args = []) {
 async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
     try {
         const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
-        const url = `https://${g_host}:8006/translations/${SELECTED_LANGUAGE}/${key}/?${queryString}`;
+        const url = `${I18N_SERVICE_URL}/translations/${SELECTED_LANGUAGE}/${key}/?${queryString}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);
@@ -237,7 +237,7 @@ async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
 async function fetchTranslationDefaultLanguageWithArgs(key, args = []) {
     try {
         const queryString = args.map(arg => `arg=${encodeURIComponent(arg)}`).join('&');
-        const url = `https://${g_host}:8006/translations/${DEFAULT_LANGUAGE}/${key}/?${queryString}`;
+        const url = `${I18N_SERVICE_URL}/translations/${DEFAULT_LANGUAGE}/${key}/?${queryString}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error fetching translation: ${response.statusText}`);
