@@ -4,7 +4,7 @@ async function generateTournamentListCard(tournamentId, playerCount)
     element.classList.add("tournamentListItem");
     element.innerHTML = `
         <div class="tournamentListItemTopSection">
-            <span class="tournamentListItemTitle">Tournament #${tournamentId}</span>
+            <span class="tournamentListItemTitle"><span data-i18n="tournament"></span> #${tournamentId}</span>
             <span class="tournamentListItemPlayerCount">${playerCount} players</span>
         </div>
         <div>
