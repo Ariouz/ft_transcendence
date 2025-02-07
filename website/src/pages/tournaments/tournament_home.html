@@ -1,23 +1,32 @@
-<div>
-    <h2>Tournois</h2>
-    <!-- Error div -->
-    <div id="tournamentErrorDiv">
-        <h3 id="tournamentErrorTitle"></h3>
-        <span id="tournamentErrorDetails"></span>
+<div class="tournament_home_parent_container">
+    <div class="tournaments_home_title">
+        <span data-i18n="tournaments"></span>
     </div>
-
-    <div>
-        <div>
-            <h3>Host</h3>
-            <br>
-            <button onclick="createTournament()">Create a tournament</button>
-            <br>
+    <div class="tournaments_home_content">
+        <!-- Error div -->
+        <div id="tournamentErrorDiv">
+            <h3 id="tournamentErrorTitle"></h3>
+            <span id="tournamentErrorDetails"></span>
         </div>
-        <br>
-        <div>
-            <h3>Active tournaments</h3>
-            <div id="tournaments_list">
-                <!-- Active tournaments filled here -->
+
+        <div class="tournamentHomeListSection">
+            <div class="tournamentHomeHostTournament">
+                <div class="tournamentHostCreateContainer">
+                    <span class="hostTournamentTitle">Host a tournament</span>
+                    <button onclick="createTournament()" class="hostTournamentButton">Create a tournament</button>
+                </div>
+                <div class="tournamentHostedContainer">
+                    <h3>Your tournament</h3>
+                    <span>Player: x/8</span>
+                    <button>Go to tournament</button>
+                </div>
+            </div>
+            <div class="tournamentHomeActiveTournamentsList">
+                <h3>Active tournaments</h3>
+                <hr>
+                <div id="tournaments_list">
+                    <!-- Active tournaments filled here -->
+                </div>
             </div>
         </div>
     </div>

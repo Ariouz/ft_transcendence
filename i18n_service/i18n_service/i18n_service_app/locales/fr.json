@@ -103,7 +103,7 @@
   "pong_home_local_desc": "Partie locale",
   "pong_home_1v1_desc": "Partie en ligne",
   "pong_home_arcade_desc": "Partie en ligne",
-  "pong_home_tournament_desc": "De 4 à 8 joueurs",
+  "pong_home_tournament_desc": "A partir de 4 joueurs",
   "matchmaking_looking_for_oppponent": "Recherche d'adversaire...",
   "matchmaking_leave_queue":"Quitter la file d'attente",
   
@@ -145,5 +145,8 @@
   "privacy_policy_content": "<h1>Politique de Confidentialité</h1><hr> <div class='privacy_policy_content'> <p>Cette Politique de Confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles lorsque vous utilisez notre site ou nos services.</p> <br> <h3>1. Données Collectées</h3> <p>Lorsque vous vous connectez via l'API 42, nous collectons les informations suivantes : <ul> <li>Email : Collecté mais non utilisé pour contacter l'utilisateur.</li> <li>Nom et Prénom : Utilisés pour personnaliser votre expérience utilisateur.</li> <li>Avatar : Utilisé pour afficher une image de profil personnalisée.</li> <li>Username : Utilisé pour vous identifier sur notre site et dans nos services.</li> </ul> </p> <br> <h3>2. Utilisation des Données</h3> <p>Nous utilisons les données collectées pour les finalités suivantes : <ul> <li>Gestion du compte utilisateur : Pour permettre un accès sécurisé et personnalisé à nos services.</li> <li>Personnalisation : Pour afficher vos informations de profil, comme votre nom, avatar et username, et offrir une expérience optimisée.</li> <li>Identification : Le username est utilisé pour identifier les utilisateurs sur notre plateforme.</li> </ul> </p> <br> <h3>3. Partage des Données</h3> <p>Vos données personnelles ne seront pas partagées avec des tiers, sauf dans les situations suivantes : <ul> <li>Si la loi l'exige ou en réponse à une demande légale valide.</li> <li>Si vous avez donné votre consentement explicite pour un tel partage.</li> </ul> </p> <br> <h3>4. Sécurité des Données</h3> <p>Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos données personnelles contre tout accès non autorisé, modification, divulgation ou destruction.</p> <br> <h3>5. Conservation des Données</h3> <p>Vous avez le droit de : <ul> <li>Accéder à vos données personnelles.</li> <li>Rectifier des informations incorrectes ou incomplètes.</li> <li>Supprimer vos données personnelles.</li> <li>Restreindre ou vous opposer au traitement de vos données dans certaines circonstances.</li> </ul> </p> <br> <h3>7. Modifications de la Politique de Confidentialité</h3> <p>Nous nous réservons le droit de modifier cette Politique de Confidentialité à tout moment. Toute modification sera publiée sur cette page et, en cas de changements significatifs, vous serez informé.</p> </div>",
   "social-information": "Informations sociales",
   "42-intra-profile": "42 Intra profile",
-  "github-profile": "GitHub profile"
+  "github-profile": "GitHub profile",
+
+  "tournament": "Tournoi",
+  "tournaments": "Tournois"
 }

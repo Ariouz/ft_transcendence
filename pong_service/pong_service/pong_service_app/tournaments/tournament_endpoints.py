@@ -103,8 +103,11 @@ def join_tournament(request):
     if tournament.state != "pending":
         return error_response(request, "Invalid state", "Tournament has already started")
 
-    if TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).exists():
+    if TournamentParticipant.objects.filter(tournament=tournament, pong_user=user).exists():
         return error_response(request, "Already a participant", "You already participate to this tournament")
+
+    if TournamentParticipant.objects.filter(pong_user=user, tournament__state__in=["ongoing", "pending"]).exists():
+        return error_response(request, "Already a participant", "You already participate to another tournament")
     
 
     TournamentParticipant.objects.create(tournament=tournament, pong_user=user)
@@ -203,7 +206,9 @@ def tournament_list(request):
 
     data = {}
     for tournament in tournaments:
-        data[tournament.tournament_id] = {"tournament_id": tournament.tournament_id}
+        participantCount = TournamentParticipant.objects.filter(tournament=tournament).count()
+        data[tournament.tournament_id] = {"tournament_id": tournament.tournament_id, 'player_count': participantCount}
+
     
     return success_response(request, "List retrieved", extra_data={"data":data})
 
