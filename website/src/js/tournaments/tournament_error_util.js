@@ -25,5 +25,9 @@ function setTournamentErrorDivDisplay(show)
 {
     let doc = document.getElementById("tournamentErrorDiv");
     if (doc)
-        doc.style.display = show ? "block" : "none";
+    {
+        doc.style.visibility = show ? "visible" : "hidden";
+        doc.style.opacity = show ? "1" : "0";
+        doc.style.maxHeight = show ? "200px" : "0";
+    }
 }
