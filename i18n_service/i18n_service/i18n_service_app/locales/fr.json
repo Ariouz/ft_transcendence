@@ -148,5 +148,12 @@
   "github-profile": "GitHub profile",
 
   "tournament": "Tournoi",
-  "tournaments": "Tournois"
+  "tournaments": "Tournois",
+  "active_tournaments": "Tournois actifs",
+  "players": "Joueurs",
+  "join": "Rejoindre",
+  "create_tournament": "Créer un tournois",
+  "host_tournament": "Héberger un tournois",
+  "your_tournament": "Votre tournois",
+  "go_to_lobby": "Gestion du tournois"
 }

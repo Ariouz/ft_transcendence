@@ -10,19 +10,15 @@
         </div>
 
         <div class="tournamentHomeListSection">
-            <div class="tournamentHomeHostTournament">
-                <div class="tournamentHostCreateContainer">
-                    <span class="hostTournamentTitle">Host a tournament</span>
-                    <button onclick="createTournament()" class="hostTournamentButton">Create a tournament</button>
+            <div class="tournamentHomeHostTournament" id="tournamentHomeListHostSection">
+                <div class="tournamentHostCreateContainer" id="tournamentHostCreateContainer">
+                    <span class="hostTournamentTitle" data-i18n="host_tournament"></span>
+                    <button onclick="createTournament()" class="hostTournamentButton" data-i18n="create_tournament"></button>
                 </div>
-                <div class="tournamentHostedContainer">
-                    <h3>Your tournament</h3>
-                    <span>Player: x/8</span>
-                    <button>Go to tournament</button>
-                </div>
+                <!-- Hosted tournament generated here -->
             </div>
             <div class="tournamentHomeActiveTournamentsList">
-                <h3>Active tournaments</h3>
+                <h3 data-i18n="active_tournaments"></h3>
                 <hr>
                 <div id="tournaments_list">
                     <!-- Active tournaments filled here -->

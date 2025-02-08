@@ -203,6 +203,14 @@
   "github-profile": "GitHub profile",
 
   "tournament": "Tournament",
-  "tournaments": "Tournaments"
+  "tournaments": "Tournaments",
+  "active_tournaments": "Active Tournaments",
+  "players": "Players",
+  "join": "Join",
+  "create_tournament": "Create a tournament",
+  "host_tournament": "Host a tournament",
+  "your_tournament": "Your tournament",
+  "go_to_lobby": "Go to lobby"
+
 
 }

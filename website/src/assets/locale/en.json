@@ -200,5 +200,8 @@
   "leaderboard_found": "Leaderboard found",
   "social-information": "Social information",
   "42-intra-profile": "42 Intra profile",
-  "github-profile": "GitHub profile"
+  "github-profile": "GitHub profile",
+
+  "tournament": "Tournament",
+  "tournaments": "Tournaments"
 }

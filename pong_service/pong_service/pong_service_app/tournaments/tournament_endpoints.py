@@ -297,3 +297,34 @@ def is_host(request):
         return error_response(request, "Invalid host", "User isn't host")
     
     return success_response(request, "User is host", extra_data={'is_host':True})
+
+
+# /api/tournament/get-hosted/
+@require_http_methods(["POST"])
+def get_hosted_tournament(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not user_id:
+        return error_response(request, "Missing parameter", "user_id missing")
+
+    try:
+        user = PongUser.objects.get(user_id=user_id)
+    except PongUser.DoesNotExist:
+        return error_response(request, "User not found", "User not found")
+
+    tournament = Tournament.objects.filter(host=user, state="pending").first()
+    participant_count = 0
+    tournament_id = -1
+
+    if tournament:
+        tournament_id = tournament.tournament_id
+        participant_count = TournamentParticipant.objects.filter(tournament=tournament).count()
+        
+    return success_response(request, "Data retrieved", extra_data={
+            "tournament_id": tournament_id,
+            "participant_count": participant_count
+        })

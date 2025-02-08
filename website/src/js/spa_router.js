@@ -162,15 +162,15 @@ function routeTournament(parts, params)
         "recap": "/pages/tournaments/tournament_ending.html"
     };
 
-    if (parts.length === 1)
+    if (!isLoggedIn())
+        navigate("/login?redirect=tournament");
+
+    else if (parts.length === 1)
     {
         loadContent("/pages/tournaments/tournament_home.html");
     }
     else if (pages[parts[1]]) {
-        if (!isLoggedIn())
-            navigate(`/login?redirect=tournament/${parts[1]}`);
-        else
-            loadContent(pages[parts[1]]);
+        loadContent(pages[parts[1]]);
     }
     else
         loadContent("/pages/error/404.html");
