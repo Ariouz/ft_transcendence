@@ -40,7 +40,7 @@ def get_game_data(request):
         return error_response(request, "game_no_id", "game_id_required")
 
     if not PongGame.objects.filter(game_id=game_id).exists():
-        return error_response(request, "game_not_found", "game_none_with_this_id_found")
+        return error_response(request, "game_not_found", "game_none_with_this_id_found", status_code=404)
     
     game = PongGame.objects.get(game_id=game_id)
     
@@ -69,7 +69,7 @@ def start_game(request):
 
     if not PongGame.objects.filter(game_id=game_id).exists():
         logging.getLogger("django").info(f"Game not found {game_id}")
-        return error_response(request, "game_not_found", "game_none_with_this_id_found")
+        return error_response(request, "game_not_found", "game_none_with_this_id_found", status_code=404)
     
     logging.getLogger("django").info(f"Starting game {game_id}")
     run_start_game(game_id)

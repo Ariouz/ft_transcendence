@@ -40,13 +40,13 @@ def ft_auth_data_all(request, access_token):
 def ft_auth_data_username(request, access_token):
     if (User.objects.filter(token=access_token).exists()):
         return json_response({"username":User.objects.filter(token=access_token).get().username})
-    return error_response(request, "user_not_found", "account_no_user_with_token")
+    return error_response(request, "user_not_found", "account_no_user_with_token", status_code=404)
 
 # /auth/42/data/id/<access_token>/
 def ft_auth_data_id(request, access_token):
     if (User.objects.filter(token=access_token).exists()):
         return json_response({"user_id":User.objects.filter(token=access_token).get().user_id})
-    return error_response(request, "user_not_found", "account_no_user_with_token")
+    return error_response(request, "user_not_found", "account_no_user_with_token", status_code=404)
 
 
 # /auth/42/data/settings/<access_token>/<host>
@@ -71,7 +71,7 @@ def ft_auth_data_settings(request, access_token):
             "status_message": userSetting.status_message
         }
         return json_response(data)
-    return error_response(request, "user_not_found", "account_no_user_with_token")
+    return error_response(request, "user_not_found", "account_no_user_with_token", status_code=404)
 
 # /account/settings/confidentiality/<str:access_token>/
 def ft_auth_data_confidentiality_settings(request, access_token):
@@ -84,19 +84,19 @@ def ft_auth_data_confidentiality_settings(request, access_token):
             "show_email": userConfidentiality.show_email
         }
         return json_response(data)
-    return error_response(request, "user_not_found", "account_no_user_with_token")
+    return error_response(request, "user_not_found", "account_no_user_with_token", status_code=404)
 
 # /user/profile/data/<int:user_id>/
 def get_profile_data_id(request, user_id):
     if (User.objects.filter(user_id=user_id).exists()):
         return get_profile_data_username(request, User.objects.filter(user_id=user_id).get().username)
-    return error_response(request, "user_not_found", "account_no_user_with_id")
+    return error_response(request, "user_not_found", "account_no_user_with_id", status_code=404)
 
 # /user/profile/data/<str:username>/
 def get_profile_data_username(request, username):
 
     if not User.objects.filter(username=username).exists():
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_username")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_username", status_code=404)
 
     user = User.objects.get(username=username)
     userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
@@ -145,4 +145,4 @@ def get_all_users_data(request):
 def ft_auth_data_displayname(request, user_id):
     if (UserSettings.objects.filter(user_id=user_id).exists()):
         return json_response({"display_name":UserSettings.objects.filter(user_id=user_id).get().display_name})
-    return error_response(request, "user_not_found", "account_no_user_with_id")
+    return error_response(request, "user_not_found", "account_no_user_with_id", status_code=404)

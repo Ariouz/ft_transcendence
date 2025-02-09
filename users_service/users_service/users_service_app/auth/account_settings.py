@@ -12,9 +12,9 @@ def update_profile_settings(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
     if not user:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
 
@@ -75,9 +75,9 @@ def update_confidentiality_settings(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
     if not user:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
 
     userConfidentiality = UserConfidentialitySettings.objects.get(user_id=user.user_id)
 
@@ -107,9 +107,9 @@ def delete_account(request, access_token):
     try:
         user = User.objects.get(token=access_token)
     except Exception as e:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
     if not user:
-        return error_response(request, "user_not_found", "cannot_find_user_with_this_token")
+        return error_response(request, "user_not_found", "cannot_find_user_with_this_token", status_code=404)
 
     userSettings = UserSettings.objects.get(user_id=user.user_id)
     userConfidentialitySettings = UserConfidentialitySettings.objects.get(

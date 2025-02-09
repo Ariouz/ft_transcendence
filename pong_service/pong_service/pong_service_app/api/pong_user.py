@@ -1,5 +1,6 @@
 from pong_service_app.models import *
 from pong_service_app.response_messages import get_translation
+from pong_service_app.response_messages import error_response
 
 def create_user_if_not_exists(user_id):
     if not PongUser.objects.filter(user_id=user_id).exists():
@@ -65,7 +66,7 @@ def get_user_played_games(user_id):
 
 def get_game_data(game_id):
     if not PongGame.objects.filter(game_id=game_id).exists():
-        return {"error": get_translation(request=None, string="game_not_found")}
+        return error_response("game_not_found", "game_not_found", status_code=404)
 
     game = PongGame.objects.filter(game_id=game_id).get()
 
