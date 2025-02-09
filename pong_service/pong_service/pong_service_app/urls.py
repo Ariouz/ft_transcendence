@@ -40,6 +40,7 @@ urlpatterns = [
     path('tournament/ws-connect/', tournament_endpoints.ws_connect, name="ws_connect"),
 
     path('tournament/does-participates/', tournament_endpoints.does_participates, name="does_participates"),
+    path('tournament/get-hosted/', tournament_endpoints.get_hosted_tournament, name="get_hosted_tournament"),
     path('tournament/is-host/', tournament_endpoints.is_host, name="is_host"),
     path('tournament/state/', tournament_endpoints.tournament_state, name="tournament_state"),
     path('tournament/list/', tournament_endpoints.tournament_list, name="tournament_list"),

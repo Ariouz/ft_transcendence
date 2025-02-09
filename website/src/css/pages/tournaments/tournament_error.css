@@ -4,7 +4,7 @@
     margin: 20px;
     visibility: hidden;
     border: 1px solid var(--lose-red);
-    background-color: var(--marine-blue);
+    background-color: #d18d92;
     border-radius: 5px;
 
     transition: opacity 1s ease, max-height 1s ease;

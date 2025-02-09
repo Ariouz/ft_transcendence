@@ -57,14 +57,6 @@ async function addGameToHistory(game, userId, userLang, fragment) {
     fragment.appendChild(gameEntry);
 }
 
-function createElement(tag, attributes = {}, content = null) {
-    let element = document.createElement(tag);
-    Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
-    if (Array.isArray(content)) content.forEach(child => element.appendChild(child));
-    else if (content) element.textContent = content;
-    return element;
-}
-
 async function loadHistory(page)
 {
     let userId = g_historyUserId;

@@ -112,8 +112,7 @@ async function joinTournament(tournamentId)
     postWithCsrfToken(url, requestData, true)
     .then(data => {
        displayTournamentSuccess(data.success);
-       console.log(data);
-    //    navigate(`/tournament/lobby?tid=${data.tournament_id}`);
+       navigate(`/tournament/lobby?tid=${data.tournament_id}`);
     })
     .catch(error => {
         displayTournamentError(error.error, error.details);
@@ -246,4 +245,24 @@ async function startTournamentNextRound(tournamentId)
     .catch(error => {
         displayTournamentError(error.error, error.details);
     });
+}
+
+async function getHostedTournament()
+{
+    let url = `${TOURNAMENT_URL}/get-hosted/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId};
+    let retVal = postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       return data;
+    })
+    .catch(error => {
+        return {tournament_id: -1};
+    });
+
+    return retVal;
 }

@@ -54,12 +54,14 @@
 
 .tournamentHomeHostTournament
 {
-    width: 35%;
+    width: 100%;
     margin: auto;
 }
 
 .tournamentHostCreateContainer
 {
+    margin: auto;
+    width: 35%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -90,9 +92,10 @@
     transform: scale(1.02);
 }
 
-.tournamentHostedContainer
+#tournamentHostedContainer
 {
-    display: none;
+    margin: auto;
+    width: 60%;
 }
 
 .tournamentHomeActiveTournamentsList
