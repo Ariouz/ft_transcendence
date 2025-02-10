@@ -1,26 +1,35 @@
-<div>
-    <!-- Error div -->
-    <div id="tournamentErrorDiv">
-        <h3 id="tournamentErrorTitle"></h3>
-        <span id="tournamentErrorDetails"></span>
+<div class="tournament_lobby_parent_container">
+    <div class="tournaments_lobby_title">
+        <span data-i18n="tournaments"></span>
     </div>
-
-    <h1>Lobby</h1>
-    <h2>Host: </h2>
-    <div>
-        <h3>Participants <span><span id="tournamentParticipantsCount"></span>/8</span></h3>
-        <table id="tournamentParticipantsList">
-            <tr>
-                <th>Id</th>
-                <th>Displayname</th>
-            </tr>
-        </table>
-    </div>
-    <button onclick="leave()" id="tournamentLeaveButton" style="display: none;">Leave tournament</button>
     
-    <!-- Host only -->
-    <button onclick="destroyTournament()" id="tournamentDeleteButton" style="display: none;">Delete tournament</button> 
-    <button onclick="startTournament()" id="tournamentLaunchButton" style="display: none;">Launch tournament</button>
+    <div class="tournaments_lobby_content">
+        <!-- Error div -->
+        <div id="tournamentErrorDiv">
+            <h3 id="tournamentErrorTitle"></h3>
+            <span id="tournamentErrorDetails"></span>
+        </div>
+
+        <div class="tournamentLobbyParticipants">
+            <div>
+                <h3><span data-i18n="players"></span>: <span><span id="tournamentParticipantsCount"></span></span></h3>
+                <hr>
+                <table id="tournamentParticipantsList">
+                    <tr>
+                        <th>Id</th>
+                        <th data-i18n="display_name"></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="tournamentLobbyActions">
+            <button onclick="leave()" class="custom_button custom_button_red_fill" id="tournamentLeaveButton" style="display: none;" data-i18n="leave_tournament"></button>
+        
+            <!-- Host only -->
+            <button onclick="destroyTournament()" class="custom_button custom_button_red_fill" id="tournamentDeleteButton" style="display: none;" data-i18n="delete_tournament"></button> 
+            <button onclick="startTournament()"class="custom_button custom_button_green_fill" id="tournamentLaunchButton" style="display: none;" data-i18n="launch_tournament"></button>
+        </div>
+    </div>
 </div>
 
 <script src="../../js/tournaments/tournament_lobby.js"></script>

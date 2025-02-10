@@ -210,7 +210,10 @@
   "create_tournament": "Create a tournament",
   "host_tournament": "Host a tournament",
   "your_tournament": "Your tournament",
-  "go_to_lobby": "Go to lobby"
+  "go_to_lobby": "Go to lobby",
+  "leave_tournament": "Leave tournament",
+  "launch_tournament": "Launch tournament",
+  "delete_tournament": "Delete tournament"
 
 
 }

@@ -155,5 +155,8 @@
   "create_tournament": "Créer un tournois",
   "host_tournament": "Héberger un tournois",
   "your_tournament": "Votre tournois",
-  "go_to_lobby": "Gestion du tournois"
+  "go_to_lobby": "Gestion du tournois",
+  "leave_tournament": "Quitter le tournois",
+  "launch_tournament": "Lancer le tournois",
+  "delete_tournament": "Supprimer le tournois"
 }
