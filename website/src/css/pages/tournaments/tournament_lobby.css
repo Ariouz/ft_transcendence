@@ -1,0 +1,107 @@
+@import url('../../variables.css');
+
+.tournaments_lobby_parent_container
+{
+    background-color: var(--marine-blue);
+}
+
+.tournaments_lobby_title {
+    font-family: "Teko", sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    margin-top: -50px;
+    background-color: #140152;
+    background: radial-gradient(circle, transparent 20%, #140152 20%, #140152 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #140152 20%, #140152 80%, transparent 80%, transparent) 100px 100px, linear-gradient(#0D00A4 8px, transparent 8px) 0 -4px, linear-gradient(90deg, #0D00A4 8px, #140152 8px) -4px 0;
+    background-size: 200px 200px, 200px 200px, 100px 100px, 100px 100px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+    box-shadow: inset 0px 0px 150px 100px var(--marine-blue);
+}
+
+.tournaments_lobby_title span {
+    font-weight: 500;
+    font-size: 5em;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 5px var(--flashy-pink);
+    transform-origin: center;
+    animation: tournaments_title 6s infinite;
+}
+
+@keyframes tournaments_title {
+    0%  { transform: translateY(0%)      scale(1); }
+    45% { transform: translateY(-25%)    scale(0.95); }
+    90% { transform: translateY(0%)      scale(1); }
+}
+
+.tournaments_lobby_content {
+    padding: 100px;
+    background: var(--marine-blue);
+    margin-top: -60px;
+    margin-bottom: -50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tournamentLobbyParticipants
+{
+    width: 20%;
+    background-color: var(--purple-blue);
+    padding: 20px 30px;
+    border-radius: 5px;
+}
+
+#tournamentParticipantsList {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#tournamentParticipantsList th, #tournamentParticipantsList td {
+    border: 1px solid var(--black-blue);
+    padding: 8px;
+    text-align: left;
+}
+
+#tournamentParticipantsList th {
+    background-color: var(--light-purple-blue);
+    font-weight: bold;
+}
+
+#tournamentParticipantsList tr:nth-child(even) {
+    background-color: #2a0394;
+    transition: .3s ease;
+}
+
+#tournamentParticipantsList tr:nth-child(odd) {
+    background-color: #250384;
+    transition: .3s ease;
+}
+
+#tournamentParticipantsList tr:hover {
+    background-color: #35148e;
+}
+
+@media screen and (max-width: 600px) {
+    #tournamentParticipantsList {
+        font-size: 14px;
+    }
+    #tournamentParticipantsList th, #tournamentParticipantsList td {
+        padding: 6px;
+    }
+}
+
+.tournamentLobbyActions
+{
+    margin-top: 30px;
+    background-color: var(--purple-blue);
+    padding: 20px 30px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}

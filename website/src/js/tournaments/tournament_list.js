@@ -21,11 +21,12 @@ async function generateTournamentListCard(tournamentId, playerCount)
 async function loadList()
 {
     let listContainer = document.getElementById("tournaments_list");
+    listContainer.replaceChildren();
     
     let list = await getTournaments();
     console.log(list);
     for (tournament in list)
-        {
+    {
         let tournamentData = list[tournament];
         listContainer.appendChild(await generateTournamentListCard(tournamentData.tournament_id, tournamentData.player_count));
     }
