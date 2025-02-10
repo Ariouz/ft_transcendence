@@ -21,6 +21,8 @@ def list_friends(request, user_id):
 def add_friend(request, user_id, friend_id):
     user = get_object_or_404(User, pk=user_id)
     friend = get_object_or_404(User, pk=friend_id)
+    if Friend.objects.filter(user=user, friend=friend).exists():
+        return json_response({"status": "error", "message": get_translation(request, "already_a_friend", friend.username)})
     Friend.objects.create(user=user, friend=friend)
     send_friend_update(user_id)
     send_friend_update(friend_id)
@@ -32,6 +34,8 @@ def add_friend(request, user_id, friend_id):
 def remove_friend(request, user_id, friend_id):
     user = get_object_or_404(User, pk=user_id)
     friend = get_object_or_404(User, pk=friend_id)
+    if not Friend.objects.filter(user=user, friend=friend).exists():
+        return json_response({"status": "error", "message": get_translation(request, "not_a_friend", friend.username)})
     Friend.objects.filter(user=user, friend=friend).delete()
     send_friend_update(user_id)
     send_friend_update(friend_id)

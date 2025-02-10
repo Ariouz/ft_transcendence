@@ -47,5 +47,8 @@ class Friend(models.Model):
         User, related_name="friends_of", on_delete=models.CASCADE
     )
 
+    class Meta:
+        unique_together = ('user', 'friend')
+
     def __str__(self):
         return f"{self.user.username} is friends with {self.friend.username}"
