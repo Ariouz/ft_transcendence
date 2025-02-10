@@ -229,7 +229,6 @@ async function fetchTranslationSelectedTranslationWithArgs(key, args = []) {
         const data = await response.json();
         return data[key];
     } catch (error) {
-        // TODO
         return null;
     }
 }
@@ -245,7 +244,6 @@ async function fetchTranslationDefaultLanguageWithArgs(key, args = []) {
         const data = await response.json();
         return data[key];
     } catch (error) {
-        // TODO
         return null;
     }
 }

@@ -86,7 +86,7 @@ def create_local_game(request):
     except:
         return error_response(request, "user_no_id", "user_id_required")
 
-    game_manager.create_game([user_id, user_id], type="local1v1")
+    create_game([user_id, user_id], type="local1v1")
     return success_response(request, "game_created")
 
 

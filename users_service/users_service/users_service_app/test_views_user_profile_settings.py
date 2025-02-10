@@ -29,9 +29,10 @@ class UserProfileSettingsTestCase(TestCase):
             show_fullname=True,
             show_email=True
         )
+        self.api_url = "https://testserver/api/"
 
     def test_update_profile_settings_success(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         response = self.client.post(url, {
             "display_name": "NewAlice",
             "github_url": "https://github.com/newalice",
@@ -52,37 +53,37 @@ class UserProfileSettingsTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_update_profile_settings_too_long_display_name(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         response = self.client.post(url, {
             "display_name": "A" * 21
         }, secure=True)
         self.assertEqual(response.status_code, 400)
 
     def test_update_profile_settings_valid_display_name(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         long_name = "A" * 20
         response = self.client.post(url, {"display_name": long_name}, secure=True)
         self.assertEqual(response.status_code, 200)
 
     def test_update_profile_settings_empty_display_name(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         response = self.client.post(url, {"display_name": ""}, secure=True)
         self.assertEqual(response.status_code, 200)
 
     def test_update_profile_settings_large_avatar(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         large_file = SimpleUploadedFile("avatar.jpg", b"A" * (2 * 1024 * 1024 + 1))  # 2MB+1 byte
         response = self.client.post(url, {"avatar": large_file}, secure=True)
         self.assertEqual(response.status_code, 400)
 
     def test_update_profile_settings_invalid_avatar_type(self):
-        url = f"https://testserver/api/account/settings/profile/{self.user.token}/"
+        url = f"{self.api_url}account/settings/profile/{self.user.token}/"
         invalid_file = SimpleUploadedFile("avatar.txt", b"Invalid content")
         response = self.client.post(url, {"avatar": invalid_file}, secure=True)
         self.assertEqual(response.status_code, 400)
 
     def test_update_confidentiality_settings_success(self):
-        url = f"https://testserver/api/account/settings/confidentiality/{self.user.token}/"
+        url = f"{self.api_url}account/settings/confidentiality/{self.user.token}/"
         response = self.client.post(url, {
             "profile_visibility": "private",
             "profile_show_fullname": "on",
@@ -101,12 +102,12 @@ class UserProfileSettingsTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_delete_account_success(self):
-        url = f"https://testserver/api/account/settings/delete/{self.user.token}/"
+        url = f"{self.api_url}account/settings/delete/{self.user.token}/"
         response = self.client.delete(url, secure=True)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(user_id=self.user.user_id).exists())
 
     def test_delete_account_invalid_token(self):
-        url = "https://testserver/api/account/settings/delete/invalid_token/"
+        url = f"{self.api_url}/account/settings/delete/invalid_token/"
         response = self.client.delete(url, secure=True)
         self.assertEqual(response.status_code, 404)
