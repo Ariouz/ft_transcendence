@@ -11,6 +11,14 @@ async function handleTournamentWs(e, user_token) {
                 await handleTournamentUserLeftWS(data);
             else if (data.type == "tournament_delete")
                 await handleTournamentDeleteWs();
+            else if (data.type == "tournament_round_update")
+                await handleTournamentRoundUpdate(data.data);
+            else if (data.type == "rounds_generated")
+                await handleTournamentRoundGenerated(data.tournament_id);
+            else if (data.type == "tournament_started")
+                navigate(`/tournament/rounds?tid=${data.tournament_id}`);
+            else if (data.type == "tournament_ended")
+                await handleTournamentEnded(data);
         }
         else
         g_error_tournament_ws = true;
@@ -46,4 +54,21 @@ async function handleTournamentDeleteWs()
         g_tournamentWebSocket.close()
     g_tournamentWebSocket = null;
     navigate("/tournament");
+}
+
+async function handleTournamentRoundUpdate(data)
+{
+    console.log(data);
+    await updateTournamentMatch(data);
+}
+
+async function handleTournamentRoundGenerated(tid)
+{
+    await generateTournamentRoundList(tid, true);
+}
+
+async function handleTournamentEnded(data)
+{
+    console.log("Tournament end");
+    await endTournament(data.tournament_id, data.winner_id);
 }

@@ -12,6 +12,7 @@ from asgiref.sync import async_to_sync, sync_to_async
 from ..api.game import create_game
 from ..api.objects import pong_game_state
 from ..api.themes import get_theme, get_tournament_theme
+from . import tournament_ws_utils
 
 
 # /api/tournament/launch/
@@ -51,6 +52,8 @@ def launch_tournament(request):
     tournament.save()
 
     rounds = generate_tournament_matches(tournament)
+
+    tournament_ws_utils.send_tournament_started(tournament_id=tournament.tournament_id)
 
     return success_response(request, "Tournament launched successfully", extra_data={"tournament_rounds": rounds})
 
@@ -226,14 +229,14 @@ def update_tournament_match(game_state: pong_game_state.PongGameState):
             match.winner = winner
             pongloser = match.player1 if match.player1 != winner else match.player2
             if pongloser:
-                loser = TournamentParticipant.objects.get(pong_user=pongloser)
+                loser = TournamentParticipant.objects.get(pong_user=pongloser, tournament=match.tournament)
                 loser.eliminated = True
                 loser.save()
 
         match.save()
+        tournament_ws_utils.send_round_update(match)
 
         logging.getLogger("django").info(f"TournamentMatch updated for game {game_state.game_id}")
-
         check_round_completion(match.tournament)
 
     except TournamentMatch.DoesNotExist:
@@ -254,10 +257,14 @@ def check_round_completion(tournament:Tournament):
             tournament.save()
             generate_tournament_matches(tournament)
             logging.info(f"Round {current_round} completed. Starting round {tournament.current_round} generation.")
+
+            tournament_ws_utils.send_rounds_generated(tournament.tournament_id)
         else:
+            tournament.winner = TournamentParticipant.objects.filter(tournament=tournament, eliminated=False).get().pong_user
             tournament.state = "finished"
             tournament.save()
             logging.info(f"Tournament {tournament.tournament_id} finished.")
+            tournament_ws_utils.send_tournament_ended(tournament.tournament_id, tournament.winner.user_id)
     else:
         logging.info(f"Round {current_round} is not yet completed.")
 

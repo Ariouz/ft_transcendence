@@ -120,3 +120,29 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'type': 'tournament_delete',
         }))
+
+    async def tournament_round_update(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'tournament_round_update',
+            'data': event['data']
+        }))
+
+    async def rounds_generated(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'rounds_generated',
+            'tournament_id': event['tournament_id'],
+        }))
+    
+    async def tournament_started(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'tournament_started',
+            'tournament_id': event['tournament_id'],
+        }))
+
+    async def tournament_ended(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'tournament_ended',
+            'tournament_id': event['tournament_id'],
+            "winner_id": event["winner_id"]
+        }))
+    

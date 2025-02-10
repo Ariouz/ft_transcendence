@@ -159,6 +159,8 @@
   "failed_to_fetch_user_data": "Failed to fetch user data",
   "a_code_parameter_is_expected": "A 'code' parameter is expected",
   "added_as_a_friend": "% added as a friend.",
+  "already_a_friend": "% is already a friend.",
+  "not_a_friend": "% isn't a friend yet.",
   "removed_from_friends": "% removed from friends.",
 
   "game_not_found": "Game not found",
@@ -213,7 +215,10 @@
   "go_to_lobby": "Go to lobby",
   "leave_tournament": "Leave tournament",
   "launch_tournament": "Launch tournament",
-  "delete_tournament": "Delete tournament"
+  "delete_tournament": "Delete tournament",
+  "start_next_round": "Start next round",
+  "tournament_has_won": "has won the tournament",
+  "back_to_tournaments": "Back to tournaments"
 
 
 }

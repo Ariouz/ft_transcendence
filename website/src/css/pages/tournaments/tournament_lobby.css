@@ -36,6 +36,8 @@
 }
 
 .tournaments_lobby_content {
+    width: 100%;
+    text-align: center;
     padding: 100px;
     background: var(--marine-blue);
     margin-top: -60px;
@@ -49,7 +51,7 @@
 
 .tournamentLobbyParticipants
 {
-    width: 20%;
+    min-width: 20%;
     background-color: var(--purple-blue);
     padding: 20px 30px;
     border-radius: 5px;

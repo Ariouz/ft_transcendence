@@ -158,5 +158,8 @@
   "go_to_lobby": "Gestion du tournois",
   "leave_tournament": "Quitter le tournois",
   "launch_tournament": "Lancer le tournois",
-  "delete_tournament": "Supprimer le tournois"
+  "delete_tournament": "Supprimer le tournois",
+  "start_next_round": "Lancer la prochaine manche",
+  "tournament_has_won": "gagne le tournois",
+  "back_to_tournaments": "Retour aux tournois"
 }
