@@ -1,16 +1,20 @@
 async function generateTournamentListCard(tournamentId, playerCount)
 {
-    let element = document.createElement("div");
-    element.classList.add("tournamentListItem");
-    element.innerHTML = `
-        <div class="tournamentListItemTopSection">
-            <span class="tournamentListItemTitle"><span data-i18n="tournament"></span> #${tournamentId}</span>
-            <span class="tournamentListItemPlayerCount"><span data-i18n='players'></span>: ${playerCount}</span>
-        </div>
-        <div>
-            <button class="tournamentListItemJoinButton" onclick="joinTournament(${tournamentId})" data-i18n='join'></button>
-        </div>
-        `;
+    let element = createElement("div", {class: "tournamentListItem"}, [
+        createElement("div", {class: "tournamentListItemTopSection"}, [
+            createElement("span", {class: "tournamentListItemTitle"}, [
+                createElement("span", {}, await fetchTranslation("tournament")),
+                createElement("span", {}, ` #${tournamentId}`)
+            ]),
+            createElement("span", {class: "tournamentListItemPlayerCount"}, [
+                createElement("span", {}, await fetchTranslation("players")),
+                createElement("span", {}, `: ${playerCount}`)
+            ])
+        ]),
+        createElement("div", {}, [
+            createElement("button", {class: "tournamentListItemJoinButton", onclick: `joinTournament(${tournamentId})`}, await fetchTranslation("join"))
+        ])
+    ])
     return element;
 }
 
