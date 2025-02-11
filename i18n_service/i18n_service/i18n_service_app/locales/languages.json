@@ -1,17 +1,12 @@
 {
   "languages": [
-    { "code": "ar", "displayName": "🇸🇦 العربية" },
     { "code": "de", "displayName": "🇩🇪 Deutsch" },
     { "code": "en", "displayName": "🇬🇧 English" },
     { "code": "es", "displayName": "🇪🇸 Español" },
-    { "code": "fa", "displayName": "🇮🇷 فارسی" },
     { "code": "fr", "displayName": "🇫🇷 Français" },
-    { "code": "hi", "displayName": "🇮🇳 हिंदी" },
     { "code": "it", "displayName": "🇮🇹 Italiano" },
-    { "code": "ja", "displayName": "🇯🇵 日本語" },
     { "code": "nl", "displayName": "🇳🇱 Nederlands" },
     { "code": "ro", "displayName": "🇷🇴 Română" },
-    { "code": "ru", "displayName": "🇷🇺 Русский" },
-    { "code": "zh", "displayName": "🇨🇳 中文" }
+    { "code": "ru", "displayName": "🇷🇺 Русский" }
   ]
 }

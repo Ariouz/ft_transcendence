@@ -218,7 +218,27 @@
   "delete_tournament": "Delete tournament",
   "start_next_round": "Start next round",
   "tournament_has_won": "has won the tournament",
-  "back_to_tournaments": "Back to tournaments"
+  "back_to_tournaments": "Back to tournaments",
+  "has_left": "has lest",
+  "has_joined": "has joined",
+  "tournament_cancelled": "Tournament cancelled",
 
+  "tournament_error": "Error",
+  "user_id_missing": "User id is missing",
+  "tournament_id_missing": "Tournament id is missing",
+  "host_not_found": "Host user not found",
+  "tournament_not_found": "Tournament not found",
+  "not_tournament_host": "User isn't the tournament's host",
+  "tournament_doesnt_participate": "You don't participate to this tournament",
+  "tournament_participate": "You participate to this tournament",
+  "tournament_host_cannot_leave": "Tournament's host cannot leave the tournament. You need to delete it",
+  "tournament_already_participates": "You already participate to this tournament",
+  "tournament_already_participates_another": "You already participate to another tournament",
+  "tournament_already_started": "Tournament has already started",
+  "tournament_already_hosts_another": "You already host another tournament",
+  "tournament_not_pending": "Tournament isn't pending",
+  "tournament_not_ongoing": "Tournament isn't ongoing",
+  "tournament_not_enough_players": "At least 3 players must join the tournament to be launched",
+  "tournament_wait_for_matches": "You must wait for all matches to be finished"
 
 }

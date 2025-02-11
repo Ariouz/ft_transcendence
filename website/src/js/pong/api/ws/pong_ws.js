@@ -48,7 +48,7 @@ function createPongUserWebSocket() {
             if (data.type)
                 {
                 if (data.type === "game_create")
-                    {
+                {
                     game_id = data.game_id;
                     g_userInPongQueue = false;
                     navigate(`/pong/game?gid=${game_id}`);
@@ -89,7 +89,6 @@ function createPongGameWebSocket(game_id) {
 
 async function loadPongTranslations()
 {
-    g_pongTranslations['starting'] = await fetchTranslation("pong_game_starting");
     g_pongTranslations['scored'] = await fetchTranslation("pong_game_scored");
     g_pongTranslations['disconnected'] = await fetchTranslation("pong_game_disconnected");
     g_pongTranslations['reconnected'] = await fetchTranslation("pong_game_reconnected");
@@ -101,20 +100,20 @@ async function handlePongGameWs(e, user_token) {
         const data = JSON.parse(e.data);
         g_error_pong_ws = false;
         if (data.type)
-            {
+        {
             if (data.type == "game_state_update")
                 await handleGameStateUpdate(data, user_token);
             else stopInterval();
             
             if (data.type == "game_player_scored")
-                {
+            {
                 let state = data.state;
                 updateScore(state, data);
             }
             else if (data.type == "game_start_timer")
-                {
+            {
                 let timer = data.countdown_timer;
-                startTimer(timer);
+                await startTimer(timer);
             }
             else if (data.type == "game_winner_timer")
             {
@@ -126,7 +125,7 @@ async function handlePongGameWs(e, user_token) {
                 winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state, tournamentId);
             }
             else if (data.type == "game_user_disconnected")
-                {
+            {
                 let state = data.state;
                 let player = data.player;
                 let timer = data.countdown_timer;
@@ -134,7 +133,7 @@ async function handlePongGameWs(e, user_token) {
                 pauseTimer(timer, getDisplayNameByPlayer(player, state.players, g_pongUserId), state);
             }
             else if (data.type == "game_user_reconnected")
-                {
+            {
                 let userId = await retrieveId(user_token);
                 g_pongUserId = userId.user_id;
                 

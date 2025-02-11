@@ -2,7 +2,7 @@ from django.views.decorators.http import require_http_methods
 from pong_service_app.models import *
 import redis
 import json
-from .game import create_game
+from . import game_create
 import logging
 from . import pong_user
 from pong_service_app.response_messages import success_response, error_response
@@ -25,7 +25,7 @@ def check_queue_size(game_type):
         users = []
         users.append(redis_client.rpop(redis_queue).decode("utf-8"))
         users.append(redis_client.rpop(redis_queue).decode("utf-8"))
-        create_game(users, type=game_type)
+        game_create.create_game(users, type=game_type)
 
 
 def get_redis_queue(game_type):

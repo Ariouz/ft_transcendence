@@ -38,6 +38,8 @@ def user_history(request, user_id):
 
         game = g
         game_id = g.game_id
+
+        if game.users[0] == game.users[1]: continue
         
         games[game_id] = {
             "game_id": game.game_id,

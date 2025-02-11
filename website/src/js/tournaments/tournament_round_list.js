@@ -160,5 +160,5 @@ async function endTournament(tid, winner_id)
         if (g_tournamentWebSocket)
             g_tournamentWebSocket.close();
         g_tournamentWebSocket = null;
-    }, 10 * 1000);
+    }, 8 * 1000);
 }
