@@ -192,7 +192,7 @@ async function defineUserPaddle(state, user_token)
 
 function movePaddles(state)
 {
-    // Add? ball = state.ball_position;
+    // TODO Add? ball = state.ball_position;
     
     if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
     {

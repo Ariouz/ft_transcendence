@@ -5,7 +5,7 @@ services:
     build: ./website
     ports:
       - ${WEBSITE_PORT}:${WEBSITE_PORT}
-      - "8443:8443" # 8443:443 ? ca changerait pas grand chose mais bon
+      - "8443:8443"
     volumes:
       - type: bind
         source: ./website/src
