@@ -45,7 +45,7 @@ def join_queue(request):
         return error_response(request, "user_no_id", "user_id_required")
     
     if is_user_in_queue(user_id, game_type):
-        return error_response(request, "Already in queue", "User is already in the queue")
+        return error_response(request, "queue_already_in", "queue_user_is_already_in")
     
     game_types = ["1v1", "arcade"]
     if not game_type in game_types:

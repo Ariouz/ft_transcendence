@@ -16,7 +16,7 @@ def create_tournament(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not host_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
 
     if not PongUser.objects.filter(user_id=host_id).exists():
         create_user_if_not_exists(host_id)
@@ -29,14 +29,14 @@ def create_tournament(request):
 
     # If already plays another active tournament
     if TournamentParticipant.objects.filter(pong_user=host, tournament__state__in=["pending", "ongoing"]).exists():
-        return error_response(request, "tournament_error", "You already participate to another tournament")
+        return error_response(request, "tournament_error", "already_in_another_tournament")
     
     tournament = Tournament.objects.create(host=host)
     TournamentParticipant.objects.create(tournament=tournament, pong_user=host)
 
     tournament_ws_utils.join_user(host.user_id, tournament.tournament_id)
     tournament_ws_utils.ws_connect_user(host.user_id, tournament.tournament_id)
-    return success_response(request, "Tournament created", extra_data={"tournament_id":tournament.tournament_id})
+    return success_response(request, "tournament_created", extra_data={"tournament_id":tournament.tournament_id})
 
 
 # /api/tournament/delete/
@@ -50,19 +50,19 @@ def delete_tournament(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
     
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
 
 
     host = PongUser.objects.filter(user_id=user_id).first()
     if not host:
-        return error_response(request, "Invalid host", "host_not_found")
+        return error_response(request, "invalid_host", "host_not_found", status_code=404)
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
     if not tournament:
-        return error_response(request, "tournament_error", "tournament_not_found")
+        return error_response(request, "tournament_error", "tournament_not_found", status_code=404)
     
     if tournament.host != host:
         return error_response(request, "tournament_error", "not_tournament_host")
@@ -72,7 +72,7 @@ def delete_tournament(request):
     
     tournament_ws_utils.send_tournament_delete(tournament.tournament_id)
     tournament.delete()
-    return success_response(request, "Tournament deleted")
+    return success_response(request, "tournament_deleted")
 
 
 # /api/tournament/join/
@@ -98,7 +98,7 @@ def join_tournament(request):
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
     if not tournament:
-        return error_response(request, "tournament_error", "tournament_not_found")
+        return error_response(request, "tournament_error", "tournament_not_found", status_code=404)
 
     if tournament.state != "pending":
         return error_response(request, "tournament_error", "tournament_already_started")
@@ -113,7 +113,7 @@ def join_tournament(request):
     TournamentParticipant.objects.create(tournament=tournament, pong_user=user)
     tournament_ws_utils.join_user(user.user_id, tournament.tournament_id)
     tournament_ws_utils.ws_connect_user(user.user_id, tournament.tournament_id)
-    return success_response(request, "Joined tournament", extra_data={"tournament_id":tournament_id})
+    return success_response(request, "joined_tournament", extra_data={"tournament_id":tournament_id})
 
 
 # /api/tournament/leave/
@@ -127,10 +127,10 @@ def leave_tournament(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
     
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     if not PongUser.objects.filter(user_id=user_id).exists():
         create_user_if_not_exists(user_id)
@@ -139,7 +139,7 @@ def leave_tournament(request):
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
     if not tournament:
-        return error_response(request, "Invalid tournament", "tournament_not_found")
+        return error_response(request, "invalid_tournament", "tournament_not_found", status_code=404)
 
     if not TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).exists():
         return error_response(request, "tournament_error", "tournament_doesnt_participate")
@@ -150,7 +150,7 @@ def leave_tournament(request):
     TournamentParticipant.objects.filter(tournament=tournament, pong_user=user).delete()
     tournament_ws_utils.ws_disconnect_user(user_id, tournament_id)
 
-    return success_response(request, "Left tournament", extra_data={"tournament_id":tournament_id})
+    return success_response(request, "left_tournament", extra_data={"tournament_id":tournament_id})
 
 
 # /api/tournament/does-participates/
@@ -164,10 +164,10 @@ def does_participates(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
     
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     if not PongUser.objects.filter(user_id=user_id).exists():
         create_user_if_not_exists(user_id)
@@ -190,13 +190,13 @@ def tournament_state(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
     if not tournament:
-        return error_response(request, "Invalid tournament", "tournament_not_found")
+        return error_response(request, "invalid_tournament", "tournament_not_found", status_code=404)
     
-    return success_response(request, "State retrieved", extra_data={"state":tournament.state})
+    return success_response(request, "state_retrieved", extra_data={"state":tournament.state})
 
 
 # /api/tournament/list/
@@ -210,7 +210,7 @@ def tournament_list(request):
         data[tournament.tournament_id] = {"tournament_id": tournament.tournament_id, 'player_count': participantCount}
 
     
-    return success_response(request, "List retrieved", extra_data={"data":data})
+    return success_response(request, "list_retrieved", extra_data={"data":data})
 
 
 # /api/tournament/participants/
@@ -223,17 +223,17 @@ def tournament_participants(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
     if not tournament:
-        return error_response(request, "Invalid tournament", "tournament_not_found")
+        return error_response(request, "invalid_tournament", "tournament_not_found", status_code=404)
 
     data = []
     for tournament_participant in TournamentParticipant.objects.filter(tournament=tournament).all():
         data.append(tournament_participant.pong_user.user_id)
     
-    return success_response(request, "List retrieved", extra_data={"participants":data})
+    return success_response(request, "list_retrieved", extra_data={"participants":data})
 
 
 # /api/tournament/ws_connect/
@@ -247,10 +247,10 @@ def ws_connect(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
     
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     if not PongUser.objects.filter(user_id=user_id).exists():
         create_user_if_not_exists(user_id)
@@ -261,7 +261,7 @@ def ws_connect(request):
         return error_response(request, "tournament_error", "tournament_doesnt_participate")
     
     tournament_ws_utils.ws_connect_user(user_id, tournament_id)
-    return success_response(request, "Connected successfully", extra_data={'tournament_id':tournament_id})
+    return success_response(request, "connected_successfully", extra_data={'tournament_id':tournament_id})
 
 
 # /api/tournament/is-host/
@@ -275,17 +275,17 @@ def is_host(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
     
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
     if not tournament:
-        return error_response(request, "Invalid tournament", "tournament_not_found")
+        return error_response(request, "invalid_tournament", "tournament_not_found", status_code=404)
 
     if not PongUser.objects.filter(user_id=user_id).exists():
-        return error_response(request, "Invalid user", "user_not_found")
+        return error_response(request, "Invalid user", "user_not_found", status_code=404)
         
     user = PongUser.objects.filter(user_id=user_id).get()
     
@@ -294,9 +294,9 @@ def is_host(request):
     
     participant = TournamentParticipant.objects.filter(tournament_id=tournament_id, pong_user=user).get()
     if tournament.host != participant.pong_user:
-        return error_response(request, "Invalid host", "not_tournament_host")
+        return error_response(request, "invalid_host", "not_tournament_host")
     
-    return success_response(request, "User is host", extra_data={'is_host':True})
+    return success_response(request, "user_is_host", extra_data={'is_host':True})
 
 
 # /api/tournament/get-hosted/
@@ -309,7 +309,7 @@ def get_hosted_tournament(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id_missing")
+        return error_response(request, "missing_parameter", "user_id_missing")
 
     try:
         user = PongUser.objects.get(user_id=user_id)
@@ -324,7 +324,7 @@ def get_hosted_tournament(request):
         tournament_id = tournament.tournament_id
         participant_count = TournamentParticipant.objects.filter(tournament=tournament).count()
         
-    return success_response(request, "Data retrieved", extra_data={
+    return success_response(request, "data_retrieved", extra_data={
             "tournament_id": tournament_id,
             "participant_count": participant_count
         })

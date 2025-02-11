@@ -26,15 +26,15 @@ def launch_tournament(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not user_id:
-        return error_response(request, "Missing parameter", "user_id missing")
+        return error_response(request, "missing_parameter", "user_id missing")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
     host = PongUser.objects.filter(user_id=user_id).first()
     if not host:
-        return error_response(request, "Invalid host", "host_not_found")
+        return error_response(request, "Invalid host", "host_not_found", status_code=404)
     
     if tournament.host != host:
         return error_response(request, "Invalid host", "not_tournament_host")
@@ -55,7 +55,7 @@ def launch_tournament(request):
 
     tournament_ws_utils.send_tournament_started(tournament_id=tournament.tournament_id)
 
-    return success_response(request, "Tournament launched successfully", extra_data={"tournament_rounds": rounds})
+    return success_response(request, "tournament_launched_successfully", extra_data={"tournament_rounds": rounds})
 
 
 def generate_tournament_matches(tournament: Tournament):
@@ -124,7 +124,7 @@ def get_tournament_rounds(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
 
@@ -166,12 +166,12 @@ def start_next_tournament_round(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id_missing")
+        return error_response(request, "missing_parameter", "tournament_id_missing")
 
     try:
         tournament = Tournament.objects.get(tournament_id=tournament_id)
     except Tournament.DoesNotExist:
-        return error_response(request, "tournament_error", "tournament_not_found")
+        return error_response(request, "tournament_error", "tournament_not_found", status_code=404)
 
     if tournament.state != 'ongoing':
         return error_response(request, "tournament_error", "tournament_not_ongoing")
@@ -211,7 +211,7 @@ def start_next_tournament_round(request):
         match.save()
         game_ids.append(game_id)
 
-    return success_response(request, "Round started", extra_data={"game_ids": game_ids})
+    return success_response(request, "round_started", extra_data={"game_ids": game_ids})
 
 
 @sync_to_async
