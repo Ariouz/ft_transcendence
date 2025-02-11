@@ -4,7 +4,7 @@ from pong_service_app.models import *
 from concurrent.futures import ThreadPoolExecutor
 import json
 import logging
-from . import game_manager
+from . import game
 import asyncio
 from pong_service_app.response_messages import success_response, error_response
 from .themes import get_theme
@@ -83,6 +83,8 @@ def create_local_game(request):
     try:
         data = json.loads(request.body)
         user_id = data.get("user_id")
+        if (user_id == None):
+            return error_response(request, "user_no_id", "user_id_required")
     except:
         return error_response(request, "user_no_id", "user_id_required")
 
@@ -110,10 +112,10 @@ def can_join(request):
     
     game = game.get()
     if not user_id in [int(id) for id in game.users]:
-        return error_response(request, "game_cannot_join", "player_cannot_join_this_game", status=403)
+        return error_response(request, "game_cannot_join", "player_cannot_join_this_game", status_code=403)
 
     if game.status in ["finished", "forfaited"]:
-        return error_response(request, "game_ended", "game_has_ended", status=403)
+        return error_response(request, "game_ended", "game_has_ended", status_code=403)
 
     return success_response(request, "game_user_can_join", extra_data={"success":True})
 
@@ -123,4 +125,4 @@ def run_start_game(game_id):
     except RuntimeError:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-    loop.run_in_executor(executor, lambda: loop.run_until_complete(game_manager.start_game(game_id)))
+    loop.run_in_executor(executor, lambda: loop.run_until_complete(game.start_game(game_id)))

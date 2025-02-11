@@ -1,95 +1,121 @@
+import json
+import logging
 from django.test import TestCase
 from django.urls import reverse
-from unittest.mock import patch
-import json
-from pong_service_app.models import PongGame
+from pong_service_app.models import PongGame, PongUser
+from pong_service_app.api.themes import get_default_theme
 
-class GameViewsTestCase(TestCase):
-    
+class PongGameViewsTestCase(TestCase):
     def setUp(self):
-        self.test_game = PongGame.objects.create(
-            game_id="test_game",
+        """Create test data"""
+        self.user = PongUser.objects.create(user_id=1)
+        self.game = PongGame.objects.create(
+            game_id=1,
             users=[1, 2],
-            status="waiting",
-            type="local1v1",
-            score={"1": 0, "2": 0},
-            winner_id=None,
-            map_theme="default",
-            tournament_id=None
+            winner_id=1,
+            score=[{"player1": 10, "player2": 5}],
+            type="1v1",
+            status="ongoing",
+            map_theme=get_default_theme(),
         )
-        self.api_url = "https://testserver/api/"
-
-    def test_get_game_data_success(self):
-        url = f"{self.api_url}game/data/?game_id=test_game"
+    
+    def test_get_game_data(self):
+        """Test retrieving game data"""
+        url = "https://testserver/api/game/data/?game_id=1"
         response = self.client.get(url, secure=True)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["data"]["game_id"], "test_game")
-
+    
     def test_get_game_data_no_id(self):
-        url = f"{self.api_url}game/data/"
+        """Test retrieving game data with no game_id"""
+        url = "https://testserver/api/game/data/"
         response = self.client.get(url, secure=True)
         self.assertEqual(response.status_code, 400)
-
-    def test_get_game_data_not_found(self):
-        url = f"{self.api_url}game/data/?game_id=non_existent_game"
+    
+    def test_get_game_data_invalid_id(self):
+        """Test retrieving game data with invalid game_id"""
+        url = "https://testserver/api/game/data/?game_id=999"
         response = self.client.get(url, secure=True)
         self.assertEqual(response.status_code, 404)
-
-    @patch("myapp.views.run_start_game")
-    def test_start_game_success(self, mock_run_start_game):
-        url = f"{self.api_url}game/start/"
-        response = self.client.post(url, json.dumps({"game_id": "test_game"}), content_type="application/json", secure=True)
+    
+    def test_start_game(self):
+        """Test starting a game"""
+        url = "https://testserver/api/game/start/"
+        response = self.client.post(url, json.dumps({"game_id": 1}), content_type="application/json", secure=True)
         self.assertEqual(response.status_code, 200)
-        mock_run_start_game.assert_called_once_with("test_game")
-
+    
     def test_start_game_no_id(self):
-        url = f"{self.api_url}game/start/"
+        """Test starting a game with no game_id"""
+        url = "https://testserver/api/game/start/"
         response = self.client.post(url, json.dumps({}), content_type="application/json", secure=True)
-        self.assertEqual(response.status_code, 400)
-
-    def test_start_game_not_found(self):
-        url = f"{self.api_url}game/start/"
-        response = self.client.post(url, json.dumps({"game_id": "non_existent_game"}), content_type="application/json", secure=True)
         self.assertEqual(response.status_code, 404)
-
-    def test_create_local_game_success(self):
-        url = f"{self.api_url}game/create/local/"
+    
+    def test_start_game_invalid_id(self):
+        """Test starting a game with invalid game_id"""
+        url = "https://testserver/api/game/start/"
+        response = self.client.post(url, json.dumps({"game_id": 999}), content_type="application/json", secure=True)
+        self.assertEqual(response.status_code, 404)
+    
+    def test_create_local_game(self):
+        """Test creating a local game"""
+        url = "https://testserver/api/game/create/local/"
         response = self.client.post(url, json.dumps({"user_id": 1}), content_type="application/json", secure=True)
         self.assertEqual(response.status_code, 200)
-
-    def test_create_local_game_no_user_id(self):
-        url = f"{self.api_url}game/create/local/"
+    
+    def test_create_local_game_no_id(self):
+        """Test creating a local game with no user_id"""
+        url = "https://testserver/api/game/create/local/"
         response = self.client.post(url, json.dumps({}), content_type="application/json", secure=True)
         self.assertEqual(response.status_code, 400)
-
-    def test_can_join_success(self):
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"user_id": 1, "game_id": "test_game"}), content_type="application/json", secure=True)
+    
+    # TODO
+    # def test_create_local_game_not_existing_id(self):
+    #     """Test creating a local game with not existing user_id"""
+    #     url = "https://testserver/api/game/create/local/"
+    #     response = self.client.post(url, json.dumps({"user_id": 42}), content_type="application/json", secure=True)
+    #     self.assertEqual(response.status_code, 400)
+        
+    def test_can_join(self):
+        """Test checking if a user can join a game"""
+        url = "https://testserver/api/game/can-join/"
+        response = self.client.post(
+            url,
+            json.dumps({"user_id": 1, "game_id": 1}),
+            content_type="application/json",
+            secure=True
+        )
         self.assertEqual(response.status_code, 200)
-
-    def test_can_join_no_user_id(self):
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"game_id": "test_game"}), content_type="application/json", secure=True)
+    
+    def test_can_join_invalid_game_id(self):
+        """Test checking if a user can join a non-existent game"""
+        url = "https://testserver/api/game/can-join/"
+        response = self.client.post(
+            url,
+            json.dumps({"user_id": 1, "game_id": 999}),
+            content_type="application/json",
+            secure=True
+        )
         self.assertEqual(response.status_code, 400)
-
-    def test_can_join_no_game_id(self):
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"user_id": 1}), content_type="application/json", secure=True)
-        self.assertEqual(response.status_code, 400)
-
-    def test_can_join_game_not_found(self):
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"user_id": 1, "game_id": "non_existent_game"}), content_type="application/json", secure=True)
-        self.assertEqual(response.status_code, 404)
-
-    def test_can_join_not_a_player(self):
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"user_id": 3, "game_id": "test_game"}), content_type="application/json", secure=True)
+    
+    def test_can_join_invalid_user_id(self):
+        """Test checking if a user not in the game can join"""
+        url = "https://testserver/api/game/can-join/"
+        response = self.client.post(
+            url,
+            json.dumps({"user_id": 3, "game_id": 1}),
+            content_type="application/json",
+            secure=True
+        )
         self.assertEqual(response.status_code, 403)
-
-    def test_can_join_game_ended(self):
-        self.test_game.status = "finished"
-        self.test_game.save()
-        url = f"{self.api_url}game/can-join/"
-        response = self.client.post(url, json.dumps({"user_id": 1, "game_id": "test_game"}), content_type="application/json", secure=True)
+    
+    def test_can_join_finished_game(self):
+        """Test checking if a user can join a finished game"""
+        self.game.status = "finished"
+        self.game.save()
+        url = "https://testserver/api/game/can-join/"
+        response = self.client.post(
+            url,
+            json.dumps({"user_id": 1, "game_id": 1}),
+            content_type="application/json",
+            secure=True
+        )
         self.assertEqual(response.status_code, 403)

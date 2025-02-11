@@ -314,7 +314,7 @@ def get_hosted_tournament(request):
     try:
         user = PongUser.objects.get(user_id=user_id)
     except PongUser.DoesNotExist:
-        return error_response(request, "User not found", "User not found")
+        return error_response(request, "user_not_found", "user_not_found", status_code=404)
 
     tournament = Tournament.objects.filter(host=user, state="pending").first()
     participant_count = 0

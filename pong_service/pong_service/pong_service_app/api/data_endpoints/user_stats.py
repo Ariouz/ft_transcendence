@@ -10,7 +10,7 @@ def user_history(request, user_id):
     limit = int(request.GET.get("limit", 50))
 
     if not PongUser.objects.filter(user_id=user_id).exists():
-        return error_response(request, "user_not_found", "user_not_found_id", status=404)
+        return error_response(request, "user_not_found", "user_not_found_id", status_code=404)
     
     user = PongUser.objects.filter(user_id=user_id).get()
     history = user.game_history
