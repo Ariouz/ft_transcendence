@@ -117,11 +117,14 @@ class PongGameConsumer(AsyncWebsocketConsumer):
     
 
     async def start_game(self):
-        from django.middleware.csrf import get_token
         try:
-
+            csrf_resp = ft_requests.get(f'{PONG_SERVICE_URL}/get-csrf-token/')
+            if not csrf_resp.status == 200:
+                return None
+            csrf_token = csrf_resp.json()['csrfToken']
             headers = {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrf_token,
                 'Referer': 'https://websocket_server',
             }
             data = {
