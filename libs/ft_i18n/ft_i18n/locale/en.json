@@ -191,6 +191,7 @@
   "queue_successfully_joined": "Successfully joined the queue!",
   "queue_successfully_left": "Successfully left the queue!",
   "queue_already_in": "Already in queue",
+  "queue_user_is_already_in": "User is already in the queue",
   "not_in_queue": "Not in queue",
   "queue_user_is_not_in": "User is not in the queue",
   "game_type_invalid": "Invalid game type",
@@ -239,6 +240,20 @@
   "tournament_not_pending": "Tournament isn't pending",
   "tournament_not_ongoing": "Tournament isn't ongoing",
   "tournament_not_enough_players": "At least 3 players must join the tournament to be launched",
-  "tournament_wait_for_matches": "You must wait for all matches to be finished"
-
+  "tournament_wait_for_matches": "You must wait for all matches to be finished",
+  
+  "tournament_created": "Tournament created",
+  "tournament_deleted": "Tournament deleted",
+  "joined_tournament": "Joined tournament",
+  "already_in_another_tournament": "You already participate to another tournament",
+  "missing_parameter": "Missing parameter",
+  "invalid_host": "Invalid host",
+  "invalid_tournament": "Invalid tournament",
+  "left_tournament": "Left tournament",
+  "state_retrieved": "State retrieved",
+  "list_retrieved": "List retrieved",
+  "connected_successfully": "Connected successfully",
+  "user_is_host": "User is host",
+  "round_started": "Round started",
+  "tournament_launched_successfully": "Tournament launched successfully"
 }
