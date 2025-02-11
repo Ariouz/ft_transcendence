@@ -9,7 +9,7 @@ import json
 from pong_service_app.response_messages import success_response, error_response
 import math
 from asgiref.sync import async_to_sync, sync_to_async
-from ..api.game import create_game
+from ..api.game_create import create_game
 from ..api.objects import pong_game_state
 from ..api.themes import get_theme, get_tournament_theme
 from . import tournament_ws_utils
@@ -29,23 +29,23 @@ def launch_tournament(request):
         return error_response(request, "Missing parameter", "user_id missing")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id missing")
+        return error_response(request, "Missing parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
     host = PongUser.objects.filter(user_id=user_id).first()
     if not host:
-        return error_response(request, "Invalid host", "Host user not found")
+        return error_response(request, "Invalid host", "host_not_found")
     
     if tournament.host != host:
-        return error_response(request, "Invalid host", "User is not the tournament's host")
+        return error_response(request, "Invalid host", "not_tournament_host")
 
     if tournament.state != 'pending':
-        return error_response(request, "Tournament cannot be launched in its current state", "Tournament isn't pending")
+        return error_response(request, "tournament_error", "tournament_not_pending")
 
     participant_count = TournamentParticipant.objects.filter(tournament=tournament).count()
 
     if participant_count <= 2:
-        return error_response(request, "No enough players", "Participant count must be > 2")
+        return error_response(request, "tournament_error", "tournament_not_enough_players")
 
     tournament.total_rounds = math.ceil(math.log2(participant_count)) if participant_count > 0 else 0
     tournament.state = 'ongoing'
@@ -124,7 +124,7 @@ def get_tournament_rounds(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id missing")
+        return error_response(request, "Missing parameter", "tournament_id_missing")
     
     tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
 
@@ -166,15 +166,15 @@ def start_next_tournament_round(request):
         return error_response(request, "invalid_json", "invalid_json")
 
     if not tournament_id:
-        return error_response(request, "Missing parameter", "tournament_id missing")
+        return error_response(request, "Missing parameter", "tournament_id_missing")
 
     try:
         tournament = Tournament.objects.get(tournament_id=tournament_id)
     except Tournament.DoesNotExist:
-        return error_response(request, "Tournament not found", "Tournament not found")
+        return error_response(request, "tournament_error", "tournament_not_found")
 
     if tournament.state != 'ongoing':
-        return error_response(request, "Invalid tournament state", "Tournament is not ongoing")
+        return error_response(request, "tournament_error", "tournament_not_ongoing")
 
     current_round = tournament.current_round
 
@@ -182,18 +182,18 @@ def start_next_tournament_round(request):
 
     for match in matches:
         if match.pong_game is not None:
-            return error_response(request, "Round already started", f"You must wait for all matches to be finished")
+            return error_response(request, "tournament_error", f"tournament_wait_for_matches")
 
     game_ids = []
     for match in matches:
-        players = [match.player1.user_id]
+        players = [str(match.player1.user_id)]
         if match.player2:
-            players.append(match.player2.user_id)
+            players.append(str(match.player2.user_id))
 
         if match.player1 == match.player2:
             game = PongGame.objects.create(
                 users=players, 
-                type="classic", 
+                type="tournament", 
                 map_theme=get_tournament_theme(), 
                 winner_id=match.player1.user_id,
                 status="finished",
@@ -203,7 +203,7 @@ def start_next_tournament_round(request):
             game_id = game.game_id
             logging.getLogger("django").info(f"Created finished game (same players): {players}")
         else:
-            game_id = create_game(players, "classic", tournament_id=tournament_id, theme="tournament")
+            game_id = create_game(players, "tournament", tournament_id=tournament_id, theme="tournament")
             game = PongGame.objects.get(game_id=game_id)
             logging.getLogger("django").info(f"Creating game with {players}")
 

@@ -16,8 +16,8 @@ async function createTournament() {
         console.log(`Created tournament ${tournamentId}`);
         // navigate(`/tournament/lobby?tid=${tournamentId}`);
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -94,8 +94,8 @@ async function deleteTournament(tournamentId)
         g_tournamentWebSocket = null;
        navigate("/tournament");
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 
 }
@@ -114,8 +114,8 @@ async function joinTournament(tournamentId)
        displayTournamentSuccess(data.success);
        navigate(`/tournament/lobby?tid=${data.tournament_id}`);
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -136,8 +136,8 @@ async function leaveTournament(tournamentId)
        g_tournamentWebSocket = null;
        navigate(`/tournament`);
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -185,11 +185,11 @@ async function askToConnectToTournamentWS(tournamentId)
     .then(data => {
     //    navigate(`/tournament/lobby?tid=${data.tournament_id}`);
     })
-    .catch(error => {
+    .catch(async error => {
         if (g_tournamentWebSocket) g_tournamentWebSocket.close();
         g_tournamentWebSocket = null;
         navigate("/tournament")
-        displayTournamentError(error.error, error.details);
+        await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -207,8 +207,8 @@ async function launchTournament(tournamentId)
        console.log(data);
        navigate(`/tournament/rounds?tid=${tournamentId}`);
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -223,8 +223,8 @@ async function getTournamentRounds(tournamentId)
        console.log(data);
        return data;
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
         return {rounds: []};
     });
 }
@@ -242,8 +242,8 @@ async function startTournamentNextRound(tournamentId)
     .then(data => {
        console.log("Starting round matches");
     })
-    .catch(error => {
-        displayTournamentError(error.error, error.details);
+    .catch(async error => {
+        await displayTournamentError(error.error, error.details);
     });
 }
 

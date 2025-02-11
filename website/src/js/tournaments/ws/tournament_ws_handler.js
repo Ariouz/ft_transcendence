@@ -33,23 +33,26 @@ async function handleTournamentUserJoinedWS(data)
     let displayNameReq = await retrieveDisplayName(userId);
     console.log(displayNameReq);
     let userDisplayName = displayNameReq.display_name;
-    displayTournamentSuccess(userDisplayName + " has joined"); // TODO translate using g_tournamentTranslations[key]
+    displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_joined")}`);
     addTournamentParticipantToList(userId);
 }
 
 async function handleTournamentUserLeftWS(data)
 {
+    let state = await getTournamentState(tournamentId);
+    if (state == "finished") return ;
+
     let userId = data.user_id;
     let displayNameReq = await retrieveDisplayName(userId);
     console.log(displayNameReq);
     let userDisplayName = displayNameReq.display_name;
-    displayTournamentSuccess(userDisplayName + " has left"); // TODO translate using g_tournamentTranslations[key]
+    displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_left")}`);
     removeTournamentParticipantListEntry(userId);
 }
 
 async function handleTournamentDeleteWs()
 {
-    displayTournamentSuccess("Tournament cancelled");// TODO translate using g_tournamentTranslations[key]
+    displayTournamentSuccess(await fetchTranslation("tournament_cancelled"));
     if (g_tournamentWebSocket)
         g_tournamentWebSocket.close()
     g_tournamentWebSocket = null;
@@ -58,7 +61,6 @@ async function handleTournamentDeleteWs()
 
 async function handleTournamentRoundUpdate(data)
 {
-    console.log(data);
     await updateTournamentMatch(data);
 }
 
@@ -69,6 +71,5 @@ async function handleTournamentRoundGenerated(tid)
 
 async function handleTournamentEnded(data)
 {
-    console.log("Tournament end");
     await endTournament(data.tournament_id, data.winner_id);
 }

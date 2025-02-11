@@ -66,13 +66,13 @@ function updateScore(game_data, data)
     }, 1000);
 }
 
-function startTimer(countdown_timer)
+async function startTimer(countdown_timer)
 {
     if (g_pongGameOpponentDisconnected) return ;
 
     txt_time = countdown_timer - 3 - 1;
 
-    let startingTranslation = g_pongTranslations["starting"];
+    let startingTranslation = await fetchTranslation("pong_game_starting");
     pong_text_overlay.innerText = `${startingTranslation}`;
 
     pong_text_overlay.classList.add("pong_text_overlay_shown");
