@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from django.db.models import F
 from pong_service_app.models import *
 from .. import pong_user
+import logging
 from pong_service_app.response_messages import success_response
 
 @require_http_methods(["GET"])
@@ -41,7 +42,7 @@ def get_leaderboard(request):
 
         user_rank = (page_number - 1) * limit + rank
         
-        users[user_id] = {
+        users[user_rank] = {
             "rank": user_rank,
             "user_id": user_id,
             "played": stat.played,
@@ -53,4 +54,5 @@ def get_leaderboard(request):
         count += 1
 
     user_count = PongUserStats.objects.exclude(played=0).count()
+
     return success_response(request, "leaderboard_found", extra_data={"leaderboard": users, "user_count": user_count})

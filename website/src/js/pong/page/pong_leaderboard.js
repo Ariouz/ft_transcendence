@@ -52,29 +52,29 @@ async function loadLeaderboard(page)
 {
     let itemsPerPage = 6;
     
-    let userHistoryData = await getLeaderboardData(page * itemsPerPage, itemsPerPage);
-    let historyList = document.getElementById("leaderboard_table_content");
+    let leaderboardData = await getLeaderboardData(page * itemsPerPage, itemsPerPage);
+    let leaderboardList = document.getElementById("leaderboard_table_content");
     
-    let userCount = userHistoryData.user_count;
+    let userCount = leaderboardData.user_count;
     g_leaderboardMaxPage = userCount / itemsPerPage;
     
     let userLang = `${SELECTED_LANGUAGE}-${SELECTED_LANGUAGE.toUpperCase()}`;
     
-    let history = userHistoryData.leaderboard;
+    let leaderboard = leaderboardData.leaderboard;
     
-    if (Object.values(history).length == 0)
+    if (Object.values(leaderboard).length == 0)
     {
-        historyList.innerHTML = "";
+        leaderboardList.innerHTML = "";
         document.getElementById("leaderboard_error").style.display = "block";
         document.getElementById("leaderboard_error").innerText = await fetchTranslation("leaderboard_no_user");
         return ;
     }
     
     fragment = document.createDocumentFragment();
-    for (game in history)
-        await addGameToLeaderboard(history[game], userLang, fragment);
+    for (user in leaderboard)
+        await addGameToLeaderboard(leaderboard[user], userLang, fragment);
 
-    historyList.replaceChildren(fragment);
+    leaderboardList.replaceChildren(fragment);
     document.getElementById("leaderboard_error").style.display = "none";
 }
 
