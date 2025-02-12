@@ -42,7 +42,6 @@ def get_game_data(request):
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 
-# @csrf_exempt
 @require_http_methods(["POST"])
 def start_game(request, game_id=None, auth_token=None):
 

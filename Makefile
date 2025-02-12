@@ -95,6 +95,7 @@ deploy_libs:
 	@echo "Starting libs_builder container..." ; echo
 	@docker compose up libs_builder ; echo
 	@echo "libs_builder container finished." ; echo
+	@docker remove libs-builder
 	@echo "Running deployment script..." ; echo
 	@./libs/deploy_libs.sh ; echo
 	@echo "Deployment completed successfully."
@@ -107,6 +108,7 @@ delete_libs: delete_libs_virtual_environments
 	@echo "Starting libs_cleaner container..." ; echo
 	@docker compose up libs_cleaner ; echo
 	@echo "libs_cleaner container finished."
+	@docker remove libs-cleaner
 
 cleanup_libs: delete_libs
 

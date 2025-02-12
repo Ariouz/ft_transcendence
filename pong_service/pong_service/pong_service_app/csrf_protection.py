@@ -4,6 +4,5 @@ from django.middleware.csrf import get_token
 
 @ensure_csrf_cookie
 def get_csrf_token(request):
-    #get_token(request)
-    #
-    return JsonResponse({'csrfToken': request.COOKIES.get('csrftoken', '')})
+    return JsonResponse({'csrfToken': get_token(request)})
+    # return JsonResponse({'csrfToken': request.COOKIES.get('csrftoken', '')})
