@@ -208,5 +208,7 @@
   "tournament_not_pending": "Turneul nu este în așteptare",
   "tournament_not_ongoing": "Turneul nu este în desfășurare",
   "tournament_not_enough_players": "Cel puțin 3 jucători trebuie să se alăture turneului pentru a fi lansat",
-  "tournament_wait_for_matches": "Trebuie să aștepți ca toate meciurile să se termine"
+  "tournament_wait_for_matches": "Trebuie să aștepți ca toate meciurile să se termine",
+
+  "service_unavailable": "Acest serviciu nu este disponibil în acest moment, vă rugăm să încercați din nou mai târziu."
 }

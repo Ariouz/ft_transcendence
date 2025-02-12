@@ -208,5 +208,7 @@
     "tournament_not_pending": "Das Turnier ist nicht ausstehend",
     "tournament_not_ongoing": "Das Turnier ist nicht im Gange",
     "tournament_not_enough_players": "Mindestens 3 Spieler müssen dem Turnier beitreten, damit es gestartet werden kann",
-    "tournament_wait_for_matches": "Du musst warten, bis alle Spiele beendet sind"
+    "tournament_wait_for_matches": "Du musst warten, bis alle Spiele beendet sind",
+
+    "service_unavailable": "Dieser Dienst ist derzeit nicht verfügbar, bitte versuchen Sie es später noch einmal."
 }

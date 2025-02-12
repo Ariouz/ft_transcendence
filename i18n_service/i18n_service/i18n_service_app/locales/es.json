@@ -209,5 +209,7 @@
   "tournament_not_pending": "El torneo no está pendiente",
   "tournament_not_ongoing": "El torneo no está en curso",
   "tournament_not_enough_players": "Deben unirse al menos 3 jugadores al torneo para ser lanzado",
-  "tournament_wait_for_matches": "Debe esperar a que terminen todos los partidos"
+  "tournament_wait_for_matches": "Debe esperar a que terminen todos los partidos",
+
+  "service_unavailable": "Este servicio no está disponible en este momento, por favor inténtalo más tarde."
 }

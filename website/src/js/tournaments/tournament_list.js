@@ -24,7 +24,7 @@ async function loadList()
     listContainer.replaceChildren();
     
     let list = await getTournaments();
-    console.log(list);
+    if (!list) return ;
     for (tournament in list)
     {
         let tournamentData = list[tournament];

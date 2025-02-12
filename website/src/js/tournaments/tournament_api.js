@@ -17,7 +17,8 @@ async function createTournament() {
         // navigate(`/tournament/lobby?tid=${tournamentId}`);
     })
     .catch(async error => {
-        await displayTournamentError(error.error, error.details);
+        if (error && error.error && error.details)
+            await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -151,7 +152,6 @@ async function getTournaments()
         return data.data;
     })
     .catch(error => {
-        console.error(error);
         return {};
     });
     return data;

@@ -1,6 +1,8 @@
 async function fetchCsrfToken(port) {
     const response = await fetch(`https://${g_host}:${port}/api/get-csrf-token/`, {
         credentials: 'include',
+    }).catch(async error => {
+        await showUnavailableError();
     });
     const data = await response.json();
     return data.csrfToken;

@@ -63,6 +63,7 @@ async function loadHistory(page)
     let itemsPerPage = 6;
     
     let userHistoryData = await getUserGameHistory(userId, page * itemsPerPage, itemsPerPage);
+    
     let historyList = document.getElementById("history_list");
     
     let onlineGamesPlayed = userHistoryData.online_games_played;
@@ -79,6 +80,8 @@ async function loadHistory(page)
     let userLang = `${SELECTED_LANGUAGE}-${SELECTED_LANGUAGE.toUpperCase()}`;
     
     let history = userHistoryData.history;
+    if (!history)
+        return ;
     
     if (Object.values(history).length == 0)
     {
