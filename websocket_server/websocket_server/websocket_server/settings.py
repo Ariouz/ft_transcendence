@@ -39,7 +39,7 @@ ALLOWED_HOSTS = ['localhost', 'websocket_server', 'pong-service', 'users-service
 CORS_ALLOWED_ORIGINS = [
     "https://127.0.0.1:8443",
     "https://localhost:8443",
-    f"https://{os.getenv("HOST_IP")}"
+    f"https://{os.getenv("HOST_IP")}:8443"
 ]
 
 
