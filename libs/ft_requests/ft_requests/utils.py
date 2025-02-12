@@ -23,15 +23,13 @@ def parse_url(url):
     return host, path, port, scheme
 
 
-def get_response_data(conn):
+def get_response_data(response):
     try:
-        response = conn.getresponse()
         content_type = response.getheader('Content-Type')
         if 'text' in content_type or 'application/json' in content_type:
             data = response.read().decode("utf-8")
         else:
             data = response.read()
-        conn.close()
         return Response(response.status, data)
     except http.client.HTTPException as e:
         raise RequestException(f"Connection error: {e}")

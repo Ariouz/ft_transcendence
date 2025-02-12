@@ -66,13 +66,6 @@ class PongGameViewsTestCase(TestCase):
         url = "https://testserver/api/game/create/local/"
         response = self.client.post(url, json.dumps({}), content_type="application/json", secure=True)
         self.assertEqual(response.status_code, 400)
-    
-    # TODO
-    # def test_create_local_game_not_existing_id(self):
-    #     """Test creating a local game with not existing user_id"""
-    #     url = "https://testserver/api/game/create/local/"
-    #     response = self.client.post(url, json.dumps({"user_id": 42}), content_type="application/json", secure=True)
-    #     self.assertEqual(response.status_code, 400)
         
     def test_can_join(self):
         """Test checking if a user can join a game"""

@@ -99,7 +99,10 @@ function isOfflineTimestampValid() {
 
     const offlineTime = new Date(parseInt(offlineTimestamp, 10));
     const now = new Date();
-    return now - offlineTime < I18N_SERVICE_OFFLINE_TIMER_MINUTES;
+    const isTimeNotElapsed = (now - offlineTime) < I18N_SERVICE_OFFLINE_TIMER_MINUTES;
+    if (!isTimeNotElapsed)
+        sessionStorage.removeItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
+    return isTimeNotElapsed;
 }
 
 

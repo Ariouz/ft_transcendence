@@ -76,7 +76,6 @@ function displayFriendList() {
     g_currentFriendList.forEach(friend => {
         let friendElement = document.createElement("li");
         friendElement.id = `user-${friend.user_id}`;
-        // friendElement.className = 'list-group-item card-content-background'
         let usernameSpan = document.createElement("span");
         usernameSpan.textContent = friend.username;
         usernameSpan.style.cursor = "pointer";
@@ -103,7 +102,6 @@ function displayMessageInFriendList(message) {
     let friendListElement = document.getElementById('friend-list');
     friendListElement.innerHTML = '';
     let errorElement = document.createElement('li');
-    // errorElement.className = 'list-group-item card-content-background';
     errorElement.innerText = message;
     friendListElement.appendChild(errorElement);
 }

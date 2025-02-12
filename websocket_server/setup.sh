@@ -48,6 +48,4 @@ update-ca-certificates
 
 echo "Start Django server and Daphne"
 
-# $MANAGE runserver_plus $ADDRESS --cert-file=/etc/ssl/certs/selfsigned.crt --key-file=/etc/ssl/private/selfsigned.key &
-# $MANAGE runserver $ADDRESS &
 cd ${PROJECT_NAME} && daphne -e ssl:7000:privateKey=/etc/ssl/private/selfsigned.key:certKey=/etc/ssl/certs/selfsigned.crt websocket_server.asgi:application

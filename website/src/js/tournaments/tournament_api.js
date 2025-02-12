@@ -11,10 +11,7 @@ async function createTournament() {
     let requestData = { host_id: userId };
     postWithCsrfToken(url, requestData, true)
     .then(data => {
-        let tournamentId = data.tournament_id;
         displayTournamentSuccess(data.success);
-        console.log(`Created tournament ${tournamentId}`);
-        // navigate(`/tournament/lobby?tid=${tournamentId}`);
     })
     .catch(async error => {
         await displayTournamentError(error.error, error.details);
@@ -182,9 +179,7 @@ async function askToConnectToTournamentWS(tournamentId)
 
     let requestData = { user_id: userId, tournament_id: tournamentId };
     postWithCsrfToken(url, requestData, true)
-    .then(data => {
-    //    navigate(`/tournament/lobby?tid=${data.tournament_id}`);
-    })
+    .then(data => {})
     .catch(async error => {
         if (g_tournamentWebSocket) g_tournamentWebSocket.close();
         g_tournamentWebSocket = null;

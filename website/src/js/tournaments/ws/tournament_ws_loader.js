@@ -78,8 +78,3 @@ function createTournamentWebSocket(tournament_id, user_token) {
         handleTournamentWs(e, user_token);
     }
 }
-
-function loadTournamentWSTranslations()
-{
-    // g_TournamentTranslations['key'] = await fetchTranslation("key");
-}

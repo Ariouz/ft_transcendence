@@ -1,6 +1,5 @@
 from django.urls import path
 
-from .views import users
 from .auth.ft_auth_views import *
 from .auth.account import create_account, account_exists
 from .auth.account_settings import update_profile_settings, update_confidentiality_settings, delete_account
@@ -9,7 +8,6 @@ from .auth.user_status import *
 from .csrf_protection import get_csrf_token
 
 urlpatterns = [
-    # path('users/', users, name="users"),
     path('get-csrf-token/', get_csrf_token, name='get_csrf_token'),
 
     # Auth

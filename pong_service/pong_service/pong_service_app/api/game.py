@@ -10,6 +10,7 @@ from .themes import get_theme
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync, sync_to_async
 from .game_create import create_game
+from django.views.decorators.csrf import csrf_exempt
 
 executor = ThreadPoolExecutor()
 
@@ -38,6 +39,7 @@ def get_game_data(request):
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def start_game(request):
 
