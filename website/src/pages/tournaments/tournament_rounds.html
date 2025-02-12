@@ -26,7 +26,6 @@
     {
         // Check if player participates
         let userParticipates = await doesPlayerParticipate(tournamentId);
-        console.log("Participates: " + userParticipates);
         if (!userParticipates) {
             navigate("/tournament");
             return ;
@@ -34,7 +33,6 @@
 
         // Check tournament state
         let tournamentState = await getTournamentState(tournamentId);
-        console.log(tournamentState);
         if (tournamentState == "pending") {
             navigate(`/tournament/lobby/?tid=${tournamentId}`);
             return ;
@@ -44,7 +42,6 @@
         if (!g_tournamentWebSocket && tournamentState == "ongoing")
             createTournamentWebSocket(tournamentId, user_token);
 
-        console.log("All checks valid");
         await generateTournamentRoundList(tournamentId, true);
         await displayStartNextRoundButton(tournamentId);
     }

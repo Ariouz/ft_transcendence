@@ -68,7 +68,7 @@ async function fetchBack(url)
             return data;
         }
     } catch (error) {
-        console.log("Failed to fetch:" + error);
+        await showUnavailableError();
     }
 }
 

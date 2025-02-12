@@ -67,9 +67,13 @@
             return ;
         }
         gameData = gameData.data;
+        if (!gameData) 
+        {
+            navigate("/pong");
+            return ;
+        }
 
         let gameType = gameData.type;
-        console.log(gameData);
         if (gameType == "arcade" || gameData.is_tournament)
             changeTheme(gameData.theme);
 
@@ -91,17 +95,13 @@
 
             await loadPlayersData(gameData, token);
             let canJoinReq = await canJoinGame(gameData.game_id, userId);
-            console.log(canJoinReq);
             if (canJoinReq.success)
             {
                 await loadPongTranslations();
                 createPongGameWebSocket(gameData.game_id, token);
             }
             else
-            {
-                console.log("Cannot join game: " + canJoinReq.error);
                 navigate('/pong');
-            }
         }
         Game.startGameLoop(gameType, gameData.is_tournament);
     }

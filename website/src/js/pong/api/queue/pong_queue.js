@@ -21,13 +21,11 @@ async function joinQueue()
 
     postWithCsrfToken(url, requestData, true)
     .then(data => {
-        console.log(data);
         if (data.success)
             g_userInPongQueue = true;
         else
             navigate('/pong');
-    }).catch(error => {
-        console.log(error);
+    }).catch(async error => {
         navigate("/pong");
     });
 }
@@ -51,26 +49,30 @@ async function leaveMatchmakingQueue()
         g_userInPongQueue = false;
         navigate("/pong");
     }).catch(error => {
-        console.log(error);
         navigate("/pong");
     });
 }
 
 async function createLocalGame()
 {
-    let url = `${PONG_GAME_API}/create/local/`;
     let sessionToken = getCookie("session_token");
-    if (sessionToken == undefined) return;
+
+    if (sessionToken == undefined)
+    {
+        navigate("/login");
+        return ;
+    }
+
+    let url = `${PONG_GAME_API}/create/local/`;
 
     let userId = await retrieveId(sessionToken);
-    console.log(userId.user_id);
     let requestData = { user_id: userId.user_id };
 
     postWithCsrfToken(url, requestData, true)
     .then(data => {
         g_userInPongQueue = false;
-    }).catch(error => {
-        console.log(error);
+    }).catch(async error => {
+        await showUnavailableError();
         navigate("/pong");
     });
 }

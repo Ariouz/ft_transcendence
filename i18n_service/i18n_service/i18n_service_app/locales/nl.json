@@ -208,5 +208,7 @@
   "tournament_not_pending": "Het toernooi is niet in behandeling",
   "tournament_not_ongoing": "Het toernooi is niet bezig",
   "tournament_not_enough_players": "Er moeten minstens 3 spelers aan het toernooi deelnemen om te worden gelanceerd",
-  "tournament_wait_for_matches": "Je moet wachten tot alle wedstrijden zijn afgelopen"
+  "tournament_wait_for_matches": "Je moet wachten tot alle wedstrijden zijn afgelopen",
+
+  "service_unavailable": "Deze dienst is momenteel niet beschikbaar, probeer het later opnieuw."
 }

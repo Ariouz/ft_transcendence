@@ -80,8 +80,6 @@
     justify-content: center;
     align-items: center;
     top: 100%;
-    left: 0;
-    width: 100%;
     max-height: 0px;
     padding: 0;
     transition: max-height 0.3s ease, padding 0.3s ease;
@@ -89,10 +87,13 @@
     box-sizing: border-box;
     border: 1px solid var(--light-purple-blue);
     background-color: var(--purple-blue);
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
 }
 
 .nav_user_hover:hover .nav_user_dropdown {
-    
+    visibility: visible;
     max-height: 500px;
     padding: 3px;
     border: 1px solid var(--black-blue);
@@ -102,14 +103,13 @@
     background-color: var(--light-purple-blue);
     position: relative;
     left: 0;
-    padding: 0;
     margin: 0;
-    width: 100%;
-    max-width: 100%;
-    margin: 3px 3px 0px 3px;
+    width: 90%;
+    max-width: 90%;
+    margin: 3px 3px 1px 3px;
     text-align: center;
     color: white;
-    padding: 8px;
+    padding: 7px 8px;
     transition: 0.3s ease;
     border: 1px solid var(--light-purple-blue);
 }

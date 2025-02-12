@@ -85,8 +85,7 @@ function routeAuth(parts, params)
             .then(data => {
                 token_data = JSON.parse(JSON.stringify(data));
                 if (token_data.error) {
-                    alert("An error occured, please try again.");
-                    console.log(token_data.error + " " + token_data.details);
+                    showUnavailableError();
                     navigate("/login");
                     return ;
                 }
@@ -96,10 +95,8 @@ function routeAuth(parts, params)
                             setUserLanguage();
                         })
                 }).catch(error => {
-                    console.log(error);
                 });
             }).catch(error => {
-                console.log(error);
             });
         }
     }
@@ -197,7 +194,7 @@ function loadContent(url, onPageLoaded = () => {}) {
         onPageLoaded();
     })
     .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
+        showNotification('There was a problem displaying this content', 5);
     });
 }
 

@@ -14,7 +14,8 @@ async function createTournament() {
         displayTournamentSuccess(data.success);
     })
     .catch(async error => {
-        await displayTournamentError(error.error, error.details);
+        if (error && error.error && error.details)
+            await displayTournamentError(error.error, error.details);
     });
 }
 
@@ -86,7 +87,6 @@ async function deleteTournament(tournamentId)
     postWithCsrfToken(url, requestData, true)
     .then(data => {
        displayTournamentSuccess(data.success);
-       console.log(data);
        if (g_tournamentWebSocket) g_tournamentWebSocket.close();
         g_tournamentWebSocket = null;
        navigate("/tournament");
@@ -128,7 +128,6 @@ async function leaveTournament(tournamentId)
     postWithCsrfToken(url, requestData, true)
     .then(data => {
        displayTournamentSuccess(data.success);
-       console.log(data);
        if (g_tournamentWebSocket) g_tournamentWebSocket.close();
        g_tournamentWebSocket = null;
        navigate(`/tournament`);
@@ -144,11 +143,9 @@ async function getTournaments()
 
     let data = postWithCsrfToken(url, {}, true)
     .then(data => {
-        console.log(data.data);
         return data.data;
     })
     .catch(error => {
-        console.error(error);
         return {};
     });
     return data;
@@ -163,7 +160,6 @@ async function getTournamentParticipants(tournamentId)
         return data.participants;
     })
     .catch(error => {
-        console.error(error);
         return [];
     });
     return data;
@@ -199,7 +195,6 @@ async function launchTournament(tournamentId)
     let requestData = { user_id: userId, tournament_id: tournamentId };
     postWithCsrfToken(url, requestData, true)
     .then(data => {
-       console.log(data);
        navigate(`/tournament/rounds?tid=${tournamentId}`);
     })
     .catch(async error => {
@@ -215,7 +210,6 @@ async function getTournamentRounds(tournamentId)
     let requestData = { tournament_id: tournamentId };
     return postWithCsrfToken(url, requestData, true)
     .then(data => {
-       console.log(data);
        return data;
     })
     .catch(async error => {
@@ -235,7 +229,6 @@ async function startTournamentNextRound(tournamentId)
     let requestData = { user_id: userId, tournament_id: tournamentId };
     postWithCsrfToken(url, requestData, true)
     .then(data => {
-       console.log("Starting round matches");
     })
     .catch(async error => {
         await displayTournamentError(error.error, error.details);

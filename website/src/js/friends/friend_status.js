@@ -4,7 +4,7 @@ async function isUserFollowing(user_id, target_id)
     let follows = await fetch(url)
     .then(data => data.json())
     .then(data => { return data.is_following; })
-    .catch(error => { console.error(error); return false;});
+    .catch(error => { showNotification("An error occured", 5); return false;});
     return follows;
 }
 

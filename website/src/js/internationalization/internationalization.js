@@ -33,7 +33,7 @@ async function changeLanguage(lang) {
         await updateTranslations();
         await updateI18nOnNewPage();
     } catch (error) {
-        console.error('Error changing language:', error);
+        showNotification('An error occured changing language', 5);
     }
 }
 

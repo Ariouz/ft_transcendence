@@ -16,9 +16,9 @@ async function getFromURL(url, onSuccess, onError)
         if (response.ok) {
             onSuccess(data);
         } else {
-            onError(data);
+            onError();
         }
     } catch (error) {
-        onError(error);
+        onError();
     }
 }

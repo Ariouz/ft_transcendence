@@ -7,13 +7,11 @@ let g_friendListWebSocket;
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadFriendsWebsocket()
 {
-    console.log("WS loading friend");
     if (g_friendListWebSocket)
         return;
     let user_token = getCookie("session_token");
     if (user_token && user_token.length > 0) {
         createWebSocketFriendList();
-        console.log("WS friend");
     }
 }
 
@@ -21,18 +19,14 @@ function createWebSocketFriendList() {
     let user_token = getCookie("session_token");
     const WEBSOCKET_FRIENDS_URL = `wss://${g_host}:7000/ws/friends/${user_token}/`;
     g_friendListWebSocket = new WebSocket(WEBSOCKET_FRIENDS_URL);
-    console.log("WS: Created WebSocket for user's friend list.");
 
     g_friendListWebSocket.onopen = function (e) {
-        console.log("WS: Opened websocket connection.");
     }
 
     g_friendListWebSocket.onclose = function (e) {
-        console.log("WS: Closed websocket connection.");
     }
 
     g_friendListWebSocket.onmessage = function (e) {
-        console.log("WS: Message received:", e);
         try {
             const data = JSON.parse(e.data);
             errorRetrievingFriends = false;

@@ -22,14 +22,11 @@ async function generateTournamentRoundList(tournamentId, clearContainer=false)
 {
     let response = await getTournamentRounds(tournamentId);
 
-    console.log("resp: " + response);
     let rounds = response.rounds;
     
     let container = document.getElementById("tournamentRoundsContainer");
     if (clearContainer) container.replaceChildren();
     
-    console.log("rounds: " + rounds);
-
     rounds.forEach(async roundData =>  {
         let roundElement = await createRound(roundData);
         container.appendChild(roundElement);

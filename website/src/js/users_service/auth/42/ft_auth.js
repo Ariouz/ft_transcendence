@@ -1,8 +1,8 @@
 const FT_AUTH_URL = `${USERS_SERVICE_URL}/auth/42`;
 
-function showError(error)
+async function showUnavailableError()
 {
-    console.log(error);
+    showNotification(await fetchTranslation("service_unavailable"), 5);
 }
 
 function redirectToAuth(data)
@@ -47,7 +47,6 @@ async function createAccount(username, email, token, avatar, fullname)
         window.location.reload();
     })
     .catch(error => {
-        console.log(error)
     });
 }
 
@@ -56,7 +55,7 @@ async function ftGetAccess()
     setCookieBannerVisibility("none", "0");
 
     let url = `${FT_AUTH_URL}`;
-    getFromURL(url, redirectToAuth, showError);
+    getFromURL(url, redirectToAuth, showUnavailableError);
 }
 
 async function retrieveUsername(access_token)
