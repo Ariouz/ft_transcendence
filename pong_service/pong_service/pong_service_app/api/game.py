@@ -1,4 +1,5 @@
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from pong_service_app.models import *
 from concurrent.futures import ThreadPoolExecutor
 import json
@@ -10,9 +11,12 @@ from .themes import get_theme
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync, sync_to_async
 from .game_create import create_game
+from . import game_manager
+import os
+import ft_requests
 
 executor = ThreadPoolExecutor()
-
+PONG_SERVICE_URL = "https://pong-service:8002/api"
 
 @require_http_methods(["GET"])
 def get_game_data(request):
@@ -38,18 +42,28 @@ def get_game_data(request):
     }
     return success_response(request, "data_retrieved", extra_data={"data": data})
 
+@csrf_exempt
 @require_http_methods(["POST"])
-def start_game(request):
+def start_game(request, game_id=None, auth_token=None):
 
     logging.getLogger("django").info(f"Received start request")
     try:
         data = json.loads(request.body)
-        game_id = data.get("game_id")
+        game_id = data.get("game_id") if not game_id else game_id
+        auth_token = data.get("auth_token") if not auth_token else auth_token
     except:
-        return error_response(request, "game_no_id", "game_id_required")
+        return error_response(request, "invalid_json", "invalid_json", status_code=404)
 
+    if not game_id:
+        return error_response(request, "game_no_id", "game_id_required", status_code=404)
+
+    if not auth_token:
+        return error_response(request, "No permission", "Auth token required", status_code=404)
+
+    if not auth_token == os.getenv("START_GAME_TOKEN"):
+        return error_response(request, "No permission", "Auth token invalid", status_code=300)
+    
     if not PongGame.objects.filter(game_id=game_id).exists():
-        logging.getLogger("django").info(f"Game not found {game_id}")
         return error_response(request, "game_not_found", "game_none_with_this_id_found", status_code=404)
     
     logging.getLogger("django").info(f"Starting game {game_id}")
@@ -57,6 +71,18 @@ def start_game(request):
     
     return success_response(request, "game_started")
 
+@require_http_methods(["POST"])
+def start_local_game(request):
+    try:
+        data = json.loads(request.body)
+        game_id = data.get("game_id")
+    except json.JSONDecodeError:
+        return error_response(request, "invalid_json", "Invalid JSON", status_code=400)
+    
+    if not game_id:
+        return error_response(request, "game_no_id", "game_id_required", status_code=404)
+
+    return start_game(request, game_id, os.getenv("START_GAME_TOKEN"))
 
 @require_http_methods(["POST"])
 def create_local_game(request):
@@ -106,4 +132,4 @@ def run_start_game(game_id):
     except RuntimeError:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-    loop.run_in_executor(executor, lambda: loop.run_until_complete(game.start_game(game_id)))
+    loop.run_in_executor(executor, lambda: loop.run_until_complete(game_manager.start_game(game_id)))

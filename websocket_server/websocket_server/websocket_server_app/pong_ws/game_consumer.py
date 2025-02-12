@@ -9,6 +9,7 @@ import logging
 from ..user import user_status
 import asyncio
 from redis.asyncio import Redis
+import os
 
 USERS_SERVICE_URL = "https://users-service:8001/api"
 PONG_SERVICE_URL = "https://pong-service:8002/api"
@@ -122,13 +123,15 @@ class PongGameConsumer(AsyncWebsocketConsumer):
             if not csrf_resp.status == 200:
                 return None
             csrf_token = csrf_resp.json()['csrfToken']
+
             headers = {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrf_token,
                 'Referer': 'https://websocket_server',
             }
             data = {
-                'game_id': self.game_id
+                'game_id': self.game_id,
+                'auth_token': os.getenv("START_GAME_TOKEN")
             }
             game_resp = ft_requests.post(f'{PONG_SERVICE_URL}/game/start/', data=data, headers=headers)
             game_resp.raise_for_status()

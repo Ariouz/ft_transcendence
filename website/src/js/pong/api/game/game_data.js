@@ -15,7 +15,7 @@ async function getGameData(game_id)
 
 async function sendStartLocalGameRequest(game_id)
 {
-    let url = `${PONG_SERVICE_URL}/game/start/`;
+    let url = `${PONG_SERVICE_URL}/game/start-local/`;
     let requestData = { game_id: game_id };
     
     postWithCsrfToken(url, requestData, true)

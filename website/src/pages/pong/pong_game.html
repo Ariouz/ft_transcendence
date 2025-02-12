@@ -67,7 +67,11 @@
             return ;
         }
         gameData = gameData.data;
-        if (!gameData) navigate("/pong");
+        if (!gameData) 
+        {
+            navigate("/pong");
+            return ;
+        }
 
         let gameType = gameData.type;
         if (gameType == "arcade" || gameData.is_tournament)

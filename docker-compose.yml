@@ -106,6 +106,7 @@ services:
       DEFAULT_LANGUAGE_CODE: ${DEFAULT_LANGUAGE_CODE}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
+      START_GAME_TOKEN: ${START_GAME_TOKEN}
     volumes:
       - type: bind
         source: ./pong_service
@@ -162,6 +163,7 @@ services:
       DJANGO_SECRET: ${DJANGO_SECRET_WEBSOCKET}
       HOST_IP: ${HOST_IP}
       SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
+      START_GAME_TOKEN: ${START_GAME_TOKEN}
     volumes:
       - type: bind
         source: ./websocket_server
