@@ -47,7 +47,6 @@ async function createAccount(username, email, token, avatar, fullname)
         window.location.reload();
     })
     .catch(error => {
-        console.log(error)
     });
 }
 

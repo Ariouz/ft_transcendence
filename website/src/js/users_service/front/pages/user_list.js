@@ -61,7 +61,7 @@ async function loadUsers()
             users.push({"id": userId, "username":username, "avatar":avatar});
         }
         return users;
-    }).catch(error => { console.log(error) });
+    }).catch(error => {  });
     return userList;
 }
 

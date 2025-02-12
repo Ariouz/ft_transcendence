@@ -58,7 +58,6 @@ async function loadHostedTournamentCard()
         ]
     );
     container.appendChild(element);
-    console.log("append");
 }
 
 loadList();

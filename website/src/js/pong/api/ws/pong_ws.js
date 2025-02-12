@@ -30,18 +30,14 @@ function createPongUserWebSocket() {
     let user_token = getCookie("session_token");
     const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/pong/user/${user_token}/`;
     g_pongUserWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
-    console.log("Pong WS: Created WebSocket for user's pong.");
     
     g_pongUserWebSocket.onopen = function (e) {
-        console.log("Pong WS: Opened pong websocket connection.");
     }
     
     g_pongUserWebSocket.onclose = function (e) {
-        console.log("Pong WS: Closed pong websocket connection.");
     }
     
     g_pongUserWebSocket.onmessage = function (e) {
-        console.log("Pong WS: Message received:", e);
         try {
             const data = JSON.parse(e.data);
             g_error_pong_ws = false;
@@ -55,7 +51,6 @@ function createPongUserWebSocket() {
                     createPongGameWebSocket(game_id, user_token);
                 }
                 else {
-                    console.log(JSON.stringify(data));
                 }
             }
             else
@@ -72,14 +67,11 @@ function createPongGameWebSocket(game_id) {
     let user_token = getCookie("session_token");
     const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/pong/game/${user_token}/${game_id}/`;
     g_pongGameWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
-    console.log("Pong Game WS: Created WebSocket for user's pong.");
     
     g_pongGameWebSocket.onopen = function (e) {
-        console.log("Pong Game WS: Opened pong websocket connection.");
     }
     
     g_pongGameWebSocket.onclose = function (e) {
-        console.log("Pong Game WS: Closed pong websocket connection.");
     }
     
     g_pongGameWebSocket.onmessage = function (e) {
@@ -121,7 +113,6 @@ async function handlePongGameWs(e, user_token) {
                 let timer = data.countdown_timer;
                 let winner = data.winner;
                 let tournamentId = data.tournament_id;
-                console.log(data);
                 winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state, tournamentId);
             }
             else if (data.type == "game_user_disconnected")

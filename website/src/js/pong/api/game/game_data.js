@@ -21,7 +21,6 @@ async function sendStartLocalGameRequest(game_id)
     postWithCsrfToken(url, requestData, true)
     .then(data => {})
     .catch(error => {
-        console.log(error);
     });
 }
 
@@ -33,7 +32,6 @@ async function canJoinGame(game_id, user_id)
     return postWithCsrfToken(url, requestData, true)
     .then(data => {return data})
     .catch(error => {
-        console.log(error);
         return error;
     });
 }

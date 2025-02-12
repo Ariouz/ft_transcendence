@@ -4,7 +4,6 @@ async function handleTournamentWs(e, user_token) {
         g_error_tournament_ws = false;
         if (data.type)
         {
-            console.log(data.type);
             if (data.type == "user_joined")
                 await handleTournamentUserJoinedWS(data);
             else if (data.type == "user_left")
@@ -31,7 +30,6 @@ async function handleTournamentUserJoinedWS(data)
 {
     let userId = data.user_id;
     let displayNameReq = await retrieveDisplayName(userId);
-    console.log(displayNameReq);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_joined")}`);
     addTournamentParticipantToList(userId);
@@ -44,7 +42,6 @@ async function handleTournamentUserLeftWS(data)
 
     let userId = data.user_id;
     let displayNameReq = await retrieveDisplayName(userId);
-    console.log(displayNameReq);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_left")}`);
     removeTournamentParticipantListEntry(userId);

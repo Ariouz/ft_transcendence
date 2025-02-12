@@ -126,7 +126,6 @@ function winnerTimer(countdown_timer, winner, game_data, tournament_id)
             
             showMainNavigation();
             showFooter();
-            console.log(tournament_id);
             if (tournament_id && tournament_id != -1)
                 navigate(`/tournament/rounds?tid=${tournament_id}`);
             else navigate("/pong");
