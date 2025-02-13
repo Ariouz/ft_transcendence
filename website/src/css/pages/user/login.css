@@ -24,13 +24,14 @@
     background-color: var(--black-blue);
     padding: 10px 15px 10px 15px;
     border: 1px solid var(--light-beige);
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
     cursor: pointer;
     transform-origin: center;
     transition: 0.3s ease;
-    vertical-align: bottom;
 }
 
 .login_button_div:hover {

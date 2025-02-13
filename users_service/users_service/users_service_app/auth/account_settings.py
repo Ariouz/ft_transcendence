@@ -5,7 +5,10 @@ from django.views.decorators.http import require_http_methods
 import os
 from django.conf import settings
 from users_service_app.response_messages import error_response, success_response
-
+import ft_requests
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
+import logging
 
 @require_http_methods(["POST"])
 def update_profile_settings(request, access_token):
@@ -102,7 +105,7 @@ def update_confidentiality_settings(request, access_token):
     return success_response(request, "confidentiality_settings_saved")
 
 
-@require_http_methods(["DELETE"])
+@require_http_methods(["POST"])
 def delete_account(request, access_token):
     try:
         user = User.objects.get(token=access_token)
@@ -119,4 +122,5 @@ def delete_account(request, access_token):
     userSettings.delete()
     userConfidentialitySettings.delete()
     user.delete()
+
     return success_response(request, "account_successfully_deleted")

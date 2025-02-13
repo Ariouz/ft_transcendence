@@ -37,8 +37,8 @@
 
 .pong_home_content {
     background: var(--marine-blue);
-    margin-bottom: -20px;
-    padding-bottom: 50px;
+    margin-bottom: -70px;
+    padding-bottom: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;

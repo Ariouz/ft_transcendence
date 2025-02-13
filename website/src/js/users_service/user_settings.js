@@ -88,18 +88,26 @@ async function showConfidentialitySection() {
     });
 }
 
-function showAccountSection() {
+async function showAccountSection() {
     showSection("settings_account_section", "account_settings", "settings_nav_account");
 
     let form = document.getElementById("settings_panel_form_account")
     form.action = `https://${g_host}:8001/api/account/settings/delete/`+getCookie("session_token") + "/";
 
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
     form.addEventListener('submit', function(event) {
         showLoadingWheel();
         event.preventDefault();
         const formData = new FormData(this);
-        deleteWithCsrfToken(this.action, formData)
+        postWithCsrfToken(this.action, formData)
         .then(data => {
+            postWithCsrfToken(`https://${g_host}:8002/api/account/settings/delete/`, {user_id:userId}, true)
+            .catch(error => showNotification(error, 5));
+
+
             hideLoadingWheel();
             if (data.error)
                 showError(data.error, data.details);

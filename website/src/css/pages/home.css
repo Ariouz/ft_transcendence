@@ -64,6 +64,8 @@
     background-color: var(--black-blue);
     padding: 10px 15px;
     border: 1px solid var(--light-beige);
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;

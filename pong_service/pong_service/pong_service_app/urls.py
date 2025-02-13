@@ -1,13 +1,14 @@
 from django.urls import path
 from .api import queue
 from .api import game
-from .api.data_endpoints import user_stats, leaderboard
+from .api.data_endpoints import user_stats, leaderboard, user_delete
 from .tournaments import tournament_endpoints, tournament_rounds
 from .csrf_protection import get_csrf_token
 
 urlpatterns = [
     path('get-csrf-token/', get_csrf_token, name='get_csrf_token'),
 
+    path('account/settings/delete/', user_delete.delete_account, name="delete_account"),
 
     # Pong
     path('queue/join/', queue.join_queue, name="join_queue"),
