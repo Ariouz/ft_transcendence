@@ -212,6 +212,7 @@ function setDefaultSettingsValues()
                 setInputValue("settings_user_displayname", userData.display_name);
                 setInputValue("settings_user_github", userData.github === "null" ? "" : userData.github);
                 setInputValue("settings_user_status", userData.status_message);
+                setInputValue("settings_user_lang", userData.lang);
                 changeLanguage(userData.lang);
 
 

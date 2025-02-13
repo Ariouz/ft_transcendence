@@ -29,7 +29,6 @@ async function handleTournamentWs(e, user_token) {
 async function handleTournamentUserJoinedWS(data)
 {
     let userId = data.user_id;
-    console.log(data);
     let displayNameReq = await retrieveDisplayName(userId);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_joined")}`);
@@ -43,7 +42,6 @@ async function handleTournamentUserJoinedWS(data)
 
 async function handleTournamentUserLeftWS(data)
 {
-    console.log(data);
 
     let state = await getTournamentState(data.tournament_id);
     if (state == "finished") return ;

@@ -37,9 +37,7 @@ function removeTournamentParticipantListEntry(user_id)
 function isTournamentParticipantListEntrySet(user_id, table)
 {
     for (let element of table.children) {
-        console.log(`${element.innerHTML}`)
         if (!element.hasAttribute("tournament-participant")) continue;
-        console.log(`${element.getAttribute("tournament-participant")} ${user_id}`);
         if (element.getAttribute("tournament-participant") == user_id)
             return true;
     }
@@ -51,7 +49,6 @@ async function addTournamentParticipantToList(user_id)
     let table = document.getElementById("tournamentParticipantsList");
 
     let exists = isTournamentParticipantListEntrySet(user_id, table);
-    console.log(`${user_id} exists: ${exists}`);
     if (!table || exists) return;
     let element = await generateTournamentParticipantListEntry(user_id);
 
@@ -63,13 +60,11 @@ async function addTournamentParticipantToList(user_id)
 
 async function reloadTournamentParticipantList(tournament_id)
 {
-    console.log("clear");
     let table = document.getElementById("tournamentParticipantsList");
     // if (!table) return ;
     table.innerHTML = "";
 
     let displayName = await fetchTranslation("display_name");
-    console.log(displayName);
     let element = document.createElement("tr");
     element.innerHTML = `<th>Id</th><th data-i18n="display_name">${displayName}</th>`;
     table.appendChild(element);
@@ -79,7 +74,6 @@ async function reloadTournamentParticipantList(tournament_id)
 async function loadTournamentParticipantsList(tournament_id)
 {
     // await clearTournamentParticipantList();
-    console.log("Load list");
     g_tournamentParticipantCount = 0;
     let participants = await getTournamentParticipants(tournament_id);
     for (let participantId of participants)

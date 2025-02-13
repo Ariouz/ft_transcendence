@@ -28,6 +28,7 @@ async function createAccount(username, email, token, avatar, fullname)
         
         if (doConsentCookies())
         {
+            await ftUpdateLanguage(token_data.access_token);
             setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
             createWebSocketFriendList();
         }
@@ -37,9 +38,10 @@ async function createAccount(username, email, token, avatar, fullname)
     }
     let url = `https://${g_host}:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
     fetchBack(url)
-    .then(data => {
+    .then(async data => {
         if (doConsentCookies())
         {
+            await ftUpdateLanguage(token_data.access_token);
             setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
             createWebSocketFriendList();
         }
@@ -206,6 +208,17 @@ async function ftRetrieveClientAccessToken(code)
             details: error.message
         };
     }
+}
+
+async function ftUpdateLanguage(token)
+{
+    await retrieveSettings(token)
+        .then(async userData => {
+            if (userData.error) await changeLanguage("en")
+            else
+                await changeLanguage(userData.lang);
+        })
+        .catch(async error => {await changeLanguage("en")});
 }
 
 function getCookieAcccessToken()

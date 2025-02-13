@@ -140,11 +140,10 @@ async function testTranslationService() {
             const response = await fetch(testUrl, { method: 'HEAD' });
 
             if (!response || !response.ok) {
-                sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
                 throw new Error();
             }
         } catch (error) {
-            sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
+            // sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
             throw new Error();
         } finally {
             isTestTranslationServiceRunning = false;
@@ -158,6 +157,10 @@ async function testTranslationService() {
 
 
 async function fetchTranslation(key) {
+    if (DEFAULT_LANGUAGE == 'error')
+        DEFAULT_LANGUAGE = "en";
+    if (SELECTED_LANGUAGE == 'error')
+        SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
     if (isOfflineTimestampValid()) {
         return await fetchTranslationFromLocal(key) || key;
     } else {
