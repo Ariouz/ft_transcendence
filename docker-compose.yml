@@ -225,10 +225,17 @@ services:
       HOST_IP: ${HOST_IP}
       APP_PORT: ${I18N_SERVICE_PORT}
       DJANGO_SECRET: ${DJANGO_SECRET_I18N}
+      SSL_CERT_FILE: /etc/ssl/certs/selfsigned.crt
     volumes:
       - type: bind
         source: ./i18n_service
         target: /i18n_service
+      - type: bind
+        source: ./ssl_certs/selfsigned.crt
+        target: /etc/ssl/certs/selfsigned.crt
+      - type: bind
+        source: ./ssl_certs/selfsigned.key
+        target: /etc/ssl/private/selfsigned.key
 
   i18n_service_database:
     image: postgres:16-alpine

@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'daphne',
-    'django_extensions',
 ]
 
 ASGI_APPLICATION = 'websocket_server.asgi.application'

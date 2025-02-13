@@ -39,8 +39,6 @@ urlpatterns = [
 
     # User status
     path('user/online-status/get/<int:user_id>/', get_user_status, name="get_user_status"),
-    # path('user/online-status/online/<int:user_id>/', set_user_online, name="set_user_online"),
-    # path('user/online-status/offline/<int:user_id>/', set_user_offline, name="set_user_offline"),
 
     # Friends
     path('user/authenticate/<str:token>/', authenticate_user, name='authenticate_user'),
