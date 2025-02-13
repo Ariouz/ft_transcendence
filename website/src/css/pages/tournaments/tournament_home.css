@@ -83,6 +83,7 @@
     border: 1px solid var(--flashy-pink);
     color: #FFF5E1;
     transition: .3s ease;
+    cursor: pointer;
 }
 
 .hostTournamentButton:hover
@@ -154,6 +155,7 @@
     border: 1px solid var(--flashy-pink);
     color: #FFF5E1;
     transition: .3s ease;
+    cursor: pointer;
 }
 
 .tournamentListItemJoinButton:hover

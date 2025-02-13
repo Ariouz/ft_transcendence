@@ -38,7 +38,7 @@
 .tournaments_lobby_content {
     width: 100%;
     text-align: center;
-    padding: 100px;
+    padding: 100px 0px;
     background: var(--marine-blue);
     margin-top: -60px;
     margin-bottom: -50px;

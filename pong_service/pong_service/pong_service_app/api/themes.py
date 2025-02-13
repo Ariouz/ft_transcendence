@@ -43,16 +43,16 @@ THEMES = [
         "--border-animation-secondary-color": "#9d99a5"
     },
     {
-        "--paddle-color": "#447043",
-        "--ball-color": "#749a68",
+        "--paddle-color": "#99c898",
+        "--ball-color": "#6f9a62",
         "--net-color": "#122622C0",
         "--canvas-background-url": "/assets/images/jungle-green-dark-green.jpg",
         "--border-animation-primary-color": "#194a2a",
         "--border-animation-secondary-color": "#bbc495"
     },
     {
-        "--paddle-color": "#bc906f",
-        "--ball-color": "#c1997f",
+        "--paddle-color": "#e37727",
+        "--ball-color": "#a77d61",
         "--net-color": "#8b4927C0",
         "--canvas-background-url": "/assets/images/desert-orange-white.jpg",
         "--border-animation-primary-color": "#a86038",
@@ -67,16 +67,16 @@ THEMES = [
         "--border-animation-secondary-color": "#c7983f"
     },
     {
-        "--paddle-color": "#225a8f",
-        "--ball-color": "#613c4c",
+        "--paddle-color": "#edc925",
+        "--ball-color": "#e6a2bf",
         "--net-color": "#173546C0",
         "--canvas-background-url": "/assets/images/japan-blue-yellow.jpg",
         "--border-animation-primary-color": "#2b7eb9",
         "--border-animation-secondary-color": "#d2ad85"
     },
     {
-        "--paddle-color": "#2b705b",
-        "--ball-color": "#2e8e60",
+        "--paddle-color": "#25dc7d",
+        "--ball-color": "#b6f0d4",
         "--net-color": "#0c3517C0",
         "--canvas-background-url": "/assets/images/pond-turquoise-green.jpg",
         "--border-animation-primary-color": "#13513e",

@@ -125,6 +125,11 @@ footer div {
     display: none;
 }
 
+* {
+    scrollbar-width: thin; 
+    scrollbar-color: var(--flashy-pink) var(--marine-blue);
+}
+
 /* Black screen filter */
 .black_screen_filter {
     position: fixed;

@@ -50,8 +50,9 @@ function drawPaddle(ctx, x, y) {
     );
 }
 
-function drawCanvasBackground(ctx) {
-    drawRectangle(ctx, 0, 0, PONG_CANVAS_WIDTH, PONG_CANVAS_HEIGHT);
+function drawCanvasBackground(ctx, color) {
+    console.log(color);
+    drawRectangle(ctx, 0, 0, PONG_CANVAS_WIDTH, PONG_CANVAS_HEIGHT, color);
 }
 
 function clearCanva(ctx) {

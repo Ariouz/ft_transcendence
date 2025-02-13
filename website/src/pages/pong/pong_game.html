@@ -16,6 +16,7 @@
                 <canvas id="backgroundCanvas"></canvas>
                 <canvas id="netCanvas"></canvas>
                 <canvas id="pongCanvas"></canvas>
+                <canvas id="borderCanvas"></canvas>
             </div>
         </div>
     </div>
@@ -32,7 +33,7 @@
             <span class="pong_game_displayname" id="pong_game_displayname_2"></span>
         </div>
     </div>
-
+    
     <script>
         pong_text_overlay = document.getElementById("pong_text_overlay");
     </script>
@@ -46,20 +47,20 @@
     async function loadGame()
     {
         resetTheme();
-
+        
         let token = getCookie("session_token");
-
+        
         let pongGameParams = new URLSearchParams(window.location.search);
         let userId = "";
         let gameId = pongGameParams.get("gid");
-
+        
         if (gameId == undefined) {
             navigate("/pong");
             return;
         }
-
+        
         await loadPongTranslations();
-
+        
         let gameData = await getGameData(gameId);
         if (gameData.error)
         {
@@ -72,11 +73,11 @@
             navigate("/pong");
             return ;
         }
-
+        
         let gameType = gameData.type;
         if (gameType == "arcade" || gameData.is_tournament)
-            changeTheme(gameData.theme);
-
+        changeTheme(gameData.theme);
+        
         let gameStatus = gameData.status;
         if (gameType == "local1v1")
         {
@@ -92,7 +93,7 @@
         {
             let userIdReq = await retrieveId(token);
             let userId = userIdReq.user_id;
-
+            
             await loadPlayersData(gameData, token);
             let canJoinReq = await canJoinGame(gameData.game_id, userId);
             if (canJoinReq.success)
@@ -101,35 +102,72 @@
                 createPongGameWebSocket(gameData.game_id, token);
             }
             else
-                navigate('/pong');
+            navigate('/pong');
         }
         Game.startGameLoop(gameType, gameData.is_tournament);
     }
-
+    
     async function loadPlayersData(gameData, token)
     {
-
+        
         let userIdReq = await retrieveId(token);
         let userId = userIdReq.user_id;
         let opponentId = gameData.players[0] == userId ? gameData.players[1] : gameData.players[0];
-
+        
         let userData = await retrievePublicProfileDataById(userId);
         let opponentData = await retrievePublicProfileDataById(opponentId);
-
+        
         let userAvatar = document.getElementById("pong_game_avatar_1");
         let opAvatar = document.getElementById("pong_game_avatar_2");
         if (!userAvatar || !opAvatar) return ;
         userAvatar.src = userData.avatar;
         opAvatar.src = opponentData.avatar;
-
+        
         document.getElementById("pong_game_displayname_1").innerText = userData.display_name;
         document.getElementById("pong_game_displayname_2").innerText = opponentData.display_name;
-
+        
         g_pongSelfDisplayName = userData.display_name;
         g_pongOpponentDisplayName = opponentData.display_name;
     }
-
+    
     hideMainNavigation();
     hideFooter();
     loadGame();
+</script>
+
+<script>
+    borderCanvas = document.getElementById('borderCanvas');
+    ctxBorder = borderCanvas.getContext('2d');
+    
+    borderWidth = 2;
+    gradientOffset = 0;
+    rotationAngle = 0;
+    
+    function animateGradient() {
+        ctxBorder.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
+
+        const centerX = borderCanvas.width / 2;
+        const centerY = borderCanvas.height / 2;
+
+        const gradient = ctxBorder.createConicGradient(
+            rotationAngle * Math.PI / 180, 
+            centerX,
+            centerY
+        );
+
+        gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue('--border-animation-primary-color'));
+        gradient.addColorStop(0.5, getComputedStyle(document.documentElement).getPropertyValue('--border-animation-secondary-color'));
+        gradient.addColorStop(1, getComputedStyle(document.documentElement).getPropertyValue('--border-animation-primary-color'));
+
+        ctxBorder.strokeStyle = gradient;
+        ctxBorder.lineWidth = borderWidth;
+        ctxBorder.strokeRect(borderWidth / 2, borderWidth / 2, borderCanvas.width - borderWidth, borderCanvas.height - borderWidth);
+
+        rotationAngle = (rotationAngle + 1) % 360;
+        requestAnimationFrame(animateGradient);
+    }
+
+    animateGradient();
+    
+    
 </script>

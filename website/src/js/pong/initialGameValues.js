@@ -88,24 +88,24 @@ const Game = {
 
 async function setGameBackground(gameType, isTournament) {
     if (gameType != "arcade" && !isTournament) {
-        drawCanvasBackground(Game.contexts.gameCtx);
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--flashy-pink'));
         return;
     }
     const imageUrl = getStyle('--canvas-background-url').trim().replace(/^["']|["']$/g, '');
     if (!imageUrl) {
-        drawCanvasBackground(Game.contexts.gameCtx);
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
         return;
     }
     const isValid = await isImageValid(imageUrl);
 
     if (!isValid) {
-        drawCanvasBackground(Game.contexts.gameCtx);
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
         return;
     }
     const hasSetImageBackground = setImageBackground(imageUrl);
     if (hasSetImageBackground)
         return;
-    drawCanvasBackground(Game.contexts.gameCtx);
+    drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
 }
 
 function isImageValid(url) {
