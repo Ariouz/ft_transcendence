@@ -100,7 +100,7 @@
   "pong_home_local_desc": "Local game",
   "pong_home_1v1_desc": "Online game",
   "pong_home_arcade_desc": "Online game",
-  "pong_home_tournament_desc": "From 2 players",
+  "pong_home_tournament_desc": "From 3 players",
 
   "matchmaking_looking_for_oppponent": "Looking for opponent...",
   "matchmaking_leave_queue": "Leave the queue",
@@ -258,4 +258,6 @@
   "tournament_launched_successfully": "Tournament launched successfully",
 
   "service_unavailable": "This service is currently unavailable, please try again later."
+
+
 }

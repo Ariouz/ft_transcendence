@@ -152,7 +152,7 @@ async function showSuccess(message) {
         'settings_success_title',
         'settings_success_content',
         await getSentenceFromCode("success"),
-        await message);
+        await getSentenceFromCode(message));
 }
 
 function showLoadingWheel()

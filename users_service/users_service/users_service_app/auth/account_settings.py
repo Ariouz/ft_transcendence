@@ -67,7 +67,7 @@ def update_profile_settings(request, access_token):
         userSettings.avatar.name = path_name
 
     userSettings.save()
-    return success_response(request, "profile_settings_saved")
+    return success_response(request, "profile_settings_saved", translate=False)
 
 
 @require_http_methods(["POST"])

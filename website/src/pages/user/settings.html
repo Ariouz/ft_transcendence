@@ -1,10 +1,11 @@
-<div class="loading_wheel" id="settings_loading_wheel">
-    <div class="spinner-border wheel" role="status">
-        <span class="visually-hidden">Loading...</span>
+<div class="loading-overlay" id="settings_loading_wheel">
+    <div class="loading_spinner" role="status">
+      <span class="visually-hidden"></span>
     </div>
 </div>
+
 <style>
-    .loading_wheel {
+    .loading-overlay {
         position: absolute;
         top: 0;
         width: 100%;
@@ -16,14 +17,13 @@
         transition: opacity 0.5s ease;
     }
 
-    .wheel {
+    .loading_spinner {
         z-index: 151;
         margin: auto;
         margin-left: 50%;
-        margin-top: 15%;
+        margin-top: 25%;
         width: 50px;
         height: 50px;
-        color: var(--light-beige);
     }
 </style>
 

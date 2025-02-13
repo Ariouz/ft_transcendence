@@ -11,9 +11,9 @@ def get_translation(request, string, *args):
     ft_i18n.get_translation(ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE), string, args)
 
 
-def success_response(request, success_title, status_code=200, extra_data=None):
+def success_response(request, success_title, status_code=200, extra_data=None, translate=True):
     response_data = {
-        "success": ft_i18n.get_translation(ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE), success_title)
+        "success": ft_i18n.get_translation(ft_i18n.get_preferred_language(request, settings.USERS_DEFAULT_LANGUAGE_CODE), success_title) if translate else success_title
     }
     if extra_data:
         response_data.update(extra_data)
