@@ -192,10 +192,11 @@ def tournament_state(request):
     if not tournament_id:
         return error_response(request, "missing_parameter", "tournament_id_missing")
     
-    tournament = Tournament.objects.filter(tournament_id=tournament_id).get()
-    if not tournament:
+    tournament = Tournament.objects.filter(tournament_id=tournament_id)
+    if not tournament.exists():
         return error_response(request, "invalid_tournament", "tournament_not_found", status_code=404)
     
+    tournament = tournament.get()
     return success_response(request, "state_retrieved", extra_data={"state":tournament.state})
 
 
@@ -253,7 +254,7 @@ def ws_connect(request):
         return error_response(request, "missing_parameter", "tournament_id_missing")
     
     if not PongUser.objects.filter(user_id=user_id).exists():
-        create_user_if_not_exists(user_id)
+        create_user_if_not_exists(usget_er_id)
         
     user = PongUser.objects.filter(user_id=user_id).get()
     

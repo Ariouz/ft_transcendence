@@ -24,6 +24,7 @@ async function doesPlayerParticipate(tournamentId)
     let url = `${TOURNAMENT_URL}/does-participates/`;
 
     let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (!userIdReq) return false;
     if (userIdReq.error) return ;
     let userId = userIdReq.user_id;
 
@@ -240,6 +241,7 @@ async function getHostedTournament()
     let url = `${TOURNAMENT_URL}/get-hosted/`;
 
     let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (!userIdReq) return {};
     if (userIdReq.error) return ;
     let userId = userIdReq.user_id;
 

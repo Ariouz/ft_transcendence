@@ -48,6 +48,7 @@ const Game = {
 
     init: function (gameType, isTournament) {
         removePreviousBackgroundImage();
+        if (!this.canvases) return ;
 
         this.canvases.background = document.getElementById('backgroundCanvas');
         this.canvases.net = document.getElementById('netCanvas');

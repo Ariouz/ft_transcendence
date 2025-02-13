@@ -29,22 +29,32 @@ async function handleTournamentWs(e, user_token) {
 async function handleTournamentUserJoinedWS(data)
 {
     let userId = data.user_id;
+    console.log(data);
     let displayNameReq = await retrieveDisplayName(userId);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_joined")}`);
-    addTournamentParticipantToList(userId);
+    
+    setTimeout(async () => {
+        // await addTournamentParticipantToList(userId);
+        await reloadTournamentParticipantList(data.tournament_id);
+    }, 500);
+
 }
 
 async function handleTournamentUserLeftWS(data)
 {
-    let state = await getTournamentState(tournamentId);
+    console.log(data);
+
+    let state = await getTournamentState(data.tournament_id);
     if (state == "finished") return ;
 
     let userId = data.user_id;
     let displayNameReq = await retrieveDisplayName(userId);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_left")}`);
-    removeTournamentParticipantListEntry(userId);
+    await reloadTournamentParticipantList(data.tournament_id);
+    // removeTournamentParticipantListEntry(userId);
+
 }
 
 async function handleTournamentDeleteWs()

@@ -67,7 +67,10 @@
             createTournamentWebSocket(tournamentId, user_token);
 
         await displayTournamentLobbyButtons(tournamentId);
-        await loadTournamentParticipantsList(tournamentId);
+        
+        setTimeout(async () => {
+            // await loadTournamentParticipantsList(tournamentId);
+        }, 100);
     
     }
 

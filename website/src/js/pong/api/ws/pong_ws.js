@@ -72,6 +72,7 @@ function createPongGameWebSocket(game_id) {
     }
     
     g_pongGameWebSocket.onclose = function (e) {
+        g_pongGameWebSocket = null;
     }
     
     g_pongGameWebSocket.onmessage = function (e) {

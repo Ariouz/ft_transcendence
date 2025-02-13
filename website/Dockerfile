@@ -2,9 +2,10 @@ FROM alpine:3.20
 
 EXPOSE 8080/tcp
 
-RUN apk update && apk add nginx
+RUN apk update && apk add nginx sudo
 
-COPY nginx/default.conf /etc/nginx/http.d/default.conf
+COPY nginx/default.conf /tmp
 
-ENTRYPOINT [ "/usr/sbin/nginx" ]
-CMD [ "-g", "daemon off;"]
+COPY ./setup.sh /tmp
+
+CMD ["sh", "/tmp/setup.sh"]
