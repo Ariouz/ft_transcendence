@@ -6,28 +6,6 @@ import time
 I18N_URL = "http://i18n-service:8006"
 DEFAULT_LOCALE_DIR = "locale"
 I18N_DEFAULT_LANGUAGE = 'en'
-I18N_SERVICE_OFFLINE = False
-I18N_SERVICE_OFFLINE_TIMESTAMP = None
-I18N_SERVICE_OFFLINE_TIMEOUT = 10 * 60
-
-
-def is_i18n_service_offline():
-    global I18N_SERVICE_OFFLINE, I18N_SERVICE_OFFLINE_TIMESTAMP
-
-    if I18N_SERVICE_OFFLINE:
-        if I18N_SERVICE_OFFLINE_TIMESTAMP:
-            elapsed_time = time.time() - I18N_SERVICE_OFFLINE_TIMESTAMP
-            if elapsed_time > I18N_SERVICE_OFFLINE_TIMEOUT:
-                I18N_SERVICE_OFFLINE = False
-                I18N_SERVICE_OFFLINE_TIMESTAMP = None
-        return I18N_SERVICE_OFFLINE
-    return False
-
-
-def mark_i18n_service_offline():
-    global I18N_SERVICE_OFFLINE, I18N_SERVICE_OFFLINE_TIMESTAMP
-    I18N_SERVICE_OFFLINE = True
-    I18N_SERVICE_OFFLINE_TIMESTAMP = time.time()
 
 def fetch_translation(lang, key):
     """
@@ -42,9 +20,6 @@ def fetch_translation(lang, key):
 
 
 def get_translation(lang, key, *args):
-    if is_i18n_service_offline():
-        return get_translation_from_locale_file(lang, key) or get_translation_from_locale_file(I18N_DEFAULT_LANGUAGE, key) or key
-
     fallback_languages = [
         lang,
         os.getenv('DEFAULT_LANGUAGE_CODE'),

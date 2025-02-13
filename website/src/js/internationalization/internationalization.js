@@ -49,8 +49,6 @@ function setUserLanguage() {
 }
 
 async function fetchAvailableLanguages() {
-    if (isOfflineTimestampValid() || await isTranslationServiceOffline()) return null;
-
     try {
         const url = `${I18N_SERVICE_URL}/languages/`;
         const response = await fetch(url);
@@ -78,7 +76,12 @@ async function getLanguageDisplayName(languageCode) {
 }
 
 async function loadInitialTranslations() {
-    DEFAULT_LANGUAGE = (await getDefaultI18nServiceLanguage()) || DEFAULT_LANGUAGE;
+    try {
+        let default_language = (await getDefaultI18nServiceLanguage());
+        DEFAULT_LANGUAGE = default_language;
+    } catch(error) {
+        
+    }
     let availableLanguagesResponse = await fetchAvailableLanguages();
     availableLanguages = availableLanguagesResponse == null ? null : availableLanguagesResponse.languages;
 
@@ -90,84 +93,7 @@ async function updateTranslations() {
     SELECTED_LANGUAGE = getLanguagePreference();
 }
 
-function isOfflineTimestampValid() {
-    const offlineTimestamp = sessionStorage.getItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
-
-    if (!offlineTimestamp) {
-        return null;
-    }
-
-    const offlineTime = new Date(parseInt(offlineTimestamp, 10));
-    const now = new Date();
-    const isTimeNotElapsed = (now - offlineTime) < I18N_SERVICE_OFFLINE_TIMER_MINUTES;
-    if (!isTimeNotElapsed)
-        sessionStorage.removeItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
-    return isTimeNotElapsed;
-}
-
-
-async function isTranslationServiceOffline() {
-    timeoutNotFinished = isOfflineTimestampValid();
-    if (timeoutNotFinished != null) {
-        return timeoutNotFinished;
-    }
-    try {
-        await testTranslationService();
-        return false;
-    } catch (error) {
-        return true;
-    }
-}
-
-let isTestTranslationServiceRunning = false;
-let testTranslationPromise = null;
-
-async function testTranslationService() {
-    if (isTestTranslationServiceRunning) {
-        return testTranslationPromise;
-    }
-
-    timeoutNotFinished = isOfflineTimestampValid();
-    if (timeoutNotFinished != null) {
-        return timeoutNotFinished;
-    }
-
-    isTestTranslationServiceRunning = true;
-    testTranslationPromise = (async () => {
-        try {
-            const testUrl = `${I18N_SERVICE_URL}/default-language/`;
-
-            const response = await fetch(testUrl, { method: 'HEAD' });
-
-            if (!response || !response.ok) {
-                throw new Error();
-            }
-        } catch (error) {
-            // sessionStorage.setItem("I18N_SERVICE_OFFLINE_TIMESTAMP", Date.now().toString());
-            throw new Error();
-        } finally {
-            isTestTranslationServiceRunning = false;
-            testTranslationPromise = null;
-        }
-    })();
-
-    sessionStorage.removeItem("I18N_SERVICE_OFFLINE_TIMESTAMP");
-    return testTranslationPromise;
-}
-
-
 async function fetchTranslation(key) {
-    if (DEFAULT_LANGUAGE == 'error')
-        DEFAULT_LANGUAGE = "en";
-    if (SELECTED_LANGUAGE == 'error')
-        SELECTED_LANGUAGE = DEFAULT_LANGUAGE;
-    if (isOfflineTimestampValid()) {
-        return await fetchTranslationFromLocal(key) || key;
-    } else {
-        var checkIsOffline = await isTranslationServiceOffline();
-        if (checkIsOffline == true)
-            return await fetchTranslationFromLocal(key) || key;
-    }
     try {
         const translation = await fetchTranslationSelectedLanguage(key);
         if (translation && translation != key) {
