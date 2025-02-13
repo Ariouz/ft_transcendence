@@ -10,8 +10,8 @@
 }
 
 #pongCanvas {
-    width: 780px;
-    height: 380px;
+    width: 800px;
+    height: 400px;
     display: block;
     margin: 0 auto;
     border: 5px solid;
@@ -46,7 +46,7 @@
 
 .canva_container {
     position: relative;
-    width: 816px;
+    width: 800px;
     height: 400px;
 }
 
@@ -97,16 +97,16 @@
 
 .pong_score {
     font-size: 2.5em;
-    font-family: "Teko", sans-serif;;
+    font-family: "Teko", sans-serif;
     text-shadow: 3px 3px 3px black;
 }
 
 .pong_infos_self {
-    margin-left: 200px;;
+    margin-left: 200px;
 }
 
 .pong_infos_opponent {
-    margin-right: 200px;;
+    margin-right: 200px;
 }
 
 .pong_game_users_info
@@ -167,8 +167,8 @@
 .canvas_layers_container
 {
     position: relative;
-    width: 800px;
-    height: 400px;
+    width: 810px;
+    height: 410px;
     margin: 0 auto;
     overflow: hidden;
 }
