@@ -105,6 +105,8 @@
             navigate('/pong');
         }
         Game.startGameLoop(gameType, gameData.is_tournament);
+        animateGradient();
+
     }
     
     async function loadPlayersData(gameData, token)
@@ -167,7 +169,6 @@
         requestAnimationFrame(animateGradient);
     }
 
-    animateGradient();
     
     
 </script>
