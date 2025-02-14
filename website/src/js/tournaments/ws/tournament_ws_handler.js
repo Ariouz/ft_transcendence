@@ -28,14 +28,18 @@ async function handleTournamentWs(e, user_token) {
 
 async function handleTournamentUserJoinedWS(data)
 {
+    let state = await getTournamentState(data.tournament_id);
+    if (state == "finished") return ;
+
     let userId = data.user_id;
     let displayNameReq = await retrieveDisplayName(userId);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_joined")}`);
-    
+
     setTimeout(async () => {
-        // await addTournamentParticipantToList(userId);
-        await reloadTournamentParticipantList(data.tournament_id);
+        if (window.reloadTournamentParticipantList) {
+            await reloadTournamentParticipantList(data.tournament_id);
+        }
     }, 500);
 
 }
@@ -50,9 +54,9 @@ async function handleTournamentUserLeftWS(data)
     let displayNameReq = await retrieveDisplayName(userId);
     let userDisplayName = displayNameReq.display_name;
     displayTournamentSuccess(`${userDisplayName} ${await fetchTranslation("has_left")}`);
-    await reloadTournamentParticipantList(data.tournament_id);
-    // removeTournamentParticipantListEntry(userId);
-
+    if (window.reloadTournamentParticipantList) {
+        await reloadTournamentParticipantList(data.tournament_id);
+    }
 }
 
 async function handleTournamentDeleteWs()
