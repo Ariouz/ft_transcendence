@@ -75,6 +75,8 @@
   "file_size_exceeds_2mb": "La taille du fichier dépasse 2 Mo.",
   "invalid_file_extension": "Extension de fichier invalide",
   "only_jpg_and_png_are_allowed": "Seuls les fichiers .jpg et .png sont autorisés.",
+  "field_too_short": "Valeur trop petite",
+  "display_name_too_short": "Le nom d'affichage est trop court (min 3)",
   "field_too_long": "Valeur trop longue",
   "display_name_too_long": "Le nom affiché est trop long (max 20)",
   "status_too_long": "Le message de statut est trop long (max 80)",

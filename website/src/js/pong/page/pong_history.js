@@ -28,13 +28,13 @@ async function addGameToHistory(game, userId, userLang, fragment) {
     let userInfoDiv = createElement("div", { class: "history_user_info" }, [
         createElement("div", { class: "pong_history_avatar" }, [
             createElement("img", {
-                src: opponentData.avatar,
+                src: opponentData.avatar == undefined ? "../../assets/images/default_avatar.svg" : opponentData.avatar,
                 alt: "Opponent Avatar",
                 width: "90px",
                 height: "auto"
             })
         ]),
-        createElement("span", {}, opponentData.display_name)
+        createElement("span", {}, opponentData.display_name == undefined ? "<Deleted user>" : opponentData.display_name)
     ]);
 
     let scoreDiv = createElement("div", { class: "history_score" }, [

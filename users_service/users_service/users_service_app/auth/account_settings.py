@@ -23,13 +23,19 @@ def update_profile_settings(request, access_token):
 
     display_name = request.POST.get("display_name")
     if display_name:
+        if len(display_name) < 3:
+            return error_response(request, "field_too_short", "display_name_too_short")            
         if len(display_name) > 20:
             return error_response(request, "field_too_long", "display_name_too_long")
-        
+    
         if UserSettings.objects.filter(display_name=display_name).exists():
             if not UserSettings.objects.filter(display_name=display_name).get().user_id == userSettings.user_id:
                 return error_response(request, "invalid_displayname", "displayname_already_used")
         userSettings.display_name = display_name
+
+    else:
+        userSettings.display_name = user.username
+
 
     github_url = request.POST.get("github_url")
     if github_url:

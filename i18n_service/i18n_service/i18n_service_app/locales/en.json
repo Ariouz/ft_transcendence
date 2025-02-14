@@ -78,9 +78,11 @@
   "invalid_file_extension": "Invalid file extension",
   "only_jpg_and_png_are_allowed": "Only .jpg and .png are allowed.",
   "field_too_long": "Value too long",
+  "field_too_short": "Value too short",
   "display_name_too_long": "Displayname is too long (max 20)",
+  "display_name_too_short": "Displayname is too short (min 3)",
   "status_too_long": "Status message is too long (max 80)",
-  "github_too_long": "Github usernma is too long (max 39)",
+  "github_too_long": "Github username is too long (max 39)",
 
   "home_card_member_title_login": "Become a member",
   "home_card_member_title_profile": "Check your profile",
@@ -220,7 +222,7 @@
   "start_next_round": "Start next round",
   "tournament_has_won": "has won the tournament",
   "back_to_tournaments": "Back to tournaments",
-  "has_left": "has lest",
+  "has_left": "has left",
   "has_joined": "has joined",
   "tournament_cancelled": "Tournament cancelled",
 
