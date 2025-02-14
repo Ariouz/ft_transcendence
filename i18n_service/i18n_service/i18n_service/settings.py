@@ -42,6 +42,14 @@ ALLOWED_HOSTS = ['websocket_server', 'pong-service', 'users-service', os.getenv(
 
 I18N_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
 
+CORS_ALLOWED_ORIGINS = [
+    f"https://{os.getenv('HOST_IP')}:8443",
+    "https://websocket_server",
+    "https://users_service",
+    "https://pong_service",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 

@@ -37,8 +37,6 @@ SECURE_HSTS_PRELOAD = True
 
 ALLOWED_HOSTS = ['websocket_server', 'pong-service', 'users-service', os.getenv("HOST_IP")]
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
