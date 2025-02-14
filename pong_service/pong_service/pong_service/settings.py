@@ -59,7 +59,6 @@ CSRF_TRUSTED_ORIGINS = [
 USERS_DEFAULT_LANGUAGE_CODE = os.getenv('DEFAULT_LANGUAGE_CODE')
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -102,8 +101,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'pong_service.urls'
 

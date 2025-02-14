@@ -43,7 +43,9 @@ SECURE_HSTS_PRELOAD = True
 ALLOWED_HOSTS = ['websocket_server', 'pong-service', 'users-service', os.getenv("HOST_IP")]
 
 CORS_ALLOWED_ORIGINS = [
-    f"https://{os.getenv("HOST_IP")}:8443"
+    f"https://{os.getenv('HOST_IP')}:8443",
+    "https://websocket_server",
+    "https://pong_service",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -97,8 +99,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'users_service.urls'
 
