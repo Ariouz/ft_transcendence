@@ -20,9 +20,12 @@ async function generateTournamentListCard(tournamentId, playerCount)
 
 async function loadList()
 {
+    let container = document.getElementById("tournamentHomeActiveTournamentsList");
     let listContainer = document.getElementById("tournaments_list");
-    listContainer.replaceChildren();
-    
+    listContainer.remove();
+    listContainer = createElement("div", {id:"tournaments_list"}, "");
+    container.appendChild(listContainer);
+
     let list = await getTournaments();
     if (!list) return ;
     for (tournament in list)

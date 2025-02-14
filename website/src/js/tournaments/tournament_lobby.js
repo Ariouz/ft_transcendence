@@ -61,19 +61,16 @@ async function addTournamentParticipantToList(user_id)
 async function reloadTournamentParticipantList(tournament_id)
 {
     let table = document.getElementById("tournamentParticipantsList");
-    // if (!table) return ;
-    table.innerHTML = "";
 
     let displayName = await fetchTranslation("display_name");
     let element = document.createElement("tr");
     element.innerHTML = `<th>Id</th><th data-i18n="display_name">${displayName}</th>`;
-    table.appendChild(element);
+    table.replaceChildren(element);
     await loadTournamentParticipantsList(tournament_id);
 }
 
 async function loadTournamentParticipantsList(tournament_id)
 {
-    // await clearTournamentParticipantList();
     g_tournamentParticipantCount = 0;
     let participants = await getTournamentParticipants(tournament_id);
     for (let participantId of participants)
