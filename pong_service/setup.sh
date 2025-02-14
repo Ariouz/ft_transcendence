@@ -35,7 +35,12 @@ $MANAGE makemigrations
 $MANAGE migrate
 
 echo "Collect static files"
-$MANAGE collectstatic
+if [ ! -d "$PROJECT_NAME/static" ] || [ ! "$(ls -A $PROJECT_NAME/static)" ]; then
+    echo "Static folder is empty or does not exist. Running collectstatic..."
+    $MANAGE collectstatic --noinput
+else
+    echo "Static folder is not empty. Skipping collectstatic."
+fi
 
 echo "Run tests"
 if ! $MANAGE test $DJANGO_APP; then
