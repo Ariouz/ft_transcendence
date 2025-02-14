@@ -66,8 +66,8 @@ const Game = {
         this.paddle.rightX = PONG_CANVAS_WIDTH - this.paddle.width;
         this.paddle.leftY = (PONG_CANVAS_HEIGHT - this.paddle.height) / 2;
         this.paddle.rightY = (PONG_CANVAS_HEIGHT - this.paddle.height) / 2;
-        this.ball.x = PONG_CANVAS_WIDTH / 2;
-        this.ball.y = PONG_CANVAS_HEIGHT / 2;
+        this.ball.x = PONG_CANVAS_WIDTH / 2 + 5;
+        this.ball.y = PONG_CANVAS_HEIGHT / 2 + 5;
 
         this.isPaused = false;
         this.isRunning = true;

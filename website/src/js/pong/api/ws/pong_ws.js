@@ -158,8 +158,9 @@ async function handleGameStateUpdate(data, user_token) {
     
     ball = state.ball_position;
     
-    Game.ball.y = ball.y;
-    movePaddles(state);
+    borderOffset = 5;
+    Game.ball.y = ball.y + borderOffset;
+    movePaddles(state, borderOffset);
 }
 
 async function defineUserPaddle(state, user_token)
@@ -188,7 +189,7 @@ function movePaddles(state)
     
     if (g_pongGamePlayerPaddle == 'player1' || g_pongGamePlayerPaddle == 'both')
     {
-        Game.ball.x = ball.x;
+        Game.ball.x = ball.x + borderOffset;
         Game.paddle.leftX = state.players.player1.position.x;
         Game.paddle.leftY = state.players.player1.position.y;
         
@@ -197,7 +198,7 @@ function movePaddles(state)
     }
     else if (g_pongGamePlayerPaddle == 'player2')
     {
-        Game.ball.x = PONG_CANVAS_WIDTH - ball.x;
+        Game.ball.x = PONG_CANVAS_WIDTH - ball.x + borderOffset;
         Game.paddle.leftX = state.players.player2.position.x - (PONG_CANVAS_WIDTH - Game.paddle.width);
         Game.paddle.leftY = state.players.player2.position.y;
         
