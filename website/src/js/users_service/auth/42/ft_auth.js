@@ -41,7 +41,6 @@ async function createAccount(username, email, token, avatar, fullname)
     .then(async data => {
         if (doConsentCookies())
         {
-            await ftUpdateLanguage(token_data.access_token);
             setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
             createWebSocketFriendList();
         }
@@ -107,6 +106,7 @@ async function retrieveId(access_token)
 
 async function retrieveSettings(access_token)
 {
+    if (!access_token) return ;
     const url = `${FT_AUTH_URL}/data/settings/${access_token}`;
     try {
         const data = await fetchBack(url);
@@ -212,8 +212,10 @@ async function ftRetrieveClientAccessToken(code)
 
 async function ftUpdateLanguage(token)
 {
+    if (!token) return;
     await retrieveSettings(token)
         .then(async userData => {
+            if (!userData) return ;
             if (userData.error) await changeLanguage("en")
             else
                 await changeLanguage(userData.lang);

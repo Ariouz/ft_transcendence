@@ -239,17 +239,21 @@
 
 <script>
     function openModal(id) {
-        document.getElementById(id).classList.add('show-modal');
+        if (document.getElementById(id))
+            document.getElementById(id).classList.add('show-modal');
     }
     function closeModal(id) {
-        document.getElementById(id).classList.remove('show-modal');
+        if (document.getElementById(id))
+            document.getElementById(id).classList.remove('show-modal');
     }
     function deleteAccount() {
         closeModal();
     }
-    document.getElementById('delete').addEventListener('click', () => {
-        openModal('accountDeletionModal');
-    });
+    if (document.getElementById('delete')) {
+        document.getElementById('delete').addEventListener('click', () => {
+            openModal('accountDeletionModal');
+        });
+    }
 </script>
 
 <script src="../../js/users_service/user_settings.js"></script>

@@ -1,7 +1,7 @@
 async function displayTournamentError(title, details)
 {
-    await fetchTranslation(title).then(txt => getTournamentErrorTitle().innerText = txt);
-    await fetchTranslation(details).then(txt => getTournamentErrorDetails().innerText = txt);
+    getTournamentErrorTitle().innerText = title;
+    getTournamentErrorDetails().innerText = details;
     setTournamentErrorDivDisplay(true);
 }
 
