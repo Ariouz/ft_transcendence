@@ -34,6 +34,9 @@ echo "Setup database"
 $MANAGE makemigrations
 $MANAGE migrate
 
+echo "Collect static files"
+$MANAGE collectstatic
+
 echo "Run tests"
 if ! $MANAGE test $DJANGO_APP; then
     echo "Tests failed. Exiting."
