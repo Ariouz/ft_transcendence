@@ -53,6 +53,8 @@ class PongGameState:
         self.connected_users = set([player1_id, player2_id])
         self.has_disconnected = False
 
+        self.first_disconnected = None
+
         self.lock = asyncio.Lock()
     
     def update_ball_pos(self):
@@ -173,6 +175,13 @@ class PongGameState:
         async with self.lock:
             self.has_disconnected = val
 
+    async def set_first_disconnected(self, val):
+        async with self.lock:
+            self.first_disconnected = val
+
+    async def get_first_disconnected(self):
+        async with self.lock:
+            return self.first_disconnected
 
     async def get_state(self):
         async with self.lock:

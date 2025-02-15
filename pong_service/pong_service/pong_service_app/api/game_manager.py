@@ -195,7 +195,16 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         if len(game_state.connected_users) == 0:
             logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game")
             game_state.game_cancelled = True
-            game_state.players['player1']['score'] = 5
+            first_disconnect = await game_state.get_first_disconnected()
+            prob_winner = "player1" if game_state.players['player1'].user_id == first_disconnect else "player2"
+            
+            if game_state.players['player1']['score'] == game_state.players['player2']['score']:
+                game_state.players['prob_winner']['score'] = 5
+            else:
+                player1_score = game_state.players['player1']['score']
+                player2_score = game_state.players['player2']['score']
+                scorer = "player1" if player1_score > player2_score else "player2"
+                game_state.players[scorer]['score'] = 5
             await game_state.set_paused(False)
 
     elif message_data['type'] == "pong_game_user_connected":
@@ -205,6 +214,8 @@ async def handle_redis_message(message_data, game_state:PongGameState):
         if not message_data['user_id']:
             return
         user_id = message_data['user_id']
+
+        await game_state.set_first_disconnected(None)
 
         game_state.connected_users.add(user_id)
         if game_state.game_pause_task:
@@ -225,6 +236,9 @@ async def pause_game_user_disconnected(game_state:PongGameState, user_id):
     allowed_time = 10
     try:
         logging.getLogger("django").info(f"User {user_id} disconnected on game {game_state.game_id}")
+
+        if await game_state.get_first_disconnected() is None:
+            await game_state.set_first_disconnected(user_id)
 
         await game_state.set_paused(True)
         logging.getLogger("django").info(f"Game {game_state.game_id} is now paused.")
