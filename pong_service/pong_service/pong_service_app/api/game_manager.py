@@ -196,17 +196,10 @@ async def handle_redis_message(message_data, game_state:PongGameState):
             logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game")
             game_state.game_cancelled = True
             first_disconnect = await game_state.get_first_disconnected()
-            prob_winner = "player1" if game_state.players['player1'].user_id == first_disconnect else "player2"
             
-            if game_state.players['player1']['score'] == game_state.players['player2']['score']:
-                game_state.players[prob_winner]['score'] = 5
-                logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game, {prob_winner} is the winner (same score)")
-            else:
-                player1_score = game_state.players['player1']['score']
-                player2_score = game_state.players['player2']['score']
-                scorer = "player1" if player1_score > player2_score else "player2"
-                game_state.players[scorer]['score'] = 5
-                logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game, {scorer} is the winner (higher score)")
+            prob_winner = "player1" if game_state.players['player1'].user_id == first_disconnect else "player2"
+            game_state.players[prob_winner]['score'] = 5
+            logging.getLogger("django").info(f"Cancelling game {game_state.game_id}, no player left in game, {prob_winner} is the winner (last to disconnect)")
 
             await game_state.set_paused(False)
 
