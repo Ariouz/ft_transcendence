@@ -1,8 +1,8 @@
 /*
  * Game drawing loop
  */
-var MALUS_FLICKER = true;
-var MALUS_FLICKER_DURATION = 1;
+var MALUS_FLICKER = false;
+var MALUS_FLICKER_DURATION = 250;
 var MALUS_FLICKER_BALL_IS_DISPLAYED = false;
 
 var MALUS_FLICKER_START_DATE = 0;
@@ -22,6 +22,7 @@ function draw() {
     } else if (!MALUS_FLICKER)
         drawBall(Game.contexts.gameCtx);
     }
+    
 
 function gameLoop() {
     if (!Game.isRunning)
@@ -37,6 +38,7 @@ function getRandomInt(max) {
 
 function isInMalusInterval() {
     const currentTime = new Date();
+    if (!MALUS_FLICKER_MALUS_END_DATE) return ;
 
     if (currentTime.getTime() > MALUS_FLICKER_MALUS_END_DATE.getTime())
     {
@@ -44,7 +46,7 @@ function isInMalusInterval() {
         return ;
     }
     if (currentTime.getTime() > MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY.getTime()) {
-        MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY = addSecondsToDate(MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY, MALUS_FLICKER_DURATION);
+        MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY = addMsToDate(MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY, MALUS_FLICKER_DURATION);
         MALUS_FLICKER_BALL_IS_DISPLAYED = !MALUS_FLICKER_BALL_IS_DISPLAYED;
     }
 
@@ -57,6 +59,12 @@ function addSecondsToDate(date, secondsToAdd) {
     return newDate;
 }
 
+function addMsToDate(date, secondsToAdd) {
+    const newDate = new Date(date);
+    newDate.setMilliseconds(newDate.getMilliseconds() + secondsToAdd);
+    return newDate;
+}
+
 // TODO use this function to set the flicker malus
 function setFlickerMalus(malusFlickerDuration) {
     MALUS_FLICKER = true;
@@ -64,7 +72,7 @@ function setFlickerMalus(malusFlickerDuration) {
     MALUS_FLICKER_START_DATE = new Date();
 
     MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY = new Date();
-    MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY = addSecondsToDate(MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY, MALUS_FLICKER_DURATION);
+    MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY = addMsToDate(MALUS_FLICKER_LAST_DATE_CHANGED_DISPLAY, MALUS_FLICKER_DURATION);
 
     MALUS_FLICKER_MALUS_END_DATE = new Date();
     MALUS_FLICKER_MALUS_END_DATE = addSecondsToDate(MALUS_FLICKER_MALUS_END_DATE, malusFlickerDuration);

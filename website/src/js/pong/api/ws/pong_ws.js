@@ -141,7 +141,11 @@ async function handlePongGameWs(e, user_token) {
                 console.log(data);
                 if (data.event_type == "malus_ball_flicker") 
                 {
-                    // todo flicker
+                    if (window.setFlickerMalus)
+                    {
+                        console.log("malussss")
+                        setFlickerMalus(5);
+                    }
                 }
             }
         }

@@ -21,7 +21,7 @@ async def send_game_event_spawn(game_id, event_type):
 events = {"malus_ball_flicker":0.7, "theme":0.3}
 async def tick_game_event_spawn(game_state:PongGameState):
     rand = random.random()
-    if rand >= 0.5 and rand <= 0.5006:
+    if rand >= 0.5 and rand <= 0.501:
         keys = list(events.keys())
         vals = list(events.values())
         event = random.choices(keys, vals, k=1)
