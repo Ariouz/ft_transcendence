@@ -1,0 +1,33 @@
+### Environments ###
+.venv
+
+### Django ###
+__pycache__
+
+### Visual Studio Code ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+### JetBrains IDEs ###
+.idea/
+
+# ft_requests copies
+*/ft_requests
+!ft_requests/
+
+users_service/users_service/media
+!users_service/users_service/media/avatars/default_avatar.svg
+
+ssl_certs/*
+libs/ft_i18n/libs/ft_requests-0.1-py3-none-any.whl
+pong_service/libs/ft_requests-0.1-py3-none-any.whl
+users_service/libs/ft_requests-0.1-py3-none-any.whl
+libs/built_wheels/ft_i18n-0.1-py3-none-any.whl
+libs/built_wheels/ft_requests-0.1-py3-none-any.whl
+pong_service/libs/ft_i18n-0.1-py3-none-any.whl
+users_service/libs/ft_i18n-0.1-py3-none-any.whl
+websocket_server/libs/ft_requests-0.1-py3-none-any.whl
