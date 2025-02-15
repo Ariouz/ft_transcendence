@@ -209,6 +209,21 @@
   "tournament_not_ongoing": "Турнир не проводится",
   "tournament_not_enough_players": "Для запуска турнира к нему должны присоединиться не менее 3 игроков",
   "tournament_wait_for_matches": "Вы должны дождаться завершения всех матчей",
-
+  "tournament_created": "Турнир создан",
+  "tournament_deleted": "Турнир удален",
+  "joined_tournament": "Присоединился к турниру",
+  "already_in_another_tournament": "Вы уже участвуете в другом турнире",
+  "missing_parameter": "Отсутствует параметр",
+  "invalid_host": "Неверный хост",
+  "invalid_tournament": "Неверный турнир",
+  "left_tournament": "Покинул турнир",
+  "state_retrieved": "Состояние получено",
+  "list_retrieved": "Список получен",
+  "connected_successfully": "Успешно подключено",
+  "user_is_host": "Пользователь является хостом",
+  "round_started": "Раунд начался",
+  "tournament_launched_successfully": "Турнир успешно запущен",
+  "your_joined_tournament": "Ваш текущий турнир",
+  
   "service_unavailable": "Этот сервис в настоящее время недоступен, пожалуйста, попробуйте позже."
 }

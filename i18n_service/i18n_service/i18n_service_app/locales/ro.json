@@ -209,6 +209,21 @@
   "tournament_not_ongoing": "Turneul nu este în desfășurare",
   "tournament_not_enough_players": "Cel puțin 3 jucători trebuie să se alăture turneului pentru a fi lansat",
   "tournament_wait_for_matches": "Trebuie să aștepți ca toate meciurile să se termine",
+  "tournament_created": "Turneu creat",
+  "tournament_deleted": "Turneu șters",
+  "joined_tournament": "S-a alăturat turneului",
+  "already_in_another_tournament": "Ești deja în alt turneu",
+  "missing_parameter": "Parametru lipsă",
+  "invalid_host": "Gazdă invalidă",
+  "invalid_tournament": "Turneu invalid",
+  "left_tournament": "A părăsit turneul",
+  "state_retrieved": "Stare recuperată",
+  "list_retrieved": "Listă recuperată",
+  "connected_successfully": "Conectat cu succes",
+  "user_is_host": "Utilizatorul este gazda",
+  "round_started": "Runda a început",
+  "tournament_launched_successfully": "Turneu lansat cu succes",
+  "your_joined_tournament": "Turneul tău actual",
 
   "service_unavailable": "Acest serviciu nu este disponibil în acest moment, vă rugăm să încercați din nou mai târziu."
 }

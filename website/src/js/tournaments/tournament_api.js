@@ -256,3 +256,24 @@ async function getHostedTournament()
 
     return retVal;
 }
+
+async function getOngoingTournament()
+{
+    let url = `${TOURNAMENT_URL}/get-ongoing/`;
+
+    let userIdReq = await retrieveId(getCookieAcccessToken());
+    if (!userIdReq) return {};
+    if (userIdReq.error) return ;
+    let userId = userIdReq.user_id;
+
+    let requestData = { user_id: userId};
+    let retVal = postWithCsrfToken(url, requestData, true)
+    .then(data => {
+       return data;
+    })
+    .catch(error => {
+        return {tournament_id: -1};
+    });
+
+    return retVal;
+}
