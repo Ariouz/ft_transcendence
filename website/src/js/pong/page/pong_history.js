@@ -147,7 +147,7 @@ async function initHistory()
         userIdData = await retrievePublicProfileDataByUsername(targetUsername);
     }
     
-
+    if (!userIdData) return ;
     if (userIdData.error)
     {
         navigate("/user-error");
