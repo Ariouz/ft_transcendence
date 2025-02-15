@@ -136,6 +136,14 @@ async function handlePongGameWs(e, user_token) {
                 setScore(state);
                 resumeTimer(timer, getDisplayNameByPlayer(player, state.players, g_pongUserId), state);
             }
+            else if (data.type == "game_event_spawn")
+            {
+                console.log(data);
+                if (data.event_type == "malus_ball_flicker") 
+                {
+                    // todo flicker
+                }
+            }
         }
         else
         g_error_pong_ws = true;
@@ -143,6 +151,13 @@ async function handlePongGameWs(e, user_token) {
         g_error_pong_ws = true;
     }
 };
+
+
+async function sendPongGameEventWS(eventType)
+{
+
+}
+
 
 async function handleGameStateUpdate(data, user_token) {
     let state = data.state;

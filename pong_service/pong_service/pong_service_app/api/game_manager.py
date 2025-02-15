@@ -10,6 +10,7 @@ from . import pong_game_ws_update
 from . import pong_user
 from .themes import get_theme
 from ..tournaments import tournament_rounds
+from . import game_events
 
 @sync_to_async
 def get_game(game_id):
@@ -45,6 +46,9 @@ async def game_loop(game:PongGame, game_state:PongGameState, players):
 
         if await game_state.is_paused():
             continue
+
+        await game_events.tick_game_event_spawn(game_state)
+        
 
         game_state.update_ball_pos()
 

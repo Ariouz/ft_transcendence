@@ -182,5 +182,12 @@ class PongGameConsumer(AsyncWebsocketConsumer):
         countdown = event['countdown_timer']
         logging.getLogger("websocket_logger").info('Received game reconnect for game %d', state['game_id'])
         await self.send(text_data=json.dumps({"type": "game_user_reconnected", "state": state, "player": player, "countdown_timer": countdown}))
+    
+
+    async def game_event_spawn(self, event):
+        logging.getLogger("websocket_logger").info('Received event spawn')
+
+        event_type = event['event_type']
+        await self.send(text_data=json.dumps({"type": "game_event_spawn", "event_type": event_type}))
 
 

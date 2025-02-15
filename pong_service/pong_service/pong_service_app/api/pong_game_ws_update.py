@@ -66,3 +66,4 @@ async def send_reconnected_to_players(player, game_data, end_timer):
             "player": player,
             "countdown_timer": end_timer
         })
+
