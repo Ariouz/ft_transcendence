@@ -212,5 +212,21 @@
   "tournament_not_enough_players": "Au moins 3 joueurs doivent rejoindre le tournoi pour être lancé",
   "tournament_wait_for_matches": "Vous devez attendre la fin de tous les matchs",
 
+  "tournament_created": "Tournoi créé",
+  "tournament_deleted": "Tournoi supprimé",
+  "joined_tournament": "Tournoi rejoint",
+  "already_in_another_tournament": "Vous participez déjà à un autre tournoi",
+  "missing_parameter": "Paramètre manquant",
+  "invalid_host": "Hôte invalide",
+  "invalid_tournament": "Tournoi invalide",
+  "left_tournament": "Quitter le tournoi",
+  "state_retrieved": "État récupéré",
+  "list_retrieved": "Liste récupérée",
+  "connected_successfully": "Connecté avec succès",
+  "user_is_host": "L'utilisateur est l'hôte",
+  "round_started": "Ronde commencée",
+  "tournament_launched_successfully": "Tournoi lancé avec succès",
+  "your_joined_tournament": "Votre tournoi actuel",
+  
   "service_unavailable": "Ce service est actuellement indisponible, merci de rééssayer plus tard."
 }

@@ -329,3 +329,35 @@ def get_hosted_tournament(request):
             "tournament_id": tournament_id,
             "participant_count": participant_count
         })
+
+
+
+# /api/tournament/get-ongoing/
+@require_http_methods(["POST"])
+def get_ongoing_tournament(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if not user_id:
+        return error_response(request, "missing_parameter", "user_id_missing")
+
+    try:
+        user = PongUser.objects.get(user_id=user_id)
+    except PongUser.DoesNotExist:
+        return error_response(request, "user_not_found", "user_not_found", status_code=404)
+
+    tournament_participant = TournamentParticipant.objects.filter(pong_user=user, tournament__state="ongoing")
+    if not tournament_participant.exists():
+        success_response(request, "data_retrieved", extra_data={
+            "tournament_id": -1,
+        })
+
+    participant_count = 0
+    tournament_id = tournament_participant.get().tournament.tournament_id
+
+    return success_response(request, "data_retrieved", extra_data={
+            "tournament_id": tournament_id,
+        })

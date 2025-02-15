@@ -258,6 +258,7 @@
   "user_is_host": "User is host",
   "round_started": "Round started",
   "tournament_launched_successfully": "Tournament launched successfully",
-
+  "your_joined_tournament": "Your current tournament",
+  
   "service_unavailable": "This service is currently unavailable, please try again later."
 }

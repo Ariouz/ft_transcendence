@@ -210,6 +210,21 @@
   "tournament_not_ongoing": "El torneo no está en curso",
   "tournament_not_enough_players": "Deben unirse al menos 3 jugadores al torneo para ser lanzado",
   "tournament_wait_for_matches": "Debe esperar a que terminen todos los partidos",
-
+  "tournament_created": "Torneo creado",
+  "tournament_deleted": "Torneo eliminado",
+  "joined_tournament": "Unido al torneo",
+  "already_in_another_tournament": "Ya participas en otro torneo",
+  "missing_parameter": "Parámetro faltante",
+  "invalid_host": "Anfitrión no válido",
+  "invalid_tournament": "Torneo no válido",
+  "left_tournament": "Dejó el torneo",
+  "state_retrieved": "Estado recuperado",
+  "list_retrieved": "Lista recuperada",
+  "connected_successfully": "Conectado con éxito",
+  "user_is_host": "El usuario es el anfitrión",
+  "round_started": "Ronda comenzada",
+  "tournament_launched_successfully": "Torneo lanzado con éxito",
+  "your_joined_tournament": "Tu torneo actual",
+  
   "service_unavailable": "Este servicio no está disponible en este momento, por favor inténtalo más tarde."
 }

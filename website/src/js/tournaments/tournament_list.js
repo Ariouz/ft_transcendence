@@ -63,5 +63,30 @@ async function loadHostedTournamentCard()
     container.appendChild(element);
 }
 
+async function loadOngoingTournamentCard()
+{
+    let tournamentData = await getOngoingTournament();
+    if (tournamentData.tournament_id == -1) return ;
+
+    let createContainer = document.getElementById("tournamentHostCreateContainer")
+    if (createContainer) createContainer.remove();
+
+    let container = document.getElementById("tournamentHomeListHostSection");
+    if (!container) return ;
+
+    let element = createElement("div", {class: "tournamentListItem", id: "tournamentHostedContainer"},
+        [
+            createElement("div", {class: "tournamentListItemTopSection"}, [
+                createElement("span", {class: "tournamentListItemTitle"}, `${await fetchTranslation("your_joined_tournament")} (#${tournamentData.tournament_id})`),
+            ]),
+            createElement("div", {}, [
+                createElement("button", {class: "tournamentListItemJoinButton", onclick: `navigate('/tournament/lobby/?tid=${tournamentData.tournament_id}')`}, await fetchTranslation("go_to_lobby"))
+            ])
+        ]
+    );
+    container.appendChild(element);
+}
+
 loadList();
 loadHostedTournamentCard();
+loadOngoingTournamentCard();
