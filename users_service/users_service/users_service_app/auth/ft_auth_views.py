@@ -11,7 +11,8 @@ host = os.getenv("HOST_IP")
 # /auth/42/<host>
 def ft_auth(request):
     encoded_host = urllib.parse.quote(host)
-    url = f"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-29f5277a5943e1f33349c04ecb3f211dc78d70e98943ad05d0f1328d38ba42f6&redirect_uri=https%3A%2F%2F{encoded_host}%3A8443%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
+    UID = os.getenv("API_42_UID")
+    url = f"https://api.intra.42.fr/oauth/authorize?client_id={UID}&redirect_uri=https%3A%2F%2F{encoded_host}%3A8443%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
     return json_response({"url":url})
 
 # /auth/42/access/<host>/?code=
