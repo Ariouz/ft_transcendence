@@ -88,24 +88,24 @@ const Game = {
 
 async function setGameBackground(gameType, isTournament) {
     if (gameType != "arcade" && !isTournament) {
-        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--flashy-pink'));
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--darker-marine-blue'));
         return;
     }
     const imageUrl = getStyle('--canvas-background-url').trim().replace(/^["']|["']$/g, '');
     if (!imageUrl) {
-        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--darker-marine-blue'));
         return;
     }
     const isValid = await isImageValid(imageUrl);
 
     if (!isValid) {
-        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
+        drawCanvasBackground(Game.contexts.gameCtx, getStyle('--darker-marine-blue'));
         return;
     }
     const hasSetImageBackground = setImageBackground(imageUrl);
     if (hasSetImageBackground)
         return;
-    drawCanvasBackground(Game.contexts.gameCtx, getStyle('--marine-blue'));
+    drawCanvasBackground(Game.contexts.gameCtx, getStyle('--darker-marine-blue'));
 }
 
 function isImageValid(url) {
@@ -117,10 +117,22 @@ function isImageValid(url) {
     });
 }
 
+function preloadImage(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+    });
+}
+
+
 function setImageBackground(imageUrl) {
     const targetDiv = document.querySelector('.canvas_layers_container');
     if (!targetDiv)
         return false;
+
+    const oldImg = document.getElementById("pongBackgroundImage");
 
     const imgElement = document.createElement('img');
     imgElement.id = 'pongBackgroundImage';
@@ -129,6 +141,7 @@ function setImageBackground(imageUrl) {
 
     try {
         targetDiv.insertBefore(imgElement, targetDiv.firstChild);
+        if (oldImg) oldImg.remove();
         return true;
     } catch (error) {
         return false;

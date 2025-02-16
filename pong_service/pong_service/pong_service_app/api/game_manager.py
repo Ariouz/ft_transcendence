@@ -36,8 +36,18 @@ async def game_loop(game:PongGame, game_state:PongGameState, players):
         loop = asyncio.get_running_loop()
     except RuntimeError:
         redis_task = asyncio.run(listen_to_redis(game_state))
+        logging.getLogger("django").info(f"redis created {game_state.game_id}")
+        events_task = asyncio.run(game_events.tick_game_event_spawn(game_state))
+        logging.getLogger("django").info(f"event task created {game_state.game_id}")
+
     else:
         redis_task = loop.create_task(listen_to_redis(game_state))
+        logging.getLogger("django").info(f"redis created {game_state.game_id}")
+        events_task = loop.create_task(game_events.tick_game_event_spawn(game_state))
+        logging.getLogger("django").info(f"event task created {game_state.game_id}")
+
+
+    logging.getLogger("django").info(f"tasks created {game_state.game_id}")
 
     await time_ball(players, game_state, "")
 
@@ -46,9 +56,6 @@ async def game_loop(game:PongGame, game_state:PongGameState, players):
 
         if await game_state.is_paused():
             continue
-
-        await game_events.tick_game_event_spawn(game_state)
-        
 
         game_state.update_ball_pos()
 
@@ -73,6 +80,12 @@ async def game_loop(game:PongGame, game_state:PongGameState, players):
                 try:
                     await redis_task
                 except asyncio.CancelledError:
+                    pass
+            if not events_task.done():
+                events_task.cancel()
+                try:
+                    await events_task
+                except:
                     pass
             await save_game_to_db(game_state, end_status="finished" if not await game_state.get_has_disconnected() else "forfaited")
             await tournament_rounds.update_tournament_match(game_state)

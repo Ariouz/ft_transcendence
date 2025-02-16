@@ -101,6 +101,7 @@ async function handlePongGameWs(e, user_token) {
             if (data.type == "game_player_scored")
             {
                 let state = data.state;
+                MALUS_FLICKER = false;
                 updateScore(state, data);
             }
             else if (data.type == "game_start_timer")
@@ -114,6 +115,7 @@ async function handlePongGameWs(e, user_token) {
                 let timer = data.countdown_timer;
                 let winner = data.winner;
                 let tournamentId = data.tournament_id;
+                MALUS_FLICKER = false;
                 winnerTimer(timer, getDisplayNameByPlayer(winner, state.players, g_pongUserId), state, tournamentId);
             }
             else if (data.type == "game_user_disconnected")
@@ -138,15 +140,7 @@ async function handlePongGameWs(e, user_token) {
             }
             else if (data.type == "game_event_spawn")
             {
-                console.log(data);
-                if (data.event_type == "malus_ball_flicker") 
-                {
-                    if (window.setFlickerMalus)
-                    {
-                        console.log("malussss")
-                        setFlickerMalus(5);
-                    }
-                }
+                await handleGameEvent(data);
             }
         }
         else

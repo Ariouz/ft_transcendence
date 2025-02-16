@@ -351,13 +351,11 @@ def get_ongoing_tournament(request):
 
     tournament_participant = TournamentParticipant.objects.filter(pong_user=user, tournament__state="ongoing")
     if not tournament_participant.exists():
-        success_response(request, "data_retrieved", extra_data={
+        return success_response(request, "data_retrieved", extra_data={
             "tournament_id": -1,
         })
 
-    participant_count = 0
     tournament_id = tournament_participant.get().tournament.tournament_id
-
     return success_response(request, "data_retrieved", extra_data={
             "tournament_id": tournament_id,
         })

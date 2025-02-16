@@ -188,6 +188,7 @@ class PongGameConsumer(AsyncWebsocketConsumer):
         logging.getLogger("websocket_logger").info('Received event spawn')
 
         event_type = event['event_type']
-        await self.send(text_data=json.dumps({"type": "game_event_spawn", "event_type": event_type}))
+        event_data = event['event_data']
+        await self.send(text_data=json.dumps({"type": "game_event_spawn", "event_type": event_type, "event_data": event_data}))
 
 
