@@ -1,7 +1,6 @@
 
 async function handleGameEvent(data)
 {
-    console.log(data);
     if (data.event_type == "malus_ball_flicker") 
     {
         if (window.setFlickerMalus)
