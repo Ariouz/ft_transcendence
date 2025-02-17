@@ -23,21 +23,20 @@ async def send_game_event_spawn(game_id, event_type, event_data):
     
 
 events = {
-    "malus_ball_flicker": 0.5,
-    "ball_speed": 0.5
+    "malus_ball_flicker": 0.25,
+    "ball_speed": 0.75
 }
 
 events_data = {
     "malus_ball_flicker": 5,
-    "ball_speed": 0.3
+    "ball_speed": 0.4
 }
 
 async def tick_game_event_spawn(game_state:PongGameState):
     try:
         while await game_state.is_running():
-            await asyncio.sleep(5)
+            await asyncio.sleep(8)
             if await game_state.is_paused(): continue
-            logging.getLogger("django").info(f"Tick event {game_state.game_id}")
             
             rand = random.randint(1, 10)
             if rand >= 8:
@@ -46,9 +45,10 @@ async def tick_game_event_spawn(game_state:PongGameState):
                 event = random.choices(keys, vals, k=1)[0]
 
                 data  = events_data[event]
-                if event == "ball_speed": data = round(random.uniform(-data*data, data), 2) or 0.05
-                game_state.ball_velocity['x'] *= 1 + data
-                game_state.ball_velocity['y'] *= 1 + data
+                if event == "ball_speed":
+                    data = round(random.uniform(-data*data, data), 2) or 0.05
+                    game_state.ball_velocity['x'] *= 1 + data
+                    game_state.ball_velocity['y'] *= 1 + data
 
                 await send_game_event_spawn(game_state.game_id, event, data)
 

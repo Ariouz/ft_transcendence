@@ -110,6 +110,8 @@
   "pong_game_disconnected": "deconectat",
   "pong_game_reconnected": "reconectat",
   "pong_game_win": "a câștigat jocul!",
+  "pong_event_ball_speed": "Viteza mingii",
+  "pong_event_malus_ball_flicker": "Licărirea mingii",
   "pong_how_to_play": "Cum se joacă",
   "pong_how_to_play_text": "<span><strong>Pong</strong> este un joc clasic de tenis de masă în care doi jucători folosesc palete pentru a lovi o minge înainte și înapoi pe ecran. Obiectivul este de a împiedica mingea să treacă de partea ta și de a marca puncte trecând-o de partea adversarului.</span><br><br><span><strong>Comenzi:</strong> Folosiți tastele 'W' și 'S' (sau <strong>SUS</strong> și <strong>JOS</strong> pentru Jucătorul 2 în jocul local) pentru a vă deplasa paleta vertical. Rămâneți concentrat și încercați să anticipați mișcarea mingii pentru a o bloca și a o trimite înapoi pe cealaltă parte.</span><br><br><span><strong>Scor:</strong> De fiecare dată când mingea trece pe lângă paleta unui jucător, jucătorul adversar marchează un punct. Jocul continuă până când un jucător ajunge la <strong>5 puncte</strong>.</span>",
   "leaderboard_title": "Clasament",

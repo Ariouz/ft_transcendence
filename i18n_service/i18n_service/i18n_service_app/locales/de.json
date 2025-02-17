@@ -110,6 +110,8 @@
   "pong_game_disconnected": "getrennt",
   "pong_game_reconnected": "wieder verbunden",
   "pong_game_win": "hat das Spiel gewonnen!",
+  "pong_event_ball_speed": "Ballgeschwindigkeit",
+  "pong_event_malus_ball_flicker": "Flackern des Balls",
   "pong_how_to_play": "Spielanleitung",
   "pong_how_to_play_text": "<span><strong>Pong</strong> ist ein klassisches Tischtennisspiel, bei dem zwei Spieler mit Schlägern einen Ball hin und her über den Bildschirm schlagen. Ziel ist es, zu verhindern, dass der Ball an deiner Seite vorbeikommt, und zu punkten, indem du ihn an deinem Gegner vorbeibringst.</span><br><br><span><strong>Steuerung:</strong> Verwende die Tasten 'W' und 'S' (oder <strong>HOCH</strong> und <strong>RUNTER</strong> für Spieler 2 im lokalen Spiel), um deinen Schläger vertikal zu bewegen. Konzentriere dich und versuche, die Bewegung des Balls zu antizipieren, um ihn zu blockieren und auf die andere Seite zurückzuschlagen.</span><br><br><span><strong>Punktzählung:</strong> Jedes Mal, wenn der Ball am Schläger eines Spielers vorbeikommt, erhält der gegnerische Spieler einen Punkt. Das Spiel wird fortgesetzt, bis ein Spieler <strong>5 Punkte</strong> erreicht.</span>",
   "leaderboard_title": "Bestenliste",

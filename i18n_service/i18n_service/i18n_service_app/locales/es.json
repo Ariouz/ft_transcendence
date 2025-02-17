@@ -110,6 +110,8 @@
   "pong_game_disconnected": "desconectado",
   "pong_game_reconnected": "reconectado",
   "pong_game_win": "¡ganó la partida!",
+  "pong_event_ball_speed": "Velocidad de la pelota",
+  "pong_event_malus_ball_flicker": "Parpadeo de la pelota",
   "pong_how_to_play": "Cómo jugar",
   "pong_how_to_play_text": "<span><strong>Pong</strong> es un juego clásico de tenis de mesa donde dos jugadores usan raquetas para golpear una pelota de un lado a otro de la pantalla. El objetivo es evitar que la pelota pase por tu lado y anotar haciendo que pase por el lado de tu oponente.</span><br><br><span><strong>Controles:</strong> Usa las teclas 'W' y 'S' (o <strong>ARRIBA</strong> y <strong>ABAJO</strong> para el Jugador 2 en el juego local) para mover tu raqueta verticalmente. Mantente concentrado e intenta anticipar el movimiento de la pelota para bloquearla y devolverla al otro lado.</span><br><br><span><strong>Puntuación:</strong> Cada vez que la pelota pasa por la raqueta de un jugador, el jugador contrario anota un punto. El juego continúa hasta que un jugador alcanza los <strong>5 puntos</strong>.</span>",
   "leaderboard_title": "Clasificación",

@@ -110,6 +110,8 @@
   "pong_game_disconnected": "disconnesso",
   "pong_game_reconnected": "riconnesso",
   "pong_game_win": "ha vinto la partita!",
+  "pong_event_ball_speed": "Velocità della palla",
+  "pong_event_malus_ball_flicker": "Sfarfallio della palla",
   "pong_how_to_play": "Come giocare",
   "pong_how_to_play_text": "<span><strong>Pong</strong> è un classico gioco di ping pong in cui due giocatori usano racchette per colpire una pallina avanti e indietro sullo schermo. L'obiettivo è impedire che la pallina passi dal tuo lato e segnare facendola passare dal lato dell'avversario.</span><br><br><span><strong>Controlli:</strong> Usa i tasti 'W' e 'S' (o <strong>SU</strong> e <strong>GIÙ</strong> per il Giocatore 2 nel gioco locale) per muovere la tua racchetta verticalmente. Resta concentrato e cerca di anticipare il movimento della pallina per bloccarla e rimandarla dall'altra parte.</span><br><br><span><strong>Punteggio:</strong> Ogni volta che la pallina passa dalla racchetta di un giocatore, il giocatore avversario segna un punto. Il gioco continua fino a quando un giocatore raggiunge i <strong>5 punti</strong>.</span>",
   "leaderboard_title": "Classifica",

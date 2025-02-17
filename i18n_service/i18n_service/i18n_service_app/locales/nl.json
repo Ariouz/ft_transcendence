@@ -110,6 +110,8 @@
   "pong_game_disconnected": "verbroken",
   "pong_game_reconnected": "opnieuw verbonden",
   "pong_game_win": "heeft het spel gewonnen!",
+  "pong_event_ball_speed": "Balsnelheid",
+  "pong_event_malus_ball_flicker": "Knipperende bal",
   "pong_how_to_play": "Hoe te spelen",
   "pong_how_to_play_text": "<span><strong>Pong</strong> is een klassiek tafeltennisspel waarbij twee spelers peddels gebruiken om een bal heen en weer over het scherm te slaan. Het doel is om te voorkomen dat de bal aan jouw kant voorbijgaat en te scoren door hem langs je tegenstander te krijgen.</span><br><br><span><strong>Besturing:</strong> Gebruik de 'W' en 'S' toetsen (of <strong>OMHOOG</strong> en <strong>OMLAAG</strong> voor Speler 2 in lokaal spel) om je peddel verticaal te bewegen. Blijf gefocust en probeer de beweging van de bal te anticiperen om hem te blokkeren en terug te slaan naar de andere kant.</span><br><br><span><strong>Score:</strong> Elke keer dat de bal langs de peddel van een speler gaat, scoort de tegenstander een punt. Het spel gaat door totdat een speler <strong>5 punten</strong> bereikt.</span>",
   "leaderboard_title": "Klassement",
