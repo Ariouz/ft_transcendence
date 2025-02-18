@@ -15,6 +15,8 @@ let g_pongTranslations = {};
 
 let g_pongUserId;
 
+let g_pongGameBorderAnimationFrame;
+
 // Create WebSocket connection if user was already logged-in when opening the page
 function loadPongUserWebsocket()
 {

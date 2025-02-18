@@ -145,6 +145,9 @@
     borderWidth = 2;
     gradientOffset = 0;
     rotationAngle = 0;
+
+    if (g_pongGameBorderAnimationFrame)
+        window.cancelAnimationFrame(g_pongGameBorderAnimationFrame);
     
     function animateGradient() {
         ctxBorder.clearRect(0, 0, borderCanvas.width, borderCanvas.height);
@@ -167,9 +170,8 @@
         ctxBorder.strokeRect(borderWidth / 2, borderWidth / 2, borderCanvas.width - borderWidth, borderCanvas.height - borderWidth);
 
         rotationAngle = (rotationAngle + 1) % 360;
-        requestAnimationFrame(animateGradient);
+        g_pongGameBorderAnimationFrame = requestAnimationFrame(animateGradient);
     }
-
     
     
 </script>
