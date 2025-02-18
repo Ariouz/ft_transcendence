@@ -1,6 +1,7 @@
 import ft_requests
 import os
 from users_service_app.response_messages import json_response
+import logging
 
 def get_access_token(grantType, code=None, redirect=None, url="https://api.intra.42.fr/v2/oauth/token"):
     UID = os.getenv("API_42_UID")
@@ -15,7 +16,7 @@ def get_access_token(grantType, code=None, redirect=None, url="https://api.intra
     }
     response = ft_requests.post(url, data=payload)
     if response.status_code == 200:
-        return json_response(response.json())
+        return response.json()
     else:
         raise Exception(response)
 
@@ -26,6 +27,6 @@ def get_user_data(access_token, url):
     }
     response = ft_requests.get(url, headers=headers)
     if response.status_code == 200:
-        return json_response(response.json())
+        return response.json()
     else:
         raise Exception(response)

@@ -10,6 +10,8 @@ from ..user import user_status
 import asyncio
 from redis.asyncio import Redis
 import os
+from urllib.parse import quote, unquote
+
 
 USERS_SERVICE_URL = "https://users-service:8001/api"
 PONG_SERVICE_URL = "https://pong-service:8002/api"
@@ -23,7 +25,7 @@ class PongGameConsumer(AsyncWebsocketConsumer):
 
     # Called on connection
     async def connect(self):
-        self.user_token = self.scope['url_route']['kwargs']['token']
+        self.user_token = unquote(self.scope['url_route']['kwargs']['token'])
         self.game_id = self.scope['url_route']['kwargs']['game_id']
 
         self.user_id = await self.authenticate_user(self.user_token)

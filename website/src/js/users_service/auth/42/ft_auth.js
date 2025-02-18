@@ -36,8 +36,8 @@ async function createAccount(username, email, token, avatar, fullname)
         window.location.reload();
         return ;
     }
-    let url = `https://${g_host}:8001/api/account/create/?username=${username}&email=${email}&token=${token}&avatar=${avatar}&fullname=${fullname}`;
-    fetchBack(url)
+    let url = `https://${g_host}:8001/api/account/create/`;
+    postWithCsrfToken(url, {"username": username, "email": email, "token": token, "avatar": avatar, "fullname": fullname}, true)
     .then(async data => {
         if (doConsentCookies())
         {

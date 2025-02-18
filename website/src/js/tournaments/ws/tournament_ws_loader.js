@@ -16,7 +16,7 @@ function loadTournamentUserWebsocket()
 
 function createTournamentUserWebSocket() {
     let user_token = getCookie("session_token");
-    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/tournament/user/${user_token}/`;
+    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/tournament/user/${encodeURIComponent(user_token)}/`;
     g_tournamentUserWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
     
     g_tournamentUserWebSocket.onopen = function (e) {
@@ -55,7 +55,7 @@ function createTournamentUserWebSocket() {
 function createTournamentWebSocket(tournament_id, user_token) {
     if (g_tournamentWebSocket) return ;
     
-    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/tournament/tournament/${user_token}/${tournament_id}/`;
+    const WEBSOCKET_PONG_URL = `wss://${g_host}:7000/ws/tournament/tournament/${encodeURIComponent(user_token)}/${tournament_id}/`;
     g_tournamentWebSocket = new WebSocket(WEBSOCKET_PONG_URL);
     
     g_tournamentWebSocket.onopen = function (e) {

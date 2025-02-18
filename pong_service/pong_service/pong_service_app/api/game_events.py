@@ -33,6 +33,7 @@ events_data = {
 }
 
 async def tick_game_event_spawn(game_state:PongGameState):
+    if game_state.game_type != "arcade": return
     try:
         while await game_state.is_running():
             await asyncio.sleep(8)

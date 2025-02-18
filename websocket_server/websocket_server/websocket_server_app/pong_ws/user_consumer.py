@@ -7,6 +7,7 @@ from threading import Thread
 import logging
 from ..user import user_status
 import redis
+from urllib.parse import quote, unquote
 
 USERS_SERVICE_URL = "https://users-service:8001/api"
 PONG_SERVICE_URL = "https://pong-service:8002/api"
@@ -24,7 +25,7 @@ def get_redis_queue(game_type):
 class PongUserConsumer(WebsocketConsumer):
     # Called on connection
     def connect(self):
-        self.user_token = self.scope['url_route']['kwargs']['token']
+        self.user_token = unquote(self.scope['url_route']['kwargs']['token'])
 
         self.user_id = self.authenticate_user(self.user_token)
         if self.user_id:

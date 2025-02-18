@@ -89,13 +89,10 @@ function routeAuth(parts, params)
                     navigate("/login");
                     return ;
                 }
-                data = retrieveFtData(token_data.access_token).then(data => {
-                    createAccount(data.login, data.email, token_data.access_token, data.image.link, data.usual_full_name)
-                        .then( r => {
-                            setUserLanguage();
-                        })
-                }).catch(error => {
-                });
+                createAccount(token_data.login, token_data.email, token_data.access_token, token_data.image, token_data.usual_full_name)
+                .then( r => {
+                    setUserLanguage();
+                })
             }).catch(error => {
             });
         }

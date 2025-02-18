@@ -6,6 +6,7 @@ import ft_requests
 from threading import Thread
 import logging
 from ..user import user_status
+from urllib.parse import quote, unquote
 
 USERS_SERVICE_URL = "https://users-service:8001/api"
 PONG_SERVICE_URL = "https://pong-service:8002/api"
@@ -17,7 +18,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
     # Called on connection
     async def connect(self):
-        self.user_token = self.scope['url_route']['kwargs']['token']
+        self.user_token = unquote(self.scope['url_route']['kwargs']['token'])
         self.tournament_id = self.scope['url_route']['kwargs']['tournament_id']
 
         self.user_id = await self.authenticate_user(self.user_token)

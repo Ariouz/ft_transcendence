@@ -4,18 +4,20 @@ from django.views.decorators.http import require_http_methods
 import urllib.parse
 import os
 from users_service_app.response_messages import error_response, json_response
+from django.contrib.auth.hashers import make_password
+import logging
 
 
 host = os.getenv("HOST_IP")
 
-# /auth/42/<host>
+# /auth/42/
 def ft_auth(request):
     encoded_host = urllib.parse.quote(host)
     UID = os.getenv("API_42_UID")
     url = f"https://api.intra.42.fr/oauth/authorize?client_id={UID}&redirect_uri=https%3A%2F%2F{encoded_host}%3A8443%2Fapi%2Fauth%2F42%2Faccess&response_type=code"
     return json_response({"url":url})
 
-# /auth/42/access/<host>/?code=
+# /auth/42/access/?code=
 @require_http_methods(["GET"])
 def ft_auth_access(request):
     code = request.GET.get("code", None)
@@ -24,10 +26,26 @@ def ft_auth_access(request):
     token_url = "https://api.intra.42.fr/oauth/token"
     redirect_url = f"https://{host}:8443/api/auth/42/access"
     try:
-        data = get_access_token("authorization_code", code, redirect_url, token_url)
-        return data
+        token_data = get_access_token("authorization_code", code, redirect_url, token_url)
+        token = token_data['access_token']
+
+        user_data = get_user_data(token, "https://api.intra.42.fr/v2/me")
+
+        data = {
+            "access_token": make_password(token),
+            "expires_in": token_data['expires_in'],
+            "login": user_data['login'],
+            "email": user_data['email'],
+            "image": user_data['image']['link'],
+            "usual_full_name": user_data["usual_full_name"]
+            }
+        
+        return json_response(data)
     except Exception as e:
         return error_response(request, "failed_to_fetch_access_token", str(e))
+
+
+# UNUSED ???
 
 # /auth/42/data/42/<access_token>/
 def ft_auth_data_all(request, access_token):
@@ -36,6 +54,7 @@ def ft_auth_data_all(request, access_token):
         return user_data
     except Exception as e:
         return error_response(request, "failed_to_fetch_user_data", str(e))
+
 
 # /auth/42/data/username/<access_token>/
 def ft_auth_data_username(request, access_token):

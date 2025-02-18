@@ -166,6 +166,10 @@ LOGGING = {
     },
 }
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+]
+
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,

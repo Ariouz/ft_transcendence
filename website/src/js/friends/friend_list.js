@@ -17,7 +17,7 @@ function loadFriendsWebsocket()
 
 function createWebSocketFriendList() {
     let user_token = getCookie("session_token");
-    const WEBSOCKET_FRIENDS_URL = `wss://${g_host}:7000/ws/friends/${user_token}/`;
+    const WEBSOCKET_FRIENDS_URL = `wss://${g_host}:7000/ws/friends/${encodeURIComponent(user_token)}/`;
     g_friendListWebSocket = new WebSocket(WEBSOCKET_FRIENDS_URL);
 
     g_friendListWebSocket.onopen = function (e) {
