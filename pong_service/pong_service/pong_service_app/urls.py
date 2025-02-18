@@ -20,6 +20,7 @@ urlpatterns = [
     path('game/start-local/', game.start_local_game, name="start_local_game"),
 
     path('game/can-join/', game.can_join, name="can_join"),
+    path('game/get-active/', game.get_active_game, name="get_active_game"),
 
     # Pong stats
     path('user/game-history/<int:user_id>', user_stats.user_history, name="user_history"),

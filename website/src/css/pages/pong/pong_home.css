@@ -217,3 +217,45 @@
 .pong_home_rules_close_icon:hover {
     color: var(--light-beige);
 }
+
+.pongHomeActiveGame
+{
+    width: 100%;
+    margin: 80px 0px 10px 0px;
+    padding: 20px 30px;
+    background-color: var(--purple-blue);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 0px 3px 1px var(--gray-white);
+    border-radius: 5px;
+    transition: .3s ease;
+}
+
+.pongHomeActiveGame span
+{
+    font-size: 1.2em;;
+}
+
+.pongHomeActiveGame button
+{
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 14px;
+    background-color: var(--light-purple-blue);
+    border: 2px solid var(--flashy-pink);
+    transition: ease 0.3s;
+    color: var(--gray-white);
+}
+
+.pongHomeActiveGame button:hover {
+    color: var(--light-beige);
+    background-color: var(--purple-blue);
+}
+
+.pongHomeActiveGame:hover
+{
+    box-shadow: 0px 0px 7px 4px var(--gray-white);
+    transform: scale(1.01);
+}

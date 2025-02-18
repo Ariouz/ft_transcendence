@@ -35,3 +35,16 @@ async function canJoinGame(game_id, user_id)
         return error;
     });
 }
+
+
+async function getActiveGameId(user_id)
+{
+    let url = `${PONG_SERVICE_URL}/game/get-active/`;
+    let requestData = { user_id: user_id };
+    
+    return postWithCsrfToken(url, requestData, true)
+    .then(data => {return data})
+    .catch(error => {
+        return error;
+    });
+}

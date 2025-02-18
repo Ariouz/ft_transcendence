@@ -132,3 +132,22 @@ def run_start_game(game_id):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
     loop.run_in_executor(executor, lambda: loop.run_until_complete(game_manager.start_game(game_id)))
+
+
+@require_http_methods(['POST'])
+def get_active_game(request):
+    try:
+        data = json.loads(request.body)
+        user_id = data.get("user_id")
+    except:
+        return error_response(request, "invalid_json", "invalid_json")
+
+    if user_id is None:
+        return error_response(request, "user_no_id", "user_id_required")
+    
+    game = PongGame.objects.filter(users__contains=[str(user_id)], status="started").first()
+
+    if game:
+        return success_response(request, "data_retrieved", extra_data={"game_id": game.game_id})
+    
+    return success_response(request, "data_retrieved", extra_data={"game_id": None})
