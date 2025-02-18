@@ -22,6 +22,7 @@ async function generateTournamentParticipantListEntry(user_id)
 function removeTournamentParticipantListEntry(user_id)
 {
     let table = document.getElementById("tournamentParticipantsList");
+    if (!table) return ;
     for (let element of table.children) {
         if (element.getAttribute("tournament-participant") == user_id)
         {
@@ -36,6 +37,7 @@ function removeTournamentParticipantListEntry(user_id)
 
 function isTournamentParticipantListEntrySet(user_id, table)
 {
+    if (!table) return true;
     for (let element of table.children) {
         if (!element.hasAttribute("tournament-participant")) continue;
         if (element.getAttribute("tournament-participant") == user_id)
@@ -61,6 +63,7 @@ async function addTournamentParticipantToList(user_id)
 async function reloadTournamentParticipantList(tournament_id)
 {
     let table = document.getElementById("tournamentParticipantsList");
+    if (!table) return ;
 
     let displayName = await fetchTranslation("display_name");
     let element = document.createElement("tr");
@@ -80,6 +83,7 @@ async function loadTournamentParticipantsList(tournament_id)
 function updateTournamentParticipantCount()
 {
     let count = document.getElementById("tournamentParticipantsCount");
+    if (!count) return ;
     count.innerText = g_tournamentParticipantCount;
 }
 
@@ -91,7 +95,8 @@ async function displayTournamentLobbyButtons(tournamentId)
     let deleteButton = document.getElementById("tournamentDeleteButton");
     let launchButton = document.getElementById("tournamentLaunchButton");
 
-    leaveButton.style.display = isHost ? "none" : "block";
-    deleteButton.style.display = !isHost ? "none" : "block";
-    launchButton.style.display = !isHost ? "none" : "block";
+    if (leaveButton) leaveButton.style.display = isHost ? "none" : "block";
+    if (deleteButton) deleteButton.style.display = !isHost ? "none" : "block";
+    if (launchButton) launchButton.style.display = !isHost ? "none" : "block";
+    
 }
