@@ -42,7 +42,10 @@ function setUserLanguage() {
     retrieveSettings(token)
         .then(userData => {
             if (!userData.error) {
-                changeLanguage(userData.lang);
+                if (userData.lang == "error")
+                    changeLanguage(DEFAULT_LANGUAGE);
+                else
+                    changeLanguage(userData.lang);
             }
         }).catch(error => {
         });
