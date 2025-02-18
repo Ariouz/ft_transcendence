@@ -23,8 +23,8 @@ async def send_game_event_spawn(game_id, event_type, event_data):
     
 
 events = {
-    "malus_ball_flicker": 0.25,
-    "ball_speed": 0.75
+    "malus_ball_flicker": 0.5,
+    "ball_speed": 0.5
 }
 
 events_data = {

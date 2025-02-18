@@ -119,9 +119,10 @@
   "pong_game_disconnected": "disconnected",
   "pong_game_reconnected": "reconnected",
   "pong_game_win": "won the game!",
+  
   "pong_event_ball_speed": "Ball speed",
   "pong_event_malus_ball_flicker": "Flickering",
-  
+
   "pong_how_to_play": "How to play",
   "pong_how_to_play_text": "<span><strong>Pong</strong> is a classic table tennis game where two players use paddles to hit a ball back and forth across the screen. The objective is to prevent the ball from passing your side and to score by getting it past your opponent.</span><br><br><span><strong>Controls:</strong> Use the 'W' and 'S' keys (or <strong>UP</strong> and <strong>DOWN</strong> for Player 2 in local game) to move your paddle vertically. Stay focused and try to anticipate the ball's movement to block it and return it to the other side.</span><br><br><span><strong>Scoring:</strong> Each time the ball goes past a player’s paddle, the opposing player scores a point. The game continues until a player reaches <strong>5 points</strong>.</span>",
 

@@ -43,6 +43,7 @@ async function createAccount(username, email, token, avatar, fullname)
         {
             setCookie("session_token", token_data.access_token, 0, token_data.expires_in);
             createWebSocketFriendList();
+            await ftUpdateLanguage(token_data.access_token);
         }
         navigateToRedirectOr("/");
         window.location.reload();

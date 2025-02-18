@@ -65,7 +65,6 @@ function addMsToDate(date, secondsToAdd) {
     return newDate;
 }
 
-// TODO use this function to set the flicker malus
 function setFlickerMalus(malusFlickerDuration) {
     MALUS_FLICKER = true;
 
