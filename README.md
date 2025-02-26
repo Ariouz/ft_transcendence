@@ -3,7 +3,7 @@
 This project represents our implementation of the Transcendence project from the 42 curriculum, an interactive online gaming platform. 
 
 We paid particular attention to the architecture and functionality, which allowed us to achieve a score of 113% and an "Outstanding" evaluation from the correction staff.
-![Staff feedback](https://raw.githubusercontent.com/Ariouz/ft_transcendence/refs/heads/add-Staff-feedback/staff_feedback.png)
+![Staff feedback](https://raw.githubusercontent.com/Ariouz/ft_transcendence/refs/heads/main/staff_feedback.png)
 
 ## Modules
 
