@@ -41,7 +41,7 @@ Here are the various modules we developed, each with a focus on detail and perfo
 
 ## Installation
 
-\[Project installation instructions]
+`git clone (url)`
 
 ## Usage
 
